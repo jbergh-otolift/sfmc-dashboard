@@ -25,7 +25,6 @@ jobs:
           SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
           SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
           SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
-          SF_REPORT_ID: ${{ secrets.SF_REPORT_ID }}
 
       - run: |
           git config user.name "github-actions[bot]"
