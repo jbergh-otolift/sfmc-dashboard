@@ -1,0 +1,232 @@
+{
+  "current": {
+    "_debug": {
+      "statusCounts": {
+        "Appointment": 815,
+        "Brochure": 123,
+        "Converted Old SF": 2,
+        "Follow-up": 584,
+        "Lost": 214,
+        "Mailjourney": 788,
+        "New": 2,
+        "Not Qualified": 392,
+        "Not reached": 825,
+        "Re-entered": 275,
+        "Re-entered - Phone Number Changed": 25
+      },
+      "transitionRows": 4045,
+      "uniqueLeads": 2522
+    },
+    "acquisition": {
+      "channels": [],
+      "funnel": {
+        "mql": {
+          "abs": 2522,
+          "convDeltaPct": null,
+          "share": 100.0
+        },
+        "order": {
+          "abs": null,
+          "convDeltaPct": null,
+          "share": null
+        },
+        "r1": {
+          "abs": 815,
+          "convDeltaPct": 8.2,
+          "share": 32.32
+        },
+        "sql": {
+          "abs": 275,
+          "convDeltaPct": 3.3,
+          "share": 10.9
+        }
+      },
+      "totals": {
+        "avgCpa": null,
+        "avgCpql": null,
+        "contacts": null
+      }
+    },
+    "kernKpis": {
+      "coverage": {
+        "consentTotal": null,
+        "deltaPct": null,
+        "toActivate": null,
+        "value": null
+      },
+      "cpql": {
+        "deltaPct": null,
+        "value": null
+      },
+      "databaseGrowth": {
+        "deltaPct": null,
+        "value": null
+      },
+      "mqlToSql": {
+        "deltaPct": 3.3,
+        "value": 10.9
+      },
+      "reactivationRatio": {
+        "deltaPct": 4.3,
+        "value": 17.01
+      }
+    },
+    "reactivation": {
+      "enrichment": {
+        "enrichRatio": 3.03,
+        "enriched": 25,
+        "notReachable": 825,
+        "rejoined": 25
+      },
+      "leadIntake": {
+        "abs": 2522,
+        "share": 100.0
+      },
+      "mailjourney": {
+        "abs": 788,
+        "deltaPct": -6.1,
+        "ratio": 65.33,
+        "share": 31.25
+      },
+      "notContact": {
+        "abs": 825,
+        "deltaPct": 2.8,
+        "ratio": 32.71,
+        "share": 32.71
+      },
+      "recovered": {
+        "cac": null,
+        "count": 134,
+        "cpl": null
+      },
+      "sql": {
+        "abs": 275,
+        "deltaPct": 4.3,
+        "ratio": 17.01,
+        "share": 10.9
+      }
+    }
+  },
+  "generated_at": "2026-09-08T08:25:56+00:00",
+  "market_scope": "all",
+  "notes": [
+    "report.csv bevat geen RecordTypeId; cijfers zijn markt-overstijgend.",
+    "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
+    "Coverage en database-groei vragen consent-velden uit het CRM."
+  ],
+  "period": {
+    "end": "2026-09-09",
+    "start": "2026-08-20"
+  },
+  "prev_period": {
+    "end": "2026-08-20",
+    "start": "2026-08-01"
+  },
+  "previous": {
+    "_debug": {
+      "statusCounts": {
+        "Appointment": 719,
+        "Brochure": 132,
+        "Converted Old SF": 1,
+        "Follow-up": 658,
+        "Lost": 221,
+        "Mailjourney": 803,
+        "New": 46,
+        "Not Qualified": 397,
+        "Not reached": 766,
+        "Other": 1,
+        "Re-entered": 254,
+        "Re-entered - Phone Number Changed": 23
+      },
+      "transitionRows": 4021,
+      "uniqueLeads": 2407
+    },
+    "acquisition": {
+      "channels": [],
+      "funnel": {
+        "mql": {
+          "abs": 2407,
+          "convDeltaPct": null,
+          "share": 100.0
+        },
+        "order": {
+          "abs": null,
+          "convDeltaPct": null,
+          "share": null
+        },
+        "r1": {
+          "abs": 719,
+          "convDeltaPct": null,
+          "share": 29.87
+        },
+        "sql": {
+          "abs": 254,
+          "convDeltaPct": null,
+          "share": 10.55
+        }
+      },
+      "totals": {
+        "avgCpa": null,
+        "avgCpql": null,
+        "contacts": null
+      }
+    },
+    "kernKpis": {
+      "coverage": {
+        "consentTotal": null,
+        "deltaPct": null,
+        "toActivate": null,
+        "value": null
+      },
+      "cpql": {
+        "deltaPct": null,
+        "value": null
+      },
+      "databaseGrowth": {
+        "deltaPct": null,
+        "value": null
+      },
+      "mqlToSql": {
+        "deltaPct": null,
+        "value": 10.55
+      },
+      "reactivationRatio": {
+        "deltaPct": null,
+        "value": 16.31
+      }
+    },
+    "reactivation": {
+      "enrichment": {
+        "enrichRatio": 3.0,
+        "enriched": 23,
+        "notReachable": 766,
+        "rejoined": 23
+      },
+      "leadIntake": {
+        "abs": 2407,
+        "share": 100.0
+      },
+      "mailjourney": {
+        "abs": 803,
+        "ratio": 69.58,
+        "share": 33.36
+      },
+      "notContact": {
+        "abs": 766,
+        "ratio": 31.82,
+        "share": 31.82
+      },
+      "recovered": {
+        "cac": null,
+        "count": 131,
+        "cpl": null
+      },
+      "sql": {
+        "abs": 254,
+        "ratio": 16.31,
+        "share": 10.55
+      }
+    }
+  },
+  "source_rows": 8066
+}

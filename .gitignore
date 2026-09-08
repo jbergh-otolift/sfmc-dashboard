@@ -1,3 +1,8 @@
 __pycache__/
 *.pyc
 .env
+
+# SFMC/Salesforce credentials horen in GitHub secrets, nooit in de repo
+bu_config.json
+*_config.json
+.env.*

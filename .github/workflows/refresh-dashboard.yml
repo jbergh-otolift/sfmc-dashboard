@@ -1,0 +1,107 @@
+name: Refresh dashboard data
+
+# Haalt Marketing Cloud tracking + Salesforce LeadHistory op, bouwt docs/data.json
+# en commit dat terug. Het dashboard op GitHub Pages doet zelf geen API-calls:
+# alle secrets blijven server-side in deze workflow.
+
+on:
+  schedule:
+    - cron: "30 6 * * *"   # dagelijks 06:30 UTC, na de Salesforce-export van 06:00
+  workflow_dispatch:
+    inputs:
+      period_start:
+        description: "Start huidige periode (YYYY-MM-DD)"
+        required: false
+      period_end:
+        description: "Einde huidige periode, exclusief (YYYY-MM-DD)"
+        required: false
+      prev_start:
+        description: "Start vorige periode (YYYY-MM-DD)"
+        required: false
+      prev_end:
+        description: "Einde vorige periode, exclusief (YYYY-MM-DD)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-dashboard
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      # Zonder expliciete invoer: een rollend venster van 19 dagen, vergeleken
+      # met de 19 dagen daarvoor. Twee gelijke helften, dus een eerlijke
+      # period-over-period vergelijking.
+      - name: Periode bepalen
+        id: period
+        run: |
+          set -euo pipefail
+          if [ -n "${{ github.event.inputs.period_start }}" ]; then
+            PERIOD_START="${{ github.event.inputs.period_start }}"
+            PERIOD_END="${{ github.event.inputs.period_end }}"
+            PREV_START="${{ github.event.inputs.prev_start }}"
+            PREV_END="${{ github.event.inputs.prev_end }}"
+          else
+            PERIOD_END=$(date -u -d "tomorrow" +%F)
+            PERIOD_START=$(date -u -d "$PERIOD_END -19 days" +%F)
+            PREV_END="$PERIOD_START"
+            PREV_START=$(date -u -d "$PREV_END -19 days" +%F)
+          fi
+          for var in PERIOD_START PERIOD_END PREV_START PREV_END; do
+            echo "$var=${!var}" >> "$GITHUB_OUTPUT"
+          done
+          echo "Huidige periode: $PERIOD_START t/m $PERIOD_END (excl.)"
+          echo "Vorige periode:  $PREV_START t/m $PREV_END (excl.)"
+
+      - name: Salesforce LeadHistory exporteren
+        run: python scripts/export_salesforce_report.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+
+      - name: Marketing Cloud tracking exporteren
+        run: python scripts/export_sfmc_tracking.py
+        env:
+          SFMC_SUBDOMAIN: ${{ secrets.SFMC_SUBDOMAIN }}
+          SFMC_CLIENT_ID: ${{ secrets.SFMC_CLIENT_ID }}
+          SFMC_CLIENT_SECRET: ${{ secrets.SFMC_CLIENT_SECRET }}
+          SFMC_MID_NL: ${{ secrets.SFMC_MID_NL }}
+          SFMC_MID_BE: ${{ secrets.SFMC_MID_BE }}
+          SFMC_MID_FR: ${{ secrets.SFMC_MID_FR }}
+          SFMC_MID_IT: ${{ secrets.SFMC_MID_IT }}
+          PERIOD_START: ${{ steps.period.outputs.PERIOD_START }}
+          PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
+          PREV_START: ${{ steps.period.outputs.PREV_START }}
+          PREV_END: ${{ steps.period.outputs.PREV_END }}
+
+      - name: CRM-metrics berekenen
+        run: python scripts/build_crm_metrics.py
+        env:
+          PERIOD_START: ${{ steps.period.outputs.PERIOD_START }}
+          PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
+          PREV_START: ${{ steps.period.outputs.PREV_START }}
+          PREV_END: ${{ steps.period.outputs.PREV_END }}
+
+      - name: data.json bouwen
+        run: python scripts/build_data_json.py
+
+      - name: Committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add exports/ docs/data.json
+          git diff --staged --quiet || git commit -m "Refresh dashboard data"
+          git push

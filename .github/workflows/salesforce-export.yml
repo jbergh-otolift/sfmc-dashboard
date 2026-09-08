@@ -1,8 +1,10 @@
 name: Salesforce report export
 
+# Losse LeadHistory-export. De dagelijkse run zit inmiddels in
+# refresh-dashboard.yml (die doet deze export ook); deze workflow blijft
+# bestaan om de export los te kunnen triggeren, maar heeft geen eigen schema
+# meer — twee schema's zouden elkaars commits in de weg zitten.
 on:
-  schedule:
-    - cron: "0 6 * * *"   # dagelijks 06:00 UTC — pas aan naar wens
   workflow_dispatch: {}    # handmatig triggeren via de Actions tab
 
 permissions:
