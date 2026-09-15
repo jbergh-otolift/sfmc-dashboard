@@ -1,13 +1,15 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
+  "coverage_days": 90,
   "crm_market_scope": "per_market",
-  "generated_at": "2026-09-15T12:57:05+00:00",
+  "generated_at": "2026-09-15T12:58:21+00:00",
   "markets": {
     "be": {
       "_sources": {
         "acquisition": "partial",
         "emailHealth": "live",
         "kernKpis": "partial",
+        "outcomes": "live",
         "reactivation": "live"
       },
       "acquisition": {
@@ -75,6 +77,17 @@
           "label": "BE - New Lead - VL - WA",
           "open": 78.08,
           "opens": 342,
+          "outcome": {
+            "appointmentRate": 17.7,
+            "conversionRate": 31.7,
+            "converted": 686,
+            "revenue": 1906850.86,
+            "revenuePerTouch": 881.17,
+            "toAppointment": 384,
+            "toSql": 51,
+            "touched": 2164,
+            "won": 213
+          },
           "sent": 455,
           "soft_bounces": 3,
           "spam": null,
@@ -103,6 +116,17 @@
           "label": "BE - VL - WA -  No contact possible",
           "open": 42.18,
           "opens": 124,
+          "outcome": {
+            "appointmentRate": 6.8,
+            "conversionRate": 7.5,
+            "converted": 23,
+            "revenue": 87422.56,
+            "revenuePerTouch": 283.84,
+            "toAppointment": 21,
+            "toSql": 34,
+            "touched": 308,
+            "won": 9
+          },
           "sent": 294,
           "soft_bounces": 1,
           "spam": null,
@@ -131,6 +155,17 @@
           "label": "BE - VL - WA - 1x Geen Gehoor",
           "open": 75.21,
           "opens": 179,
+          "outcome": {
+            "appointmentRate": 15.3,
+            "conversionRate": 24.5,
+            "converted": 235,
+            "revenue": 598607.02,
+            "revenuePerTouch": 624.85,
+            "toAppointment": 147,
+            "toSql": 62,
+            "touched": 958,
+            "won": 70
+          },
           "sent": 243,
           "soft_bounces": 1,
           "spam": null,
@@ -159,6 +194,17 @@
           "label": "BE - VL -WA - Reentered Lead",
           "open": 64.63,
           "opens": 53,
+          "outcome": {
+            "appointmentRate": 14.6,
+            "conversionRate": 27.6,
+            "converted": 72,
+            "revenue": 179759.87,
+            "revenuePerTouch": 688.74,
+            "toAppointment": 38,
+            "toSql": 138,
+            "touched": 261,
+            "won": 21
+          },
           "sent": 82,
           "soft_bounces": 0,
           "spam": null,
@@ -187,6 +233,7 @@
           "label": "BE - VL WA - Orderbevestiging",
           "open": 100.0,
           "opens": 106,
+          "outcome": null,
           "sent": 106,
           "soft_bounces": 0,
           "spam": null,
@@ -215,6 +262,7 @@
           "label": "BE - referentiemailing eenmalig",
           "open": 0.0,
           "opens": 0,
+          "outcome": null,
           "sent": 1596,
           "soft_bounces": 5,
           "spam": null,
@@ -243,6 +291,17 @@
           "label": "Alle flows",
           "open": 30.6,
           "opens": 846,
+          "outcome": {
+            "appointmentRate": 17.4,
+            "conversionRate": 31.4,
+            "converted": 750,
+            "revenue": 2057224.17,
+            "revenuePerTouch": 860.4,
+            "toAppointment": 415,
+            "toSql": 151,
+            "touched": 2391,
+            "won": 231
+          },
           "sent": 2822,
           "soft_bounces": 11,
           "spam": null,
@@ -280,6 +339,17 @@
         }
       },
       "marketLabel": "België",
+      "outcomeTotal": {
+        "appointmentRate": 17.4,
+        "conversionRate": 31.4,
+        "converted": 750,
+        "revenue": 2057224.17,
+        "revenuePerTouch": 860.4,
+        "toAppointment": 415,
+        "toSql": 151,
+        "touched": 2391,
+        "won": 231
+      },
       "reactivation": {
         "enrichment": {
           "backToMailjourney": 0,
@@ -326,6 +396,7 @@
         "acquisition": "partial",
         "emailHealth": "not_connected",
         "kernKpis": "partial",
+        "outcomes": "not_connected",
         "reactivation": "live"
       },
       "acquisition": {
@@ -405,6 +476,7 @@
         }
       },
       "marketLabel": "Frankrijk",
+      "outcomeTotal": null,
       "reactivation": {
         "enrichment": {
           "backToMailjourney": 0,
@@ -451,6 +523,7 @@
         "acquisition": "partial",
         "emailHealth": "not_connected",
         "kernKpis": "partial",
+        "outcomes": "not_connected",
         "reactivation": "live"
       },
       "acquisition": {
@@ -530,6 +603,7 @@
         }
       },
       "marketLabel": "Italië",
+      "outcomeTotal": null,
       "reactivation": {
         "enrichment": {
           "backToMailjourney": 0,
@@ -576,6 +650,7 @@
         "acquisition": "partial",
         "emailHealth": "live",
         "kernKpis": "partial",
+        "outcomes": "live",
         "reactivation": "live"
       },
       "acquisition": {
@@ -643,6 +718,17 @@
           "label": "NL - 1x Geen gehoor",
           "open": 74.28,
           "opens": 309,
+          "outcome": {
+            "appointmentRate": 14.9,
+            "conversionRate": 28.4,
+            "converted": 487,
+            "revenue": 959248.27,
+            "revenuePerTouch": 559.0,
+            "toAppointment": 255,
+            "toSql": 105,
+            "touched": 1716,
+            "won": 148
+          },
           "sent": 425,
           "soft_bounces": 4,
           "spam": null,
@@ -671,6 +757,7 @@
           "label": "NL - Afspraakherinnering adviseur 2025",
           "open": 95.32,
           "opens": 346,
+          "outcome": null,
           "sent": 365,
           "soft_bounces": 0,
           "spam": null,
@@ -699,6 +786,7 @@
           "label": "NL - Confirmation Service Appointment",
           "open": 102.19,
           "opens": 978,
+          "outcome": null,
           "sent": 977,
           "soft_bounces": 11,
           "spam": null,
@@ -727,6 +815,17 @@
           "label": "NL - New Lead Journey V2",
           "open": 82.34,
           "opens": 760,
+          "outcome": {
+            "appointmentRate": 19.3,
+            "conversionRate": 36.1,
+            "converted": 1484,
+            "revenue": 3029312.96,
+            "revenuePerTouch": 737.24,
+            "toAppointment": 795,
+            "toSql": 82,
+            "touched": 4109,
+            "won": 464
+          },
           "sent": 949,
           "soft_bounces": 6,
           "spam": null,
@@ -755,6 +854,17 @@
           "label": "NL - Nurturelane Stairlift Q2 2026",
           "open": 57.98,
           "opens": 3082,
+          "outcome": {
+            "appointmentRate": 0.1,
+            "conversionRate": 0.2,
+            "converted": 6,
+            "revenue": 4608.28,
+            "revenuePerTouch": 1.55,
+            "toAppointment": 3,
+            "toSql": 17,
+            "touched": 2975,
+            "won": 2
+          },
           "sent": 5331,
           "soft_bounces": 18,
           "spam": null,
@@ -783,6 +893,7 @@
           "label": "NL - Offerte journey",
           "open": 105.0,
           "opens": 63,
+          "outcome": null,
           "sent": 60,
           "soft_bounces": 0,
           "spam": null,
@@ -811,6 +922,17 @@
           "label": "NL - Reentered Lead",
           "open": 76.51,
           "opens": 127,
+          "outcome": {
+            "appointmentRate": 14.9,
+            "conversionRate": 29.7,
+            "converted": 207,
+            "revenue": 336573.51,
+            "revenuePerTouch": 482.89,
+            "toAppointment": 104,
+            "toSql": 383,
+            "touched": 697,
+            "won": 58
+          },
           "sent": 171,
           "soft_bounces": 0,
           "spam": null,
@@ -839,6 +961,7 @@
           "label": "NL - Reviews",
           "open": 116.39,
           "opens": 71,
+          "outcome": null,
           "sent": 61,
           "soft_bounces": 0,
           "spam": null,
@@ -867,6 +990,7 @@
           "label": "NL - Service Appointment - Self Service Confirmation",
           "open": 104.96,
           "opens": 127,
+          "outcome": null,
           "sent": 121,
           "soft_bounces": 1,
           "spam": null,
@@ -895,6 +1019,17 @@
           "label": "NL-Nurture - no contact possible V3",
           "open": 47.2,
           "opens": 236,
+          "outcome": {
+            "appointmentRate": 4.4,
+            "conversionRate": 6.4,
+            "converted": 57,
+            "revenue": 146428.75,
+            "revenuePerTouch": 164.34,
+            "toAppointment": 39,
+            "toSql": 99,
+            "touched": 891,
+            "won": 21
+          },
           "sent": 506,
           "soft_bounces": 2,
           "spam": null,
@@ -923,6 +1058,7 @@
           "label": "Orderbevestiging",
           "open": 119.71,
           "opens": 249,
+          "outcome": null,
           "sent": 208,
           "soft_bounces": 1,
           "spam": null,
@@ -951,6 +1087,17 @@
           "label": "Alle flows",
           "open": 70.03,
           "opens": 6369,
+          "outcome": {
+            "appointmentRate": 11.5,
+            "conversionRate": 21.6,
+            "converted": 1690,
+            "revenue": 3383381.85,
+            "revenuePerTouch": 433.16,
+            "toAppointment": 895,
+            "toSql": 385,
+            "touched": 7811,
+            "won": 521
+          },
           "sent": 9178,
           "soft_bounces": 43,
           "spam": null,
@@ -988,6 +1135,17 @@
         }
       },
       "marketLabel": "Nederland",
+      "outcomeTotal": {
+        "appointmentRate": 11.5,
+        "conversionRate": 21.6,
+        "converted": 1690,
+        "revenue": 3383381.85,
+        "revenuePerTouch": 433.16,
+        "toAppointment": 895,
+        "toSql": 385,
+        "touched": 7811,
+        "won": 521
+      },
       "reactivation": {
         "enrichment": {
           "backToMailjourney": 2,
@@ -1034,6 +1192,8 @@
     "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
     "Coverage-noemer en database-groei komen uit exports/lead_consent.json."
   ],
+  "outcome_attribution": "touch-attributie: lead is geraakt door de flow en heeft daarna geconverteerd. Geen bewezen oorzaak, geen controlegroep.",
+  "outcome_lookback_days": 90,
   "period": {
     "end": "2026-09-16",
     "start": "2026-08-28"

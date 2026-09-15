@@ -35,6 +35,7 @@ from datetime import datetime, timezone
 TRACKING_PATH = "exports/sfmc_tracking.json"
 CRM_PATH = "exports/crm_metrics.json"
 CONSENT_PATH = "exports/lead_consent.json"
+OUTCOMES_PATH = "exports/flow_outcomes.json"
 OUT_PATH = "docs/data.json"
 
 MARKETS = {
@@ -80,7 +81,7 @@ def rel_delta(cur, prev):
     return round((cur - prev) / prev * 100, 1)
 
 
-def build_email_health(market_block):
+def build_email_health(market_block, outcomes=None):
     """Zet de flows uit de tracking-export om naar het emailHealth-contract,
     met per metric een delta t.o.v. de vorige periode."""
     if not market_block:
@@ -104,6 +105,10 @@ def build_email_health(market_block):
         # Volumes meenemen zodat het cijfer navolgbaar is in de devtools.
         for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs", "emails"):
             entry[extra] = flow.get(extra)
+
+        # Opbrengst per journey: afspraak, conversie en omzet van de leads die
+        # deze flow geraakt heeft.
+        entry["outcome"] = (outcomes or {}).get(entry["label"]) or (outcomes or {}).get(key)
 
         prev_flow = prev.get(key) or {}
         entry["deltas"] = {
@@ -166,7 +171,7 @@ def build_coverage(consent_market, market_block):
     }
 
 
-def source_state(email_health, has_crm):
+def source_state(email_health, has_crm, has_outcomes=False):
     """Bepaalt de badge per sectie."""
     live_email = bool(
         email_health
@@ -181,6 +186,7 @@ def source_state(email_health, has_crm):
         "kernKpis": "partial" if has_crm else "not_connected",
         # Acquisitie: funnel live, kanalen en kosten niet.
         "acquisition": "partial" if has_crm else "not_connected",
+        "outcomes": "live" if has_outcomes else "not_connected",
     }
 
 
@@ -188,6 +194,8 @@ def main():
     tracking = load(TRACKING_PATH)
     crm = load(CRM_PATH)
     consent = load(CONSENT_PATH)
+    outcomes = load(OUTCOMES_PATH)
+    outcome_markets = (outcomes or {}).get("markets") or {}
 
     crm_current = (crm or {}).get("current") or {}
     crm_markets = (crm or {}).get("markets") or {}
@@ -210,7 +218,8 @@ def main():
 
     for key, label in MARKETS.items():
         block = tracking_markets.get(key)
-        email_health = build_email_health(block)
+        market_outcomes = outcome_markets.get(key) or {}
+        email_health = build_email_health(block, market_outcomes)
 
         # CRM-cijfers zijn nu echt per markt (report.csv heeft een Market-kolom).
         # Ontbreekt die markt, val dan terug op het totaal.
@@ -240,12 +249,14 @@ def main():
         markets[key] = {
             "marketLabel": label,
             "available": available,
-            "_sources": source_state(email_health, bool(market_crm)),
+            "_sources": source_state(email_health, bool(market_crm), bool(market_outcomes)),
             "kernKpis": kern,
             "reactivation": market_crm.get("reactivation", {}),
             "acquisition": market_crm.get("acquisition", {}),
             "emailHealth": email_health,
             "consent": consent_market,
+            # Ontdubbeld markttotaal van de opbrengst.
+            "outcomeTotal": market_outcomes.get("all"),
         }
 
     # FR en IT hebben wél CRM-data (Particulier FR/IT bestaan als RecordType),
@@ -261,6 +272,9 @@ def main():
         "prev_period": prev_period,
         "crm_market_scope": (crm or {}).get("market_scope", "all"),
         "consent_definition": (consent or {}).get("consent_definition"),
+        "coverage_days": (consent or {}).get("coverage_days"),
+        "outcome_lookback_days": (outcomes or {}).get("lookback_days"),
+        "outcome_attribution": (outcomes or {}).get("attribution"),
         "notes": (crm or {}).get("notes", []),
         "markets": markets,
     }

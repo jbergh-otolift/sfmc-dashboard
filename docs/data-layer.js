@@ -297,6 +297,66 @@ function applyCoverageNote(coverage) {
     "niet de hele database.</span>";
 }
 
+/* ---------- opbrengst per flow ---------- */
+
+function eur(value) {
+  if (value === null || value === undefined) return NODATA;
+  return "€" + nlNum(Math.round(value), 0);
+}
+
+// Tabel met wat elke journey opleverde. Gesorteerd op omzet, want dat is waar
+// de vraag "welke flow doet ertoe" mee beantwoord wordt. Een flow die veel
+// mensen raakt maar niets oplevert valt zo meteen op.
+function applyOutcomes(market) {
+  const table = document.querySelector("[data-outcome-table] tbody");
+  if (!table) return;
+  table.innerHTML = "";
+
+  const health = market.emailHealth || {};
+  const rows = Object.keys(health)
+    .filter((key) => key !== "all" && health[key].outcome)
+    .map((key) => ({ label: health[key].label || key, o: health[key].outcome }))
+    .sort((a, b) => (b.o.revenue || 0) - (a.o.revenue || 0));
+
+  const cell = (text, cls) =>
+    "<td" + (cls ? ' class="' + cls + '"' : "") + ">" + text + "</td>";
+
+  rows.forEach((row) => {
+    const o = row.o;
+    // Veel bereik en nauwelijks opbrengst is het signaal dat telt.
+    const weak = o.touched >= 500 && (o.won || 0) <= 5;
+    const tr = document.createElement("tr");
+    if (weak) tr.className = "weak";
+    tr.innerHTML =
+      cell(row.label, "l") +
+      cell(nlNum(o.touched, 0)) +
+      cell(nlNum(o.toAppointment, 0) + "<small>" + (o.appointmentRate !== null ? nlNum(o.appointmentRate, 1) + "%" : NODATA) + "</small>") +
+      cell(nlNum(o.won, 0) + "<small>" + (o.conversionRate !== null ? nlNum(o.conversionRate, 1) + "%" : NODATA) + "</small>") +
+      cell(eur(o.revenue), "rev") +
+      cell(eur(o.revenuePerTouch));
+    table.appendChild(tr);
+  });
+
+  const total = market.outcomeTotal;
+  if (total) {
+    const tr = document.createElement("tr");
+    tr.className = "total";
+    tr.innerHTML =
+      cell("Totaal · ontdubbeld", "l") +
+      cell(nlNum(total.touched, 0)) +
+      cell(nlNum(total.toAppointment, 0)) +
+      cell(nlNum(total.won, 0)) +
+      cell(eur(total.revenue), "rev") +
+      cell(eur(total.revenuePerTouch));
+    table.appendChild(tr);
+  }
+
+  if (!rows.length && !total) {
+    table.innerHTML =
+      '<tr><td class="l nodata" colspan="6">Geen opbrengstcijfers voor deze markt.</td></tr>';
+  }
+}
+
 /* ---------- bronnen-badges ---------- */
 
 // Zet per sectie zichtbaar of de data live is of nog niet aangesloten, zodat
@@ -339,6 +399,7 @@ function applyMarket(marketKey) {
     const bar = document.querySelector("[data-flow-chips]");
     if (bar) bar.innerHTML = "";
     applyFlow({ all: {} }, "all");
+    applyOutcomes({});
     applySourceBadges({});
     return;
   }
@@ -346,6 +407,7 @@ function applyMarket(marketKey) {
 
   applyBindings(document, market);
   applyCoverageNote(market.kernKpis && market.kernKpis.coverage);
+  applyOutcomes(market);
   applySourceBadges(market._sources);
   buildFlowChips(market.emailHealth || { all: { label: "Alle flows" } });
 }
@@ -364,6 +426,9 @@ function applyMeta(data) {
     end.setDate(end.getDate() - 1);
     periodEl.textContent = fmtDate(data.period.start) + " t/m " + fmtDate(end.toISOString());
   }
+
+  const daysEl = document.querySelector("[data-outcome-days]");
+  if (daysEl && data.outcome_lookback_days) daysEl.textContent = data.outcome_lookback_days;
 
   const prevEl = document.querySelector("[data-prev-period-label]");
   if (prevEl && data.prev_period) {
