@@ -168,6 +168,7 @@ def main():
     probe_history_recordtype(token, instance_url)
     probe_contact(token, instance_url)
     probe_mailjourney(token, instance_url)
+    probe_opportunity(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -268,6 +269,41 @@ def probe_mailjourney(token, instance_url):
     if not err:
         for row in res["records"][:12]:
             print(f"    {str(row['Status']):34} {row['total']:8}")
+
+
+def probe_opportunity(token, instance_url):
+    """Kan de opbrengst-kant erbij? Opportunity draagt de orderwaarde, en
+    Lead.ConvertedOpportunityId legt de link tussen een lead en die order."""
+    print("\n--- Opportunity (opbrengst per flow) ---")
+    resp = requests.get(
+        f"{instance_url}/services/data/{API_VERSION}/sobjects/Opportunity/describe",
+        headers={"Authorization": f"Bearer {token}"}, timeout=60)
+    if not resp.ok:
+        print(f"  ❌ geen leesrecht op Opportunity: {resp.status_code}")
+        return
+    fields = {f["name"] for f in resp.json()["fields"]}
+    print(f"  Opportunity-velden zichtbaar: {len(fields)}")
+    for name in ("Amount", "StageName", "CloseDate", "RecordTypeId", "IsWon", "IsClosed"):
+        print(f"  {'✅' if name in fields else '❌'} {name}")
+
+    lead_fields = describe_lead(token, instance_url)
+    for name in ("ConvertedOpportunityId", "ConvertedDate", "ConvertedContactId", "IsConverted"):
+        print(f"  {'✅' if name in lead_fields else '❌'} Lead.{name}")
+
+    if "Amount" in fields:
+        res, err = query(
+            token, instance_url,
+            "SELECT COUNT(Id) n, SUM(Amount) bedrag FROM Opportunity "
+            "WHERE IsWon = true AND CloseDate = LAST_N_DAYS:90")
+        if not err and res["records"]:
+            r = res["records"][0]
+            print(f"  Gewonnen opportunities laatste 90 dagen: {r['n']}, totaal {r['bedrag']}")
+
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Lead WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:90")
+    if not err and res["records"]:
+        print(f"  Leads geconverteerd laatste 90 dagen: {res['records'][0]['n']}")
 
 
 if __name__ == "__main__":
