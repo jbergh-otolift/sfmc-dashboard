@@ -167,6 +167,7 @@ def main():
 
     probe_history_recordtype(token, instance_url)
     probe_contact(token, instance_url)
+    probe_mailjourney(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -231,6 +232,42 @@ def probe_contact(token, instance_url):
                 for row in grouped["records"]:
                     label = names.get(row["RecordTypeId"], f"(onbekend {row['RecordTypeId']})")
                     print(f"    {label:40} {row['total']:9}")
+
+
+RT_NAMES = {
+    "0127Q000000upr9QAA": "NL",
+    "0127Q000000eERIQA2": "BE",
+    "012QD000002ylXZYAY": "FR",
+    "012QD000002ylcPYAQ": "IT",
+}
+
+
+def probe_mailjourney(token, instance_url):
+    """De echte coverage-noemer: leads die we hóren te mailen, oftewel
+    status Mailjourney met consent. Niet de hele database."""
+    print("\n--- Coverage-noemer: status Mailjourney + consent ---")
+    for label, where in [
+        ("Mailjourney + consent", f"Status = 'Mailjourney' AND {CONSENT_WHERE}"),
+        ("Mailjourney (alle)", "Status = 'Mailjourney'"),
+    ]:
+        res, err = query(
+            token, instance_url,
+            f"SELECT RecordTypeId, COUNT(Id) total FROM Lead WHERE {where} GROUP BY RecordTypeId")
+        if err:
+            print(f"  {label}: mislukt {err}")
+            continue
+        parts = " ".join(
+            f"{RT_NAMES.get(r['RecordTypeId'], '?')}={r['total']}" for r in res["records"])
+        print(f"  {label:26} {parts}")
+
+    print("\n  Statusverdeling van leads met consent:")
+    res, err = query(
+        token, instance_url,
+        f"SELECT Status, COUNT(Id) total FROM Lead WHERE {CONSENT_WHERE} "
+        "GROUP BY Status ORDER BY COUNT(Id) DESC")
+    if not err:
+        for row in res["records"][:12]:
+            print(f"    {str(row['Status']):34} {row['total']:8}")
 
 
 if __name__ == "__main__":
