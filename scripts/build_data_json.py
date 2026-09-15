@@ -118,54 +118,49 @@ def build_email_health(market_block):
 def build_coverage(consent_market, market_block):
     """Automation Coverage per markt.
 
-    Noemer = contacten met consent (CRM). Teller = daarvan degene die in de
-    periode daadwerkelijk een e-mail kregen (unieke subscribers uit de
-    SFMC-sends). Zonder Business Unit in Marketing Cloud is de teller niet te
-    meten — dan blijft coverage None ("nog niet meetbaar"), uitdrukkelijk geen 0%.
+    Noemer = de leads die we hóren te mailen: status Mailjourney met consent.
+    Teller = daarvan degenen die in de periode echt een e-mail kregen. Beide
+    komen uit export_lead_consent.py, dat de exacte doorsnede van de twee
+    id-verzamelingen maakt — een ruwe deling zou fout zijn, want een deel van
+    de bereikte leads staat op een andere status en hoort niet in de noemer.
+
+    Zonder Business Unit in Marketing Cloud is de teller er niet; coverage
+    blijft dan None ("nog niet meetbaar"), uitdrukkelijk geen 0%.
     """
     if not consent_market:
-        return {"value": None, "consentTotal": None, "toActivate": None,
-                "deltaPct": None, "reached": None, "measurable": False,
-                "reason": "no_consent_data"}
+        return {"value": None, "shouldMail": None, "reached": None,
+                "consentTotal": None, "toActivate": None, "deltaPct": None,
+                "measurable": False, "reason": "no_consent_data"}
 
-    consent_total = consent_market.get("consentTotal")
-    uniques = (market_block or {}).get("unique_subscribers") or {}
+    should_mail = consent_market.get("shouldMail")
+    reached = consent_market.get("reachedOfShouldMail")
+    value = consent_market.get("coverage")
 
-    # SubscriberKey in SFMC is een Salesforce-id: 00Q = Lead, 003 = Contact.
-    # Beide krijgen mail, maar het consent-veld is alleen op Lead leesbaar.
-    # Coverage wordt daarom uitsluitend op de Lead-helft berekend — teller en
-    # noemer gaan dan over hetzelfde object. De Contact-helft wordt apart
-    # gerapporteerd als bekend gat, niet stilzwijgend meegeteld.
-    reached_leads = uniques.get("leads")
-    reached_contacts = uniques.get("contacts")
-
-    if not consent_total or reached_leads is None:
-        if not market_block:
+    if value is None or not should_mail:
+        if not should_mail:
+            reason = "nobody_to_mail"
+        elif not market_block:
             reason = "no_business_unit"
-        elif not consent_total:
-            reason = "no_consent_data"
         else:
             reason = "numerator_missing"
         return {
             "value": None,
-            "consentTotal": consent_total,
+            "shouldMail": should_mail,
+            "reached": reached,
+            "consentTotal": consent_market.get("consentTotal"),
             "toActivate": None,
             "deltaPct": None,
-            "reached": reached_leads,
-            "reachedContacts": reached_contacts,
             "measurable": False,
             "reason": reason,
         }
 
-    value = round(reached_leads / consent_total * 100, 1)
     return {
         "value": value,
-        "consentTotal": consent_total,
-        "toActivate": max(consent_total - reached_leads, 0),
+        "shouldMail": should_mail,
+        "reached": reached,
+        "consentTotal": consent_market.get("consentTotal"),
+        "toActivate": max(should_mail - reached, 0),
         "deltaPct": None,
-        "reached": reached_leads,
-        "reachedContacts": reached_contacts,
-        "scope": "leads",
         "measurable": True,
         "reason": None,
     }
@@ -226,9 +221,17 @@ def main():
         kern = dict(market_crm.get("kernKpis") or {})
         consent_market = consent_markets.get(key)
         kern["coverage"] = build_coverage(consent_market, block)
+        growth = (consent_market or {}).get("growth")
+        growth_prev = (consent_market or {}).get("growthPrev")
         kern["databaseGrowth"] = {
-            "value": (consent_market or {}).get("growth"),
-            "deltaAbs": (consent_market or {}).get("growth"),
+            "value": growth,
+            # Het verschil met de vorige periode, niet het aantal zelf — anders
+            # staat er "940 ▼ -940".
+            "deltaAbs": (
+                growth - growth_prev
+                if growth is not None and growth_prev is not None
+                else None
+            ),
             "deltaPct": (consent_market or {}).get("growthDeltaPct"),
         }
 

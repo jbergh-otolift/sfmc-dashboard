@@ -1,7 +1,7 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "crm_market_scope": "per_market",
-  "generated_at": "2026-09-15T12:38:10+00:00",
+  "generated_at": "2026-09-15T12:39:50+00:00",
   "markets": {
     "be": {
       "_sources": {
@@ -255,19 +255,18 @@
           "consentTotal": 4512,
           "deltaPct": null,
           "measurable": true,
-          "reached": 578,
-          "reachedContacts": 1725,
+          "reached": 171,
           "reason": null,
-          "scope": "leads",
-          "toActivate": 3934,
-          "value": 12.8
+          "shouldMail": 1644,
+          "toActivate": 1473,
+          "value": 10.4
         },
         "cpql": {
           "deltaPct": null,
           "value": null
         },
         "databaseGrowth": {
-          "deltaAbs": 429,
+          "deltaAbs": -49,
           "deltaPct": -10.3,
           "value": 429
         },
@@ -382,8 +381,8 @@
           "deltaPct": null,
           "measurable": false,
           "reached": null,
-          "reachedContacts": null,
-          "reason": "no_business_unit",
+          "reason": "nobody_to_mail",
+          "shouldMail": 0,
           "toActivate": null,
           "value": null
         },
@@ -507,8 +506,8 @@
           "deltaPct": null,
           "measurable": false,
           "reached": null,
-          "reachedContacts": null,
-          "reason": "no_business_unit",
+          "reason": "nobody_to_mail",
+          "shouldMail": 0,
           "toActivate": null,
           "value": null
         },
@@ -964,19 +963,18 @@
           "consentTotal": 33551,
           "deltaPct": null,
           "measurable": true,
-          "reached": 3751,
-          "reachedContacts": 1507,
+          "reached": 2706,
           "reason": null,
-          "scope": "leads",
-          "toActivate": 29800,
-          "value": 11.2
+          "shouldMail": 11462,
+          "toActivate": 8756,
+          "value": 23.6
         },
         "cpql": {
           "deltaPct": null,
           "value": null
         },
         "databaseGrowth": {
-          "deltaAbs": 940,
+          "deltaAbs": -27,
           "deltaPct": -2.8,
           "value": 940
         },

@@ -272,7 +272,8 @@ function applyCoverageNote(coverage) {
 
   if (!coverage.measurable) {
     el.classList.add("nodata");
-    const consent = nlNum(coverage.consentTotal, 0) + " contacten met consent";
+    const consent =
+      nlNum(coverage.consentTotal || 0, 0) + " leads met consent";
     const why = {
       no_business_unit:
         ", maar deze markt heeft nog geen Business Unit in Marketing Cloud — " +
@@ -280,24 +281,20 @@ function applyCoverageNote(coverage) {
       numerator_missing:
         ", maar het aantal bereikte contacten ontbreekt nog in de tracking-export.",
       no_consent_data: " — geen consent-cijfer beschikbaar.",
+      nobody_to_mail:
+        ", maar geen enkele lead staat op status Mailjourney mét consent, " +
+        "dus er valt niets te bereiken.",
     }[coverage.reason] || " — teller nog niet beschikbaar.";
     el.innerHTML = "<b>Nog niet meetbaar.</b> " + consent + why;
     return;
   }
 
   el.classList.remove("nodata");
-  let html =
-    "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te activeren";
-  // Coverage telt alleen Leads: het consent-veld is alleen daar leesbaar.
-  // Contacts krijgen ook mail, dus dat deel is expliciet niet meegerekend.
-  if (typeof coverage.reachedContacts === "number" && coverage.reachedContacts > 0) {
-    html +=
-      '<span style="display:block;font-size:11.5px;margin-top:6px">Alleen Leads. ' +
-      "Daarnaast kregen <b>" + nlNum(coverage.reachedContacts, 0) +
-      " Contacts</b> mail; voor die groep is geen consent-cijfer leesbaar, " +
-      "dus die telt hier niet mee.</span>";
-  }
-  el.innerHTML = html;
+  el.innerHTML =
+    "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te bereiken" +
+    '<span style="display:block;font-size:11.5px;margin-top:6px">Noemer: leads met ' +
+    "status <b>Mailjourney</b> én consent — de mensen die we horen te mailen, " +
+    "niet de hele database.</span>";
 }
 
 /* ---------- bronnen-badges ---------- */
