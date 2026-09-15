@@ -1,80 +1,98 @@
 {
   "_comment": [
-    "Doelstelling per journey. Elke flow heeft een eigen opdracht: een nurture-lane",
-    "moet leads kwalificeren (MQL -> SQL), een geen-gehoor-flow moet afspraken",
-    "opleveren. Het dashboard rekent per flow af op de metric die hier staat, niet",
-    "op een en dezelfde kolom voor iedereen.",
+    "Per journey: wat voor soort flow het is, en waar hij op afgerekend wordt.",
     "",
-    "goal: welke metric telt als resultaat. Keuzes:",
+    "type:",
+    "   marketing      stuurt op resultaat, krijgt een doelstelling",
+    "   transactional  bevestigingen, herinneringen, orderbevestigingen. Die horen",
+    "                  te werken, niet te presteren — geen doel, alleen volume en",
+    "                  deliverability. Ze staan apart op het dashboard.",
+    "",
+    "goal (alleen bij type marketing): welke metric telt als resultaat.",
     "   sql          doorstroom naar status Re-entered (MQL -> SQL)",
     "   appointment  doorstroom naar status Appointment",
     "   won          gewonnen opportunities",
-    "   revenue      omzet in euro",
-    "target:     absoluut aantal per periode van 90 dagen (of euro bij revenue)",
+    "target:     absoluut aantal per periode van 90 dagen",
     "targetRate: alternatief, als percentage van de geraakte leads",
     "Vul target OF targetRate in, niet allebei.",
     "",
-    "LET OP: de waarden hieronder zijn een VOORSTEL van Claude, geen vastgestelde",
-    "doelen. Pas ze aan naar wat marketing en sales werkelijk hebben afgesproken;",
-    "zonder dat is de kolom 'behaald' niet meer dan een richtgetal.",
+    "De targets staan bewust op null. Eerdere ingevulde waarden waren afgeleid",
+    "van de actuele prestatie, waardoor elke flow automatisch rond de 100%",
+    "uitkwam — dat meet niets. Vul hier de doelen in die marketing en sales",
+    "werkelijk hebben afgesproken; tot die tijd toont het dashboard het",
+    "werkelijke percentage zonder oordeel erover.",
+    "",
     "Journeynamen moeten exact overeenkomen met de labels op het dashboard."
   ],
 
-  "defaults": { "goal": "appointment" },
+  "defaults": { "type": "marketing", "goal": "appointment", "target": null },
 
   "nl": {
     "NL - Nurturelane Stairlift Q2 2026": {
+      "type": "marketing",
       "goal": "sql",
-      "targetRate": 5.0,
-      "note": "Consideratie-lane: taak is leads kwalificeren, niet direct verkopen"
-    },
-    "NL - New Lead Journey V2": {
-      "goal": "appointment",
-      "targetRate": 20.0,
-      "note": "Instroomflow: elke nieuwe lead snel naar een afspraak"
-    },
-    "NL - 1x Geen gehoor": {
-      "goal": "appointment",
-      "targetRate": 15.0,
-      "note": "Terughalen van niet-bereikte leads"
+      "target": null,
+      "note": "Consideratie-lane: kwalificeert leads, verkoopt niet direct"
     },
     "NL-Nurture - no contact possible V3": {
+      "type": "marketing",
       "goal": "sql",
-      "targetRate": 10.0,
+      "target": null,
       "note": "Onbereikbare leads opnieuw kwalificeren"
     },
-    "NL - Reentered Lead": {
+    "NL - 1x Geen gehoor": {
+      "type": "marketing",
       "goal": "appointment",
-      "targetRate": 15.0,
-      "note": "Heropende leads terug de funnel in"
+      "target": null,
+      "note": "Terughalen van niet-bereikte leads"
     },
     "NL - Financieel niet haalbaar": {
+      "type": "marketing",
       "goal": "sql",
-      "targetRate": 5.0,
+      "target": null,
       "note": "Alternatieven aanbieden bij budgetbezwaar"
-    }
+    },
+    "NL - Offerte journey": {
+      "type": "marketing",
+      "goal": "won",
+      "target": null,
+      "note": "Openstaande offertes over de streep trekken"
+    },
+
+    "NL - New Lead Journey V2": { "type": "transactional", "note": "Bevestiging op een aanvraag" },
+    "NL - Reentered Lead": { "type": "transactional", "note": "Bevestiging bij heropende lead" },
+    "NL - Afspraakherinnering adviseur 2025": { "type": "transactional", "note": "Herinnering voor een geplande afspraak" },
+    "NL - Confirmation Service Appointment": { "type": "transactional", "note": "Bevestiging serviceafspraak" },
+    "NL - Service Appointment - Self Service Confirmation": { "type": "transactional", "note": "Bevestiging serviceafspraak" },
+    "Orderbevestiging": { "type": "transactional", "note": "Orderbevestiging" },
+    "NL - Reviews": { "type": "transactional", "note": "Reviewverzoek na oplevering" }
   },
 
   "be": {
-    "BE - New Lead - VL - WA": {
-      "goal": "appointment",
-      "targetRate": 20.0,
-      "note": "Instroomflow"
-    },
-    "BE - VL - WA - 1x Geen Gehoor": {
-      "goal": "appointment",
-      "targetRate": 15.0,
-      "note": "Terughalen van niet-bereikte leads"
-    },
     "BE - VL - WA -  No contact possible": {
+      "type": "marketing",
       "goal": "sql",
-      "targetRate": 10.0,
+      "target": null,
       "note": "Onbereikbare leads opnieuw kwalificeren"
     },
-    "BE - VL -WA - Reentered Lead": {
+    "BE - VL - WA - 1x Geen Gehoor": {
+      "type": "marketing",
       "goal": "appointment",
-      "targetRate": 15.0,
-      "note": "Heropende leads terug de funnel in"
-    }
+      "target": null,
+      "note": "Terughalen van niet-bereikte leads"
+    },
+    "BE - referentiemailing eenmalig": {
+      "type": "marketing",
+      "goal": "sql",
+      "target": null,
+      "note": "Eenmalige mailing naar bestaande relaties"
+    },
+
+    "BE - New Lead - VL - WA": { "type": "transactional", "note": "Bevestiging op een aanvraag" },
+    "BE - VL -WA - Reentered Lead": { "type": "transactional", "note": "Bevestiging bij heropende lead" },
+    "BE - VL WA - Orderbevestiging": { "type": "transactional", "note": "Orderbevestiging" },
+    "BE - Reviews": { "type": "transactional", "note": "Reviewverzoek na oplevering" },
+    "BE - VL - WA - review - Google": { "type": "transactional", "note": "Reviewverzoek" },
+    "BE - VL - WA - review - Trustpilot": { "type": "transactional", "note": "Reviewverzoek" }
   }
 }

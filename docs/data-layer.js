@@ -313,74 +313,96 @@ function applyOutcomes(market) {
   table.innerHTML = "";
 
   const health = market.emailHealth || {};
-  // Sorteren op hoe goed een flow zijn eigen doel haalt — niet op omzet, want
-  // omzet is voor een nurture-lane niet de opdracht.
-  const rows = Object.keys(health)
+  const all = Object.keys(health)
     .filter((key) => key !== "all" && health[key].outcome)
-    .map((key) => ({ label: health[key].label || key, o: health[key].outcome, g: health[key].goal }))
+    .map((key) => ({ label: health[key].label || key, o: health[key].outcome, g: health[key].goal }));
+
+  // Transactionele flows (bevestigingen, herinneringen) horen te werken, niet
+  // te presteren. Ze staan onderaan, zonder doel, puur als volumecontext.
+  const marketing = all
+    .filter((r) => !r.g || r.g.type !== "transactional")
     .sort((a, b) => (a.g?.attainment ?? 1e9) - (b.g?.attainment ?? 1e9));
+  const transactional = all
+    .filter((r) => r.g && r.g.type === "transactional")
+    .sort((a, b) => (b.o.touched || 0) - (a.o.touched || 0));
 
   const cell = (text, cls) =>
     "<td" + (cls ? ' class="' + cls + '"' : "") + ">" + text + "</td>";
 
-  rows.forEach((row) => {
+  const addGroup = (title, sub) => {
+    const tr = document.createElement("tr");
+    tr.className = "group";
+    tr.innerHTML =
+      '<td class="l" colspan="6">' + title +
+      (sub ? "<small>" + sub + "</small>" : "") + "</td>";
+    table.appendChild(tr);
+  };
+
+  const addRow = (row, withGoal) => {
     const o = row.o;
     const g = row.g;
     const tr = document.createElement("tr");
 
     let goalCell = '<span class="nodata">geen doel</span>';
     let actual = NODATA;
-    let target = NODATA;
+    let target = '<span class="nodata">niet vastgesteld</span>';
     let attain = NODATA;
 
-    if (g) {
-      goalCell =
-        (g.configured ? "" : '<span class="goal-default">standaard · </span>') + g.label;
+    if (withGoal && g && g.label) {
+      goalCell = (g.configured ? "" : '<span class="goal-default">standaard · </span>') + g.label;
       actual =
-        (g.isRevenue ? eur(g.actual) : nlNum(g.actual || 0, 0)) +
+        nlNum(g.actual || 0, 0) +
         (g.rate !== null ? "<small>" + nlNum(g.rate, 1) + "%</small>" : "");
       if (g.target !== null && g.target !== undefined) {
-        target =
-          (g.isRevenue ? eur(g.target) : nlNum(Math.round(g.target), 0)) +
-          (g.targetRate ? "<small>" + nlNum(g.targetRate, 1) + "%</small>" : "");
+        target = nlNum(Math.round(g.target), 0);
       }
       if (g.attainment !== null && g.attainment !== undefined) {
-        // Onder de helft van het doel is een probleem, niet een detail.
         const level = g.attainment >= 90 ? "ok" : g.attainment >= 50 ? "warn" : "bad";
         attain = '<span class="attain ' + level + '">' + nlNum(g.attainment, 0) + "%</span>";
         if (level === "bad") tr.className = "weak";
       }
+    } else if (!withGoal) {
+      // Transactioneel: alleen deliverability is relevant, geen doelkolom.
+      goalCell = '<span class="nodata">transactioneel</span>';
+      actual = "";
+      target = "";
+      attain = "";
     }
 
     tr.innerHTML =
       cell(row.label + (g && g.note ? "<small>" + g.note + "</small>" : ""), "l") +
       cell(goalCell, "l") +
+      cell(nlNum(o.touched, 0)) +
       cell(actual) +
       cell(target) +
-      cell(attain) +
-      cell(nlNum(o.touched, 0)) +
-      cell(eur(o.revenue), "rev");
+      cell(attain);
     table.appendChild(tr);
-  });
+  };
+
+  if (marketing.length) {
+    addGroup("Marketingflows", "sturen op resultaat");
+    marketing.forEach((r) => addRow(r, true));
+  }
+  if (transactional.length) {
+    addGroup("Transactioneel", "bevestigingen en herinneringen — horen te werken, niet te presteren");
+    transactional.forEach((r) => addRow(r, false));
+  }
 
   const total = market.outcomeTotal;
   if (total) {
     const tr = document.createElement("tr");
     tr.className = "total";
     tr.innerHTML =
-      cell("Totaal · ontdubbeld", "l") +
-      cell("", "l") +
-      cell(nlNum(total.toAppointment, 0) + "<small>afspraken</small>") +
-      cell("") +
-      cell("") +
+      cell("Totaal · ontdubbeld", "l") + cell("", "l") +
       cell(nlNum(total.touched, 0)) +
-      cell(eur(total.revenue), "rev");
+      cell(nlNum(total.toAppointment, 0) + "<small>afspraken</small>") +
+      cell(nlNum(total.toSql, 0) + "<small>SQL</small>") + cell("");
     table.appendChild(tr);
   }
 
-  if (!rows.length && !total) {
+  if (!all.length && !total) {
     table.innerHTML =
-      '<tr><td class="l nodata" colspan="7">Geen opbrengstcijfers voor deze markt.</td></tr>';
+      '<tr><td class="l nodata" colspan="6">Geen resultaatcijfers voor deze markt.</td></tr>';
   }
 }
 

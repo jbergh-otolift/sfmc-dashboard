@@ -117,7 +117,13 @@ def build_email_health(market_block, outcomes=None, goals=None, goal_defaults=No
 
         # Opbrengst per journey: afspraak, conversie en omzet van de leads die
         # deze flow geraakt heeft.
-        entry["outcome"] = (outcomes or {}).get(entry["label"]) or (outcomes or {}).get(key)
+        outcome = (outcomes or {}).get(entry["label"]) or (outcomes or {}).get(key)
+        if outcome:
+            # Omzet in euro's blijft uit het dashboard: de toerekening is niet
+            # causaal genoeg om een bedrag aan een flow te hangen.
+            outcome = {k: v for k, v in outcome.items()
+                       if k not in ("revenue", "revenuePerTouch")}
+        entry["outcome"] = outcome
         entry["goal"] = build_goal(
             entry["outcome"], (goals or {}).get(entry["label"]), goal_defaults)
 
@@ -143,6 +149,17 @@ def build_goal(outcome, goal_config, defaults):
 
     config = dict(defaults or {})
     config.update(goal_config or {})
+
+    flow_type = config.get("type", "marketing")
+    # Transactionele flows (bevestigingen, herinneringen, orderbevestigingen)
+    # horen te werken, niet te presteren. Die krijgen geen doelstelling.
+    if flow_type == "transactional":
+        return {
+            "type": "transactional",
+            "note": config.get("note"),
+            "configured": bool(goal_config),
+        }
+
     goal = config.get("goal")
     if goal not in GOAL_METRICS:
         return None
@@ -158,6 +175,7 @@ def build_goal(outcome, goal_config, defaults):
         target = round(touched * target_rate / 100, 1)
 
     return {
+        "type": "marketing",
         "goal": goal,
         "label": label,
         "actual": actual,
@@ -314,7 +332,11 @@ def main():
             "emailHealth": email_health,
             "consent": consent_market,
             # Ontdubbeld markttotaal van de opbrengst.
-            "outcomeTotal": market_outcomes.get("all"),
+            "outcomeTotal": (
+                {k: v for k, v in (market_outcomes.get("all") or {}).items()
+                 if k not in ("revenue", "revenuePerTouch")}
+                if market_outcomes.get("all") else None
+            ),
         }
 
     # FR en IT hebben wél CRM-data (Particulier FR/IT bestaan als RecordType),
