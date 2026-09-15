@@ -1,0 +1,29 @@
+name: Probe — consent-velden
+
+# Diagnose, geen export. Draait alleen handmatig, schrijft niets weg en commit
+# niets: de uitslag lees je in de job-log. Bedoeld om te controleren of de
+# consent-velden leesbaar zijn voordat we Automation Coverage gaan bouwen.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - run: python scripts/probe_lead_consent.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
