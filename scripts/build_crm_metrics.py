@@ -110,13 +110,24 @@ def transitions(rows, start, end):
 # (IT liet 133% zien op 3 instromen). Liever geen cijfer dan een fout cijfer.
 MIN_DENOMINATOR = 25
 
+# De aftakking nummerverrijking loopt met tientallen per periode, niet met
+# honderden. Een aparte, lagere drempel zodat dat blok wel iets kan tonen.
+BRANCH_MINIMUM = 10
 
-def ratio(num, den):
-    """Percentage met 2 decimalen. None als de noemer 0 is of te klein voor
-    een betekenisvol percentage."""
-    if not den or den < MIN_DENOMINATOR:
+
+def ratio(num, den, minimum=MIN_DENOMINATOR):
+    """Percentage met 2 decimalen. None als de noemer 0 is, te klein voor een
+    betekenisvol percentage, of als het resultaat boven 100% uitkomt — dat
+    laatste kan alleen als de overgangen bij een instroom van vóór het venster
+    horen, en is dus een artefact.
+
+    `minimum` kan lager gezet worden voor stromen die inherent klein zijn,
+    zoals de aftakking nummerverrijking.
+    """
+    if not den or den < minimum:
         return None
-    return round(num / den * 100, 2)
+    pct = round(num / den * 100, 2)
+    return None if pct > 100 else pct
 
 
 def delta_pct(cur, prev):
@@ -167,11 +178,22 @@ def compute(rows, start, end):
             "share": ratio(sql, intake),
             "ratio": ratio(mj_to_sql, mailjourney),
         },
+        # Aftakking nummerverrijking. De instroom komt uit twee statussen, niet
+        # uit één: zowel vanuit Mailjourney als vanuit Not reached. En de
+        # uitkomst is het interessantst — een verrijkt nummer leidt relatief
+        # vaak tot een afspraak.
         "enrichment": {
-            "notReachable": not_reached,
+            "fromMailjourney": pairs[(S_MAILJOURNEY, S_PHONE_CHANGED)],
+            "fromNotReached": pairs[(S_NOT_REACHED, S_PHONE_CHANGED)],
             "enriched": phone_changed,
-            "enrichRatio": ratio(phone_changed, not_reached),
-            "rejoined": phone_changed,
+            # aandeel van de mailjourney-populatie dat verrijkt wordt
+            "enrichRatio": ratio(phone_changed, mailjourney, minimum=BRANCH_MINIMUM),
+            "toAppointment": pairs[(S_PHONE_CHANGED, S_APPOINTMENT)],
+            "toAppointmentRatio": ratio(
+                pairs[(S_PHONE_CHANGED, S_APPOINTMENT)], phone_changed, minimum=BRANCH_MINIMUM),
+            "backToNotReached": pairs[(S_PHONE_CHANGED, S_NOT_REACHED)],
+            "backToMailjourney": pairs[(S_PHONE_CHANGED, S_MAILJOURNEY)],
+            "toFollowUp": pairs[(S_PHONE_CHANGED, S_FOLLOWUP)],
         },
         "recovered": {
             # Teruggewonnen leads = doorstroom Mailjourney -> Re-entered.

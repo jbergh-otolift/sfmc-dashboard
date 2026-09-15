@@ -73,10 +73,15 @@
     },
     "reactivation": {
       "enrichment": {
-        "enrichRatio": 2.86,
+        "backToMailjourney": 3,
+        "backToNotReached": 10,
+        "enrichRatio": 2.79,
         "enriched": 25,
-        "notReachable": 874,
-        "rejoined": 25
+        "fromMailjourney": 15,
+        "fromNotReached": 10,
+        "toAppointment": 10,
+        "toAppointmentRatio": 40.0,
+        "toFollowUp": 0
       },
       "leadIntake": {
         "abs": 2661,
@@ -107,7 +112,7 @@
       }
     }
   },
-  "generated_at": "2026-09-15T12:06:24+00:00",
+  "generated_at": "2026-09-15T12:33:32+00:00",
   "market_scope": "per_market",
   "markets": {
     "be": {
@@ -184,10 +189,15 @@
         },
         "reactivation": {
           "enrichment": {
+            "backToMailjourney": 1,
+            "backToNotReached": 4,
             "enrichRatio": 2.5,
             "enriched": 8,
-            "notReachable": 320,
-            "rejoined": 8
+            "fromMailjourney": 4,
+            "fromNotReached": 4,
+            "toAppointment": 3,
+            "toAppointmentRatio": null,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 893,
@@ -291,10 +301,15 @@
         },
         "reactivation": {
           "enrichment": {
-            "enrichRatio": 1.33,
+            "backToMailjourney": 0,
+            "backToNotReached": 1,
+            "enrichRatio": 1.49,
             "enriched": 4,
-            "notReachable": 300,
-            "rejoined": 4
+            "fromMailjourney": 2,
+            "fromNotReached": 2,
+            "toAppointment": 2,
+            "toAppointmentRatio": null,
+            "toFollowUp": 1
           },
           "leadIntake": {
             "abs": 804,
@@ -394,10 +409,15 @@
         },
         "reactivation": {
           "enrichment": {
-            "enrichRatio": null,
+            "backToMailjourney": 0,
+            "backToNotReached": 0,
+            "enrichRatio": 0.0,
             "enriched": 0,
-            "notReachable": 0,
-            "rejoined": 0
+            "fromMailjourney": 0,
+            "fromNotReached": 0,
+            "toAppointment": 0,
+            "toAppointmentRatio": null,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 60,
@@ -498,10 +518,15 @@
         },
         "reactivation": {
           "enrichment": {
-            "enrichRatio": null,
+            "backToMailjourney": 0,
+            "backToNotReached": 0,
+            "enrichRatio": 0.0,
             "enriched": 0,
-            "notReachable": 0,
-            "rejoined": 0
+            "fromMailjourney": 0,
+            "fromNotReached": 0,
+            "toAppointment": 0,
+            "toAppointmentRatio": null,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 49,
@@ -601,10 +626,15 @@
         },
         "reactivation": {
           "enrichment": {
+            "backToMailjourney": 0,
+            "backToNotReached": 0,
             "enrichRatio": null,
             "enriched": 0,
-            "notReachable": 5,
-            "rejoined": 0
+            "fromMailjourney": 0,
+            "fromNotReached": 0,
+            "toAppointment": 0,
+            "toAppointmentRatio": null,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 41,
@@ -703,10 +733,15 @@
         },
         "reactivation": {
           "enrichment": {
+            "backToMailjourney": 0,
+            "backToNotReached": 0,
             "enrichRatio": null,
             "enriched": 0,
-            "notReachable": 0,
-            "rejoined": 0
+            "fromMailjourney": 0,
+            "fromNotReached": 0,
+            "toAppointment": 0,
+            "toAppointmentRatio": null,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 19,
@@ -810,10 +845,15 @@
         },
         "reactivation": {
           "enrichment": {
-            "enrichRatio": 3.1,
+            "backToMailjourney": 2,
+            "backToNotReached": 6,
+            "enrichRatio": 3.18,
             "enriched": 17,
-            "notReachable": 549,
-            "rejoined": 17
+            "fromMailjourney": 11,
+            "fromNotReached": 6,
+            "toAppointment": 7,
+            "toAppointmentRatio": 41.18,
+            "toFollowUp": 0
           },
           "leadIntake": {
             "abs": 1667,
@@ -917,10 +957,15 @@
         },
         "reactivation": {
           "enrichment": {
-            "enrichRatio": 4.08,
+            "backToMailjourney": 2,
+            "backToNotReached": 3,
+            "enrichRatio": 3.68,
             "enriched": 19,
-            "notReachable": 466,
-            "rejoined": 19
+            "fromMailjourney": 12,
+            "fromNotReached": 7,
+            "toAppointment": 9,
+            "toAppointmentRatio": 47.37,
+            "toFollowUp": 2
           },
           "leadIntake": {
             "abs": 1535,
@@ -948,7 +993,7 @@
           }
         }
       },
-      "rows": 6301
+      "rows": 6303
     }
   },
   "notes": [
@@ -1038,10 +1083,15 @@
     },
     "reactivation": {
       "enrichment": {
-        "enrichRatio": 3.0,
+        "backToMailjourney": 2,
+        "backToNotReached": 4,
+        "enrichRatio": 2.86,
         "enriched": 23,
-        "notReachable": 766,
-        "rejoined": 23
+        "fromMailjourney": 14,
+        "fromNotReached": 9,
+        "toAppointment": 11,
+        "toAppointmentRatio": 47.83,
+        "toFollowUp": 3
       },
       "leadIntake": {
         "abs": 2407,
@@ -1070,5 +1120,5 @@
     }
   },
   "rows_without_market": 0,
-  "source_rows": 9822
+  "source_rows": 9824
 }

@@ -37,6 +37,13 @@ CLIENT_SECRET = os.environ["SF_CLIENT_SECRET"]
 API_VERSION = "v60.0"
 
 OUT_PATH = "exports/lead_consent.json"
+# Geschreven door export_sfmc_tracking.py, niet gecommit. Bevat de Lead-id's
+# die in de periode daadwerkelijk een e-mail kregen.
+REACHED_PATH = "exports/_reached_lead_ids.json"
+
+# De coverage-noemer is niet "iedereen met consent" maar "iedereen die we
+# horen te mailen": leads die in de mailflow staan én consent hebben.
+MAILJOURNEY_STATUS = "Mailjourney"
 
 CONSENT_FIELD = "Customized_Product_Advice__c"
 OPTOUT_FIELD = "HasOptedOutOfEmail"
@@ -98,6 +105,46 @@ def counts_by_market(session, instance_url, where):
     return out, unmapped
 
 
+def lead_ids_in_mailjourney(session, instance_url):
+    """Alle Lead-id's met status Mailjourney én consent, per markt.
+
+    Dit is de coverage-noemer: de mensen die we horen te mailen. Gebruikt de
+    gewone query-API met paginatie via nextRecordsUrl (circa 13.000 rijen).
+    """
+    soql = (
+        f"SELECT Id, RecordTypeId FROM Lead "
+        f"WHERE Status = '{MAILJOURNEY_STATUS}' AND {CONSENT_WHERE}"
+    )
+    by_market = {market: set() for market in MARKET_BY_RECORD_TYPE.values()}
+    url = f"{instance_url}/services/data/{API_VERSION}/query"
+    params = {"q": soql}
+
+    while True:
+        resp = session.get(url, params=params, timeout=120)
+        resp.raise_for_status()
+        data = resp.json()
+        for row in data["records"]:
+            market = MARKET_BY_RECORD_TYPE.get(row["RecordTypeId"])
+            if market:
+                by_market[market].add(row["Id"])
+        if data.get("done", True):
+            break
+        url = instance_url + data["nextRecordsUrl"]
+        params = None
+
+    return by_market
+
+
+def load_reached():
+    """Bereikte Lead-id's per markt, uit de SFMC-export. Ontbreekt dat bestand
+    (los gedraaid, of SFMC-stap overgeslagen), dan blijft de doorsnede None."""
+    if not os.path.exists(REACHED_PATH):
+        return None
+    with open(REACHED_PATH, encoding="utf-8") as f:
+        data = json.load(f)
+    return {market: set(ids) for market, ids in (data.get("markets") or {}).items()}
+
+
 def main():
     period = (
         os.environ.get("PERIOD_START", DEFAULT_PERIOD[0]),
@@ -132,13 +179,33 @@ def main():
     growth = created_between(*period)
     growth_prev = created_between(*prev)
 
+    # Coverage: van de leads die we horen te mailen, hoeveel kregen er mail?
+    mailjourney = lead_ids_in_mailjourney(session, instance_url)
+    reached = load_reached()
+    if reached is None:
+        warnings.append(
+            f"{REACHED_PATH} ontbreekt; coverage niet berekend. "
+            "Draai eerst scripts/export_sfmc_tracking.py.")
+
     markets = {}
     for market in MARKET_BY_RECORD_TYPE.values():
         con, tot = consent[market], total[market]
         cur_growth, prv_growth = growth[market], growth_prev[market]
+        should_mail = mailjourney.get(market, set())
+        reached_here = (reached or {}).get(market)
+        covered = len(should_mail & reached_here) if reached_here is not None else None
+
         markets[market] = {
             "leadsTotal": tot,
             "consentTotal": con,
+            # Coverage-noemer en -teller: in de mailflow met consent, en
+            # daarvan degenen die in de periode echt een e-mail kregen.
+            "shouldMail": len(should_mail),
+            "reachedOfShouldMail": covered,
+            "coverage": (
+                round(covered / len(should_mail) * 100, 1)
+                if covered is not None and should_mail else None
+            ),
             "consentShare": round(con / tot * 100, 2) if tot else None,
             "growth": cur_growth,
             "growthPrev": prv_growth,
@@ -164,12 +231,13 @@ def main():
         f.write("\n")
 
     print(f"Geschreven naar {OUT_PATH}")
-    print(f"  {'markt':6} {'totaal':>9} {'consent':>9} {'aandeel':>8} {'groei':>7} {'vorige':>7}")
+    print(f"  {'markt':6} {'totaal':>9} {'consent':>9} {'temailen':>9} {'bereikt':>8} {'coverage':>9} {'groei':>7}")
     for market, m in markets.items():
-        share = f"{m['consentShare']}%" if m["consentShare"] is not None else "-"
+        cov = f"{m['coverage']}%" if m["coverage"] is not None else "-"
+        reached_txt = m["reachedOfShouldMail"] if m["reachedOfShouldMail"] is not None else "-"
         print(
             f"  {market:6} {m['leadsTotal']:9} {m['consentTotal']:9} "
-            f"{share:>8} {m['growth']:7} {m['growthPrev']:7}"
+            f"{m['shouldMail']:9} {str(reached_txt):>8} {cov:>9} {m['growth']:7}"
         )
     for w in warnings:
         print(f"  WAARSCHUWING: {w}")

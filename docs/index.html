@@ -548,26 +548,34 @@
           <!-- Enrichment branch off No contact possible -->
           <div class="mf-branch">
             <div class="mf-branch-inner">
-              <div class="mf-branch-tag">Aftakking<span>vanuit Not reached</span></div>
+              <div class="mf-branch-tag">Aftakking<span>nummerverrijking</span></div>
               <div class="mf-bstage">
-                <div class="mfb-name">Not reached</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.notReachable" data-fmt="int">420</div>
+                <div class="mfb-name">Uit Mailjourney</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.fromMailjourney" data-fmt="int">–</div>
+              </div>
+              <div class="mf-bstage">
+                <div class="mfb-name">Uit Not reached</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.fromNotReached" data-fmt="int">–</div>
               </div>
               <div class="mf-barrow">
-                <span class="mfba-ratio" data-bind="reactivation.enrichment.enrichRatio" data-fmt="pct1nosign">69,0%</span>
-                <span class="mfba-lbl">verrijkt</span>
+                <span class="mfba-ratio">→</span>
+                <span class="mfba-lbl">nummer verrijkt</span>
               </div>
               <div class="mf-bstage">
                 <div class="mfb-name">Re-entered ·<br>Phone Number Changed</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.enriched" data-fmt="int">290</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.enriched" data-fmt="int">–</div>
               </div>
               <div class="mf-barrow rejoin">
-                <span class="mfba-ratio">↩ terug</span>
-                <span class="mfba-lbl">in hoofdstroom</span>
+                <span class="mfba-ratio" data-bind="reactivation.enrichment.toAppointmentRatio" data-fmt="pct1nosign">–</span>
+                <span class="mfba-lbl">naar afspraak</span>
               </div>
               <div class="mf-bstage rejoin">
-                <div class="mfb-name">Opnieuw<br>bereikbaar</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.rejoined" data-fmt="int">290</div>
+                <div class="mfb-name">Appointment</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.toAppointment" data-fmt="int">–</div>
+              </div>
+              <div class="mf-barrow">
+                <span class="mfba-ratio" data-bind="reactivation.enrichment.backToNotReached" data-fmt="int">–</span>
+                <span class="mfba-lbl">terug naar<br>Not reached</span>
               </div>
             </div>
           </div>

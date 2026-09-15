@@ -42,6 +42,11 @@ from urllib3.util.retry import Retry
 
 MARKETS = ["nl", "be", "fr", "it"]
 OUT_PATH = "exports/sfmc_tracking.json"
+# De bereikte Lead-id's gaan naar een apart bestand dat NIET wordt gecommit
+# (zie .gitignore). Het dient alleen als tussenstap: export_lead_consent.py
+# snijdt het door met de leads die we hóren te mailen en bewaart enkel de
+# aantallen. Zo staan er geen losse id-lijsten in een publieke repo.
+REACHED_PATH = "exports/_reached_lead_ids.json"
 NS = {"p": "http://exacttarget.com/wsdl/partnerAPI"}
 UNASSIGNED = "(niet toegewezen)"
 TOKEN_TTL = 15 * 60
@@ -474,7 +479,7 @@ def aggregate(events, tsd_map, window_label):
         }
     leads = {k for k in subscribers if k.startswith("00Q")}
     contacts = {k for k in subscribers if k.startswith("003")}
-    return flows, {
+    return flows, leads, {
         "total": len(subscribers),
         # SubscriberKey is een Salesforce-id: 00Q = Lead, 003 = Contact. Beide
         # krijgen mail. Coverage kan alleen op de Lead-helft berekend worden,
@@ -505,6 +510,7 @@ def main():
     session = make_session()
     markets = {}
     journeys_out = {}
+    reached_lead_ids = {}
 
     for market in MARKETS:
         raw_mid = (os.environ.get(f"SFMC_MID_{market.upper()}") or "").strip()
@@ -522,10 +528,11 @@ def main():
             auth = Auth(session, subdomain, client_id, client_secret, mid)
             journeys, id_to_journey, email_to_journey, prefix_to_journey = fetch_journeys(session, auth)
             tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
-            flows, uniques = run_window(session, auth, tsd_map, market, period_start, period_end)
+            flows, lead_ids, uniques = run_window(session, auth, tsd_map, market, period_start, period_end)
+            reached_lead_ids[market] = sorted(lead_ids)
             prev_flows, prev_uniques = None, None
             if prev_period:
-                prev_flows, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
+                prev_flows, _, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue
@@ -554,6 +561,16 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")
+
+    reached_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), REACHED_PATH)
+    with open(reached_path, "w", encoding="utf-8") as f:
+        json.dump(
+            {"period": {"start": period_start, "end": period_end},
+             "markets": reached_lead_ids},
+            f)
+    print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
+          + ", ".join(f"{m}={len(v)}" for m, v in reached_lead_ids.items()))
 
     print(f"\nGeschreven naar {out_path}")
     for market, data in sorted(markets.items()):
