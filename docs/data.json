@@ -1,0 +1,963 @@
+{
+  "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
+  "crm_market_scope": "per_market",
+  "generated_at": "2026-09-15T12:10:34+00:00",
+  "markets": {
+    "be": {
+      "_sources": {
+        "acquisition": "partial",
+        "emailHealth": "live",
+        "kernKpis": "partial",
+        "reactivation": "live"
+      },
+      "acquisition": {
+        "channels": [],
+        "funnel": {
+          "mql": {
+            "abs": 893,
+            "convDeltaPct": null,
+            "share": 100.0
+          },
+          "order": {
+            "abs": null,
+            "convDeltaPct": null,
+            "share": null
+          },
+          "r1": {
+            "abs": 335,
+            "convDeltaPct": 26.7,
+            "share": 37.51
+          },
+          "sql": {
+            "abs": 100,
+            "convDeltaPct": 40.7,
+            "share": 11.2
+          }
+        },
+        "totals": {
+          "avgCpa": null,
+          "avgCpql": null,
+          "contacts": null
+        }
+      },
+      "available": true,
+      "consent": {
+        "consentShare": 6.0,
+        "consentTotal": 4512,
+        "growth": 463,
+        "growthDeltaPct": -1.3,
+        "growthPrev": 469,
+        "leadsTotal": 75158
+      },
+      "emailHealth": {
+        "BE - New Lead - VL - WA": {
+          "bounce": 4.23,
+          "bounces": 21,
+          "clicks": 48,
+          "ctor": 12.8,
+          "ctr": 10.11,
+          "delivered": 475,
+          "delivery": 95.77,
+          "deltas": {
+            "bounce": 0.0,
+            "ctor": -8.6,
+            "ctr": -5.6,
+            "delivery": 0.0,
+            "open": 3.2,
+            "sent": -0.2,
+            "spam": null,
+            "unsub": 100.0
+          },
+          "label": "BE - New Lead - VL - WA",
+          "open": 78.95,
+          "opens": 375,
+          "sent": 496,
+          "soft_bounces": 2,
+          "spam": null,
+          "unsub": 0.42,
+          "unsubs": 2
+        },
+        "BE - VL - WA -  No contact possible": {
+          "bounce": 0.33,
+          "bounces": 1,
+          "clicks": 22,
+          "ctor": 16.92,
+          "ctr": 7.28,
+          "delivered": 302,
+          "delivery": 99.67,
+          "deltas": {
+            "bounce": -89.8,
+            "ctor": 87.8,
+            "ctr": 73.3,
+            "delivery": 3.0,
+            "open": -7.7,
+            "sent": 23.2,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "BE - VL - WA -  No contact possible",
+          "open": 43.05,
+          "opens": 130,
+          "sent": 303,
+          "soft_bounces": 0,
+          "spam": null,
+          "unsub": 0.66,
+          "unsubs": 2
+        },
+        "BE - VL - WA - 1x Geen Gehoor": {
+          "bounce": 1.56,
+          "bounces": 4,
+          "clicks": 18,
+          "ctor": 8.74,
+          "ctr": 7.14,
+          "delivered": 252,
+          "delivery": 98.44,
+          "deltas": {
+            "bounce": -24.3,
+            "ctor": 56.4,
+            "ctr": 70.0,
+            "delivery": 0.5,
+            "open": 8.7,
+            "sent": 5.3,
+            "spam": null,
+            "unsub": -100.0
+          },
+          "label": "BE - VL - WA - 1x Geen Gehoor",
+          "open": 81.75,
+          "opens": 206,
+          "sent": 256,
+          "soft_bounces": 1,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "BE - VL -WA - Reentered Lead": {
+          "bounce": 0.0,
+          "bounces": 0,
+          "clicks": 6,
+          "ctor": 11.32,
+          "ctr": 6.52,
+          "delivered": 92,
+          "delivery": 100.0,
+          "deltas": {
+            "bounce": null,
+            "ctor": -54.7,
+            "ctr": -63.5,
+            "delivery": 0.0,
+            "open": -19.3,
+            "sent": 64.3,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "BE - VL -WA - Reentered Lead",
+          "open": 57.61,
+          "opens": 53,
+          "sent": 92,
+          "soft_bounces": 0,
+          "spam": null,
+          "unsub": 1.09,
+          "unsubs": 1
+        },
+        "BE - VL WA - Orderbevestiging": {
+          "bounce": 0.0,
+          "bounces": 0,
+          "clicks": 4,
+          "ctor": 4.3,
+          "ctr": 3.57,
+          "delivered": 112,
+          "delivery": 100.0,
+          "deltas": {
+            "bounce": null,
+            "ctor": null,
+            "ctr": null,
+            "delivery": null,
+            "open": null,
+            "sent": null,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "BE - VL WA - Orderbevestiging",
+          "open": 83.04,
+          "opens": 93,
+          "sent": 112,
+          "soft_bounces": 0,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "BE - referentiemailing eenmalig": {
+          "bounce": 2.19,
+          "bounces": 35,
+          "clicks": 38,
+          "ctor": null,
+          "ctr": 2.43,
+          "delivered": 1561,
+          "delivery": 97.81,
+          "deltas": {
+            "bounce": null,
+            "ctor": null,
+            "ctr": null,
+            "delivery": null,
+            "open": null,
+            "sent": null,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "BE - referentiemailing eenmalig",
+          "open": 0.0,
+          "opens": 0,
+          "sent": 1596,
+          "soft_bounces": 4,
+          "spam": null,
+          "unsub": 0.06,
+          "unsubs": 1
+        },
+        "all": {
+          "bounce": 2.1,
+          "bounces": 61,
+          "clicks": 162,
+          "ctor": 18.12,
+          "ctr": 5.7,
+          "delivered": 2841,
+          "delivery": 97.9,
+          "deltas": {
+            "bounce": -34.0,
+            "ctor": 44.4,
+            "ctr": -35.2,
+            "delivery": 1.1,
+            "open": -55.1,
+            "sent": 171.5,
+            "spam": null,
+            "unsub": 10.5
+          },
+          "label": "Alle flows",
+          "open": 31.47,
+          "opens": 894,
+          "sent": 2902,
+          "soft_bounces": 8,
+          "spam": null,
+          "unsub": 0.21,
+          "unsubs": 6
+        }
+      },
+      "kernKpis": {
+        "coverage": {
+          "consentTotal": 4512,
+          "deltaPct": null,
+          "measurable": false,
+          "reached": null,
+          "reason": "numerator_missing",
+          "toActivate": null,
+          "value": null
+        },
+        "cpql": {
+          "deltaPct": null,
+          "value": null
+        },
+        "databaseGrowth": {
+          "deltaAbs": 463,
+          "deltaPct": -1.3,
+          "value": 463
+        },
+        "mqlToSql": {
+          "deltaPct": 40.7,
+          "value": 11.2
+        },
+        "reactivationRatio": {
+          "deltaPct": 18.4,
+          "value": 12.81
+        }
+      },
+      "marketLabel": "België",
+      "reactivation": {
+        "enrichment": {
+          "enrichRatio": 2.5,
+          "enriched": 8,
+          "notReachable": 320,
+          "rejoined": 8
+        },
+        "leadIntake": {
+          "abs": 893,
+          "share": 100.0
+        },
+        "mailjourney": {
+          "abs": 320,
+          "deltaPct": 18.2,
+          "ratio": 81.56,
+          "share": 35.83
+        },
+        "notContact": {
+          "abs": 320,
+          "deltaPct": -4.0,
+          "ratio": 35.83,
+          "share": 35.83
+        },
+        "recovered": {
+          "cac": null,
+          "count": 41,
+          "cpl": null
+        },
+        "sql": {
+          "abs": 100,
+          "deltaPct": 18.4,
+          "ratio": 12.81,
+          "share": 11.2
+        }
+      }
+    },
+    "fr": {
+      "_sources": {
+        "acquisition": "partial",
+        "emailHealth": "not_connected",
+        "kernKpis": "partial",
+        "reactivation": "live"
+      },
+      "acquisition": {
+        "channels": [],
+        "funnel": {
+          "mql": {
+            "abs": 60,
+            "convDeltaPct": null,
+            "share": 100.0
+          },
+          "order": {
+            "abs": null,
+            "convDeltaPct": null,
+            "share": null
+          },
+          "r1": {
+            "abs": 0,
+            "convDeltaPct": null,
+            "share": 0.0
+          },
+          "sql": {
+            "abs": 9,
+            "convDeltaPct": -18.3,
+            "share": 15.0
+          }
+        },
+        "totals": {
+          "avgCpa": null,
+          "avgCpql": null,
+          "contacts": null
+        }
+      },
+      "available": true,
+      "consent": {
+        "consentShare": 0.0,
+        "consentTotal": 2,
+        "growth": 0,
+        "growthDeltaPct": null,
+        "growthPrev": 0,
+        "leadsTotal": 137372
+      },
+      "emailHealth": {
+        "all": {
+          "label": "Alle flows"
+        }
+      },
+      "kernKpis": {
+        "coverage": {
+          "consentTotal": 2,
+          "deltaPct": null,
+          "measurable": false,
+          "reached": null,
+          "reason": "no_business_unit",
+          "toActivate": null,
+          "value": null
+        },
+        "cpql": {
+          "deltaPct": null,
+          "value": null
+        },
+        "databaseGrowth": {
+          "deltaAbs": 0,
+          "deltaPct": null,
+          "value": 0
+        },
+        "mqlToSql": {
+          "deltaPct": -18.3,
+          "value": 15.0
+        },
+        "reactivationRatio": {
+          "deltaPct": null,
+          "value": 18.42
+        }
+      },
+      "marketLabel": "Frankrijk",
+      "reactivation": {
+        "enrichment": {
+          "enrichRatio": null,
+          "enriched": 0,
+          "notReachable": 0,
+          "rejoined": 0
+        },
+        "leadIntake": {
+          "abs": 60,
+          "share": 100.0
+        },
+        "mailjourney": {
+          "abs": 38,
+          "deltaPct": null,
+          "ratio": null,
+          "share": 63.33
+        },
+        "notContact": {
+          "abs": 0,
+          "deltaPct": null,
+          "ratio": 0.0,
+          "share": 0.0
+        },
+        "recovered": {
+          "cac": null,
+          "count": 7,
+          "cpl": null
+        },
+        "sql": {
+          "abs": 9,
+          "deltaPct": null,
+          "ratio": 18.42,
+          "share": 15.0
+        }
+      }
+    },
+    "it": {
+      "_sources": {
+        "acquisition": "partial",
+        "emailHealth": "not_connected",
+        "kernKpis": "partial",
+        "reactivation": "live"
+      },
+      "acquisition": {
+        "channels": [],
+        "funnel": {
+          "mql": {
+            "abs": 41,
+            "convDeltaPct": null,
+            "share": 100.0
+          },
+          "order": {
+            "abs": null,
+            "convDeltaPct": null,
+            "share": null
+          },
+          "r1": {
+            "abs": 0,
+            "convDeltaPct": null,
+            "share": 0.0
+          },
+          "sql": {
+            "abs": 6,
+            "convDeltaPct": null,
+            "share": 14.63
+          }
+        },
+        "totals": {
+          "avgCpa": null,
+          "avgCpql": null,
+          "contacts": null
+        }
+      },
+      "available": true,
+      "consent": {
+        "consentShare": 0.0,
+        "consentTotal": 2,
+        "growth": 0,
+        "growthDeltaPct": null,
+        "growthPrev": 0,
+        "leadsTotal": 151926
+      },
+      "emailHealth": {
+        "all": {
+          "label": "Alle flows"
+        }
+      },
+      "kernKpis": {
+        "coverage": {
+          "consentTotal": 2,
+          "deltaPct": null,
+          "measurable": false,
+          "reached": null,
+          "reason": "no_business_unit",
+          "toActivate": null,
+          "value": null
+        },
+        "cpql": {
+          "deltaPct": null,
+          "value": null
+        },
+        "databaseGrowth": {
+          "deltaAbs": 0,
+          "deltaPct": null,
+          "value": 0
+        },
+        "mqlToSql": {
+          "deltaPct": null,
+          "value": 14.63
+        },
+        "reactivationRatio": {
+          "deltaPct": null,
+          "value": null
+        }
+      },
+      "marketLabel": "Italië",
+      "reactivation": {
+        "enrichment": {
+          "enrichRatio": null,
+          "enriched": 0,
+          "notReachable": 5,
+          "rejoined": 0
+        },
+        "leadIntake": {
+          "abs": 41,
+          "share": 100.0
+        },
+        "mailjourney": {
+          "abs": 3,
+          "deltaPct": null,
+          "ratio": null,
+          "share": 7.32
+        },
+        "notContact": {
+          "abs": 5,
+          "deltaPct": null,
+          "ratio": 12.2,
+          "share": 12.2
+        },
+        "recovered": {
+          "cac": null,
+          "count": 4,
+          "cpl": null
+        },
+        "sql": {
+          "abs": 6,
+          "deltaPct": null,
+          "ratio": null,
+          "share": 14.63
+        }
+      }
+    },
+    "nl": {
+      "_sources": {
+        "acquisition": "partial",
+        "emailHealth": "live",
+        "kernKpis": "partial",
+        "reactivation": "live"
+      },
+      "acquisition": {
+        "channels": [],
+        "funnel": {
+          "mql": {
+            "abs": 1667,
+            "convDeltaPct": null,
+            "share": 100.0
+          },
+          "order": {
+            "abs": null,
+            "convDeltaPct": null,
+            "share": null
+          },
+          "r1": {
+            "abs": 538,
+            "convDeltaPct": 3.0,
+            "share": 32.27
+          },
+          "sql": {
+            "abs": 176,
+            "convDeltaPct": -5.8,
+            "share": 10.56
+          }
+        },
+        "totals": {
+          "avgCpa": null,
+          "avgCpql": null,
+          "contacts": null
+        }
+      },
+      "available": true,
+      "consent": {
+        "consentShare": 10.7,
+        "consentTotal": 33548,
+        "growth": 1017,
+        "growthDeltaPct": 2.5,
+        "growthPrev": 992,
+        "leadsTotal": 313620
+      },
+      "emailHealth": {
+        "(niet toegewezen)": {
+          "bounce": 0.67,
+          "bounces": 7,
+          "clicks": 126,
+          "ctor": 16.67,
+          "ctr": 12.2,
+          "delivered": 1033,
+          "delivery": 99.33,
+          "deltas": {
+            "bounce": -41.2,
+            "ctor": -18.6,
+            "ctr": -15.5,
+            "delivery": 0.5,
+            "open": 3.9,
+            "sent": 18.7,
+            "spam": null,
+            "unsub": 11.4
+          },
+          "label": "(niet toegewezen)",
+          "open": 73.18,
+          "opens": 756,
+          "sent": 1040,
+          "soft_bounces": 2,
+          "spam": null,
+          "unsub": 0.39,
+          "unsubs": 4
+        },
+        "NL - Afspraak annulering First + follow up": {
+          "bounce": 2.38,
+          "bounces": 16,
+          "clicks": 35,
+          "ctor": 6.94,
+          "ctr": 5.34,
+          "delivered": 655,
+          "delivery": 97.62,
+          "deltas": {
+            "bounce": 56.6,
+            "ctor": 9.8,
+            "ctr": 2.9,
+            "delivery": -0.9,
+            "open": -6.3,
+            "sent": 27.1,
+            "spam": null,
+            "unsub": 31.0
+          },
+          "label": "NL - Afspraak annulering First + follow up",
+          "open": 76.95,
+          "opens": 504,
+          "sent": 671,
+          "soft_bounces": 3,
+          "spam": null,
+          "unsub": 0.76,
+          "unsubs": 5
+        },
+        "NL - Confirmation Service Appointment": {
+          "bounce": 2.46,
+          "bounces": 28,
+          "clicks": 254,
+          "ctor": 25.58,
+          "ctr": 22.88,
+          "delivered": 1110,
+          "delivery": 97.54,
+          "deltas": {
+            "bounce": 21.8,
+            "ctor": 14.1,
+            "ctr": 5.4,
+            "delivery": -0.4,
+            "open": -7.6,
+            "sent": 53.2,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "NL - Confirmation Service Appointment",
+          "open": 89.46,
+          "opens": 993,
+          "sent": 1138,
+          "soft_bounces": 12,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "NL - New Lead Journey ": {
+          "bounce": 1.21,
+          "bounces": 3,
+          "clicks": 5,
+          "ctor": 2.06,
+          "ctr": 2.04,
+          "delivered": 245,
+          "delivery": 98.79,
+          "deltas": {
+            "bounce": -45.0,
+            "ctor": -69.7,
+            "ctr": -69.8,
+            "delivery": 1.0,
+            "open": -0.4,
+            "sent": 9.3,
+            "spam": null,
+            "unsub": -100.0
+          },
+          "label": "NL - New Lead Journey",
+          "open": 99.18,
+          "opens": 243,
+          "sent": 248,
+          "soft_bounces": 1,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "NL - New Lead Journey  TEST": {
+          "bounce": 1.75,
+          "bounces": 1,
+          "clicks": 4,
+          "ctor": 7.84,
+          "ctr": 7.14,
+          "delivered": 56,
+          "delivery": 98.25,
+          "deltas": {
+            "bounce": -84.2,
+            "ctor": -57.4,
+            "ctr": -63.3,
+            "delivery": 10.5,
+            "open": -13.7,
+            "sent": -29.6,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "NL - New Lead Journey  TEST",
+          "open": 91.07,
+          "opens": 51,
+          "sent": 57,
+          "soft_bounces": 0,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "NL - Nurturelane Stairlift Q2 2026": {
+          "bounce": 0.47,
+          "bounces": 26,
+          "clicks": 263,
+          "ctor": 8.14,
+          "ctr": 4.76,
+          "delivered": 5520,
+          "delivery": 99.53,
+          "deltas": {
+            "bounce": -20.3,
+            "ctor": -16.2,
+            "ctr": -15.0,
+            "delivery": 0.1,
+            "open": 1.4,
+            "sent": 20.6,
+            "spam": null,
+            "unsub": 6.0
+          },
+          "label": "NL - Nurturelane Stairlift Q2 2026",
+          "open": 58.51,
+          "opens": 3230,
+          "sent": 5546,
+          "soft_bounces": 20,
+          "spam": null,
+          "unsub": 0.53,
+          "unsubs": 29
+        },
+        "NL - Reentered Lead": {
+          "bounce": 1.72,
+          "bounces": 3,
+          "clicks": 22,
+          "ctor": 17.89,
+          "ctr": 12.87,
+          "delivered": 171,
+          "delivery": 98.28,
+          "deltas": {
+            "bounce": null,
+            "ctor": 130.5,
+            "ctr": 140.1,
+            "delivery": -1.7,
+            "open": 4.2,
+            "sent": 3.6,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "NL - Reentered Lead",
+          "open": 71.93,
+          "opens": 123,
+          "sent": 174,
+          "soft_bounces": 1,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "NL - Service Appointment - Self Service Confirmation": {
+          "bounce": 0.0,
+          "bounces": 0,
+          "clicks": 14,
+          "ctor": 12.07,
+          "ctr": 11.86,
+          "delivered": 118,
+          "delivery": 100.0,
+          "deltas": {
+            "bounce": null,
+            "ctor": 28.3,
+            "ctr": 11.2,
+            "delivery": 0.0,
+            "open": -13.3,
+            "sent": 57.3,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "NL - Service Appointment - Self Service Confirmation",
+          "open": 98.31,
+          "opens": 116,
+          "sent": 118,
+          "soft_bounces": 1,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "Orderbevestiging ": {
+          "bounce": 0.0,
+          "bounces": 0,
+          "clicks": 11,
+          "ctor": 4.28,
+          "ctr": 4.91,
+          "delivered": 224,
+          "delivery": 100.0,
+          "deltas": {
+            "bounce": -100.0,
+            "ctor": -42.8,
+            "ctr": -41.5,
+            "delivery": 0.8,
+            "open": 2.2,
+            "sent": 69.7,
+            "spam": null,
+            "unsub": null
+          },
+          "label": "Orderbevestiging",
+          "open": 114.73,
+          "opens": 257,
+          "sent": 224,
+          "soft_bounces": 0,
+          "spam": null,
+          "unsub": 0.0,
+          "unsubs": 0
+        },
+        "TEST NL - 1x Geen gehoor  ": {
+          "bounce": 1.91,
+          "bounces": 8,
+          "clicks": 19,
+          "ctor": 5.96,
+          "ctr": 4.63,
+          "delivered": 410,
+          "delivery": 98.09,
+          "deltas": {
+            "bounce": 229.3,
+            "ctor": -9.6,
+            "ctr": -6.3,
+            "delivery": -1.3,
+            "open": 3.7,
+            "sent": 20.8,
+            "spam": null,
+            "unsub": 151.7
+          },
+          "label": "TEST NL - 1x Geen gehoor",
+          "open": 77.8,
+          "opens": 319,
+          "sent": 418,
+          "soft_bounces": 1,
+          "spam": null,
+          "unsub": 0.73,
+          "unsubs": 3
+        },
+        "all": {
+          "bounce": 0.95,
+          "bounces": 92,
+          "clicks": 753,
+          "ctor": 11.42,
+          "ctr": 7.89,
+          "delivered": 9544,
+          "delivery": 99.05,
+          "deltas": {
+            "bounce": -4.0,
+            "ctor": -5.7,
+            "ctr": -5.2,
+            "delivery": 0.0,
+            "open": 0.7,
+            "sent": 24.0,
+            "spam": null,
+            "unsub": 7.5
+          },
+          "label": "Alle flows",
+          "open": 69.1,
+          "opens": 6595,
+          "sent": 9636,
+          "soft_bounces": 41,
+          "spam": null,
+          "unsub": 0.43,
+          "unsubs": 41
+        }
+      },
+      "kernKpis": {
+        "coverage": {
+          "consentTotal": 33548,
+          "deltaPct": null,
+          "measurable": false,
+          "reached": null,
+          "reason": "numerator_missing",
+          "toActivate": null,
+          "value": null
+        },
+        "cpql": {
+          "deltaPct": null,
+          "value": null
+        },
+        "databaseGrowth": {
+          "deltaAbs": 1017,
+          "deltaPct": 2.5,
+          "value": 1017
+        },
+        "mqlToSql": {
+          "deltaPct": -5.8,
+          "value": 10.56
+        },
+        "reactivationRatio": {
+          "deltaPct": -11.5,
+          "value": 16.29
+        }
+      },
+      "marketLabel": "Nederland",
+      "reactivation": {
+        "enrichment": {
+          "enrichRatio": 3.1,
+          "enriched": 17,
+          "notReachable": 549,
+          "rejoined": 17
+        },
+        "leadIntake": {
+          "abs": 1667,
+          "share": 100.0
+        },
+        "mailjourney": {
+          "abs": 534,
+          "deltaPct": -3.4,
+          "ratio": 67.58,
+          "share": 32.03
+        },
+        "notContact": {
+          "abs": 549,
+          "deltaPct": 8.5,
+          "ratio": 32.93,
+          "share": 32.93
+        },
+        "recovered": {
+          "cac": null,
+          "count": 87,
+          "cpl": null
+        },
+        "sql": {
+          "abs": 176,
+          "deltaPct": -11.5,
+          "ratio": 16.29,
+          "share": 10.56
+        }
+      }
+    }
+  },
+  "notes": [
+    "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
+    "Coverage-noemer en database-groei komen uit exports/lead_consent.json."
+  ],
+  "period": {
+    "end": "2026-09-09",
+    "start": "2026-08-20"
+  },
+  "prev_period": {
+    "end": "2026-08-20",
+    "start": "2026-08-01"
+  }
+}
