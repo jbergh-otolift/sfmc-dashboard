@@ -112,7 +112,8 @@ def build_email_health(market_block, outcomes=None, goals=None, goal_defaults=No
         for metric in HEALTH_METRICS:
             entry[metric] = flow.get(metric)
         # Volumes meenemen zodat het cijfer navolgbaar is in de devtools.
-        for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs", "emails"):
+        for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces",
+                      "unsubs", "emails", "uniqueSubscribers", "emailBreakdown"):
             entry[extra] = flow.get(extra)
 
         # Opbrengst per journey: afspraak, conversie en omzet van de leads die

@@ -243,15 +243,23 @@ function buildFlowChips(emailHealth) {
     btn.textContent = emailHealth[key].label || key;
     const sent = emailHealth[key].sent;
     if (typeof sent === "number") btn.title = nlNum(sent, 0) + " verzonden in deze periode";
+    if (key !== "all" && (emailHealth[key].emailBreakdown || []).length) {
+      btn.classList.add("has-detail");
+      btn.title = (btn.title ? btn.title + " · " : "") + "klik voor de mails in deze flow";
+    }
     btn.addEventListener("click", () => {
       bar.querySelectorAll(".flowchip").forEach((c) => c.classList.remove("active"));
       btn.classList.add("active");
       applyFlow(emailHealth, key);
+      // "Alle flows" heeft geen mailopbouw; de losse journeys wel.
+      if (key === "all") closeFlowDetail();
+      else renderFlowDetail(emailHealth[key]);
     });
     bar.appendChild(btn);
   });
 
   if (keys.length) applyFlow(emailHealth, keys[0]);
+  closeFlowDetail();
 }
 
 /* ---------- coverage: meetbaar of niet ---------- */
@@ -295,6 +303,182 @@ function applyCoverageNote(coverage) {
     '<span style="display:block;font-size:11.5px;margin-top:6px">Noemer: leads met ' +
     "status <b>Mailjourney</b> én consent — de mensen die we horen te mailen, " +
     "niet de hele database.</span>";
+}
+
+/* ---------- detail per flow: welke mails zitten erin ---------- */
+
+// Eén tooltip-element voor alle mailregels. Labels komen uit de API en zijn
+// dus onvertrouwde tekst: altijd via textContent, nooit via innerHTML.
+let fdTip = null;
+
+function showTip(anchor, email) {
+  if (!fdTip) {
+    fdTip = document.createElement("div");
+    fdTip.className = "fd-tip";
+    document.body.appendChild(fdTip);
+  }
+  fdTip.innerHTML = "";
+
+  const title = document.createElement("b");
+  title.textContent = email.name || "(naamloos)";
+  fdTip.appendChild(title);
+
+  const rows = [
+    ["Verstuurd", nlNum(email.sent || 0, 0)],
+    ["Aangekomen", nlNum(email.delivered || 0, 0)],
+    ["Geopend", nlNum(email.opens || 0, 0)],
+    ["Geklikt", nlNum(email.clicks || 0, 0)],
+    ["Afgemeld", nlNum(email.unsubs || 0, 0)],
+    ["Bounces", nlNum(email.bounces || 0, 0)],
+  ];
+  rows.forEach(([label, value]) => {
+    const row = document.createElement("div");
+    row.className = "t-row";
+    const left = document.createElement("span");
+    left.textContent = label;
+    const right = document.createElement("span");
+    right.textContent = value;
+    row.append(left, right);
+    fdTip.appendChild(row);
+  });
+
+  const box = anchor.getBoundingClientRect();
+  fdTip.style.left = Math.min(box.left + 40, window.innerWidth - 300) + "px";
+  fdTip.style.top = Math.max(box.top - 8, 8) + "px";
+  fdTip.hidden = false;
+}
+
+function hideTip() {
+  if (fdTip) fdTip.hidden = true;
+}
+
+function renderFlowDetail(flow) {
+  const panel = document.querySelector("[data-flow-detail]");
+  if (!panel) return;
+
+  const emails = (flow && flow.emailBreakdown) || [];
+  const reach = flow && flow.uniqueSubscribers;
+  const sent = flow && flow.sent;
+
+  panel.hidden = false;
+  const set = (sel, text) => {
+    const el = panel.querySelector(sel);
+    if (el) el.textContent = text;
+  };
+  set("[data-fd-name]", (flow && flow.label) || "–");
+  set(
+    "[data-fd-sub]",
+    emails.length
+      ? emails.length + (emails.length === 1 ? " mail in deze flow" : " mails in deze flow")
+      : "geen losse mails gevonden"
+  );
+  set("[data-fd-reach]", typeof reach === "number" ? nlNum(reach, 0) : NODATA);
+  set("[data-fd-sent]", typeof sent === "number" ? nlNum(sent, 0) : NODATA);
+  set(
+    "[data-fd-per]",
+    reach && sent ? nlNum(sent / reach, 1) : NODATA
+  );
+
+  const list = panel.querySelector("[data-fd-steps]");
+  const empty = panel.querySelector("[data-fd-empty]");
+  list.innerHTML = "";
+  empty.hidden = emails.length > 0;
+  if (!emails.length) return;
+
+  // Eén tint voor alle balken: dit is één reeks, geen losse categorieën. De
+  // balklengte is relatief aan de grootste mail in deze flow.
+  const maxSent = Math.max(...emails.map((e) => e.sent || 0), 1);
+  const ctors = emails.map((e) => e.ctor).filter((v) => typeof v === "number");
+  const best = ctors.length ? Math.max(...ctors) : null;
+  const worst = ctors.length ? Math.min(...ctors) : null;
+
+  const headerRow = document.createElement("div");
+  headerRow.className = "fd-step head";
+  ["", "Mail", "Ontvangers", "Geopend", "Doorgeklikt"].forEach((label, i) => {
+    const span = document.createElement("span");
+    if (i >= 3) span.className = "r";
+    span.textContent = label;
+    headerRow.appendChild(span);
+  });
+  list.appendChild(headerRow);
+
+  emails.forEach((email, index) => {
+    const row = document.createElement("div");
+    row.className = "fd-step";
+    // Nadruk op de uitschieters in plaats van kleur per mail: bij 21 mails
+    // zou een eigen tint per stap onleesbaar worden.
+    if (emails.length > 2 && typeof email.ctor === "number") {
+      if (email.ctor === worst && worst !== best) row.classList.add("weak");
+      if (email.ctor === best && worst !== best) row.classList.add("strong");
+    }
+
+    const num = document.createElement("div");
+    num.className = "fd-num";
+    num.textContent = String(index + 1);
+
+    const nameBox = document.createElement("div");
+    const name = document.createElement("div");
+    name.className = "fd-mail-name";
+    name.textContent = email.name || "(naamloos)";
+    nameBox.appendChild(name);
+    if (email.firstSend) {
+      const date = document.createElement("div");
+      date.className = "fd-mail-date";
+      const d = new Date(email.firstSend);
+      date.textContent = "eerste verzending " +
+        d.toLocaleDateString("nl-NL", { day: "numeric", month: "short" });
+      nameBox.appendChild(date);
+    }
+
+    const barWrap = document.createElement("div");
+    barWrap.className = "fd-bar-wrap";
+    const track = document.createElement("div");
+    track.className = "fd-bar-track";
+    const bar = document.createElement("i");
+    bar.className = "fd-bar";
+    bar.style.width = Math.max((email.sent || 0) / maxSent * 100, 2) + "%";
+    track.appendChild(bar);
+    const barNum = document.createElement("div");
+    barNum.className = "fd-bar-num";
+    barNum.textContent = nlNum(email.sent || 0, 0);
+    barWrap.append(track, barNum);
+
+    const metric = (value, absolute, cls) => {
+      const box = document.createElement("div");
+      box.className = "fd-metric";
+      const val = document.createElement("div");
+      val.className = "fd-m-val" + (cls ? " " + cls : "");
+      val.textContent = typeof value === "number" ? nlNum(value, 1) + "%" : NODATA;
+      const sub = document.createElement("div");
+      sub.className = "fd-m-sub";
+      sub.textContent = absolute;
+      box.append(val, sub);
+      return box;
+    };
+
+    row.append(
+      num,
+      nameBox,
+      barWrap,
+      metric(email.open, nlNum(email.opens || 0, 0) + " mensen", ""),
+      metric(email.ctor, nlNum(email.clicks || 0, 0) + " klikken", "ctor")
+    );
+
+    // De hele regel is het hover-doel, niet alleen de balk.
+    row.addEventListener("pointerenter", () => showTip(row, email));
+    row.addEventListener("pointerleave", hideTip);
+    row.tabIndex = 0;
+    row.addEventListener("focus", () => showTip(row, email));
+    row.addEventListener("blur", hideTip);
+
+    list.appendChild(row);
+  });
+}
+
+function closeFlowDetail() {
+  const panel = document.querySelector("[data-flow-detail]");
+  if (panel) panel.hidden = true;
+  hideTip();
 }
 
 /* ---------- opbrengst per flow ---------- */
@@ -515,4 +699,8 @@ async function init() {
   applyMarket(currentMarket);
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  const close = document.querySelector("[data-fd-close]");
+  if (close) close.addEventListener("click", closeFlowDetail);
+  init();
+});
