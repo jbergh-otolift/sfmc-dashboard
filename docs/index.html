@@ -566,7 +566,7 @@
           <!-- Enrichment branch off No contact possible -->
           <div class="mf-branch">
             <div class="mf-branch-inner">
-              <div class="mf-branch-tag">Aftakking<span>nummerverrijking</span></div>
+              <div class="mf-branch-tag">Aftakking<span>nummerverrijking · unieke leads</span></div>
               <div class="mf-bstage">
                 <div class="mfb-name">Uit Mailjourney</div>
                 <div class="mfb-abs" data-bind="reactivation.enrichment.fromMailjourney" data-fmt="int">–</div>
@@ -581,7 +581,7 @@
               </div>
               <div class="mf-bstage">
                 <div class="mfb-name">Re-entered ·<br>Phone Number Changed</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.enriched" data-fmt="int">–</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.enrichedLeads" data-fmt="int">–</div>
               </div>
               <div class="mf-barrow rejoin">
                 <span class="mfba-ratio" data-bind="reactivation.enrichment.toAppointmentRatio" data-fmt="pct1nosign">–</span>
@@ -590,10 +590,10 @@
               <div class="mf-bstage rejoin">
                 <div class="mfb-name">Appointment</div>
                 <div class="mfb-abs" data-bind="reactivation.enrichment.toAppointment" data-fmt="int">–</div>
-              </div>
-              <div class="mf-barrow">
-                <span class="mfba-ratio" data-bind="reactivation.enrichment.backToNotReached" data-fmt="int">–</span>
-                <span class="mfba-lbl">terug naar<br>Not reached</span>
+                <div style="font-size:9px;color:var(--ink-soft);margin-top:3px;line-height:1.3">
+                  <span data-bind="reactivation.enrichment.toAppointmentDirect" data-fmt="int">–</span> direct ·
+                  <span data-bind="reactivation.enrichment.toAppointmentViaDetour" data-fmt="int">–</span> via omweg
+                </div>
               </div>
             </div>
           </div>

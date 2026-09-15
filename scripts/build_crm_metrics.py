@@ -79,6 +79,57 @@ def in_window(edit_date, start, end):
     return start <= day < end
 
 
+def enrichment_outcomes(rows, start, end):
+    """Wat gebeurde er met leads na een nummerverrijking?
+
+    Alleen de directe sprong Phone Number Changed -> Appointment tellen is te
+    streng: ruim een derde van de afspraken komt via een tussenstap binnen
+    (bijvoorbeeld via Not reached of Follow-up). De afspraak volgt daar wel
+    degelijk op de verrijking. We volgen daarom per lead de hele keten na het
+    moment van verrijken.
+    """
+    sel = sorted(
+        (r for r in rows if in_window(r["Edit Date"], start, end)),
+        key=lambda r: r["Edit Date"],
+    )
+    by_lead = defaultdict(list)
+    for row in sel:
+        by_lead[row["Lead ID"]].append(row)
+
+    enriched = 0
+    to_appointment = 0
+    to_appointment_direct = 0
+    still_open = 0
+
+    for steps in by_lead.values():
+        first = next(
+            (i for i, r in enumerate(steps) if (r["New Value"] or "").strip() == S_PHONE_CHANGED),
+            None,
+        )
+        if first is None:
+            continue
+        enriched += 1
+        after = steps[first + 1:]
+        hit = next(
+            (i for i, r in enumerate(after) if (r["New Value"] or "").strip() == S_APPOINTMENT),
+            None,
+        )
+        if hit is None:
+            still_open += 1
+            continue
+        to_appointment += 1
+        if hit == 0:
+            to_appointment_direct += 1
+
+    return {
+        "enrichedLeads": enriched,
+        "toAppointment": to_appointment,
+        "toAppointmentDirect": to_appointment_direct,
+        "toAppointmentViaDetour": to_appointment - to_appointment_direct,
+        "noAppointmentYet": still_open,
+    }
+
+
 def transitions(rows, start, end):
     """Statusovergangen binnen het venster, plus per-lead de eerste en laatste stap."""
     sel = [r for r in rows if in_window(r["Edit Date"], start, end)]
@@ -141,6 +192,7 @@ def compute(rows, start, end):
     """Alle uit LeadHistory afleidbare metrics voor één venster."""
     t = transitions(rows, start, end)
     pairs, to_status = t["pairs"], t["to_status"]
+    outcomes = enrichment_outcomes(rows, start, end)
 
     # --- Her-activatie funnel ---------------------------------------------
     # Instroom = alle leads die in dit venster een statusstap maken. De
@@ -188,9 +240,13 @@ def compute(rows, start, end):
             "enriched": phone_changed,
             # aandeel van de mailjourney-populatie dat verrijkt wordt
             "enrichRatio": ratio(phone_changed, mailjourney, minimum=BRANCH_MINIMUM),
-            "toAppointment": pairs[(S_PHONE_CHANGED, S_APPOINTMENT)],
+            # Elke route meetellen, niet alleen de directe sprong.
+            "toAppointment": outcomes["toAppointment"],
+            "toAppointmentDirect": outcomes["toAppointmentDirect"],
+            "toAppointmentViaDetour": outcomes["toAppointmentViaDetour"],
+            "enrichedLeads": outcomes["enrichedLeads"],
             "toAppointmentRatio": ratio(
-                pairs[(S_PHONE_CHANGED, S_APPOINTMENT)], phone_changed, minimum=BRANCH_MINIMUM),
+                outcomes["toAppointment"], outcomes["enrichedLeads"], minimum=BRANCH_MINIMUM),
             "backToNotReached": pairs[(S_PHONE_CHANGED, S_NOT_REACHED)],
             "backToMailjourney": pairs[(S_PHONE_CHANGED, S_MAILJOURNEY)],
             "toFollowUp": pairs[(S_PHONE_CHANGED, S_FOLLOWUP)],
