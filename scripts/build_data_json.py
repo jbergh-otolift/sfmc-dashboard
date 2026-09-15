@@ -57,6 +57,10 @@ MARKETS = {
 # Metrics waarvoor het dashboard een period-over-period delta toont.
 HEALTH_METRICS = ["delivery", "ctor", "ctr", "open", "unsub", "bounce", "spam", "sent"]
 
+# Absolute tellers van een mail; die mogen opgeteld worden bij het samenvoegen
+# van versies, percentages niet — die worden daarna opnieuw berekend.
+COUNTERS = ["sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs"]
+
 # Minimum aantal sends voordat een flow een eigen filterchip krijgt. Onder deze
 # drempel zijn de percentages ruis en zou het dashboard 56 chips tonen voor NL.
 MIN_SENT_FOR_CHIP = int(os.environ.get("MIN_SENT_FOR_CHIP", "50"))
@@ -113,8 +117,9 @@ def build_email_health(market_block, outcomes=None, goals=None, goal_defaults=No
             entry[metric] = flow.get(metric)
         # Volumes meenemen zodat het cijfer navolgbaar is in de devtools.
         for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces",
-                      "unsubs", "emails", "uniqueSubscribers", "emailBreakdown"):
+                      "unsubs", "emails", "uniqueSubscribers"):
             entry[extra] = flow.get(extra)
+        entry["emailBreakdown"] = merge_emails_by_name(flow.get("emailBreakdown"))
 
         # Opbrengst per journey: afspraak, conversie en omzet van de leads die
         # deze flow geraakt heeft.
@@ -136,6 +141,64 @@ def build_email_health(market_block, outcomes=None, goals=None, goal_defaults=No
         out[key] = entry
 
     return out or {"all": {"label": "Alle flows"}}
+
+
+def merge_emails_by_name(breakdown):
+    """Voegt rijen van dezelfde mail samen.
+
+    Een journey die meerdere versies heeft gekend, heeft per versie een eigen
+    TriggeredSendDefinition. Voor de techniek zijn dat losse objecten, maar
+    voor een lezer is het één mail — die drie keer 'Trapliftlane-thuisadvies-8'
+    in een lijst ziet staan denkt dat het dashboard stuk is. We tellen ze op en
+    rekenen de percentages opnieuw uit over het totaal.
+    """
+    if not breakdown:
+        return []
+
+    merged = {}
+    for email in breakdown:
+        key = email.get("name") or email.get("rawName") or email.get("tsdId")
+        target = merged.get(key)
+        if not target:
+            merged[key] = {
+                "name": email.get("name"),
+                "versions": 1,
+                "firstSend": email.get("firstSend"),
+                "lastSend": email.get("lastSend"),
+                **{k: (email.get(k) or 0) for k in COUNTERS},
+            }
+            continue
+        target["versions"] += 1
+        for field in COUNTERS:
+            target[field] += email.get(field) or 0
+        if email.get("firstSend") and (
+            not target["firstSend"] or email["firstSend"] < target["firstSend"]
+        ):
+            target["firstSend"] = email["firstSend"]
+        if email.get("lastSend") and (
+            not target["lastSend"] or email["lastSend"] > target["lastSend"]
+        ):
+            target["lastSend"] = email["lastSend"]
+
+    def pct(num, den):
+        return round(num / den * 100, 2) if den else None
+
+    out = []
+    for email in merged.values():
+        email["delivery"] = pct(email["delivered"], email["sent"])
+        email["open"] = pct(email["opens"], email["delivered"])
+        email["ctr"] = pct(email["clicks"], email["delivered"])
+        email["ctor"] = pct(email["clicks"], email["opens"])
+        email["unsub"] = pct(email["unsubs"], email["delivered"])
+        email["bounce"] = pct(email["bounces"], email["sent"])
+        out.append(email)
+
+    # Niet op verzenddatum sorteren: in een doorlopende flow valt de eerste
+    # verzending van elke mail samen met de start van het venster, waardoor de
+    # volgorde in de praktijk alfabetisch wordt en niets zegt. Op bereik
+    # sorteren laat wel iets zien — de mails bovenaan raken de meeste mensen.
+    out.sort(key=lambda e: -(e.get("sent") or 0))
+    return out
 
 
 def build_goal(outcome, goal_config, defaults):

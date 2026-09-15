@@ -421,13 +421,12 @@ function renderFlowDetail(flow) {
     name.className = "fd-mail-name";
     name.textContent = email.name || "(naamloos)";
     nameBox.appendChild(name);
-    if (email.firstSend) {
-      const date = document.createElement("div");
-      date.className = "fd-mail-date";
-      const d = new Date(email.firstSend);
-      date.textContent = "eerste verzending " +
-        d.toLocaleDateString("nl-NL", { day: "numeric", month: "short" });
-      nameBox.appendChild(date);
+    if (email.versions > 1) {
+      const note = document.createElement("div");
+      note.className = "fd-mail-date";
+      note.textContent =
+        email.versions + " versies van deze mail samengevoegd";
+      nameBox.appendChild(note);
     }
 
     const barWrap = document.createElement("div");

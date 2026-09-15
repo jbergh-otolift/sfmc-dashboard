@@ -143,6 +143,21 @@ class Auth:
         return self.token
 
 
+def strip_hex_suffix(value):
+    """Haalt de door SFMC aangeplakte ` - <32 hex>` van een naam af."""
+    if not isinstance(value, str):
+        return ""
+    text = value.strip()
+    parts = text.rsplit(" - ", 1)
+    if len(parts) == 2 and len(parts[1]) == 32:
+        try:
+            int(parts[1], 16)
+            return parts[0].strip()
+        except ValueError:
+            pass
+    return text
+
+
 def activity_prefix(value):
     """Normaliseert een activiteit-/TSD-naam tot de prefix voor de hex-suffix."""
     if not isinstance(value, str):
@@ -203,6 +218,9 @@ def fetch_journeys(session, auth):
     id_to_journey = {}
     email_to_journey = {}
     prefix_to_journey = {}
+    # TSD-sleutel -> naam van de e-mailactiviteit in de journey-definitie; die
+    # leest prettiger dan de (afgekapte) TSD-naam uit de SOAP-retrieve.
+    id_to_email_name = {}
     for status in (None, "Deleted"):
         # Verwijderde journeys staan niet in de standaardlijst maar hebben in het
         # venster wel gestuurd; die nemen we alleen mee voor de mapping.
@@ -222,19 +240,27 @@ def fetch_journeys(session, auth):
                 if activity.get("type") != "EMAILV2":
                     continue
                 args = activity.get("configurationArguments") or {}
+                # Sleutels van deze activiteit verzamelen voor de naam-map.
+                activity_keys = []
+                activity_name = strip_hex_suffix(activity.get("name"))
                 # Tier 1: `triggeredSendId` is de TSD die bij het draaien van deze
                 # versie echt gebruikt is; die staat in de tracking events.
                 runtime_id = args.get("triggeredSendId")
                 if isinstance(runtime_id, str) and runtime_id.strip():
                     id_to_journey.setdefault(runtime_id.strip().lower(), name)
+                    activity_keys.append(runtime_id.strip().lower())
                 ts = args.get("triggeredSend")
                 if not isinstance(ts, dict):
+                    for key in activity_keys:
+                        if activity_name:
+                            id_to_email_name.setdefault(key, activity_name)
                     continue
                 # Tier 1: de in de definitie geconfigureerde TSD ObjectID/CustomerKey.
                 for key in ("objectId", "objectID", "id", "key", "customerKey"):
                     value = ts.get(key)
                     if isinstance(value, str) and value.strip():
                         id_to_journey.setdefault(value.strip().lower(), name)
+                        activity_keys.append(value.strip().lower())
                 # Tier 2: emailId, later gebrugd via de TSD-retrieve.
                 email_id = ts.get("emailId")
                 if email_id is not None and str(email_id).strip():
@@ -244,13 +270,17 @@ def fetch_journeys(session, auth):
                     prefix = activity_prefix(value)
                     if prefix:
                         prefix_to_journey.setdefault(prefix, name)
+                label = activity_name or strip_hex_suffix(ts.get("name"))
+                if label:
+                    for key in activity_keys:
+                        id_to_email_name.setdefault(key, label)
 
     journeys = sorted(seen_journeys.values(), key=lambda j: (j["name"], j["id"] or ""))
     print(
         f"  journeys: {len(journeys)} (alle versies), tier1-sleutels: {len(id_to_journey)}, "
         f"emailId: {len(email_to_journey)}, naam-prefix: {len(prefix_to_journey)}"
     )
-    return journeys, id_to_journey, email_to_journey, prefix_to_journey
+    return journeys, id_to_journey, email_to_journey, prefix_to_journey, id_to_email_name
 
 
 def soap_retrieve(session, auth, obj, properties, start=None, end=None):
@@ -335,6 +365,7 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
     # Tier 1 staat los van de SOAP-retrieve: noemt een journey een ObjectID
     # direct, dan is dat genoeg, ook als de TSD niet meer retrievebaar is.
     tsd_map = {}
+    tsd_names = {}
     for key, name in id_to_journey.items():
         if len(key) == 36 and key.count("-") == 4:
             tsd_map[key] = (name, 1)
@@ -346,6 +377,8 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
         key = (row.get("CustomerKey") or "").strip()
         name = (row.get("Name") or "").strip()
         email_id = (row.get("Email.ID") or "").strip()
+        if name:
+            tsd_names[object_id] = name
 
         # Tier 1: de journey noemde deze TSD bij ObjectID of CustomerKey.
         if object_id in tsd_map:
@@ -369,7 +402,7 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
         tsd_map[object_id] = (label, 2)
         tiers[2] += 1
     print(f"  TSD-map: {len(rows)} definities -> {len(tsd_map)} gekoppeld (tier1={tiers[1]}, tier2={tiers[2]})")
-    return tsd_map
+    return tsd_map, tsd_names
 
 
 def flow_for(row, tsd_map, sendid_to_flow):
@@ -391,16 +424,114 @@ def rate(numerator, denominator):
     return round(numerator / denominator * 100, 2)
 
 
-def aggregate(events, tsd_map, window_label):
+def email_bucket():
+    return {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0,
+            "unsubs": 0, "first": "", "last": ""}
+
+
+def merge_email_bucket(target, source):
+    target["sent"] += source["sent"]
+    target["opens"] |= source["opens"]
+    target["clicks"] |= source["clicks"]
+    target["hard"] += source["hard"]
+    target["soft"] += source["soft"]
+    target["unsubs"] += source["unsubs"]
+    for field, pick in (("first", min), ("last", max)):
+        if source[field]:
+            target[field] = pick(target[field], source[field]) if target[field] else source[field]
+
+
+def fold_late_engagement(per_tsd, names):
+    """Vouwt TSD's zonder send in het venster samen met dezelfde e-mail die wel stuurde.
+
+    Opens en kliks op sends van voor het venster komen binnen op de TSD van de
+    journeyversie die toen draaide. Zonder samenvoegen levert dat lege regels op
+    en telt de breakdown meer e-mails dan er verstuurd zijn; de aantallen moeten
+    wel bewaard blijven, anders klopt de som met het journeytotaal niet meer.
+    """
+    target = {}
+    for tsd, entry in per_tsd.items():
+        if entry["sent"] <= 0:
+            continue
+        label = names.get(tsd, ("", ""))[0] or tsd
+        if label not in target or entry["sent"] > per_tsd[target[label]]["sent"]:
+            target[label] = tsd
+    folded = {}
+    for tsd, entry in per_tsd.items():
+        label = names.get(tsd, ("", ""))[0] or tsd
+        key = target.get(label, tsd) if entry["sent"] <= 0 else tsd
+        if key == tsd:
+            folded[tsd] = entry
+        else:
+            merge_email_bucket(folded.setdefault(key, email_bucket()), entry)
+    return folded
+
+
+def email_row(tsd, entry, names):
+    """Zet een per-TSD teller om in een regel van `emailBreakdown`."""
+    sent = entry["sent"]
+    delivered = max(sent - entry["hard"], 0)
+    opens = len(entry["opens"])
+    clicks = len(entry["clicks"])
+    # names: TSD -> (leesbare naam, ruwe TSD-naam)
+    label, raw = names.get(tsd, ("", ""))
+    return {
+        "name": label or raw or tsd or UNASSIGNED,
+        "rawName": raw,
+        "tsdId": tsd,
+        "sent": sent,
+        "delivered": delivered,
+        "opens": opens,
+        "clicks": clicks,
+        "bounces": entry["hard"],
+        "soft_bounces": entry["soft"],
+        "unsubs": entry["unsubs"],
+        "delivery": rate(delivered, sent),
+        "open": rate(opens, delivered),
+        "ctr": rate(clicks, delivered),
+        "ctor": rate(clicks, opens),
+        "unsub": rate(entry["unsubs"], delivered),
+        "bounce": rate(entry["hard"], sent),
+        "firstSend": entry["first"],
+        "lastSend": entry["last"],
+    }
+
+
+def check_breakdown(flow, totals, breakdown):
+    """Waarschuwt als de som van de e-mails niet gelijk is aan het journeytotaal."""
+    for field in ("sent", "delivered", "opens", "clicks", "bounces", "unsubs"):
+        summed = sum(row[field] for row in breakdown)
+        if summed != totals[field]:
+            warn(f"emailBreakdown telt niet op voor '{flow}': {field} {summed} != {totals[field]}")
+    # Alleen zinvol als de journey in het venster stuurde; anders bestaat de
+    # breakdown uit late opens/kliks op sends van ervoor.
+    sending = sum(1 for row in breakdown if row["sent"] > 0)
+    if totals["sent"] and sending != totals["emails"]:
+        warn(f"emailBreakdown voor '{flow}': {sending} e-mails met send, journey telt {totals['emails']}")
+
+
+def aggregate(events, tsd_map, window_label, tsd_names=None):
+    tsd_names = tsd_names or {}
     sendid_to_flow = {}
+    # SendID -> TSD, zodat een open/klik altijd bij dezelfde e-mail landt als de
+    # send; anders zou een (SubscriberKey, SendID)-paar over twee e-mails
+    # gesplitst kunnen worden en telt de breakdown niet op.
+    sendid_to_tsd = {}
     for row in events.get("SentEvent", []):
         send_id = (row.get("SendID") or "").strip()
         tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
-        if not send_id or send_id in sendid_to_flow or not tsd:
+        if not send_id or not tsd:
+            continue
+        sendid_to_tsd.setdefault(send_id, tsd)
+        if send_id in sendid_to_flow:
             continue
         hit = tsd_map.get(tsd)
         if hit:
             sendid_to_flow[send_id] = hit
+
+    def tsd_of(row):
+        send_id = (row.get("SendID") or "").strip()
+        return sendid_to_tsd.get(send_id) or (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
 
     counters = {}
     tier_sent = {1: 0, 2: 0, 3: 0}
@@ -410,8 +541,13 @@ def aggregate(events, tsd_map, window_label):
     def bucket(flow):
         return counters.setdefault(
             flow,
-            {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0, "tsds": set()},
+            {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0,
+             "tsds": set(), "subs": set(), "per_tsd": {}},
         )
+
+    def email_entry(flow, row):
+        entry = bucket(flow)
+        return entry["per_tsd"].setdefault(tsd_of(row), email_bucket())
 
     def label_of(row):
         return flow_for(row, tsd_map, sendid_to_flow)[0]
@@ -426,20 +562,37 @@ def aggregate(events, tsd_map, window_label):
         key = (row.get("SubscriberKey") or "").strip()
         if key:
             subscribers.add(key)
+            entry["subs"].add(key)
+        mail = email_entry(flow, row)
+        mail["sent"] += 1
+        day = (row.get("EventDate") or "")[:10]
+        if day:
+            mail["first"] = min(mail["first"], day) if mail["first"] else day
+            mail["last"] = max(mail["last"], day) if mail["last"] else day
     for row in events.get("OpenEvent", []):
-        bucket(label_of(row))["opens"].add((row.get("SubscriberKey", ""), row.get("SendID", "")))
+        flow = label_of(row)
+        pair = (row.get("SubscriberKey", ""), row.get("SendID", ""))
+        bucket(flow)["opens"].add(pair)
+        email_entry(flow, row)["opens"].add(pair)
     for row in events.get("ClickEvent", []):
-        bucket(label_of(row))["clicks"].add((row.get("SubscriberKey", ""), row.get("SendID", "")))
+        flow = label_of(row)
+        pair = (row.get("SubscriberKey", ""), row.get("SendID", ""))
+        bucket(flow)["clicks"].add(pair)
+        email_entry(flow, row)["clicks"].add(pair)
     for row in events.get("BounceEvent", []):
-        entry = bucket(label_of(row))
-        if "hard" in (row.get("BounceCategory") or "").lower():
-            entry["hard"] += 1
-        else:
-            entry["soft"] += 1
+        flow = label_of(row)
+        entry = bucket(flow)
+        mail = email_entry(flow, row)
+        field = "hard" if "hard" in (row.get("BounceCategory") or "").lower() else "soft"
+        entry[field] += 1
+        mail[field] += 1
     for row in events.get("UnsubEvent", []):
-        bucket(label_of(row))["unsubs"] += 1
+        flow = label_of(row)
+        bucket(flow)["unsubs"] += 1
+        email_entry(flow, row)["unsubs"] += 1
 
-    total = {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0, "tsds": set()}
+    total = {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0,
+             "tsds": set(), "subs": set(), "per_tsd": {}}
     for entry in counters.values():
         total["sent"] += entry["sent"]
         total["opens"] |= entry["opens"]
@@ -448,6 +601,9 @@ def aggregate(events, tsd_map, window_label):
         total["soft"] += entry["soft"]
         total["unsubs"] += entry["unsubs"]
         total["tsds"] |= entry["tsds"]
+        total["subs"] |= entry["subs"]
+        for tsd, mail in entry["per_tsd"].items():
+            merge_email_bucket(total["per_tsd"].setdefault(tsd, email_bucket()), mail)
 
     sent_total = total["sent"] or 1
     warn(
@@ -464,6 +620,11 @@ def aggregate(events, tsd_map, window_label):
         delivered = max(sent - hard, 0)
         opens = len(entry["opens"])
         clicks = len(entry["clicks"])
+        # Per e-mail (TriggeredSendDefinition) binnen deze journey, op volgorde
+        # van eerste send: dat is de volgorde van de stappen in de journey.
+        per_tsd = fold_late_engagement(entry["per_tsd"], tsd_names)
+        breakdown = [email_row(tsd, mail, tsd_names) for tsd, mail in per_tsd.items()]
+        breakdown.sort(key=lambda row: (row["firstSend"] or "9999", row["name"]))
         flows[flow] = {
             "label": "Alle flows" if flow == "all" else flow,
             "sent": sent,
@@ -483,7 +644,11 @@ def aggregate(events, tsd_map, window_label):
             "bounce": rate(hard, sent),
             # spam blijft null: ComplaintEvent wordt niet opgehaald, 0 zou misleiden.
             "spam": None,
+            # bereik: distinct SubscriberKeys met minstens een send in het venster
+            "uniqueSubscribers": len(entry["subs"]),
+            "emailBreakdown": breakdown,
         }
+        check_breakdown(flow, flows[flow], breakdown)
     leads = {k for k in subscribers if k.startswith("00Q")}
     contacts = {k for k in subscribers if k.startswith("003")}
     return flows, leads, {
@@ -497,10 +662,10 @@ def aggregate(events, tsd_map, window_label):
     }
 
 
-def run_window(session, auth, tsd_map, market, start, end):
+def run_window(session, auth, tsd_map, market, start, end, tsd_names=None):
     print(f"  venster {start} t/m {end} (exclusief)")
     events = retrieve_events(session, auth, f"{start}T00:00:00", f"{end}T00:00:00")
-    return aggregate(events, tsd_map, f"{market.upper()} {start}..{end}")
+    return aggregate(events, tsd_map, f"{market.upper()} {start}..{end}", tsd_names)
 
 
 def main():
@@ -533,9 +698,15 @@ def main():
         print(f"[{market}] MID {mid}")
         try:
             auth = Auth(session, subdomain, client_id, client_secret, mid)
-            journeys, id_to_journey, email_to_journey, prefix_to_journey = fetch_journeys(session, auth)
-            tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
-            flows, lead_ids, uniques = run_window(session, auth, tsd_map, market, period_start, period_end)
+            journeys, id_to_journey, email_to_journey, prefix_to_journey, id_to_email_name = fetch_journeys(session, auth)
+            tsd_map, raw_names = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
+            # De naam uit de journey-definitie gaat voor op de (afgekapte) TSD-naam.
+            tsd_names = {tsd: (strip_hex_suffix(name), name) for tsd, name in raw_names.items()}
+            for tsd, name in id_to_email_name.items():
+                if name:
+                    tsd_names[tsd] = (name, raw_names.get(tsd, ""))
+            flows, lead_ids, uniques = run_window(
+                session, auth, tsd_map, market, period_start, period_end, tsd_names)
 
             # Aparte, langere retrieve voor de coverage-teller. Alleen
             # SentEvent en alleen SubscriberKey, dus aanzienlijk lichter dan
@@ -571,7 +742,8 @@ def main():
                   f" in {COVERAGE_DAYS} dagen")
             prev_flows, prev_uniques = None, None
             if prev_period:
-                prev_flows, _, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
+                prev_flows, _, prev_uniques = run_window(
+                    session, auth, tsd_map, market, prev_start, prev_end, tsd_names)
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue
