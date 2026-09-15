@@ -384,11 +384,15 @@ function renderFlowMap(flow, structure) {
     ...(flow.emailBreakdown || []).map((e) => e.sent || 0),
     1
   );
+  // Beste en zwakste alleen bepalen over mails met genoeg volume. Anders
+  // wordt een testmail naar 16 mensen als "zwakste" bestempeld, wat niets
+  // over de flow zegt.
+  const MIN_FOR_FLAG = 100;
   const ctors = (flow.emailBreakdown || [])
-    .map((e) => e.ctor)
-    .filter((v) => typeof v === "number");
-  const best = ctors.length ? Math.max(...ctors) : null;
-  const worst = ctors.length ? Math.min(...ctors) : null;
+    .filter((e) => (e.sent || 0) >= MIN_FOR_FLAG && typeof e.ctor === "number")
+    .map((e) => e.ctor);
+  const best = ctors.length > 2 ? Math.max(...ctors) : null;
+  const worst = ctors.length > 2 ? Math.min(...ctors) : null;
 
   // Op diepte groeperen: alles op dezelfde diepte staat naast elkaar.
   const levels = new Map();
@@ -520,7 +524,8 @@ function renderFlowMap(flow, structure) {
       );
       card.appendChild(metrics);
 
-      if (ctors.length > 2 && typeof stats.ctor === "number" && best !== worst) {
+      if (best !== null && best !== worst && (stats.sent || 0) >= MIN_FOR_FLAG &&
+          typeof stats.ctor === "number") {
         if (stats.ctor === best) {
           card.classList.add("best");
           const flag = document.createElement("div");
@@ -587,9 +592,12 @@ function renderFlowDetail(flow) {
   // Eén tint voor alle balken: dit is één reeks, geen losse categorieën. De
   // balklengte is relatief aan de grootste mail in deze flow.
   const maxSent = Math.max(...emails.map((e) => e.sent || 0), 1);
-  const ctors = emails.map((e) => e.ctor).filter((v) => typeof v === "number");
-  const best = ctors.length ? Math.max(...ctors) : null;
-  const worst = ctors.length ? Math.min(...ctors) : null;
+  const MIN_FOR_FLAG = 100;
+  const ctors = emails
+    .filter((e) => (e.sent || 0) >= MIN_FOR_FLAG && typeof e.ctor === "number")
+    .map((e) => e.ctor);
+  const best = ctors.length > 2 ? Math.max(...ctors) : null;
+  const worst = ctors.length > 2 ? Math.min(...ctors) : null;
 
   const headerRow = document.createElement("div");
   headerRow.className = "fd-step head";
@@ -606,9 +614,10 @@ function renderFlowDetail(flow) {
     row.className = "fd-step";
     // Nadruk op de uitschieters in plaats van kleur per mail: bij 21 mails
     // zou een eigen tint per stap onleesbaar worden.
-    if (emails.length > 2 && typeof email.ctor === "number") {
-      if (email.ctor === worst && worst !== best) row.classList.add("weak");
-      if (email.ctor === best && worst !== best) row.classList.add("strong");
+    if (best !== null && best !== worst && (email.sent || 0) >= MIN_FOR_FLAG &&
+        typeof email.ctor === "number") {
+      if (email.ctor === worst) row.classList.add("weak");
+      if (email.ctor === best) row.classList.add("strong");
     }
 
     const num = document.createElement("div");

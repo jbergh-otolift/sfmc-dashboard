@@ -9,6 +9,10 @@ TriggeredSendDefinition teruggeleid naar de journey die de send deed. Per markt
 staat er ook `unique_subscribers` (distinct SubscriberKey over alle SentEvents in
 het venster, over journeys heen ontdubbeld) en `unique_subscribers_prev`.
 
+Onder `journeyStructures` staat per markt en per journey uit `flows` het
+stroomschema van de live versie (knopen + edges), zodat het dashboard de
+journey als diagram kan tekenen en de metrics eraan kan koppelen.
+
 Gebruik:
 
     PERIOD_START=2026-08-20 PERIOD_END=2026-09-09 python3 scripts/export_sfmc_tracking.py
@@ -281,6 +285,210 @@ def fetch_journeys(session, auth):
         f"emailId: {len(email_to_journey)}, naam-prefix: {len(prefix_to_journey)}"
     )
     return journeys, id_to_journey, email_to_journey, prefix_to_journey, id_to_email_name
+
+
+def structure_type(raw_type):
+    """Vertaalt het SFMC-activiteittype naar de vier types van het diagram."""
+    text = (raw_type or "").upper()
+    if text == "EMAILV2":
+        return "EMAILV2"
+    if text == "WAIT" or text.startswith("WAIT"):
+        return "WAIT"
+    if "DECISION" in text or "SPLIT" in text:
+        return "DECISION"
+    return "OTHER"
+
+
+def wait_days(args):
+    """Rekent waitDuration + waitUnit om naar dagen; None als het geen wacht is."""
+    duration = args.get("waitDuration")
+    if not isinstance(duration, (int, float)):
+        return None
+    unit = str(args.get("waitUnit") or "").upper()
+    factor = {"MINUTES": 1 / 1440, "HOURS": 1 / 24, "DAYS": 1, "WEEKS": 7}.get(unit)
+    if factor is None:
+        return None
+    days = duration * factor
+    return int(days) if float(days).is_integer() else round(days, 4)
+
+
+def activity_tsd_id(args):
+    """De TSD ObjectID van een e-mailactiviteit, zoals in `emailBreakdown`."""
+    runtime_id = args.get("triggeredSendId")
+    if isinstance(runtime_id, str) and runtime_id.strip():
+        return runtime_id.strip().lower()
+    ts = args.get("triggeredSend")
+    if isinstance(ts, dict):
+        for key in ("objectId", "objectID", "id"):
+            value = ts.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip().lower()
+    return None
+
+
+def build_structure(item, journey_name):
+    """Bouwt het knooppunt/edge-model van een journeyversie voor het diagram."""
+    activities = item.get("activities") or []
+    nodes = {}
+    order = []
+    for activity in activities:
+        key = activity.get("key")
+        if not isinstance(key, str) or not key:
+            continue
+        args = activity.get("configurationArguments") or {}
+        node_type = structure_type(activity.get("type"))
+        nxt = []
+        for outcome in activity.get("outcomes") or []:
+            target = outcome.get("next") if isinstance(outcome, dict) else None
+            if isinstance(target, str) and target.strip():
+                nxt.append(target.strip())
+        nodes[key] = {
+            "key": key,
+            "type": node_type,
+            "name": strip_hex_suffix(activity.get("name")) or key,
+            "tsdId": activity_tsd_id(args) if node_type == "EMAILV2" else None,
+            "waitDays": wait_days(args) if node_type == "WAIT" else None,
+            "next": nxt,
+            "depth": 0,
+        }
+        order.append(key)
+    if not nodes:
+        return None
+    # Edges die naar een niet-bestaande sleutel wijzen zijn geen edges.
+    for node in nodes.values():
+        node["next"] = [k for k in node["next"] if k in nodes]
+
+    incoming = {key: 0 for key in nodes}
+    for node in nodes.values():
+        for target in node["next"]:
+            incoming[target] += 1
+    roots = [key for key in order if incoming[key] == 0]
+
+    # Voorkeurssleutels uit de definitie: `defaults.entry` en de trigger-outcomes.
+    hints = []
+    defaults = item.get("defaults") or {}
+    if isinstance(defaults.get("entry"), str):
+        hints.append(defaults["entry"].strip())
+    for trigger in item.get("triggers") or []:
+        for outcome in trigger.get("outcomes") or []:
+            target = outcome.get("next") if isinstance(outcome, dict) else None
+            if isinstance(target, str) and target.strip():
+                hints.append(target.strip())
+    preferred = next((h for h in hints if h in nodes), None)
+
+    if not roots:
+        # Alles heeft inkomende edges: de journey begint in een lus.
+        entry = preferred or sorted(nodes)[0]
+        warn(f"journeystructuur '{journey_name}': geen startknoop zonder inkomende edge, '{entry}' gekozen")
+    elif len(roots) == 1:
+        entry = roots[0]
+    else:
+        entry = preferred if preferred in roots else sorted(roots)[0]
+        warn(f"journeystructuur '{journey_name}': {len(roots)} mogelijke startknopen ({', '.join(sorted(roots))}), '{entry}' gekozen")
+
+    # Bereikbaarheid vanaf de entry; niet-bereikbare knopen vallen af.
+    reachable = []
+    seen = {entry}
+    queue = [entry]
+    while queue:
+        key = queue.pop(0)
+        reachable.append(key)
+        for target in nodes[key]["next"]:
+            if target not in seen:
+                seen.add(target)
+                queue.append(target)
+    dropped = [key for key in order if key not in seen]
+    if dropped:
+        warn(f"journeystructuur '{journey_name}': {len(dropped)} knoop/knopen niet bereikbaar vanaf '{entry}', weggelaten ({', '.join(dropped)})")
+
+    # Kahn over het bereikbare deel: wat overblijft zit in een cyclus.
+    sub_in = {key: 0 for key in seen}
+    for key in seen:
+        for target in nodes[key]["next"]:
+            sub_in[target] += 1
+    depth = {key: 0 for key in seen}
+    ready = [key for key in seen if sub_in[key] == 0] or [entry]
+    resolved = set()
+    guard = 0
+    limit = len(seen) * len(seen) + len(seen) + 10
+    while ready and guard < limit:
+        guard += 1
+        key = ready.pop(0)
+        if key in resolved:
+            continue
+        resolved.add(key)
+        for target in nodes[key]["next"]:
+            depth[target] = max(depth[target], depth[key] + 1)
+            sub_in[target] -= 1
+            if sub_in[target] <= 0 and target not in resolved:
+                ready.append(target)
+    leftover = [key for key in reachable if key not in resolved]
+    if leftover:
+        # Cyclus: diepte van de rest via BFS-niveaus, zodat we niet blijven hangen.
+        warn(f"journeystructuur '{journey_name}': cyclus gevonden over {len(leftover)} knoop/knopen ({', '.join(leftover[:6])})")
+        queue = [k for k in reachable if k in resolved] or [entry]
+        seen_bfs = set(queue)
+        steps = 0
+        while queue and steps < limit:
+            steps += 1
+            key = queue.pop(0)
+            for target in nodes[key]["next"]:
+                if target in seen_bfs:
+                    continue
+                seen_bfs.add(target)
+                depth[target] = depth[key] + 1
+                queue.append(target)
+    depth[entry] = 0
+
+    out_nodes = []
+    for key in sorted(reachable, key=lambda k: (depth[k], order.index(k))):
+        node = nodes[key]
+        node["depth"] = depth[key]
+        out_nodes.append(node)
+    return {"entry": entry, "nodes": out_nodes}
+
+
+def fetch_journey_structures(session, auth, journeys, flow_names):
+    """Haalt per journey in `flows` de live versie op (`extras=all`) voor het diagram.
+
+    De lijst-endpoint wordt met `extras=activities` opgehaald en levert dus geen
+    `outcomes`; zonder edges valt er geen diagram te tekenen. Daarom per journey
+    een losse GET, alleen voor de journeys die ook echt in de flows voorkomen.
+    """
+    base = f"{auth.rest_url.rstrip('/')}/interaction/v1/interactions"
+    structures = {}
+    for journey in journeys:
+        name = journey.get("name")
+        journey_id = journey.get("id")
+        if not name or not journey_id or name not in flow_names or name in structures:
+            continue
+        try:
+            resp = session.get(
+                base + f"/{journey_id}",
+                headers={"Authorization": f"Bearer {auth.valid_token()}"},
+                params={"extras": "all"},
+                timeout=120,
+            )
+            if resp.status_code == 401:
+                auth.refresh()
+                resp = session.get(
+                    base + f"/{journey_id}",
+                    headers={"Authorization": f"Bearer {auth.valid_token()}"},
+                    params={"extras": "all"},
+                    timeout=120,
+                )
+            resp.raise_for_status()
+            item = resp.json()
+        except Exception as exc:
+            warn(f"journeystructuur '{name}' niet opgehaald: {exc}")
+            continue
+        structure = build_structure(item, name)
+        if structure is None:
+            warn(f"journeystructuur '{name}': versie {item.get('version')} heeft geen activiteiten")
+            continue
+        structures[name] = structure
+    print(f"  journeystructuren: {len(structures)} van {len(flow_names)} flows")
+    return structures
 
 
 def soap_retrieve(session, auth, obj, properties, start=None, end=None):
@@ -682,6 +890,7 @@ def main():
     session = make_session()
     markets = {}
     journeys_out = {}
+    structures_out = {}
     reached_lead_ids = {}
 
     for market in MARKETS:
@@ -707,6 +916,11 @@ def main():
                     tsd_names[tsd] = (name, raw_names.get(tsd, ""))
             flows, lead_ids, uniques = run_window(
                 session, auth, tsd_map, market, period_start, period_end, tsd_names)
+
+            # Structuur (het stroomschema) van de journeys die ook in `flows`
+            # staan, zodat het dashboard metrics aan het diagram kan koppelen.
+            structures = fetch_journey_structures(
+                session, auth, journeys, {f for f in flows if f not in ("all", UNASSIGNED)})
 
             # Aparte, langere retrieve voor de coverage-teller. Alleen
             # SentEvent en alleen SubscriberKey, dus aanzienlijk lichter dan
@@ -749,6 +963,7 @@ def main():
             continue
 
         journeys_out[market] = journeys
+        structures_out[market] = structures
         markets[market] = {
             "flows": flows,
             "prev_flows": prev_flows,
@@ -764,6 +979,8 @@ def main():
         "prev_period": prev_period,
         "markets": markets,
         "journeys": journeys_out,
+        # stroomschema per journey (knopen + edges) voor de diagramweergave
+        "journeyStructures": structures_out,
         "warnings": WARNINGS,
     }
 

@@ -1,5 +1,1977 @@
 {
-  "generated_at": "2026-09-15T13:29:34Z",
+  "generated_at": "2026-09-15T13:43:44Z",
+  "journeyStructures": {
+    "be": {
+      "BE - New Lead - VL - WA": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - WA - New Lead",
+            "next": [],
+            "tsdId": "854b5573-8d65-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "BE - VL - New Lead",
+            "next": [],
+            "tsdId": "814b5573-8d65-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "BE - Reviews": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "ABNTEST-1",
+              "ABNTEST-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "ABNTEST-3",
+            "name": "Test dubbel enkel",
+            "next": [
+              "EMAILV2-5",
+              "EMAILV2-6"
+            ],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "ABNTEST-1",
+            "name": "Test platform",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-6",
+            "name": "BE - WA - review - Trustpilot",
+            "next": [
+              "ABNTESTSTOP-3"
+            ],
+            "tsdId": "ea80efcc-f98f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-5",
+            "name": "BE - WA - review - Google",
+            "next": [
+              "ABNTESTSTOP-3"
+            ],
+            "tsdId": "e680efcc-f98f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-2",
+            "name": "BE - VL - review - Google",
+            "next": [
+              "ABNTESTSTOP-1"
+            ],
+            "tsdId": "df80efcc-f98f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-3",
+            "name": "BE - VL - review - Trustpilot",
+            "next": [
+              "ABNTESTSTOP-1"
+            ],
+            "tsdId": "e980efcc-f98f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "ABNTESTSTOP-3",
+            "name": "ABNTESTSTOP-3",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "ABNTESTSTOP-1",
+            "name": "ABNTESTSTOP-1",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          }
+        ]
+      },
+      "BE - VL - WA -  No contact possible": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - WA - Geen contact mogelijk - 1",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "9b03bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "BE - VL - Geen contact mogelijk - 1",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "a003bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-2",
+            "name": "4 days",
+            "next": [
+              "ENGAGEMENTSPLITV2-3"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-1",
+            "name": "4 days",
+            "next": [
+              "ENGAGEMENTSPLITV2-4"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 3,
+            "key": "ENGAGEMENTSPLITV2-4",
+            "name": "Open BE - VL - Geen contact mogelijk - 1",
+            "next": [
+              "EMAILV2-7",
+              "EMAILV2-5"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "ENGAGEMENTSPLITV2-3",
+            "name": "Open BE - WA - Geen contact mogelijk - 1",
+            "next": [
+              "EMAILV2-8",
+              "EMAILV2-6"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-5",
+            "name": "BE - VL - Geen contact mogelijk - 1",
+            "next": [
+              "WAITBYDURATION-5"
+            ],
+            "tsdId": "2d04bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-6",
+            "name": "BE - WA - Geen contact mogelijk - 1",
+            "next": [
+              "WAITBYDURATION-4"
+            ],
+            "tsdId": "3804bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-5",
+            "name": "4 days",
+            "next": [
+              "EMAILV2-7"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-4",
+            "name": "4 days",
+            "next": [
+              "EMAILV2-8"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 6,
+            "key": "EMAILV2-8",
+            "name": "BE - WA - Geen contact mogelijk - situatieschets - 2",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "5f04bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 6,
+            "key": "EMAILV2-7",
+            "name": "BE - VL - Geen contact mogelijk - situatieschets - 2",
+            "next": [
+              "WAITBYDURATION-6"
+            ],
+            "tsdId": "6804bb3f-9d86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-3",
+            "name": "1 week",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-6",
+            "name": "1 week",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          }
+        ]
+      },
+      "BE - VL - WA - 1x Geen Gehoor": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "BE - VL - 1x geen gehoor",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "e3b24448-fe75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - WA - 1 x geen gehoor",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "48b34448-fe75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-1",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-2",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          }
+        ]
+      },
+      "BE - VL -WA - Reentered Lead": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "BE - VL - Re-entered lead",
+            "next": [],
+            "tsdId": "786431ed-8d65-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - WA - Re-entered lead",
+            "next": [],
+            "tsdId": "7a6431ed-8d65-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "BE - VL WA - Orderbevestiging": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - WA - orderbevestiging",
+            "next": [],
+            "tsdId": "e5a588c1-989c-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "BE - VL - Orderbevestiging",
+            "next": [],
+            "tsdId": "e4a588c1-989c-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "BE - referentiemailing eenmalig": {
+        "entry": "MULTICRITERIADECISIONV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "BE - VL - referentiemail",
+            "next": [],
+            "tsdId": "99a681f6-79ab-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-3",
+            "name": "BE - WA - referentie mail",
+            "next": [],
+            "tsdId": "9aa681f6-79ab-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      }
+    },
+    "nl": {
+      "NL - 1x Geen gehoor ": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - 1 x Geen gehoor V2",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "25dd75f8-0663-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "WAITBYDURATION-1",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          }
+        ]
+      },
+      "NL - Afspraakherinnering adviseur 2025": {
+        "entry": "WAITBYDURATION-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "WAITBYDURATION-1",
+            "name": "15 minutes",
+            "next": [
+              "EMAILV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0104
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "NL - Afspraakherinnering Adviseur",
+            "next": [],
+            "tsdId": "2b430615-1016-f111-ba68-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "NL - Confirmation Service Appointment": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - Bevestiging service afspraak - Instant",
+            "next": [],
+            "tsdId": "80d2a041-df5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "NL - Financieel niet haalbaar": {
+        "entry": "WAITBYDURATION-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "WAITBYDURATION-1",
+            "name": "2 days",
+            "next": [
+              "EMAILV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 2
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "NL - Financieel niet haalbaar - mail 1",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "d8c20706-8aa0-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-2",
+            "name": "3 days",
+            "next": [
+              "ENGAGEMENTSPLITV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 3,
+            "key": "ENGAGEMENTSPLITV2-1",
+            "name": "Open NL - Financieel niet haalbaar - mail 1",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-3",
+            "name": "NL - Financieel niet haalbaar - mail 1",
+            "next": [
+              "WAITBYDURATION-4"
+            ],
+            "tsdId": "dac20706-8aa0-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-4",
+            "name": "3 days",
+            "next": [
+              "ENGAGEMENTSPLITV2-2"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 6,
+            "key": "ENGAGEMENTSPLITV2-2",
+            "name": "Open NL - Financieel niet haalbaar - mail 1",
+            "next": [
+              "EMAILV2-2",
+              "SALESCLOUDACTIVITY-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "EMAILV2-2",
+            "name": "NL - Financieel niet haalbaar - mail 2",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "dbc20706-8aa0-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "SALESCLOUDACTIVITY-1",
+            "name": "Lost - geen interactie",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 8,
+            "key": "WAITBYDURATION-3",
+            "name": "3 days",
+            "next": [
+              "EMAILV2-4"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 9,
+            "key": "EMAILV2-4",
+            "name": "NL - Financieel niet haalbaar - mail 3",
+            "next": [
+              "WAITBYDURATION-5"
+            ],
+            "tsdId": "dcc20706-8aa0-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 10,
+            "key": "WAITBYDURATION-5",
+            "name": "3 days",
+            "next": [
+              "EMAILV2-5"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 11,
+            "key": "EMAILV2-5",
+            "name": "NL - Financieel niet haalbaar - mail 4",
+            "next": [
+              "WAITBYDURATION-6"
+            ],
+            "tsdId": "ddc20706-8aa0-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 12,
+            "key": "WAITBYDURATION-6",
+            "name": "1 week",
+            "next": [
+              "SALESCLOUDACTIVITY-4"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 13,
+            "key": "SALESCLOUDACTIVITY-4",
+            "name": "Start orienterend",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          }
+        ]
+      },
+      "NL - New Lead Journey ": {
+        "entry": "MULTICRITERIADECISIONV2-5",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-5",
+            "name": "MULTICRITERIADECISIONV2-5",
+            "next": [
+              "EMAILV2-3",
+              "MULTICRITERIADECISIONV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-3",
+            "name": "NL - Bamboo Aanvraag new",
+            "next": [],
+            "tsdId": "3a674fe8-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-4",
+              "EMAILV2-5",
+              "EMAILV2-6",
+              "EMAILV2-7",
+              "EMAILV2-8",
+              "EMAILV2-9",
+              "EMAILV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-4",
+            "name": "NL - New lead Prijs",
+            "next": [],
+            "tsdId": "926048ee-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-2",
+            "name": "NL - New Lead Thuisadvies",
+            "next": [
+              "WAITBYDURATION-7"
+            ],
+            "tsdId": "fc684fe8-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-6",
+            "name": "NL - New lead Gemeente",
+            "next": [],
+            "tsdId": "56694fe8-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-7",
+            "name": "NL - New Lead Brochure,infopakket",
+            "next": [],
+            "tsdId": "996048ee-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-5",
+            "name": "NL - New lead terugbelverzoek",
+            "next": [],
+            "tsdId": "55694fe8-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-9",
+            "name": "NL - New Lead Offerte",
+            "next": [],
+            "tsdId": "956048ee-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-8",
+            "name": "NL - New lead trapcheck",
+            "next": [],
+            "tsdId": "916048ee-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-1",
+            "name": "NL - New Lead Entry",
+            "next": [],
+            "tsdId": "986048ee-6245-f111-ba6c-f40343e86f58",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "WAITBYDURATION-7",
+            "name": "1 minute",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0007
+          }
+        ]
+      },
+      "NL - New Lead Journey V2": {
+        "entry": "MULTICRITERIADECISIONV2-5",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-5",
+            "name": "MULTICRITERIADECISIONV2-5",
+            "next": [
+              "EMAILV2-3",
+              "MULTICRITERIADECISIONV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-4",
+              "EMAILV2-5",
+              "EMAILV2-6",
+              "EMAILV2-7",
+              "EMAILV2-8",
+              "EMAILV2-9",
+              "EMAILV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-3",
+            "name": "NL - Bamboo Aanvraag new",
+            "next": [],
+            "tsdId": "c8d181c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-8",
+            "name": "NL - New lead trapcheck",
+            "next": [],
+            "tsdId": "4bd281c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-1",
+            "name": "NL - New Lead Entry",
+            "next": [],
+            "tsdId": "4cd281c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-7",
+            "name": "NL - New Lead Brochure,infopakket",
+            "next": [],
+            "tsdId": "e4d181c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-5",
+            "name": "NL - New lead terugbelverzoek",
+            "next": [],
+            "tsdId": "e5d181c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-2",
+            "name": "NL - New Lead Thuisadvies",
+            "next": [
+              "WAITBYDURATION-7"
+            ],
+            "tsdId": "4dd281c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-9",
+            "name": "NL - New Lead Offerte",
+            "next": [],
+            "tsdId": "4ed281c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-6",
+            "name": "NL - New lead Gemeente",
+            "next": [],
+            "tsdId": "4ad281c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-4",
+            "name": "NL - New lead Prijs",
+            "next": [],
+            "tsdId": "e3d181c0-d059-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "WAITBYDURATION-7",
+            "name": "1 minute",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0007
+          }
+        ]
+      },
+      "NL - Nurturelane Stairlift Q2 2026": {
+        "entry": "MULTICRITERIADECISIONV2-2",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-2",
+            "name": "MULTICRITERIADECISIONV2-2",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "NL - bevestigingsmail testform",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "e19f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "NL - Bevestigingsmail valpreventie",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "e29f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-3",
+            "name": "NL - bevestigingsmail checklist",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "e39f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-1",
+            "name": "3 days",
+            "next": [
+              "EMAILV2-4"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 3,
+            "key": "EMAILV2-4",
+            "name": "NL - nurturemail 1",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "e49f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "WAITBYDURATION-3",
+            "name": "7 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-4"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 5,
+            "key": "MULTICRITERIADECISIONV2-4",
+            "name": "MULTICRITERIADECISIONV2-4",
+            "next": [
+              "EMAILV2-5",
+              "EMAILV2-8"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 6,
+            "key": "EMAILV2-8",
+            "name": "NL - Nurturemail 2",
+            "next": [
+              "WAITBYDURATION-5"
+            ],
+            "tsdId": "e59f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-5",
+            "name": "14 days",
+            "next": [
+              "EMAILV2-10"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 14
+          },
+          {
+            "depth": 8,
+            "key": "EMAILV2-10",
+            "name": "NL - Nurturemail 3 test",
+            "next": [
+              "WAITBYDURATION-6"
+            ],
+            "tsdId": "e69f4754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 9,
+            "key": "WAITBYDURATION-6",
+            "name": "14 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-5"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 14
+          },
+          {
+            "depth": 10,
+            "key": "MULTICRITERIADECISIONV2-5",
+            "name": "MULTICRITERIADECISIONV2-5",
+            "next": [
+              "EMAILV2-5",
+              "EMAILV2-11"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 11,
+            "key": "EMAILV2-11",
+            "name": "NL - nurturemail 4",
+            "next": [
+              "WAITBYDURATION-7"
+            ],
+            "tsdId": "4ba04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 12,
+            "key": "WAITBYDURATION-7",
+            "name": "14 days",
+            "next": [
+              "EMAILV2-9"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 14
+          },
+          {
+            "depth": 13,
+            "key": "EMAILV2-9",
+            "name": "NL - Nurturemail 5",
+            "next": [
+              "WAITBYDURATION-8"
+            ],
+            "tsdId": "4da04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 14,
+            "key": "WAITBYDURATION-8",
+            "name": "14 days",
+            "next": [
+              "EMAILV2-5"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 14
+          },
+          {
+            "depth": 15,
+            "key": "EMAILV2-5",
+            "name": "Nl - Trapliftlane klantverhaal 1",
+            "next": [
+              "WAITBYDURATION-10"
+            ],
+            "tsdId": "b5a04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 16,
+            "key": "WAITBYDURATION-10",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-6"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 17,
+            "key": "EMAILV2-6",
+            "name": "NL - Trapliftlane-uitleg-2",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "b6a04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 18,
+            "key": "WAITBYDURATION-2",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-7"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 19,
+            "key": "EMAILV2-7",
+            "name": "NL - Trapliftlane-verbouwenverhuizen-3",
+            "next": [
+              "WAITBYDURATION-9"
+            ],
+            "tsdId": "b8a04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 20,
+            "key": "WAITBYDURATION-9",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-13"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 21,
+            "key": "EMAILV2-13",
+            "name": "NL - Trapliftlane-interieur-4",
+            "next": [
+              "WAITBYDURATION-11"
+            ],
+            "tsdId": "b9a04754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 22,
+            "key": "WAITBYDURATION-11",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-12"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 23,
+            "key": "EMAILV2-12",
+            "name": "NL - Trapliftlane-trapcheck-5",
+            "next": [
+              "WAITBYDURATION-12"
+            ],
+            "tsdId": "1ea14754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 24,
+            "key": "WAITBYDURATION-12",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-14"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 25,
+            "key": "EMAILV2-14",
+            "name": "NL- Trapliftlane-klantverhaal-6",
+            "next": [
+              "WAITBYDURATION-13"
+            ],
+            "tsdId": "4ea24754-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 26,
+            "key": "WAITBYDURATION-13",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-15"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 27,
+            "key": "EMAILV2-15",
+            "name": "NL - Trapliftlane-showroom-7",
+            "next": [
+              "WAITBYDURATION-14"
+            ],
+            "tsdId": "eaeb4b5a-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 28,
+            "key": "WAITBYDURATION-14",
+            "name": "7 days",
+            "next": [
+              "EMAILV2-16"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 29,
+            "key": "EMAILV2-16",
+            "name": "NL - Trapliftlane-thuisadvies-8",
+            "next": [
+              "WAITBYDURATION-15"
+            ],
+            "tsdId": "4fec4b5a-8f52-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 30,
+            "key": "WAITBYDURATION-15",
+            "name": "3 days",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          }
+        ]
+      },
+      "NL - Offerte journey": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - Offerteflow - mail 1 reminder",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "b54e7b26-ff75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "WAITBYDURATION-3",
+            "name": "14 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 14
+          },
+          {
+            "depth": 2,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "RANDOMSPLITV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "RANDOMSPLITV2-1",
+            "name": "RANDOMSPLITV2-1",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-3",
+            "name": "NL - Offerteflow - mail 2 - korting",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "1b4f7b26-ff75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-2",
+            "name": "NL - Offerteflow - mail 2 - zorgpakket",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "1a4f7b26-ff75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-1",
+            "name": "15 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-3"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 15
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-2",
+            "name": "15 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-2"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 15
+          },
+          {
+            "depth": 6,
+            "key": "MULTICRITERIADECISIONV2-2",
+            "name": "MULTICRITERIADECISIONV2-2",
+            "next": [
+              "EMAILV2-4",
+              "WAITBYDURATION-5"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 6,
+            "key": "MULTICRITERIADECISIONV2-3",
+            "name": "MULTICRITERIADECISIONV2-3",
+            "next": [
+              "EMAILV2-6",
+              "WAITBYDURATION-8"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "EMAILV2-6",
+            "name": "NL - Offerteflow - mail 3 - zorgpakket reminder",
+            "next": [
+              "WAITBYDURATION-4"
+            ],
+            "tsdId": "1c4f7b26-ff75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-8",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-5",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          },
+          {
+            "depth": 7,
+            "key": "EMAILV2-4",
+            "name": "NL - Offerteflow - mail 2 - korting",
+            "next": [
+              "WAITBYDURATION-6"
+            ],
+            "tsdId": "1d4f7b26-ff75-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 8,
+            "key": "WAITBYDURATION-6",
+            "name": "4 days",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 8,
+            "key": "WAITBYDURATION-4",
+            "name": "4 days",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          }
+        ]
+      },
+      "NL - Reentered Lead": {
+        "entry": "MULTICRITERIADECISIONV2-4",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "MULTICRITERIADECISIONV2-4",
+            "name": "MULTICRITERIADECISIONV2-4",
+            "next": [
+              "EMAILV2-2",
+              "MULTICRITERIADECISIONV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "NL - Reentered Lead Bamboo",
+            "next": [],
+            "tsdId": "a8cb7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-1",
+              "EMAILV2-3",
+              "EMAILV2-8",
+              "EMAILV2-5",
+              "EMAILV2-6",
+              "EMAILV2-7",
+              "EMAILV2-4",
+              "EMAILV2-9"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-4",
+            "name": "NL - Reentered Lead Offerte",
+            "next": [],
+            "tsdId": "7bcc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-9",
+            "name": "NL - Reentered Lead algemeen",
+            "next": [],
+            "tsdId": "7acc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-1",
+            "name": "NL - Reentered Lead Thuisadvies",
+            "next": [],
+            "tsdId": "e6cc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-6",
+            "name": "NL - Reentered lead Brochure,infopakket",
+            "next": [],
+            "tsdId": "e7cc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-8",
+            "name": "NL - Reentered Lead Terugbelverzoek",
+            "next": [],
+            "tsdId": "13cc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-3",
+            "name": "NL - Reentered lead Prijs",
+            "next": [],
+            "tsdId": "e4cc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-7",
+            "name": "NL - Reentered Lead Trapcheck",
+            "next": [],
+            "tsdId": "7fcc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "EMAILV2-5",
+            "name": "NL - Reentered Lead Gemeente",
+            "next": [],
+            "tsdId": "7ecc7ba1-1d5f-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "NL - Reviews ": {
+        "entry": "ABNTEST-3",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "ABNTEST-3",
+            "name": "Engagement test",
+            "next": [
+              "EMAILV2-2",
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-2",
+            "name": "NL - Review - Google",
+            "next": [
+              "ABNTESTSTOP-3"
+            ],
+            "tsdId": "ff65336a-b189-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-3",
+            "name": "NL - Review - Trustpilot",
+            "next": [
+              "ABNTESTSTOP-3"
+            ],
+            "tsdId": "fe65336a-b189-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "ABNTESTSTOP-3",
+            "name": "ABNTESTSTOP-3",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "WAITBYDURATION-1",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          }
+        ]
+      },
+      "NL - Service Appointment - Self Service Confirmation": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - Wijziging service afspraak - Instant",
+            "next": [
+              "SALESCLOUDACTIVITY-1"
+            ],
+            "tsdId": "0d6888ce-cb01-f111-ba68-f40343e7eec8",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "SALESCLOUDACTIVITY-1",
+            "name": "Update Customer Self Scheduled - Confirmation",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          }
+        ]
+      },
+      "NL-Nurture - no contact possible V3": {
+        "entry": "WAITBYDURATION-6",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "WAITBYDURATION-6",
+            "name": "2 hours",
+            "next": [
+              "EMAILV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0833
+          },
+          {
+            "depth": 1,
+            "key": "EMAILV2-1",
+            "name": "NL -  No contact possible - Contactvraag",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "ca2e6b59-8c86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 2,
+            "key": "WAITBYDURATION-1",
+            "name": "4 days",
+            "next": [
+              "ENGAGEMENTSPLITV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 3,
+            "key": "ENGAGEMENTSPLITV2-1",
+            "name": "Open NL -  No contact possible - Contactvraag",
+            "next": [
+              "WAITBYDURATION-2",
+              "EMAILV2-4"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-4",
+            "name": "NL -  No contact possible - Contactvraag",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "322f6b59-8c86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "WAITBYDURATION-2",
+            "name": "3 days",
+            "next": [
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 5,
+            "key": "WAITBYDURATION-3",
+            "name": "1 week",
+            "next": [
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          },
+          {
+            "depth": 6,
+            "key": "EMAILV2-3",
+            "name": "NL - No contact possible Situatie uitvraag",
+            "next": [
+              "WAITBYDURATION-4"
+            ],
+            "tsdId": "992f6b59-8c86-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "WAITBYDURATION-4",
+            "name": "1 week",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 7
+          }
+        ]
+      },
+      "Nurture Lane - NL - MVP - test": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "Nurture lane - Mail 1",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "d350d212-d022-f111-ba68-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "WAITBYDURATION-1",
+            "name": "3 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-1"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 3
+          },
+          {
+            "depth": 2,
+            "key": "MULTICRITERIADECISIONV2-1",
+            "name": "MULTICRITERIADECISIONV2-1",
+            "next": [
+              "EMAILV2-3"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 3,
+            "key": "EMAILV2-3",
+            "name": "Nurture lane - Mail 2",
+            "next": [
+              "WAITBYDURATION-2"
+            ],
+            "tsdId": "d550d212-d022-f111-ba68-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "WAITBYDURATION-2",
+            "name": "4 days",
+            "next": [
+              "MULTICRITERIADECISIONV2-2"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 4
+          },
+          {
+            "depth": 5,
+            "key": "MULTICRITERIADECISIONV2-2",
+            "name": "MULTICRITERIADECISIONV2-2",
+            "next": [
+              "RANDOMSPLITV2-1"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 6,
+            "key": "RANDOMSPLITV2-1",
+            "name": "RANDOMSPLITV2-1",
+            "next": [
+              "EMAILV2-4",
+              "EMAILV2-5"
+            ],
+            "tsdId": null,
+            "type": "DECISION",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "EMAILV2-4",
+            "name": "Nurture lane - Mail 3A",
+            "next": [
+              "WAITBYDURATION-3"
+            ],
+            "tsdId": "3c51d212-d022-f111-ba68-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 7,
+            "key": "EMAILV2-5",
+            "name": "Nurture lane - Mail 3B",
+            "next": [
+              "WAITBYDURATION-4"
+            ],
+            "tsdId": "3b51d212-d022-f111-ba68-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 8,
+            "key": "WAITBYDURATION-3",
+            "name": "1 hour",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0417
+          },
+          {
+            "depth": 8,
+            "key": "WAITBYDURATION-4",
+            "name": "1 hour",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 0.0417
+          }
+        ]
+      },
+      "Orderbevestiging ": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - Orderbevestiging",
+            "next": [],
+            "tsdId": "3cd98867-df81-f111-ba6a-f40343e7f768",
+            "type": "EMAILV2",
+            "waitDays": null
+          }
+        ]
+      },
+      "TEST NL - 1x Geen gehoor  ": {
+        "entry": "EMAILV2-1",
+        "nodes": [
+          {
+            "depth": 0,
+            "key": "EMAILV2-1",
+            "name": "NL - 1 x Geen gehoor V2",
+            "next": [
+              "WAITBYDURATION-1"
+            ],
+            "tsdId": "43cb29f3-4599-f011-ba68-f40343e7eec8",
+            "type": "EMAILV2",
+            "waitDays": null
+          },
+          {
+            "depth": 1,
+            "key": "WAITBYDURATION-1",
+            "name": "1 day",
+            "next": [],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": null
+          }
+        ]
+      }
+    }
+  },
   "journeys": {
     "be": [
       {
@@ -2316,29 +4288,29 @@
     "nl": {
       "flows": {
         "NL - 1x Geen gehoor ": {
-          "bounce": 2.12,
+          "bounce": 2.11,
           "bounces": 9,
           "clicks": 29,
-          "ctor": 9.35,
-          "ctr": 6.97,
-          "delivered": 416,
-          "delivery": 97.88,
+          "ctor": 9.32,
+          "ctr": 6.95,
+          "delivered": 417,
+          "delivery": 97.89,
           "emailBreakdown": [
             {
-              "bounce": 2.12,
+              "bounce": 2.11,
               "bounces": 9,
               "clicks": 29,
-              "ctor": 9.35,
-              "ctr": 6.97,
-              "delivered": 416,
-              "delivery": 97.88,
+              "ctor": 9.32,
+              "ctr": 6.95,
+              "delivered": 417,
+              "delivery": 97.89,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - 1 x Geen gehoor V2",
-              "open": 74.52,
-              "opens": 310,
+              "open": 74.58,
+              "opens": 311,
               "rawName": "NL - 1 x Geen gehoor V2 - e3c1906e11684304be586b6ff98e8d2e",
-              "sent": 425,
+              "sent": 426,
               "soft_bounces": 4,
               "tsdId": "25dd75f8-0663-f111-ba6a-f40343e7f768",
               "unsub": 0.48,
@@ -2347,12 +4319,12 @@
           ],
           "emails": 1,
           "label": "NL - 1x Geen gehoor ",
-          "open": 74.52,
-          "opens": 310,
-          "sent": 425,
+          "open": 74.58,
+          "opens": 311,
+          "sent": 426,
           "soft_bounces": 4,
           "spam": null,
-          "uniqueSubscribers": 425,
+          "uniqueSubscribers": 426,
           "unsub": 0.48,
           "unsubs": 2
         },
@@ -2605,8 +4577,8 @@
           "bounces": 26,
           "clicks": 48,
           "ctor": 6.31,
-          "ctr": 5.19,
-          "delivered": 925,
+          "ctr": 5.18,
+          "delivered": 926,
           "delivery": 97.27,
           "emailBreakdown": [
             {
@@ -2735,15 +4707,15 @@
               "clicks": 36,
               "ctor": 7.14,
               "ctr": 5.37,
-              "delivered": 670,
+              "delivered": 671,
               "delivery": 97.53,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - New lead Prijs",
-              "open": 75.22,
+              "open": 75.11,
               "opens": 504,
               "rawName": "NL - New lead Prijs - 7fb46b12574148f59a9f3cb5ac82a5b7",
-              "sent": 687,
+              "sent": 688,
               "soft_bounces": 4,
               "tsdId": "e3d181c0-d059-f111-ba6a-f40343e7f768",
               "unsub": 0.6,
@@ -2772,12 +4744,12 @@
           ],
           "emails": 8,
           "label": "NL - New Lead Journey V2",
-          "open": 82.27,
+          "open": 82.18,
           "opens": 761,
-          "sent": 951,
+          "sent": 952,
           "soft_bounces": 6,
           "spam": null,
-          "uniqueSubscribers": 951,
+          "uniqueSubscribers": 952,
           "unsub": 0.43,
           "unsubs": 4
         },
@@ -2785,9 +4757,9 @@
           "bounce": 0.28,
           "bounces": 15,
           "clicks": 254,
-          "ctor": 8.24,
-          "ctr": 4.78,
-          "delivered": 5319,
+          "ctor": 8.23,
+          "ctr": 4.77,
+          "delivered": 5326,
           "delivery": 99.72,
           "emailBreakdown": [
             {
@@ -2874,15 +4846,15 @@
               "bounce": 0.0,
               "bounces": 0,
               "clicks": 15,
-              "ctor": 5.43,
+              "ctor": 5.42,
               "ctr": 2.78,
               "delivered": 539,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-interieur-4",
-              "open": 51.21,
-              "opens": 276,
+              "open": 51.39,
+              "opens": 277,
               "rawName": "NL - Trapliftlane-interieur-4 - 6eef67a1d0cd433bab5ff8a5e2377eaa",
               "sent": 539,
               "soft_bounces": 1,
@@ -2975,19 +4947,19 @@
               "bounces": 0,
               "clicks": 7,
               "ctor": 2.69,
-              "ctr": 1.39,
-              "delivered": 505,
+              "ctr": 1.38,
+              "delivered": 507,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-trapcheck-5",
-              "open": 51.49,
+              "open": 51.28,
               "opens": 260,
               "rawName": "NL - Trapliftlane-trapcheck-5 - 5571a3513c8549d29b935722fd93cbe6",
-              "sent": 505,
+              "sent": 507,
               "soft_bounces": 1,
               "tsdId": "1ea14754-8f52-f111-ba6a-f40343e7f768",
-              "unsub": 0.4,
+              "unsub": 0.39,
               "unsubs": 2
             },
             {
@@ -3015,19 +4987,19 @@
               "bounces": 0,
               "clicks": 15,
               "ctor": 4.34,
-              "ctr": 2.32,
-              "delivered": 647,
+              "ctr": 2.3,
+              "delivered": 651,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-verbouwenverhuizen-3",
-              "open": 53.48,
+              "open": 53.15,
               "opens": 346,
               "rawName": "NL - Trapliftlane-verbouwenve - f460acd293bf410eaf880c7b90f8c0de",
-              "sent": 647,
+              "sent": 651,
               "soft_bounces": 2,
               "tsdId": "b8a04754-8f52-f111-ba6a-f40343e7f768",
-              "unsub": 0.93,
+              "unsub": 0.92,
               "unsubs": 6
             },
             {
@@ -3074,17 +5046,17 @@
               "bounce": 0.0,
               "bounces": 0,
               "clicks": 20,
-              "ctor": 11.56,
-              "ctr": 8.1,
-              "delivered": 247,
+              "ctor": 11.49,
+              "ctr": 8.06,
+              "delivered": 248,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - nurturemail 4",
-              "open": 70.04,
-              "opens": 173,
+              "open": 70.16,
+              "opens": 174,
               "rawName": "NL - nurturemail 4 - 032a04db3ea0441aaafb8f4446e37593",
-              "sent": 247,
+              "sent": 248,
               "soft_bounces": 0,
               "tsdId": "4ba04754-8f52-f111-ba6a-f40343e7f768",
               "unsub": 0.4,
@@ -3153,9 +5125,9 @@
           ],
           "emails": 18,
           "label": "NL - Nurturelane Stairlift Q2 2026",
-          "open": 57.98,
-          "opens": 3084,
-          "sent": 5334,
+          "open": 57.94,
+          "opens": 3086,
+          "sent": 5341,
           "soft_bounces": 18,
           "spam": null,
           "uniqueSubscribers": 2530,
@@ -3833,8 +5805,8 @@
           "bounces": 0,
           "clicks": 17,
           "ctor": 6.83,
-          "ctr": 8.17,
-          "delivered": 208,
+          "ctr": 8.1,
+          "delivered": 210,
           "delivery": 100.0,
           "emailBreakdown": [
             {
@@ -3842,16 +5814,16 @@
               "bounces": 0,
               "clicks": 17,
               "ctor": 6.83,
-              "ctr": 8.17,
-              "delivered": 208,
+              "ctr": 8.1,
+              "delivered": 210,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Orderbevestiging",
-              "open": 119.71,
+              "open": 118.57,
               "opens": 249,
               "rawName": "NL - Orderbevestiging - 8e2d51ce81db47f4861195d0eb966c0c",
-              "sent": 208,
+              "sent": 210,
               "soft_bounces": 1,
               "tsdId": "3cd98867-df81-f111-ba6a-f40343e7f768",
               "unsub": 0.0,
@@ -3860,12 +5832,12 @@
           ],
           "emails": 1,
           "label": "Orderbevestiging ",
-          "open": 119.71,
+          "open": 118.57,
           "opens": 249,
-          "sent": 208,
+          "sent": 210,
           "soft_bounces": 1,
           "spam": null,
-          "uniqueSubscribers": 208,
+          "uniqueSubscribers": 210,
           "unsub": 0.0,
           "unsubs": 0
         },
@@ -3915,8 +5887,8 @@
           "bounces": 83,
           "clicks": 743,
           "ctor": 11.65,
-          "ctr": 8.16,
-          "delivered": 9104,
+          "ctr": 8.15,
+          "delivered": 9115,
           "delivery": 99.1,
           "emailBreakdown": [
             {
@@ -3960,20 +5932,20 @@
               "unsubs": 1
             },
             {
-              "bounce": 2.12,
+              "bounce": 2.11,
               "bounces": 9,
               "clicks": 29,
-              "ctor": 9.09,
-              "ctr": 6.97,
-              "delivered": 416,
-              "delivery": 97.88,
+              "ctor": 9.06,
+              "ctr": 6.95,
+              "delivered": 417,
+              "delivery": 97.89,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - 1 x Geen gehoor V2",
-              "open": 76.68,
-              "opens": 319,
+              "open": 76.74,
+              "opens": 320,
               "rawName": "NL - 1 x Geen gehoor V2 - e3c1906e11684304be586b6ff98e8d2e",
-              "sent": 425,
+              "sent": 426,
               "soft_bounces": 4,
               "tsdId": "25dd75f8-0663-f111-ba6a-f40343e7f768",
               "unsub": 0.48,
@@ -4145,15 +6117,15 @@
               "clicks": 36,
               "ctor": 7.07,
               "ctr": 5.37,
-              "delivered": 670,
+              "delivered": 671,
               "delivery": 97.53,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - New lead Prijs",
-              "open": 75.97,
+              "open": 75.86,
               "opens": 509,
               "rawName": "NL - New lead Prijs - 7fb46b12574148f59a9f3cb5ac82a5b7",
-              "sent": 687,
+              "sent": 688,
               "soft_bounces": 4,
               "tsdId": "e3d181c0-d059-f111-ba6a-f40343e7f768",
               "unsub": 0.6,
@@ -4244,16 +6216,16 @@
               "bounces": 0,
               "clicks": 17,
               "ctor": 6.83,
-              "ctr": 8.17,
-              "delivered": 208,
+              "ctr": 8.1,
+              "delivered": 210,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Orderbevestiging",
-              "open": 119.71,
+              "open": 118.57,
               "opens": 249,
               "rawName": "NL - Orderbevestiging - 8e2d51ce81db47f4861195d0eb966c0c",
-              "sent": 208,
+              "sent": 210,
               "soft_bounces": 1,
               "tsdId": "3cd98867-df81-f111-ba6a-f40343e7f768",
               "unsub": 0.0,
@@ -4343,15 +6315,15 @@
               "bounce": 0.0,
               "bounces": 0,
               "clicks": 15,
-              "ctor": 5.43,
+              "ctor": 5.42,
               "ctr": 2.78,
               "delivered": 539,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-interieur-4",
-              "open": 51.21,
-              "opens": 276,
+              "open": 51.39,
+              "opens": 277,
               "rawName": "NL - Trapliftlane-interieur-4 - 6eef67a1d0cd433bab5ff8a5e2377eaa",
               "sent": 539,
               "soft_bounces": 1,
@@ -4444,19 +6416,19 @@
               "bounces": 0,
               "clicks": 7,
               "ctor": 2.69,
-              "ctr": 1.39,
-              "delivered": 505,
+              "ctr": 1.38,
+              "delivered": 507,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-trapcheck-5",
-              "open": 51.49,
+              "open": 51.28,
               "opens": 260,
               "rawName": "NL - Trapliftlane-trapcheck-5 - 5571a3513c8549d29b935722fd93cbe6",
-              "sent": 505,
+              "sent": 507,
               "soft_bounces": 1,
               "tsdId": "1ea14754-8f52-f111-ba6a-f40343e7f768",
-              "unsub": 0.4,
+              "unsub": 0.39,
               "unsubs": 2
             },
             {
@@ -4484,19 +6456,19 @@
               "bounces": 0,
               "clicks": 15,
               "ctor": 4.34,
-              "ctr": 2.32,
-              "delivered": 647,
+              "ctr": 2.3,
+              "delivered": 651,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - Trapliftlane-verbouwenverhuizen-3",
-              "open": 53.48,
+              "open": 53.15,
               "opens": 346,
               "rawName": "NL - Trapliftlane-verbouwenve - f460acd293bf410eaf880c7b90f8c0de",
-              "sent": 647,
+              "sent": 651,
               "soft_bounces": 2,
               "tsdId": "b8a04754-8f52-f111-ba6a-f40343e7f768",
-              "unsub": 0.93,
+              "unsub": 0.92,
               "unsubs": 6
             },
             {
@@ -4563,17 +6535,17 @@
               "bounce": 0.0,
               "bounces": 0,
               "clicks": 20,
-              "ctor": 11.56,
-              "ctr": 8.1,
-              "delivered": 247,
+              "ctor": 11.49,
+              "ctr": 8.06,
+              "delivered": 248,
               "delivery": 100.0,
               "firstSend": "2026-08-28",
               "lastSend": "2026-09-15",
               "name": "NL - nurturemail 4",
-              "open": 70.04,
-              "opens": 173,
+              "open": 70.16,
+              "opens": 174,
               "rawName": "NL - nurturemail 4 - 032a04db3ea0441aaafb8f4446e37593",
-              "sent": 247,
+              "sent": 248,
               "soft_bounces": 0,
               "tsdId": "4ba04754-8f52-f111-ba6a-f40343e7f768",
               "unsub": 0.4,
@@ -5102,12 +7074,12 @@
           ],
           "emails": 50,
           "label": "Alle flows",
-          "open": 70.04,
-          "opens": 6376,
-          "sent": 9187,
+          "open": 69.98,
+          "opens": 6379,
+          "sent": 9198,
           "soft_bounces": 43,
           "spam": null,
-          "uniqueSubscribers": 5262,
+          "uniqueSubscribers": 5264,
           "unsub": 0.44,
           "unsubs": 40
         }
@@ -8150,10 +10122,10 @@
         }
       },
       "unique_subscribers": {
-        "contacts": 1508,
-        "leads": 3754,
+        "contacts": 1509,
+        "leads": 3755,
         "other": 0,
-        "total": 5262
+        "total": 5264
       },
       "unique_subscribers_prev": {
         "contacts": 1394,
@@ -8172,7 +10144,7 @@
     "start": "2026-08-09"
   },
   "warnings": [
-    "NL 2026-08-28..2026-09-16: attributie van 9187 sends - tier1 9187 (100.0%), tier2 0 (0.0%), (niet toegewezen) 0 (0.0%)",
+    "NL 2026-08-28..2026-09-16: attributie van 9198 sends - tier1 9198 (100.0%), tier2 0 (0.0%), (niet toegewezen) 0 (0.0%)",
     "NL 2026-08-09..2026-08-28: attributie van 8294 sends - tier1 8285 (99.9%), tier2 0 (0.0%), (niet toegewezen) 9 (0.1%)",
     "emailBreakdown voor '(niet toegewezen)': 1 e-mails met send, journey telt 0",
     "emailBreakdown voor 'all': 50 e-mails met send, journey telt 49",
