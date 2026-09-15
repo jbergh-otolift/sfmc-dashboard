@@ -407,6 +407,41 @@
   .fd-tip .t-row span:first-child{color:#B9C4D2}
   .fd-tip .t-row span:last-child{font-weight:700}
   .flowchip.has-detail::after{content:"›";margin-left:7px;font-weight:700;opacity:.6}
+  /* ---- Visuele journeykaart ---- */
+  .fd-map{margin:6px 0 26px}
+  .fd-lvl{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+  .fd-node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;min-width:210px;max-width:260px;position:relative;transition:border-color .15s,box-shadow .15s}
+  .fd-node:hover{border-color:var(--oto-red-soft);box-shadow:0 3px 14px rgba(21,46,85,.09)}
+  .fd-node .n-name{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.3}
+  .fd-node .n-recip{font-size:11px;color:var(--ink-soft);margin-top:3px}
+  .fd-node .n-bar{height:5px;border-radius:3px;background:var(--bg);margin-top:9px;overflow:hidden}
+  .fd-node .n-bar i{display:block;height:100%;border-radius:3px;background:var(--oto-red)}
+  .fd-node .n-metrics{display:flex;gap:16px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+  .fd-node .n-m{line-height:1.2}
+  .fd-node .n-m-val{font-size:14px;font-weight:800;color:var(--ink)}
+  .fd-node .n-m-lbl{font-size:9.5px;color:var(--ink-soft);margin-top:1px}
+  .fd-node.best{border-color:var(--oto-green);background:#F6FBF7}
+  .fd-node.best .n-m-val.ctor{color:var(--oto-green)}
+  .fd-node.worst{border-color:var(--oto-red-soft);background:#FEF7F8}
+  .fd-node.worst .n-m-val.ctor{color:var(--oto-red)}
+  .fd-node.nosend{opacity:.55;border-style:dashed}
+  .fd-node .n-flag{position:absolute;top:-9px;right:12px;font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+  .fd-node.best .n-flag{background:#E4F5EC;color:var(--oto-green)}
+  .fd-node.worst .n-flag{background:#FBE8E1;color:var(--oto-red)}
+
+  .fd-entry{background:var(--oto-red);color:#fff;border:none;text-align:center;min-width:250px;padding:15px 20px}
+  .fd-entry .n-name{color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .fd-entry .n-big{font-size:28px;font-weight:800;line-height:1.1;margin-top:3px}
+  .fd-entry .n-recip{color:rgba(255,255,255,.85);margin-top:2px}
+
+  .fd-link{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0;color:var(--ink-soft)}
+  .fd-link .l-line{width:2px;height:16px;background:var(--line)}
+  .fd-link .l-lbl{font-size:10.5px;font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:3px 11px;white-space:nowrap}
+  .fd-split{font-size:10px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;text-align:center;padding:4px 0}
+
+  .fd-tablewrap{margin-top:8px}
+  .fd-tablewrap summary{font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:8px 0;list-style:revert}
+  .fd-tablewrap summary:hover{color:var(--oto-red)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -773,7 +808,13 @@
            openers dat ook echt op een link klikte, en dat is de betrouwbaarste maat.</p>
       </div>
 
-      <div class="fd-steps" data-fd-steps></div>
+      <!-- Visuele weergave van de journey: instroom, mails, wachttijden en splitsingen -->
+      <div class="fd-map" data-fd-map hidden></div>
+
+      <details class="fd-tablewrap" data-fd-tablewrap>
+        <summary>Toon als tabel</summary>
+        <div class="fd-steps" data-fd-steps></div>
+      </details>
 
       <div class="fd-empty" data-fd-empty hidden>
         Voor deze flow zijn geen losse mails gevonden in deze periode.

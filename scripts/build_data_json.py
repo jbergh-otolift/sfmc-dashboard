@@ -163,12 +163,17 @@ def merge_emails_by_name(breakdown):
             merged[key] = {
                 "name": email.get("name"),
                 "versions": 1,
+                # Alle TSD-id's bewaren: de journeykaart zoekt de cijfers op
+                # via het id uit de structuur, niet via de naam.
+                "tsdIds": [email["tsdId"]] if email.get("tsdId") else [],
                 "firstSend": email.get("firstSend"),
                 "lastSend": email.get("lastSend"),
                 **{k: (email.get(k) or 0) for k in COUNTERS},
             }
             continue
         target["versions"] += 1
+        if email.get("tsdId"):
+            target["tsdIds"].append(email["tsdId"])
         for field in COUNTERS:
             target[field] += email.get(field) or 0
         if email.get("firstSend") and (
@@ -419,6 +424,9 @@ def main():
         "coverage_days": (consent or {}).get("coverage_days"),
         "outcome_lookback_days": (outcomes or {}).get("lookback_days"),
         "outcome_attribution": (outcomes or {}).get("attribution"),
+        # Structuur van elke journey (mails, wachttijden, splitsingen) zodat het
+        # dashboard de flow kan tekenen in plaats van alleen op te sommen.
+        "journeyStructures": (tracking or {}).get("journeyStructures") or {},
         "notes": (crm or {}).get("notes", []),
         "markets": markets,
     }

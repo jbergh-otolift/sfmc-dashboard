@@ -352,6 +352,202 @@ function hideTip() {
   if (fdTip) fdTip.hidden = true;
 }
 
+// Tekent de journey als verticale tijdlijn: instroom bovenaan, dan elke mail
+// als kaart met zijn cijfers, en de wachttijden als label op de verbinding.
+// Wachtstappen krijgen geen eigen kaart — dat zijn geen touchpoints, en een
+// lezer wil de mails zien, niet de techniek eromheen.
+function renderFlowMap(flow, structure) {
+  const map = document.querySelector("[data-fd-map]");
+  if (!map) return;
+  map.innerHTML = "";
+
+  if (!structure || !(structure.nodes || []).length) {
+    map.hidden = true;
+    return;
+  }
+  map.hidden = false;
+
+  // Cijfers per mail opzoeken op TSD-id, met de naam als terugval.
+  const byTsd = {};
+  const byName = {};
+  (flow.emailBreakdown || []).forEach((email) => {
+    // Een samengevoegde mail draagt de id's van al zijn journeyversies.
+    (email.tsdIds || []).forEach((id) => {
+      byTsd[id] = email;
+    });
+    if (email.tsdId) byTsd[email.tsdId] = email;
+    if (email.name) byName[email.name] = email;
+  });
+
+  const nodes = structure.nodes;
+  const maxSent = Math.max(
+    ...(flow.emailBreakdown || []).map((e) => e.sent || 0),
+    1
+  );
+  const ctors = (flow.emailBreakdown || [])
+    .map((e) => e.ctor)
+    .filter((v) => typeof v === "number");
+  const best = ctors.length ? Math.max(...ctors) : null;
+  const worst = ctors.length ? Math.min(...ctors) : null;
+
+  // Op diepte groeperen: alles op dezelfde diepte staat naast elkaar.
+  const levels = new Map();
+  nodes.forEach((node) => {
+    const depth = typeof node.depth === "number" ? node.depth : 0;
+    if (!levels.has(depth)) levels.set(depth, []);
+    levels.get(depth).push(node);
+  });
+  const depths = [...levels.keys()].sort((a, b) => a - b);
+
+  // Instroomkaart
+  const entry = document.createElement("div");
+  entry.className = "fd-lvl";
+  const entryCard = document.createElement("div");
+  entryCard.className = "fd-node fd-entry";
+  const eLbl = document.createElement("div");
+  eLbl.className = "n-name";
+  eLbl.textContent = "Instroom";
+  const eBig = document.createElement("div");
+  eBig.className = "n-big";
+  eBig.textContent =
+    typeof flow.uniqueSubscribers === "number"
+      ? nlNum(flow.uniqueSubscribers, 0)
+      : NODATA;
+  const eSub = document.createElement("div");
+  eSub.className = "n-recip";
+  eSub.textContent = "mensen bereikt in deze periode";
+  entryCard.append(eLbl, eBig, eSub);
+  entry.appendChild(entryCard);
+  map.appendChild(entry);
+
+  let pendingWaitDays = 0;
+  let pendingSplit = null;
+
+  depths.forEach((depth) => {
+    const group = levels.get(depth);
+    const emails = group.filter((n) => n.type === "EMAILV2");
+    const waits = group.filter((n) => n.type === "WAIT");
+    const splits = group.filter((n) => n.type === "DECISION");
+
+    // Wachttijden en splitsingen dragen we mee naar de volgende mailrij.
+    waits.forEach((w) => {
+      pendingWaitDays += w.waitDays || 0;
+    });
+    if (splits.length) pendingSplit = splits.length;
+
+    if (!emails.length) return;
+
+    const link = document.createElement("div");
+    link.className = "fd-link";
+    const line1 = document.createElement("div");
+    line1.className = "l-line";
+    link.appendChild(line1);
+    if (pendingWaitDays > 0) {
+      const lbl = document.createElement("div");
+      lbl.className = "l-lbl";
+      lbl.textContent =
+        pendingWaitDays === 1 ? "1 dag later" : nlNum(pendingWaitDays, 0) + " dagen later";
+      link.appendChild(lbl);
+      const line2 = document.createElement("div");
+      line2.className = "l-line";
+      link.appendChild(line2);
+    }
+    map.appendChild(link);
+
+    if (pendingSplit || emails.length > 1) {
+      const split = document.createElement("div");
+      split.className = "fd-split";
+      split.textContent =
+        emails.length > 1
+          ? "splitsing · " + emails.length + " varianten"
+          : "keuzepunt";
+      map.appendChild(split);
+    }
+    pendingWaitDays = 0;
+    pendingSplit = null;
+
+    const row = document.createElement("div");
+    row.className = "fd-lvl";
+    emails.forEach((node) => {
+      const stats = byTsd[node.tsdId] || byName[node.name] || null;
+      const card = document.createElement("div");
+      card.className = "fd-node";
+
+      const name = document.createElement("div");
+      name.className = "n-name";
+      name.textContent = node.name || "(naamloze mail)";
+      card.appendChild(name);
+
+      if (!stats || !stats.sent) {
+        card.classList.add("nosend");
+        const none = document.createElement("div");
+        none.className = "n-recip";
+        none.textContent = "niet verstuurd in deze periode";
+        card.appendChild(none);
+        row.appendChild(card);
+        return;
+      }
+
+      const recip = document.createElement("div");
+      recip.className = "n-recip";
+      recip.textContent = nlNum(stats.sent, 0) + " ontvangers";
+      card.appendChild(recip);
+
+      const track = document.createElement("div");
+      track.className = "n-bar";
+      const fill = document.createElement("i");
+      fill.style.width = Math.max((stats.sent / maxSent) * 100, 2) + "%";
+      track.appendChild(fill);
+      card.appendChild(track);
+
+      const metrics = document.createElement("div");
+      metrics.className = "n-metrics";
+      const metric = (value, label, cls) => {
+        const box = document.createElement("div");
+        box.className = "n-m";
+        const val = document.createElement("div");
+        val.className = "n-m-val" + (cls ? " " + cls : "");
+        val.textContent = typeof value === "number" ? nlNum(value, 1) + "%" : NODATA;
+        const lbl = document.createElement("div");
+        lbl.className = "n-m-lbl";
+        lbl.textContent = label;
+        box.append(val, lbl);
+        return box;
+      };
+      metrics.append(
+        metric(stats.open, "geopend", ""),
+        metric(stats.ctor, "doorgeklikt", "ctor")
+      );
+      card.appendChild(metrics);
+
+      if (ctors.length > 2 && typeof stats.ctor === "number" && best !== worst) {
+        if (stats.ctor === best) {
+          card.classList.add("best");
+          const flag = document.createElement("div");
+          flag.className = "n-flag";
+          flag.textContent = "beste";
+          card.appendChild(flag);
+        } else if (stats.ctor === worst) {
+          card.classList.add("worst");
+          const flag = document.createElement("div");
+          flag.className = "n-flag";
+          flag.textContent = "zwakste";
+          card.appendChild(flag);
+        }
+      }
+
+      card.tabIndex = 0;
+      card.addEventListener("pointerenter", () => showTip(card, stats));
+      card.addEventListener("pointerleave", hideTip);
+      card.addEventListener("focus", () => showTip(card, stats));
+      card.addEventListener("blur", hideTip);
+
+      row.appendChild(card);
+    });
+    map.appendChild(row);
+  });
+}
+
 function renderFlowDetail(flow) {
   const panel = document.querySelector("[data-flow-detail]");
   if (!panel) return;
@@ -378,6 +574,9 @@ function renderFlowDetail(flow) {
     "[data-fd-per]",
     reach && sent ? nlNum(sent / reach, 1) : NODATA
   );
+
+  renderFlowMap(flow, (DATA && DATA.journeyStructures &&
+    DATA.journeyStructures[currentMarket] || {})[flow && flow.label]);
 
   const list = panel.querySelector("[data-fd-steps]");
   const empty = panel.querySelector("[data-fd-empty]");
