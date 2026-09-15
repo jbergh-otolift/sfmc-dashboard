@@ -32,7 +32,7 @@ Let op: dit is een grote retrieve, reken op enkele minuten per BU.
 import json
 import os
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from xml.sax.saxutils import escape
 import xml.etree.ElementTree as ET
 
@@ -47,6 +47,13 @@ OUT_PATH = "exports/sfmc_tracking.json"
 # snijdt het door met de leads die we hóren te mailen en bewaart enkel de
 # aantallen. Zo staan er geen losse id-lijsten in een publieke repo.
 REACHED_PATH = "exports/_reached_lead_ids.json"
+
+# Coverage meet iets anders dan Email Health en heeft daarom een eigen,
+# langer venster. De noemer (leads met status Mailjourney) is een
+# momentopname zonder periode; meet je de teller over 19 dagen, dan telt
+# iedereen in een nurture-flow met een cyclus van zes weken ten onrechte als
+# "niet bereikt". 90 dagen omvat minstens één volledige cyclus.
+COVERAGE_DAYS = int(os.environ.get("COVERAGE_DAYS", "90"))
 NS = {"p": "http://exacttarget.com/wsdl/partnerAPI"}
 UNASSIGNED = "(niet toegewezen)"
 TOKEN_TTL = 15 * 60
@@ -529,7 +536,23 @@ def main():
             journeys, id_to_journey, email_to_journey, prefix_to_journey = fetch_journeys(session, auth)
             tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
             flows, lead_ids, uniques = run_window(session, auth, tsd_map, market, period_start, period_end)
-            reached_lead_ids[market] = sorted(lead_ids)
+
+            # Aparte, langere retrieve voor de coverage-teller. Alleen
+            # SentEvent en alleen SubscriberKey, dus aanzienlijk lichter dan
+            # een volledige vensteruitdraai.
+            cov_start = (
+                datetime.strptime(period_end, "%Y-%m-%d") - timedelta(days=COVERAGE_DAYS)
+            ).strftime("%Y-%m-%d")
+            print(f"  coverage-venster {cov_start} t/m {period_end} ({COVERAGE_DAYS} dagen)")
+            cov_rows = soap_retrieve(
+                session, auth, "SentEvent", ["SubscriberKey"],
+                f"{cov_start}T00:00:00", f"{period_end}T00:00:00")
+            cov_leads = {
+                r.get("SubscriberKey") for r in cov_rows
+                if (r.get("SubscriberKey") or "").startswith("00Q")
+            }
+            reached_lead_ids[market] = sorted(cov_leads)
+            print(f"  coverage: {len(cov_leads)} unieke leads bereikt in {COVERAGE_DAYS} dagen")
             prev_flows, prev_uniques = None, None
             if prev_period:
                 prev_flows, _, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
@@ -566,7 +589,8 @@ def main():
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), REACHED_PATH)
     with open(reached_path, "w", encoding="utf-8") as f:
         json.dump(
-            {"period": {"start": period_start, "end": period_end},
+            {"coverage_days": COVERAGE_DAYS,
+             "period": {"start": period_start, "end": period_end},
              "markets": reached_lead_ids},
             f)
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "

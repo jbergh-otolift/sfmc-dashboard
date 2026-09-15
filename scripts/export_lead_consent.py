@@ -142,7 +142,9 @@ def load_reached():
         return None
     with open(REACHED_PATH, encoding="utf-8") as f:
         data = json.load(f)
-    return {market: set(ids) for market, ids in (data.get("markets") or {}).items()}
+    out = {market: set(ids) for market, ids in (data.get("markets") or {}).items()}
+    out["_days"] = data.get("coverage_days")
+    return out
 
 
 def main():
@@ -182,6 +184,7 @@ def main():
     # Coverage: van de leads die we horen te mailen, hoeveel kregen er mail?
     mailjourney = lead_ids_in_mailjourney(session, instance_url)
     reached = load_reached()
+    coverage_days = (reached or {}).pop("_days", None) if reached else None
     if reached is None:
         warnings.append(
             f"{REACHED_PATH} ontbreekt; coverage niet berekend. "
@@ -221,6 +224,14 @@ def main():
         "period": {"start": period[0], "end": period[1]},
         "prev_period": {"start": prev[0], "end": prev[1]},
         "consent_definition": CONSENT_WHERE,
+        # Coverage heeft een eigen, langer venster dan de rest van het
+        # dashboard: de noemer is een momentopname, dus een kort venster zou
+        # iedereen in een trage nurture-flow onterecht als gemist tellen.
+        "coverage_days": coverage_days,
+        "coverage_definition": (
+            f"Status = '{MAILJOURNEY_STATUS}' AND {CONSENT_WHERE}; "
+            f"bereikt = minstens een e-mail in de laatste {coverage_days} dagen"
+        ),
         "markets": markets,
         "warnings": warnings,
     }
