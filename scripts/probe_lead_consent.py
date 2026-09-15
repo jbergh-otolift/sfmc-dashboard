@@ -165,6 +165,29 @@ def main():
             name = rt["Name"] if rt else f"(onbekend {row['RecordTypeId']})"
             print(f"  {name:40} {row['total']:9}")
 
+    probe_history_recordtype(token, instance_url)
+
+
+def probe_history_recordtype(token, instance_url):
+    """Kan de LeadHistory-query het RecordType van de bovenliggende Lead
+    meenemen? Zo ja, dan kan de her-activatiefunnel per markt gesplitst worden
+    zonder een tweede query."""
+    print("\n--- LeadHistory met Lead.RecordTypeId ---")
+    soql = (
+        "SELECT CreatedDate, LeadId, Lead.RecordTypeId, Field, OldValue, NewValue "
+        "FROM LeadHistory WHERE Field = 'Status' "
+        "AND CreatedDate >= 2026-09-01T00:00:00Z LIMIT 3"
+    )
+    rows, err = query(token, instance_url, soql)
+    if err:
+        print(f"  ❌ traversal werkt NIET: {err}")
+        print("  -> dan is een aparte Lead-query nodig om LeadId aan markt te koppelen")
+        return
+    print("  ✅ traversal werkt")
+    for r in rows["records"]:
+        lead = r.get("Lead") or {}
+        print(f"     {r['LeadId']}  RecordTypeId={lead.get('RecordTypeId')}  {r['OldValue']} -> {r['NewValue']}")
+
 
 if __name__ == "__main__":
     main()
