@@ -332,16 +332,17 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
     return tsd_map
 
 
-def flow_for(row, tsd_map, id_to_journey, sendid_to_flow):
-    tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip()
+def flow_for(row, tsd_map, sendid_to_flow):
+    """Geeft (journeynaam, tier, tsd-objectid). Tier 3 = niet toegewezen."""
+    tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
     if tsd:
-        label = tsd_map.get(tsd) or tsd_map.get(tsd.lower()) or id_to_journey.get(tsd) or id_to_journey.get(tsd.lower())
-        if label:
-            return label
+        hit = tsd_map.get(tsd)
+        if hit:
+            return hit[0], hit[1], tsd
     send_id = (row.get("SendID") or "").strip()
     if send_id and send_id in sendid_to_flow:
-        return sendid_to_flow[send_id]
-    return UNASSIGNED
+        return sendid_to_flow[send_id][0], sendid_to_flow[send_id][1], tsd
+    return UNASSIGNED, 3, tsd
 
 
 def rate(numerator, denominator):
@@ -350,30 +351,36 @@ def rate(numerator, denominator):
     return round(numerator / denominator * 100, 2)
 
 
-def aggregate(events, tsd_map, id_to_journey):
+def aggregate(events, tsd_map, window_label):
     sendid_to_flow = {}
     for row in events.get("SentEvent", []):
         send_id = (row.get("SendID") or "").strip()
-        tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip()
+        tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
         if not send_id or send_id in sendid_to_flow or not tsd:
             continue
-        label = tsd_map.get(tsd) or tsd_map.get(tsd.lower()) or id_to_journey.get(tsd)
-        if label:
-            sendid_to_flow[send_id] = label
+        hit = tsd_map.get(tsd)
+        if hit:
+            sendid_to_flow[send_id] = hit
 
     counters = {}
+    tier_sent = {1: 0, 2: 0, 3: 0}
 
     def bucket(flow):
         return counters.setdefault(
             flow,
-            {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0},
+            {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0, "tsds": set()},
         )
 
     def label_of(row):
-        return flow_for(row, tsd_map, id_to_journey, sendid_to_flow)
+        return flow_for(row, tsd_map, sendid_to_flow)[0]
 
     for row in events.get("SentEvent", []):
-        bucket(label_of(row))["sent"] += 1
+        flow, tier, tsd = flow_for(row, tsd_map, sendid_to_flow)
+        entry = bucket(flow)
+        entry["sent"] += 1
+        if tsd:
+            entry["tsds"].add(tsd)
+        tier_sent[tier] += 1
     for row in events.get("OpenEvent", []):
         bucket(label_of(row))["opens"].add((row.get("SubscriberKey", ""), row.get("SendID", "")))
     for row in events.get("ClickEvent", []):
@@ -387,7 +394,7 @@ def aggregate(events, tsd_map, id_to_journey):
     for row in events.get("UnsubEvent", []):
         bucket(label_of(row))["unsubs"] += 1
 
-    total = {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0}
+    total = {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0, "tsds": set()}
     for entry in counters.values():
         total["sent"] += entry["sent"]
         total["opens"] |= entry["opens"]
@@ -395,6 +402,15 @@ def aggregate(events, tsd_map, id_to_journey):
         total["hard"] += entry["hard"]
         total["soft"] += entry["soft"]
         total["unsubs"] += entry["unsubs"]
+        total["tsds"] |= entry["tsds"]
+
+    sent_total = total["sent"] or 1
+    warn(
+        f"{window_label}: attributie van {total['sent']} sends - tier1 "
+        f"{tier_sent[1]} ({tier_sent[1] / sent_total * 100:.1f}%), tier2 "
+        f"{tier_sent[2]} ({tier_sent[2] / sent_total * 100:.1f}%), {UNASSIGNED} "
+        f"{tier_sent[3]} ({tier_sent[3] / sent_total * 100:.1f}%)"
+    )
 
     flows = {}
     for flow, entry in list(counters.items()) + [("all", total)]:
@@ -412,6 +428,8 @@ def aggregate(events, tsd_map, id_to_journey):
             "bounces": hard,
             "soft_bounces": entry["soft"],
             "unsubs": entry["unsubs"],
+            # aantal losse triggered sends (e-mails) dat onder deze journey valt
+            "emails": len(entry["tsds"]),
             "delivery": rate(delivered, sent),
             "open": rate(opens, delivered),
             "ctr": rate(clicks, delivered),
@@ -424,10 +442,10 @@ def aggregate(events, tsd_map, id_to_journey):
     return flows
 
 
-def run_window(session, auth, tsd_map, id_to_journey, start, end):
+def run_window(session, auth, tsd_map, market, start, end):
     print(f"  venster {start} t/m {end} (exclusief)")
     events = retrieve_events(session, auth, f"{start}T00:00:00", f"{end}T00:00:00")
-    return aggregate(events, tsd_map, id_to_journey)
+    return aggregate(events, tsd_map, f"{market.upper()} {start}..{end}")
 
 
 def main():
@@ -459,12 +477,12 @@ def main():
         print(f"[{market}] MID {mid}")
         try:
             auth = Auth(session, subdomain, client_id, client_secret, mid)
-            journeys, id_to_journey, email_to_journey = fetch_journeys(session, auth)
-            tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey)
-            flows = run_window(session, auth, tsd_map, id_to_journey, period_start, period_end)
+            journeys, id_to_journey, email_to_journey, prefix_to_journey = fetch_journeys(session, auth)
+            tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
+            flows = run_window(session, auth, tsd_map, market, period_start, period_end)
             prev_flows = None
             if prev_period:
-                prev_flows = run_window(session, auth, tsd_map, id_to_journey, prev_start, prev_end)
+                prev_flows = run_window(session, auth, tsd_map, market, prev_start, prev_end)
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue

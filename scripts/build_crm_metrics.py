@@ -105,9 +105,16 @@ def transitions(rows, start, end):
     }
 
 
+# Onder deze noemer is een ratio ruis: overgangen op de rand van het venster
+# horen bij een instroom die ervóór lag, wat percentages boven 100% oplevert
+# (IT liet 133% zien op 3 instromen). Liever geen cijfer dan een fout cijfer.
+MIN_DENOMINATOR = 25
+
+
 def ratio(num, den):
-    """Percentage met 2 decimalen, of None als de noemer 0 is."""
-    if not den:
+    """Percentage met 2 decimalen. None als de noemer 0 is of te klein voor
+    een betekenisvol percentage."""
+    if not den or den < MIN_DENOMINATOR:
         return None
     return round(num / den * 100, 2)
 
