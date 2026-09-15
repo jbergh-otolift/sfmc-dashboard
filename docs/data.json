@@ -1,7 +1,7 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "crm_market_scope": "per_market",
-  "generated_at": "2026-09-15T12:49:49+00:00",
+  "generated_at": "2026-09-15T12:57:05+00:00",
   "markets": {
     "be": {
       "_sources": {
@@ -44,12 +44,12 @@
       "consent": {
         "consentShare": 6.0,
         "consentTotal": 4512,
-        "coverage": 41.8,
+        "coverage": 0.0,
         "growth": 429,
         "growthDeltaPct": -10.3,
         "growthPrev": 478,
         "leadsTotal": 75158,
-        "reachedOfShouldMail": 687,
+        "reachedOfShouldMail": 0,
         "shouldMail": 1644
       },
       "emailHealth": {
@@ -110,28 +110,28 @@
           "unsubs": 2
         },
         "BE - VL - WA - 1x Geen Gehoor": {
-          "bounce": 2.07,
+          "bounce": 2.06,
           "bounces": 5,
           "clicks": 13,
           "ctor": 7.26,
-          "ctr": 5.49,
-          "delivered": 237,
-          "delivery": 97.93,
+          "ctr": 5.46,
+          "delivered": 238,
+          "delivery": 97.94,
           "deltas": {
-            "bounce": 8.9,
+            "bounce": 8.4,
             "ctor": 3.7,
-            "ctr": 1.1,
+            "ctr": 0.6,
             "delivery": -0.2,
-            "open": -2.6,
-            "sent": -8.0,
+            "open": -3.0,
+            "sent": -7.6,
             "spam": null,
             "unsub": -100.0
           },
           "emails": 2,
           "label": "BE - VL - WA - 1x Geen Gehoor",
-          "open": 75.53,
+          "open": 75.21,
           "opens": 179,
-          "sent": 242,
+          "sent": 243,
           "soft_bounces": 1,
           "spam": null,
           "unsub": 0.0,
@@ -227,7 +227,7 @@
           "clicks": 168,
           "ctor": 19.86,
           "ctr": 6.08,
-          "delivered": 2764,
+          "delivered": 2765,
           "delivery": 97.98,
           "deltas": {
             "bounce": -8.6,
@@ -235,15 +235,15 @@
             "ctr": -35.2,
             "delivery": 0.2,
             "open": -56.0,
-            "sent": 139.5,
+            "sent": 139.6,
             "spam": null,
             "unsub": -60.0
           },
           "emails": 20,
           "label": "Alle flows",
-          "open": 30.61,
+          "open": 30.6,
           "opens": 846,
-          "sent": 2821,
+          "sent": 2822,
           "soft_bounces": 11,
           "spam": null,
           "unsub": 0.14,
@@ -255,11 +255,11 @@
           "consentTotal": 4512,
           "deltaPct": null,
           "measurable": true,
-          "reached": 687,
+          "reached": 0,
           "reason": null,
           "shouldMail": 1644,
-          "toActivate": 957,
-          "value": 41.8
+          "toActivate": 1644,
+          "value": 0.0
         },
         "cpql": {
           "deltaPct": null,
@@ -298,15 +298,15 @@
         },
         "mailjourney": {
           "abs": 289,
-          "deltaPct": 11.8,
-          "ratio": 77.24,
+          "deltaPct": 11.5,
+          "ratio": 76.98,
           "share": 34.9
         },
         "notContact": {
-          "abs": 290,
-          "deltaPct": -11.1,
-          "ratio": 35.02,
-          "share": 35.02
+          "abs": 291,
+          "deltaPct": -10.8,
+          "ratio": 35.14,
+          "share": 35.14
         },
         "recovered": {
           "cac": null,
@@ -612,12 +612,12 @@
       "consent": {
         "consentShare": 10.7,
         "consentTotal": 33552,
-        "coverage": 33.0,
+        "coverage": 0.0,
         "growth": 941,
         "growthDeltaPct": -2.7,
         "growthPrev": 967,
-        "leadsTotal": 313695,
-        "reachedOfShouldMail": 3780,
+        "leadsTotal": 313703,
+        "reachedOfShouldMail": 0,
         "shouldMail": 11462
       },
       "emailHealth": {
@@ -680,15 +680,15 @@
         "NL - Confirmation Service Appointment": {
           "bounce": 2.05,
           "bounces": 20,
-          "clicks": 264,
-          "ctor": 26.99,
-          "ctr": 27.59,
+          "clicks": 265,
+          "ctor": 27.1,
+          "ctr": 27.69,
           "delivered": 957,
           "delivery": 97.95,
           "deltas": {
             "bounce": -33.4,
-            "ctor": 16.0,
-            "ctr": 29.3,
+            "ctor": 16.5,
+            "ctr": 29.8,
             "delivery": 1.1,
             "open": 11.4,
             "sent": 7.5,
@@ -932,15 +932,15 @@
         "all": {
           "bounce": 0.9,
           "bounces": 83,
-          "clicks": 742,
-          "ctor": 11.65,
-          "ctr": 8.16,
+          "clicks": 743,
+          "ctor": 11.67,
+          "ctr": 8.17,
           "delivered": 9095,
           "delivery": 99.1,
           "deltas": {
             "bounce": -18.9,
-            "ctor": -1.1,
-            "ctr": 0.0,
+            "ctor": -0.9,
+            "ctr": 0.1,
             "delivery": 0.2,
             "open": 1.2,
             "sent": 10.7,
@@ -963,11 +963,11 @@
           "consentTotal": 33552,
           "deltaPct": null,
           "measurable": true,
-          "reached": 3780,
+          "reached": 0,
           "reason": null,
           "shouldMail": 11462,
-          "toActivate": 7682,
-          "value": 33.0
+          "toActivate": 11462,
+          "value": 0.0
         },
         "cpql": {
           "deltaPct": null,
