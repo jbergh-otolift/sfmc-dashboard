@@ -2,6 +2,7 @@ import csv
 import io
 import os
 import time
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -10,9 +11,14 @@ CLIENT_ID = os.environ["SF_CLIENT_ID"]
 CLIENT_SECRET = os.environ["SF_CLIENT_SECRET"]
 API_VERSION = "v60.0"
 
-# Fixed start of the history window this export covers. LeadHistory has no
-# API row cap via Bulk API, so this just bounds how far back we look.
-HISTORY_START_DATE = "2026-08-01T00:00:00Z"
+# Hoe ver terug we statushistorie ophalen. Het dashboard laat de lezer kiezen
+# tussen 7, 30 en 90 dagen, en vergelijkt elke periode met de even lange
+# periode ervoor — voor 90 dagen is dus 180 dagen historie nodig. LeadHistory
+# kent geen rijlimiet via de Bulk API, dus dit bepaalt alleen hoe ver we kijken.
+HISTORY_DAYS = int(os.environ.get("HISTORY_DAYS", "200"))
+HISTORY_START_DATE = (
+    datetime.now(timezone.utc) - timedelta(days=HISTORY_DAYS)
+).strftime("%Y-%m-%dT00:00:00Z")
 
 # Lead.RecordTypeId bepaalt de markt van een lead; zonder die kolom zijn de
 # funnelcijfers niet per land te splitsen. De relatie-traversal naar de

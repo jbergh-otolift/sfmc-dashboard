@@ -28,7 +28,7 @@ import csv
 import json
 import os
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 IN_PATH = "exports/report.csv"
 OUT_PATH = "exports/crm_metrics.json"
@@ -37,8 +37,9 @@ OUT_PATH = "exports/crm_metrics.json"
 # period-over-period vergelijking te hebben splitsen we dat venster in twee
 # gelijke helften van 19 dagen in plaats van een kalendermaand te forceren
 # (augustus zou anders vergeleken worden met 8 dagen september).
-DEFAULT_PERIOD = ("2026-08-20", "2026-09-09")
-DEFAULT_PREV = ("2026-08-01", "2026-08-20")
+# Het dashboard laat kiezen tussen deze periodes; elke periode wordt
+# vergeleken met de even lange periode ervoor.
+PERIOD_DAYS = [7, 30, 90]
 
 # Salesforce Lead-statuswaarden zoals ze werkelijk in de export voorkomen.
 S_NEW = "New"
@@ -330,49 +331,69 @@ def fill_deltas(cur, prev):
         a[key]["convDeltaPct"] = delta_pct(a[key]["share"], pa[key]["share"])
 
 
+def window_for(end_date, days):
+    """Huidige en vorige venster voor een periode van N dagen."""
+    end = datetime.strptime(end_date, "%Y-%m-%d")
+    start = end - timedelta(days=days)
+    prev_start = end - timedelta(days=days * 2)
+    fmt = "%Y-%m-%d"
+    return (start.strftime(fmt), end.strftime(fmt)), (prev_start.strftime(fmt), start.strftime(fmt))
+
+
 def main():
-    period = (
-        os.environ.get("PERIOD_START", DEFAULT_PERIOD[0]),
-        os.environ.get("PERIOD_END", DEFAULT_PERIOD[1]),
-    )
-    prev = (
-        os.environ.get("PREV_START", DEFAULT_PREV[0]),
-        os.environ.get("PREV_END", DEFAULT_PREV[1]),
+    # Einddatum waarvandaan alle vensters terugrekenen; exclusief.
+    end_date = os.environ.get(
+        "PERIOD_END",
+        (datetime.now(timezone.utc) + timedelta(days=1)).strftime("%Y-%m-%d"),
     )
 
     rows = read_rows(IN_PATH)
     print(f"Gelezen: {len(rows)} statusovergangen uit {IN_PATH}")
-
-    cur = compute(rows, *period)
-    pre = compute(rows, *prev)
-    fill_deltas(cur, pre)
-
-    # Per markt hetzelfde rekenwerk, plus "all" als totaal over alle markten.
-    per_market = {}
-    for market in MARKETS:
-        subset = rows_for_market(rows, market)
-        m_cur = compute(subset, *period)
-        m_pre = compute(subset, *prev)
-        fill_deltas(m_cur, m_pre)
-        per_market[market] = {
-            "rows": len(subset),
-            "current": m_cur,
-            "previous": m_pre,
-        }
+    if rows:
+        dates = [r["Edit Date"][:10] for r in rows]
+        print(f"  historie loopt van {min(dates)} tot {max(dates)}")
 
     has_market_column = bool(rows) and "Market" in rows[0]
     unknown = len([r for r in rows if not (r.get("Market") or "").strip()])
 
+    periods = {}
+    for days in PERIOD_DAYS:
+        period, prev = window_for(end_date, days)
+
+        # Genoeg historie voor deze periode? Anders is de vergelijking scheef.
+        oldest = min((r["Edit Date"][:10] for r in rows), default=None)
+        enough = oldest is not None and oldest <= prev[0]
+
+        cur = compute(rows, *period)
+        pre = compute(rows, *prev)
+        fill_deltas(cur, pre)
+
+        per_market = {}
+        for market in MARKETS:
+            subset = rows_for_market(rows, market)
+            m_cur = compute(subset, *period)
+            m_pre = compute(subset, *prev)
+            fill_deltas(m_cur, m_pre)
+            per_market[market] = {"rows": len(subset), "current": m_cur, "previous": m_pre}
+
+        periods[str(days)] = {
+            "range": {"start": period[0], "end": period[1]},
+            "prevRange": {"start": prev[0], "end": prev[1]},
+            # Reikt de export ver genoeg terug om de vorige periode te dekken?
+            "comparable": enough,
+            "current": cur,
+            "previous": pre,
+            "markets": per_market,
+        }
+
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "period": {"start": period[0], "end": period[1]},
-        "prev_period": {"start": prev[0], "end": prev[1]},
+        "endDate": end_date,
+        "periods": [str(d) for d in PERIOD_DAYS],
         "source_rows": len(rows),
         "rows_without_market": unknown,
         "market_scope": "per_market" if has_market_column else "all",
-        "current": cur,
-        "previous": pre,
-        "markets": per_market,
+        "byPeriod": periods,
         "notes": [
             "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
             "Coverage-noemer en database-groei komen uit exports/lead_consent.json.",
@@ -384,21 +405,18 @@ def main():
         json.dump(out, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")
 
-    print(f"Periode {period[0]} t/m {period[1]}  (scope: {out['market_scope']})")
-    print(f"  {'markt':8} {'rijen':>7} {'instroom':>9} {'notreach':>9} {'mailjrn':>8} {'SQL':>6} {'ratio':>7}")
-    for market in MARKETS + [None]:
-        block = cur if market is None else per_market[market]["current"]
-        label = "TOTAAL" if market is None else market
-        rowcount = len(rows) if market is None else per_market[market]["rows"]
-        r = block["reactivation"]
-        ratio_val = block["kernKpis"]["reactivationRatio"]["value"]
+    print(f"Einddatum {end_date}  (scope: {out['market_scope']})")
+    for days in PERIOD_DAYS:
+        block = periods[str(days)]
+        r = block["current"]["reactivation"]
+        flag = "" if block["comparable"] else "  (te weinig historie voor de vergelijking)"
         print(
-            f"  {label:8} {rowcount:7} {r['leadIntake']['abs']:9} "
-            f"{r['notContact']['abs']:9} {r['mailjourney']['abs']:8} "
-            f"{r['sql']['abs']:6} {str(ratio_val):>7}"
+            f"  {days:3}d  {block['range']['start']} t/m {block['range']['end']}  "
+            f"instroom={r['leadIntake']['abs']:6} mailjourney={r['mailjourney']['abs']:5} "
+            f"SQL={r['sql']['abs']:5}{flag}"
         )
     if unknown:
-        print(f"  {unknown} rijen zonder markt (oudere export)")
+        print(f"  {unknown} rijen zonder markt")
     print(f"Geschreven naar {OUT_PATH}")
 
 
