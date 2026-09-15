@@ -15,10 +15,10 @@ Env vars (optioneel, defaults gelijk aan het venster van de export):
 
 Schrijft `exports/crm_metrics.json`.
 
-Belangrijk: `report.csv` bevat geen RecordTypeId, dus de markt van een Lead is
-er niet uit af te leiden. Alle cijfers hier zijn daarom markt-overstijgend
-(alle markten samen). Zodra de export RecordTypeId meelevert kan hier per
-markt gesplitst worden — zie het stappenplan, vraag 6a.
+De export levert sinds kort een `Market`-kolom (afgeleid van
+`Lead.RecordTypeId`), dus alles wordt per markt berekend. Rijen zonder markt —
+uit een oudere export zonder die kolom — komen terecht onder de sleutel
+`"onbekend"` en worden door het dashboard genegeerd.
 
 Velden zonder bron blijven expliciet None (niet 0), zodat het dashboard het
 verschil tussen "nul gemeten" en "niet aangesloten" kan tonen.
@@ -53,9 +53,24 @@ S_LOST = "Lost"
 S_BROCHURE = "Brochure"
 
 
+MARKETS = ["nl", "be", "fr", "it"]
+
+
 def read_rows(path):
     with open(path, newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    # Oudere exports hebben nog geen Market-kolom.
+    if rows and "Market" not in rows[0]:
+        print("WAARSCHUWING: report.csv heeft nog geen Market-kolom — "
+              "draai scripts/export_salesforce_report.py opnieuw voor cijfers per markt.")
+    return rows
+
+
+def rows_for_market(rows, market):
+    """Rijen van één markt. `market=None` geeft alles (alle markten samen)."""
+    if market is None:
+        return rows
+    return [r for r in rows if (r.get("Market") or "").strip().lower() == market]
 
 
 def in_window(edit_date, start, end):
@@ -247,18 +262,35 @@ def main():
     pre = compute(rows, *prev)
     fill_deltas(cur, pre)
 
+    # Per markt hetzelfde rekenwerk, plus "all" als totaal over alle markten.
+    per_market = {}
+    for market in MARKETS:
+        subset = rows_for_market(rows, market)
+        m_cur = compute(subset, *period)
+        m_pre = compute(subset, *prev)
+        fill_deltas(m_cur, m_pre)
+        per_market[market] = {
+            "rows": len(subset),
+            "current": m_cur,
+            "previous": m_pre,
+        }
+
+    has_market_column = bool(rows) and "Market" in rows[0]
+    unknown = len([r for r in rows if not (r.get("Market") or "").strip()])
+
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "period": {"start": period[0], "end": period[1]},
         "prev_period": {"start": prev[0], "end": prev[1]},
         "source_rows": len(rows),
-        "market_scope": "all",
+        "rows_without_market": unknown,
+        "market_scope": "per_market" if has_market_column else "all",
         "current": cur,
         "previous": pre,
+        "markets": per_market,
         "notes": [
-            "report.csv bevat geen RecordTypeId; cijfers zijn markt-overstijgend.",
             "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
-            "Coverage en database-groei vragen consent-velden uit het CRM.",
+            "Coverage-noemer en database-groei komen uit exports/lead_consent.json.",
         ],
     }
 
@@ -267,13 +299,21 @@ def main():
         json.dump(out, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")
 
-    c = cur["reactivation"]
-    print(f"Periode {period[0]} t/m {period[1]}")
-    print(f"  Instroom           {c['leadIntake']['abs']}")
-    print(f"  Not reached        {c['notContact']['abs']} ({c['notContact']['share']}%)")
-    print(f"  Mailjourney        {c['mailjourney']['abs']} ({c['mailjourney']['share']}%)")
-    print(f"  Re-entered (SQL)   {c['sql']['abs']} ({c['sql']['share']}%)")
-    print(f"  Heractivatie-ratio {cur['kernKpis']['reactivationRatio']['value']}%")
+    print(f"Periode {period[0]} t/m {period[1]}  (scope: {out['market_scope']})")
+    print(f"  {'markt':8} {'rijen':>7} {'instroom':>9} {'notreach':>9} {'mailjrn':>8} {'SQL':>6} {'ratio':>7}")
+    for market in MARKETS + [None]:
+        block = cur if market is None else per_market[market]["current"]
+        label = "TOTAAL" if market is None else market
+        rowcount = len(rows) if market is None else per_market[market]["rows"]
+        r = block["reactivation"]
+        ratio_val = block["kernKpis"]["reactivationRatio"]["value"]
+        print(
+            f"  {label:8} {rowcount:7} {r['leadIntake']['abs']:9} "
+            f"{r['notContact']['abs']:9} {r['mailjourney']['abs']:8} "
+            f"{r['sql']['abs']:6} {str(ratio_val):>7}"
+        )
+    if unknown:
+        print(f"  {unknown} rijen zonder markt (oudere export)")
     print(f"Geschreven naar {OUT_PATH}")
 
 

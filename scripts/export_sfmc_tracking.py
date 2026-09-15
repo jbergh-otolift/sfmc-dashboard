@@ -126,18 +126,45 @@ class Auth:
         return self.token
 
 
+def activity_prefix(value):
+    """Normaliseert een activiteit-/TSD-naam tot de prefix voor de hex-suffix."""
+    if not isinstance(value, str):
+        return ""
+    text = value.strip()
+    parts = text.rsplit(" - ", 1)
+    if len(parts) == 2 and len(parts[1]) == 32:
+        try:
+            int(parts[1], 16)
+            text = parts[0]
+        except ValueError:
+            pass
+    return " ".join(text.lower().split())
+
+
 def fetch_journeys(session, auth):
-    """Haalt journey-definities op en bouwt maps van send-identifier -> journeynaam."""
-    journeys = []
+    """Haalt alle journeyversies op en bouwt maps van send-identifier -> journeynaam.
+
+    Attributie gebeurt per journey, niet per e-mail, dus we hebben ALLE versies
+    nodig: sends in het rapportagevenster komen vaak uit een oudere versie met
+    andere triggered sends. `mostRecentVersionOnly=false` levert die versies;
+    `extras=activities` is genoeg en veel sneller dan `extras=all`.
+    """
+    seen_journeys = {}
     id_to_journey = {}
     email_to_journey = {}
+    prefix_to_journey = {}
     page = 1
     while page <= 200:
         url = f"{auth.rest_url.rstrip('/')}/interaction/v1/interactions"
         resp = session.get(
             url,
             headers={"Authorization": f"Bearer {auth.valid_token()}"},
-            params={"extras": "all", "$pageSize": 50, "$page": page},
+            params={
+                "extras": "activities",
+                "mostRecentVersionOnly": "false",
+                "$pageSize": 50,
+                "$page": page,
+            },
             timeout=120,
         )
         if resp.status_code == 401:
@@ -147,15 +174,17 @@ def fetch_journeys(session, auth):
         payload = resp.json()
         items = payload.get("items") or []
         for item in items:
+            # Alle versies van een journey vallen onder een label: de naam zelf.
             name = item.get("name") or UNASSIGNED
-            journeys.append(
-                {
+            version = item.get("version") or 0
+            current = seen_journeys.get(item.get("id"))
+            if current is None or (version or 0) >= (current.get("version") or 0):
+                seen_journeys[item.get("id")] = {
                     "id": item.get("id"),
                     "name": name,
-                    "version": item.get("version"),
+                    "version": version,
                     "status": item.get("status"),
                 }
-            )
             for activity in item.get("activities") or []:
                 if activity.get("type") != "EMAILV2":
                     continue
@@ -163,24 +192,33 @@ def fetch_journeys(session, auth):
                 ts = args.get("triggeredSend")
                 if not isinstance(ts, dict):
                     continue
-                for key in ("objectId", "objectID", "id", "key", "customerKey", "name"):
+                # Tier 1: directe TSD ObjectID en CustomerKey.
+                for key in ("objectId", "objectID", "id", "key", "customerKey"):
                     value = ts.get(key)
                     if isinstance(value, str) and value.strip():
-                        id_to_journey.setdefault(value.strip(), name)
                         id_to_journey.setdefault(value.strip().lower(), name)
+                # Tier 2: emailId, later gebrugd via de TSD-retrieve.
                 email_id = ts.get("emailId")
                 if email_id is not None and str(email_id).strip():
                     email_to_journey.setdefault(str(email_id).strip(), name)
+                # Tier 2-fallback: naam zonder hex-suffix.
+                for value in (ts.get("name"), activity.get("name")):
+                    prefix = activity_prefix(value)
+                    if prefix:
+                        prefix_to_journey.setdefault(prefix, name)
 
         count = payload.get("count")
         page_size = payload.get("pageSize") or 50
-        seen = page * page_size
-        if not items or count is None or seen >= count:
+        if not items or count is None or page * page_size >= count:
             break
         page += 1
 
-    print(f"  journeys: {len(journeys)}, mapping-entries: {len(id_to_journey)} (+{len(email_to_journey)} emailId)")
-    return journeys, id_to_journey, email_to_journey
+    journeys = sorted(seen_journeys.values(), key=lambda j: (j["name"], j["id"] or ""))
+    print(
+        f"  journeys: {len(journeys)} (alle versies), tier1-sleutels: {len(id_to_journey)}, "
+        f"emailId: {len(email_to_journey)}, naam-prefix: {len(prefix_to_journey)}"
+    )
+    return journeys, id_to_journey, email_to_journey, prefix_to_journey
 
 
 def soap_retrieve(session, auth, obj, properties, start=None, end=None):
@@ -220,7 +258,9 @@ def soap_retrieve(session, auth, obj, properties, start=None, end=None):
         for result in root.findall(".//p:Results", NS):
             row = {}
             for prop in properties:
-                el = result.find(f"p:{prop}", NS)
+                # Properties met een punt (bv. `Email.ID`) komen genest terug.
+                path = "/".join(f"p:{part}" for part in prop.split("."))
+                el = result.find(path, NS)
                 row[prop] = el.text if el is not None and el.text else ""
             rows.append(row)
 
@@ -252,33 +292,43 @@ def retrieve_events(session, auth, start, end):
     return events
 
 
-def fetch_tsd_map(session, auth, id_to_journey, email_to_journey):
-    """TriggeredSendDefinition ObjectID -> flowlabel (journeynaam of TSD-naam)."""
+def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey):
+    """TSD ObjectID -> (journeynaam, tier). Gelaagd, betrouwbaarste laag eerst."""
     rows = soap_retrieve(
         session,
         auth,
         "TriggeredSendDefinition",
-        ["ObjectID", "CustomerKey", "Name", "TriggeredSendStatus"],
+        ["ObjectID", "CustomerKey", "Name", "Description", "Email.ID"],
     )
     tsd_map = {}
+    tiers = {1: 0, 2: 0}
     for row in rows:
-        object_id = (row.get("ObjectID") or "").strip()
+        object_id = (row.get("ObjectID") or "").strip().lower()
         if not object_id:
             continue
         key = (row.get("CustomerKey") or "").strip()
         name = (row.get("Name") or "").strip()
-        label = None
-        for candidate in (key, key.lower(), name, name.lower()):
-            if candidate and candidate in id_to_journey:
-                label = id_to_journey[candidate]
-                break
-        if label is None and key in email_to_journey:
-            label = email_to_journey[key]
+        email_id = (row.get("Email.ID") or "").strip()
+
+        # Tier 1: de journey noemde deze TSD bij ObjectID of CustomerKey.
+        label = id_to_journey.get(object_id) or (id_to_journey.get(key.lower()) if key else None)
+        tier = 1
         if label is None:
-            label = name or UNASSIGNED
-        tsd_map[object_id] = label
-        tsd_map[object_id.lower()] = label
-    print(f"  TSD-map: {len(rows)} definities -> {len(tsd_map)} sleutels")
+            # Tier 2: brug via het e-mail-id van de TSD.
+            tier = 2
+            if email_id:
+                label = email_to_journey.get(email_id)
+            if label is None:
+                for candidate in (name, (row.get("Description") or "")):
+                    prefix = activity_prefix(candidate)
+                    if prefix and prefix in prefix_to_journey:
+                        label = prefix_to_journey[prefix]
+                        break
+        if label is None:
+            continue
+        tsd_map[object_id] = (label, tier)
+        tiers[tier] += 1
+    print(f"  TSD-map: {len(rows)} definities -> {len(tsd_map)} gekoppeld (tier1={tiers[1]}, tier2={tiers[2]})")
     return tsd_map
 
 

@@ -14,14 +14,26 @@ API_VERSION = "v60.0"
 # API row cap via Bulk API, so this just bounds how far back we look.
 HISTORY_START_DATE = "2026-08-01T00:00:00Z"
 
+# Lead.RecordTypeId bepaalt de markt van een lead; zonder die kolom zijn de
+# funnelcijfers niet per land te splitsen. De relatie-traversal naar de
+# bovenliggende Lead werkt in Bulk API 2.0 (geverifieerd).
 SOQL_QUERY = f"""
-SELECT CreatedDate, LeadId, Field, OldValue, NewValue
+SELECT CreatedDate, LeadId, Lead.RecordTypeId, Field, OldValue, NewValue
 FROM LeadHistory
 WHERE Field = 'Status' AND CreatedDate >= {HISTORY_START_DATE}
 ORDER BY CreatedDate DESC
 """.strip()
 
-OUT_COLUMNS = ["Edit Date", "Lead ID", "Field / Event", "Old Value", "New Value"]
+# RecordTypeId -> markt. Alle vier zijn "Particulier <land>"; er zijn geen
+# zakelijke Lead-RecordTypes.
+MARKET_BY_RECORD_TYPE = {
+    "0127Q000000upr9QAA": "NL",
+    "0127Q000000eERIQA2": "BE",
+    "012QD000002ylXZYAY": "FR",
+    "012QD000002ylcPYAQ": "IT",
+}
+
+OUT_COLUMNS = ["Edit Date", "Lead ID", "Market", "Record Type ID", "Field / Event", "Old Value", "New Value"]
 OUT_PATH = "exports/report.csv"
 
 
@@ -96,12 +108,30 @@ def fetch_all_rows(access_token, instance_url, job_id):
 def write_csv(header, rows, out_path):
     idx = {name: header.index(name) for name in ("CreatedDate", "LeadId", "Field", "OldValue", "NewValue")}
 
+    # Bulk API levert de relatiekolom als "Lead.RecordTypeId". Ontbreekt die
+    # (oudere export, of geen leesrecht), dan blijft de marktkolom leeg in
+    # plaats van dat de export omvalt.
+    rt_idx = next((i for i, name in enumerate(header) if name.replace("_", ".") == "Lead.RecordTypeId"), None)
+    if rt_idx is None:
+        print("WAARSCHUWING: Lead.RecordTypeId ontbreekt in de response; marktkolom blijft leeg.")
+
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    unmapped = set()
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(OUT_COLUMNS)
         for row in rows:
-            writer.writerow([row[idx["CreatedDate"]], row[idx["LeadId"]], row[idx["Field"]], row[idx["OldValue"]], row[idx["NewValue"]]])
+            rtid = row[rt_idx] if rt_idx is not None else ""
+            market = MARKET_BY_RECORD_TYPE.get(rtid, "")
+            if rtid and not market:
+                unmapped.add(rtid)
+            writer.writerow([
+                row[idx["CreatedDate"]], row[idx["LeadId"]], market, rtid,
+                row[idx["Field"]], row[idx["OldValue"]], row[idx["NewValue"]],
+            ])
+
+    if unmapped:
+        print(f"WAARSCHUWING: onbekende RecordTypeId's (niet in MARKET_BY_RECORD_TYPE): {sorted(unmapped)}")
 
 
 def main():
