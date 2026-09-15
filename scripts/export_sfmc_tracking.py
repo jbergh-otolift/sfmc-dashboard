@@ -545,14 +545,30 @@ def main():
             ).strftime("%Y-%m-%d")
             print(f"  coverage-venster {cov_start} t/m {period_end} ({COVERAGE_DAYS} dagen)")
             cov_rows = soap_retrieve(
-                session, auth, "SentEvent", ["SubscriberKey"],
+                session, auth, "SentEvent",
+                ["SubscriberKey", "TriggeredSendDefinitionObjectID"],
                 f"{cov_start}T00:00:00", f"{period_end}T00:00:00")
-            cov_leads = {
-                r.get("SubscriberKey") for r in cov_rows
-                if (r.get("SubscriberKey") or "").startswith("00Q")
+
+            # Per journey bijhouden wie er geraakt is, zodat de uitkomst
+            # (afspraak, conversie, omzet) per flow toe te rekenen is.
+            per_journey = {}
+            cov_leads = set()
+            for row in cov_rows:
+                key = row.get("SubscriberKey") or ""
+                if not key.startswith("00Q"):
+                    continue
+                cov_leads.add(key)
+                # tsd_map levert (journeynaam, tier); alleen de naam is hier nodig.
+                hit = tsd_map.get(row.get("TriggeredSendDefinitionObjectID") or "")
+                flow = hit[0] if hit else UNASSIGNED
+                per_journey.setdefault(flow, set()).add(key)
+
+            reached_lead_ids[market] = {
+                "all": sorted(cov_leads),
+                "by_journey": {k: sorted(v) for k, v in per_journey.items()},
             }
-            reached_lead_ids[market] = sorted(cov_leads)
-            print(f"  coverage: {len(cov_leads)} unieke leads bereikt in {COVERAGE_DAYS} dagen")
+            print(f"  coverage: {len(cov_leads)} unieke leads over {len(per_journey)} journeys"
+                  f" in {COVERAGE_DAYS} dagen")
             prev_flows, prev_uniques = None, None
             if prev_period:
                 prev_flows, _, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
@@ -594,7 +610,7 @@ def main():
              "markets": reached_lead_ids},
             f)
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
-          + ", ".join(f"{m}={len(v)}" for m, v in reached_lead_ids.items()))
+          + ", ".join(f"{m}={len(v['all'])}" for m, v in reached_lead_ids.items()))
 
     print(f"\nGeschreven naar {out_path}")
     for market, data in sorted(markets.items()):

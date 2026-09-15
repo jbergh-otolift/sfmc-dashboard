@@ -98,6 +98,13 @@ jobs:
           PREV_START: ${{ steps.period.outputs.PREV_START }}
           PREV_END: ${{ steps.period.outputs.PREV_END }}
 
+      - name: Opbrengst per flow berekenen
+        run: python scripts/export_flow_outcomes.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+
       - name: CRM-metrics berekenen
         run: python scripts/build_crm_metrics.py
         env:
