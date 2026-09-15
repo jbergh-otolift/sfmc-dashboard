@@ -375,7 +375,7 @@
 <div class="wrap">
   <div class="notice err" data-load-error hidden></div>
   <div class="notice warn" data-market-empty hidden>
-    Voor deze markt is nog geen data beschikbaar. Frankrijk en Italië bestaan nog niet als Lead-RecordType in het CRM en hebben nog geen eigen Business Unit (MID) in Marketing Cloud.
+    Voor deze markt is nog geen data beschikbaar.
   </div>
 </div>
 
@@ -396,7 +396,7 @@
         <div class="ch-top">
           <div>
             <div class="ch-name">Automation Coverage</div>
-            <div class="ch-sub">Doel 80%+ · contacten met consent &amp; touchpoint · nog geen bron aangesloten</div>
+            <div class="ch-sub">Doel 80%+ · van de contacten met consent is bereikt in deze periode</div>
           </div>
         </div>
         <div class="ch-body">
@@ -410,10 +410,10 @@
             </svg>
             <div class="g-val">
               <div class="g-num" data-bind="kernKpis.coverage.value" data-fmt="pct0">68%</div>
-              <div class="g-lbl">van <span data-bind="kernKpis.coverage.consentTotal" data-fmt="int">24.180</span> met consent</div>
+              <div class="g-lbl"><span data-bind="kernKpis.coverage.reached" data-fmt="int">–</span> van <span data-bind="kernKpis.coverage.consentTotal" data-fmt="int">–</span> met consent</div>
             </div>
           </div>
-          <div class="ch-goalline">Nog <b><span data-bind="kernKpis.coverage.toActivate" data-fmt="int">2.900</span> contacten</b> te activeren · <span class="delta up" data-bind-delta="kernKpis.coverage.deltaPct" data-delta-dir="up-good"><span class="d-arw">▲</span><span class="bindval">+6,6%</span><span class="d-vs">vs vorige periode</span></span></div>
+          <div class="ch-goalline" data-coverage-note>–</div>
           <div class="ch-growth">
             <div class="cg-lbl">Groei actieve database</div>
             <div class="cg-valrow">
@@ -740,11 +740,10 @@
       De badge per sectie laat zien wat de status is. Benchmarkdrempels volgen algemene
       B2C-leadgenrichtlijnen en moeten per flow gekalibreerd worden.
       <br><br>
-      <b>Let op de scope van de CRM-cijfers:</b> de LeadHistory-export bevat geen
-      <code>RecordTypeId</code>, dus de markt van een Lead is er niet uit af te leiden. Her-activatie en
-      lead funnel zijn daarom <b>markt-overstijgend</b> (alle markten samen) en veranderen niet als je
-      hierboven van land wisselt. Email Health is wél echt per markt, want die is per Business Unit
-      opgehaald.</span>
+      <b>Alles is nu per land.</b> De LeadHistory-export levert het RecordType van de Lead mee, en
+      alle vier de Lead-RecordTypes zijn <i>Particulier &lt;land&gt;</i> — er zijn geen zakelijke
+      RecordTypes. Ratio's met een noemer onder 25 worden onderdrukt: bij zulke kleine aantallen
+      vallen statusovergangen buiten hun eigen instroomvenster en krijg je percentages boven 100%.</span>
   </div>
 
   <div class="footer">

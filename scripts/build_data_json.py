@@ -34,6 +34,7 @@ from datetime import datetime, timezone
 
 TRACKING_PATH = "exports/sfmc_tracking.json"
 CRM_PATH = "exports/crm_metrics.json"
+CONSENT_PATH = "exports/lead_consent.json"
 OUT_PATH = "docs/data.json"
 
 MARKETS = {
@@ -114,6 +115,53 @@ def build_email_health(market_block):
     return out or {"all": {"label": "Alle flows"}}
 
 
+def build_coverage(consent_market, market_block):
+    """Automation Coverage per markt.
+
+    Noemer = contacten met consent (CRM). Teller = daarvan degene die in de
+    periode daadwerkelijk een e-mail kregen (unieke subscribers uit de
+    SFMC-sends). Zonder Business Unit in Marketing Cloud is de teller niet te
+    meten — dan blijft coverage None ("nog niet meetbaar"), uitdrukkelijk geen 0%.
+    """
+    if not consent_market:
+        return {"value": None, "consentTotal": None, "toActivate": None,
+                "deltaPct": None, "reached": None, "measurable": False,
+                "reason": "no_consent_data"}
+
+    consent_total = consent_market.get("consentTotal")
+    reached = (market_block or {}).get("unique_subscribers")
+
+    if not consent_total or reached is None:
+        # Onderscheid: helemaal geen Business Unit in Marketing Cloud, of wel
+        # een BU maar de teller ontbreekt nog in de export.
+        if not market_block:
+            reason = "no_business_unit"
+        elif not consent_total:
+            reason = "no_consent_data"
+        else:
+            reason = "numerator_missing"
+        return {
+            "value": None,
+            "consentTotal": consent_total,
+            "toActivate": None,
+            "deltaPct": None,
+            "reached": reached,
+            "measurable": False,
+            "reason": reason,
+        }
+
+    value = round(reached / consent_total * 100, 1)
+    return {
+        "value": value,
+        "consentTotal": consent_total,
+        "toActivate": max(consent_total - reached, 0),
+        "deltaPct": None,
+        "reached": reached,
+        "measurable": True,
+        "reason": None,
+    }
+
+
 def source_state(email_health, has_crm):
     """Bepaalt de badge per sectie."""
     live_email = bool(
@@ -135,8 +183,11 @@ def source_state(email_health, has_crm):
 def main():
     tracking = load(TRACKING_PATH)
     crm = load(CRM_PATH)
+    consent = load(CONSENT_PATH)
 
     crm_current = (crm or {}).get("current") or {}
+    crm_markets = (crm or {}).get("markets") or {}
+    consent_markets = (consent or {}).get("markets") or {}
     has_crm = bool(crm_current)
 
     # De periode van de tracking-export is leidend; die van het CRM hoort
@@ -156,35 +207,48 @@ def main():
     for key, label in MARKETS.items():
         block = tracking_markets.get(key)
         email_health = build_email_health(block)
-        available = bool(block) or has_crm
+
+        # CRM-cijfers zijn nu echt per markt (report.csv heeft een Market-kolom).
+        # Ontbreekt die markt, val dan terug op het totaal.
+        market_crm = (crm_markets.get(key) or {}).get("current") or {}
+        if not market_crm:
+            market_crm = crm_current
+
+        kern = dict(market_crm.get("kernKpis") or {})
+        consent_market = consent_markets.get(key)
+        kern["coverage"] = build_coverage(consent_market, block)
+        kern["databaseGrowth"] = {
+            "value": (consent_market or {}).get("growth"),
+            "deltaAbs": (consent_market or {}).get("growth"),
+            "deltaPct": (consent_market or {}).get("growthDeltaPct"),
+        }
+
+        available = bool(block) or bool(market_crm) or bool(consent_market)
 
         markets[key] = {
             "marketLabel": label,
             "available": available,
-            "_sources": source_state(email_health, has_crm),
-            # CRM-cijfers zijn markt-overstijgend zolang de export geen
-            # RecordTypeId meelevert; ze staan daarom identiek onder elke markt
-            # die bestaat. Het dashboard vermeldt dat expliciet.
-            "kernKpis": crm_current.get("kernKpis", {}),
-            "reactivation": crm_current.get("reactivation", {}),
-            "acquisition": crm_current.get("acquisition", {}),
+            "_sources": source_state(email_health, bool(market_crm)),
+            "kernKpis": kern,
+            "reactivation": market_crm.get("reactivation", {}),
+            "acquisition": market_crm.get("acquisition", {}),
             "emailHealth": email_health,
+            "consent": consent_market,
         }
 
-    # FR en IT bestaan nog niet: geen MID in Marketing Cloud en geen
-    # RecordType in het CRM. Expliciet op niet-beschikbaar zetten.
+    # FR en IT hebben wél CRM-data (Particulier FR/IT bestaan als RecordType),
+    # maar nog geen Business Unit in Marketing Cloud. Email Health blijft daar
+    # dus leeg, de rest niet.
     for key in ("fr", "it"):
         if key not in tracking_markets:
-            markets[key]["available"] = False
-            markets[key]["_sources"] = {
-                k: "not_connected" for k in markets[key]["_sources"]
-            }
+            markets[key]["_sources"]["emailHealth"] = "not_connected"
 
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "period": period,
         "prev_period": prev_period,
         "crm_market_scope": (crm or {}).get("market_scope", "all"),
+        "consent_definition": (consent or {}).get("consent_definition"),
         "notes": (crm or {}).get("notes", []),
         "markets": markets,
     }

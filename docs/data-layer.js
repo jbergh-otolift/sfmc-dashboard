@@ -254,6 +254,42 @@ function buildFlowChips(emailHealth) {
   if (keys.length) applyFlow(emailHealth, keys[0]);
 }
 
+/* ---------- coverage: meetbaar of niet ---------- */
+
+// Coverage heeft twee bronnen nodig: de noemer (contacten met consent, uit het
+// CRM) en de teller (unieke bereikte contacten, uit de SFMC-sends). Ontbreekt
+// de teller omdat een markt nog geen Business Unit heeft, dan is coverage niet
+// 0% maar niet meetbaar — dat onderscheid moet zichtbaar zijn.
+function applyCoverageNote(coverage) {
+  const el = document.querySelector("[data-coverage-note]");
+  if (!el) return;
+
+  if (!coverage || coverage.consentTotal === null || coverage.consentTotal === undefined) {
+    el.innerHTML = "Geen consent-cijfer beschikbaar voor deze markt.";
+    el.classList.add("nodata");
+    return;
+  }
+
+  if (!coverage.measurable) {
+    el.classList.add("nodata");
+    const consent = nlNum(coverage.consentTotal, 0) + " contacten met consent";
+    const why = {
+      no_business_unit:
+        ", maar deze markt heeft nog geen Business Unit in Marketing Cloud — " +
+        "hoeveel daarvan bereikt zijn is er dus niet.",
+      numerator_missing:
+        ", maar het aantal bereikte contacten ontbreekt nog in de tracking-export.",
+      no_consent_data: " — geen consent-cijfer beschikbaar.",
+    }[coverage.reason] || " — teller nog niet beschikbaar.";
+    el.innerHTML = "<b>Nog niet meetbaar.</b> " + consent + why;
+    return;
+  }
+
+  el.classList.remove("nodata");
+  el.innerHTML =
+    "Nog <b>" + nlNum(coverage.toActivate, 0) + " contacten</b> te activeren";
+}
+
 /* ---------- bronnen-badges ---------- */
 
 // Zet per sectie zichtbaar of de data live is of nog niet aangesloten, zodat
@@ -302,6 +338,7 @@ function applyMarket(marketKey) {
   if (empty) empty.hidden = true;
 
   applyBindings(document, market);
+  applyCoverageNote(market.kernKpis && market.kernKpis.coverage);
   applySourceBadges(market._sources);
   buildFlowChips(market.emailHealth || { all: { label: "Alle flows" } });
 }
