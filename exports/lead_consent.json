@@ -1,19 +1,19 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
-  "coverage_days": null,
-  "coverage_definition": "Status = 'Mailjourney' AND Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false; bereikt = minstens een e-mail in de laatste None dagen",
-  "generated_at": "2026-09-15T13:48:55+00:00",
+  "coverage_days": 90,
+  "coverage_definition": "Status = 'Mailjourney' AND Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false; bereikt = minstens een e-mail in de laatste 90 dagen",
+  "generated_at": "2026-09-15T14:15:52+00:00",
   "markets": {
     "be": {
-      "consentShare": 6.0,
-      "consentTotal": 4512,
-      "coverage": null,
-      "growth": 463,
-      "growthDeltaPct": -1.3,
+      "consentShare": 6.01,
+      "consentTotal": 4514,
+      "coverage": 41.7,
+      "growth": 620,
+      "growthDeltaPct": 32.2,
       "growthPrev": 469,
-      "leadsTotal": 75159,
-      "reachedOfShouldMail": null,
-      "shouldMail": 1645
+      "leadsTotal": 75162,
+      "reachedOfShouldMail": 687,
+      "shouldMail": 1646
     },
     "fr": {
       "consentShare": 0.0,
@@ -39,25 +39,23 @@
     },
     "nl": {
       "consentShare": 10.69,
-      "consentTotal": 33557,
-      "coverage": null,
-      "growth": 1017,
-      "growthDeltaPct": 2.5,
+      "consentTotal": 33555,
+      "coverage": 33.0,
+      "growth": 1320,
+      "growthDeltaPct": 33.1,
       "growthPrev": 992,
-      "leadsTotal": 313796,
-      "reachedOfShouldMail": null,
-      "shouldMail": 11464
+      "leadsTotal": 313864,
+      "reachedOfShouldMail": 3781,
+      "shouldMail": 11463
     }
   },
   "period": {
-    "end": "2026-09-09",
+    "end": "2026-09-16",
     "start": "2026-08-20"
   },
   "prev_period": {
     "end": "2026-08-20",
     "start": "2026-08-01"
   },
-  "warnings": [
-    "exports/_reached_lead_ids.json ontbreekt; coverage niet berekend. Draai eerst scripts/export_sfmc_tracking.py."
-  ]
+  "warnings": []
 }
