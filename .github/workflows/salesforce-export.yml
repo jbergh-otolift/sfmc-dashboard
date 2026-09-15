@@ -28,9 +28,16 @@ jobs:
           SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
           SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
 
+      - name: Consent en database-groei per markt
+        run: python scripts/export_lead_consent.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add exports/report.csv
+          git add exports/report.csv exports/lead_consent.json
           git diff --staged --quiet || git commit -m "Update Salesforce report export"
           git push
