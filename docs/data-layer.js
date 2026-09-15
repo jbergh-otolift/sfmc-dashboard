@@ -313,27 +313,53 @@ function applyOutcomes(market) {
   table.innerHTML = "";
 
   const health = market.emailHealth || {};
+  // Sorteren op hoe goed een flow zijn eigen doel haalt — niet op omzet, want
+  // omzet is voor een nurture-lane niet de opdracht.
   const rows = Object.keys(health)
     .filter((key) => key !== "all" && health[key].outcome)
-    .map((key) => ({ label: health[key].label || key, o: health[key].outcome }))
-    .sort((a, b) => (b.o.revenue || 0) - (a.o.revenue || 0));
+    .map((key) => ({ label: health[key].label || key, o: health[key].outcome, g: health[key].goal }))
+    .sort((a, b) => (a.g?.attainment ?? 1e9) - (b.g?.attainment ?? 1e9));
 
   const cell = (text, cls) =>
     "<td" + (cls ? ' class="' + cls + '"' : "") + ">" + text + "</td>";
 
   rows.forEach((row) => {
     const o = row.o;
-    // Veel bereik en nauwelijks opbrengst is het signaal dat telt.
-    const weak = o.touched >= 500 && (o.won || 0) <= 5;
+    const g = row.g;
     const tr = document.createElement("tr");
-    if (weak) tr.className = "weak";
+
+    let goalCell = '<span class="nodata">geen doel</span>';
+    let actual = NODATA;
+    let target = NODATA;
+    let attain = NODATA;
+
+    if (g) {
+      goalCell =
+        (g.configured ? "" : '<span class="goal-default">standaard · </span>') + g.label;
+      actual =
+        (g.isRevenue ? eur(g.actual) : nlNum(g.actual || 0, 0)) +
+        (g.rate !== null ? "<small>" + nlNum(g.rate, 1) + "%</small>" : "");
+      if (g.target !== null && g.target !== undefined) {
+        target =
+          (g.isRevenue ? eur(g.target) : nlNum(Math.round(g.target), 0)) +
+          (g.targetRate ? "<small>" + nlNum(g.targetRate, 1) + "%</small>" : "");
+      }
+      if (g.attainment !== null && g.attainment !== undefined) {
+        // Onder de helft van het doel is een probleem, niet een detail.
+        const level = g.attainment >= 90 ? "ok" : g.attainment >= 50 ? "warn" : "bad";
+        attain = '<span class="attain ' + level + '">' + nlNum(g.attainment, 0) + "%</span>";
+        if (level === "bad") tr.className = "weak";
+      }
+    }
+
     tr.innerHTML =
-      cell(row.label, "l") +
+      cell(row.label + (g && g.note ? "<small>" + g.note + "</small>" : ""), "l") +
+      cell(goalCell, "l") +
+      cell(actual) +
+      cell(target) +
+      cell(attain) +
       cell(nlNum(o.touched, 0)) +
-      cell(nlNum(o.toAppointment, 0) + "<small>" + (o.appointmentRate !== null ? nlNum(o.appointmentRate, 1) + "%" : NODATA) + "</small>") +
-      cell(nlNum(o.won, 0) + "<small>" + (o.conversionRate !== null ? nlNum(o.conversionRate, 1) + "%" : NODATA) + "</small>") +
-      cell(eur(o.revenue), "rev") +
-      cell(eur(o.revenuePerTouch));
+      cell(eur(o.revenue), "rev");
     table.appendChild(tr);
   });
 
@@ -343,17 +369,18 @@ function applyOutcomes(market) {
     tr.className = "total";
     tr.innerHTML =
       cell("Totaal · ontdubbeld", "l") +
+      cell("", "l") +
+      cell(nlNum(total.toAppointment, 0) + "<small>afspraken</small>") +
+      cell("") +
+      cell("") +
       cell(nlNum(total.touched, 0)) +
-      cell(nlNum(total.toAppointment, 0)) +
-      cell(nlNum(total.won, 0)) +
-      cell(eur(total.revenue), "rev") +
-      cell(eur(total.revenuePerTouch));
+      cell(eur(total.revenue), "rev");
     table.appendChild(tr);
   }
 
   if (!rows.length && !total) {
     table.innerHTML =
-      '<tr><td class="l nodata" colspan="6">Geen opbrengstcijfers voor deze markt.</td></tr>';
+      '<tr><td class="l nodata" colspan="7">Geen opbrengstcijfers voor deze markt.</td></tr>';
   }
 }
 

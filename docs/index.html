@@ -349,6 +349,12 @@
   .outcome-table tr.weak td.rev{color:var(--oto-red)}
   .outcome-table td small{display:block;font-size:10px;font-weight:600;color:var(--ink-soft);margin-top:2px}
   .outcome-table td + td{padding-left:16px}
+  .outcome-table .attain{font-weight:800;padding:2px 8px;border-radius:20px;font-size:12px}
+  .outcome-table .attain.ok{background:#E4F5EC;color:var(--oto-green)}
+  .outcome-table .attain.warn{background:#FBF0D8;color:#9A7108}
+  .outcome-table .attain.bad{background:#FBE8E1;color:var(--oto-red)}
+  .outcome-table .goal-default{color:var(--ink-soft);font-weight:500}
+  .outcome-table td.l small{font-weight:500;color:var(--ink-soft);text-transform:none;letter-spacing:0}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -685,7 +691,7 @@
   <section>
     <div class="sec-head">
       <h2>Opbrengst per flow</h2>
-      <span class="desc">Wat leverden de leads op die een journey geraakt heeft, over de laatste <span data-outcome-days>90</span> dagen.</span>
+      <span class="desc">Elke flow afgerekend op zijn eigen opdracht, over de laatste <span data-outcome-days>90</span> dagen.</span>
       <span class="srcbadge" data-source-for="outcomes">–</span>
     </div>
 
@@ -696,11 +702,12 @@
             <thead>
               <tr>
                 <th class="l">Journey</th>
+                <th class="l">Doelstelling</th>
+                <th>Resultaat</th>
+                <th>Doel</th>
+                <th>Behaald</th>
                 <th>Geraakte leads</th>
-                <th>Naar afspraak</th>
-                <th>Gewonnen</th>
                 <th>Omzet</th>
-                <th>Per geraakte lead</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -712,6 +719,11 @@
           controlegroep. Lees het als "geraakt door deze flow en daarna geconverteerd".
           Het markttotaal is ontdubbeld: een lead kan door meerdere journeys geraakt zijn,
           dus de rijen optellen geeft een hoger getal dan het totaal.
+          <br><br>
+          <b>De doelen zijn een voorstel, geen afspraak.</b> Ze staan in
+          <code>config/flow_goals.json</code> en horen door marketing en sales te worden
+          vastgesteld. Een flow met een grijs doel heeft nog geen eigen doelstelling en
+          valt terug op de standaard.
         </div>
       </div>
     </div>

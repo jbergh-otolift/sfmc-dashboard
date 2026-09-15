@@ -1,0 +1,80 @@
+{
+  "_comment": [
+    "Doelstelling per journey. Elke flow heeft een eigen opdracht: een nurture-lane",
+    "moet leads kwalificeren (MQL -> SQL), een geen-gehoor-flow moet afspraken",
+    "opleveren. Het dashboard rekent per flow af op de metric die hier staat, niet",
+    "op een en dezelfde kolom voor iedereen.",
+    "",
+    "goal: welke metric telt als resultaat. Keuzes:",
+    "   sql          doorstroom naar status Re-entered (MQL -> SQL)",
+    "   appointment  doorstroom naar status Appointment",
+    "   won          gewonnen opportunities",
+    "   revenue      omzet in euro",
+    "target:     absoluut aantal per periode van 90 dagen (of euro bij revenue)",
+    "targetRate: alternatief, als percentage van de geraakte leads",
+    "Vul target OF targetRate in, niet allebei.",
+    "",
+    "LET OP: de waarden hieronder zijn een VOORSTEL van Claude, geen vastgestelde",
+    "doelen. Pas ze aan naar wat marketing en sales werkelijk hebben afgesproken;",
+    "zonder dat is de kolom 'behaald' niet meer dan een richtgetal.",
+    "Journeynamen moeten exact overeenkomen met de labels op het dashboard."
+  ],
+
+  "defaults": { "goal": "appointment" },
+
+  "nl": {
+    "NL - Nurturelane Stairlift Q2 2026": {
+      "goal": "sql",
+      "targetRate": 5.0,
+      "note": "Consideratie-lane: taak is leads kwalificeren, niet direct verkopen"
+    },
+    "NL - New Lead Journey V2": {
+      "goal": "appointment",
+      "targetRate": 20.0,
+      "note": "Instroomflow: elke nieuwe lead snel naar een afspraak"
+    },
+    "NL - 1x Geen gehoor": {
+      "goal": "appointment",
+      "targetRate": 15.0,
+      "note": "Terughalen van niet-bereikte leads"
+    },
+    "NL-Nurture - no contact possible V3": {
+      "goal": "sql",
+      "targetRate": 10.0,
+      "note": "Onbereikbare leads opnieuw kwalificeren"
+    },
+    "NL - Reentered Lead": {
+      "goal": "appointment",
+      "targetRate": 15.0,
+      "note": "Heropende leads terug de funnel in"
+    },
+    "NL - Financieel niet haalbaar": {
+      "goal": "sql",
+      "targetRate": 5.0,
+      "note": "Alternatieven aanbieden bij budgetbezwaar"
+    }
+  },
+
+  "be": {
+    "BE - New Lead - VL - WA": {
+      "goal": "appointment",
+      "targetRate": 20.0,
+      "note": "Instroomflow"
+    },
+    "BE - VL - WA - 1x Geen Gehoor": {
+      "goal": "appointment",
+      "targetRate": 15.0,
+      "note": "Terughalen van niet-bereikte leads"
+    },
+    "BE - VL - WA -  No contact possible": {
+      "goal": "sql",
+      "targetRate": 10.0,
+      "note": "Onbereikbare leads opnieuw kwalificeren"
+    },
+    "BE - VL -WA - Reentered Lead": {
+      "goal": "appointment",
+      "targetRate": 15.0,
+      "note": "Heropende leads terug de funnel in"
+    }
+  }
+}

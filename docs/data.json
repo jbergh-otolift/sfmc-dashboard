@@ -2,7 +2,7 @@
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
   "crm_market_scope": "per_market",
-  "generated_at": "2026-09-15T12:58:21+00:00",
+  "generated_at": "2026-09-15T13:03:35+00:00",
   "markets": {
     "be": {
       "_sources": {
@@ -74,6 +74,18 @@
             "unsub": -100.0
           },
           "emails": 2,
+          "goal": {
+            "actual": 384,
+            "attainment": 89.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Instroomflow",
+            "rate": 17.7,
+            "target": 432.8,
+            "targetRate": 20.0
+          },
           "label": "BE - New Lead - VL - WA",
           "open": 78.08,
           "opens": 342,
@@ -113,6 +125,18 @@
             "unsub": null
           },
           "emails": 6,
+          "goal": {
+            "actual": 34,
+            "attainment": 110.0,
+            "configured": true,
+            "goal": "sql",
+            "isRevenue": false,
+            "label": "MQL → SQL",
+            "note": "Onbereikbare leads opnieuw kwalificeren",
+            "rate": 11.0,
+            "target": 30.8,
+            "targetRate": 10.0
+          },
           "label": "BE - VL - WA -  No contact possible",
           "open": 42.18,
           "opens": 124,
@@ -152,6 +176,18 @@
             "unsub": -100.0
           },
           "emails": 2,
+          "goal": {
+            "actual": 147,
+            "attainment": 102.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Terughalen van niet-bereikte leads",
+            "rate": 15.3,
+            "target": 143.7,
+            "targetRate": 15.0
+          },
           "label": "BE - VL - WA - 1x Geen Gehoor",
           "open": 75.21,
           "opens": 179,
@@ -191,6 +227,18 @@
             "unsub": -100.0
           },
           "emails": 2,
+          "goal": {
+            "actual": 38,
+            "attainment": 97.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Heropende leads terug de funnel in",
+            "rate": 14.6,
+            "target": 39.1,
+            "targetRate": 15.0
+          },
           "label": "BE - VL -WA - Reentered Lead",
           "open": 64.63,
           "opens": 53,
@@ -230,6 +278,7 @@
             "unsub": null
           },
           "emails": 2,
+          "goal": null,
           "label": "BE - VL WA - Orderbevestiging",
           "open": 100.0,
           "opens": 106,
@@ -259,6 +308,7 @@
             "unsub": null
           },
           "emails": 2,
+          "goal": null,
           "label": "BE - referentiemailing eenmalig",
           "open": 0.0,
           "opens": 0,
@@ -288,6 +338,18 @@
             "unsub": -60.0
           },
           "emails": 20,
+          "goal": {
+            "actual": 415,
+            "attainment": null,
+            "configured": false,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": null,
+            "rate": 17.4,
+            "target": null,
+            "targetRate": null
+          },
           "label": "Alle flows",
           "open": 30.6,
           "opens": 846,
@@ -715,6 +777,18 @@
             "unsub": 65.5
           },
           "emails": 1,
+          "goal": {
+            "actual": 255,
+            "attainment": 99.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Terughalen van niet-bereikte leads",
+            "rate": 14.9,
+            "target": 257.4,
+            "targetRate": 15.0
+          },
           "label": "NL - 1x Geen gehoor",
           "open": 74.28,
           "opens": 309,
@@ -754,6 +828,7 @@
             "unsub": null
           },
           "emails": 1,
+          "goal": null,
           "label": "NL - Afspraakherinnering adviseur 2025",
           "open": 95.32,
           "opens": 346,
@@ -783,6 +858,7 @@
             "unsub": null
           },
           "emails": 1,
+          "goal": null,
           "label": "NL - Confirmation Service Appointment",
           "open": 102.19,
           "opens": 978,
@@ -812,6 +888,18 @@
             "unsub": -14.0
           },
           "emails": 8,
+          "goal": {
+            "actual": 795,
+            "attainment": 97.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Instroomflow: elke nieuwe lead snel naar een afspraak",
+            "rate": 19.3,
+            "target": 821.8,
+            "targetRate": 20.0
+          },
           "label": "NL - New Lead Journey V2",
           "open": 82.34,
           "opens": 760,
@@ -851,6 +939,18 @@
             "unsub": 2.0
           },
           "emails": 18,
+          "goal": {
+            "actual": 17,
+            "attainment": 11.0,
+            "configured": true,
+            "goal": "sql",
+            "isRevenue": false,
+            "label": "MQL → SQL",
+            "note": "Consideratie-lane: taak is leads kwalificeren, niet direct verkopen",
+            "rate": 0.6,
+            "target": 148.8,
+            "targetRate": 5.0
+          },
           "label": "NL - Nurturelane Stairlift Q2 2026",
           "open": 57.98,
           "opens": 3082,
@@ -890,6 +990,7 @@
             "unsub": null
           },
           "emails": 5,
+          "goal": null,
           "label": "NL - Offerte journey",
           "open": 105.0,
           "opens": 63,
@@ -919,6 +1020,18 @@
             "unsub": null
           },
           "emails": 7,
+          "goal": {
+            "actual": 104,
+            "attainment": 100.0,
+            "configured": true,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": "Heropende leads terug de funnel in",
+            "rate": 14.9,
+            "target": 104.5,
+            "targetRate": 15.0
+          },
           "label": "NL - Reentered Lead",
           "open": 76.51,
           "opens": 127,
@@ -958,6 +1071,7 @@
             "unsub": null
           },
           "emails": 2,
+          "goal": null,
           "label": "NL - Reviews",
           "open": 116.39,
           "opens": 71,
@@ -987,6 +1101,7 @@
             "unsub": null
           },
           "emails": 1,
+          "goal": null,
           "label": "NL - Service Appointment - Self Service Confirmation",
           "open": 104.96,
           "opens": 127,
@@ -1016,6 +1131,18 @@
             "unsub": null
           },
           "emails": 3,
+          "goal": {
+            "actual": 99,
+            "attainment": 111.0,
+            "configured": true,
+            "goal": "sql",
+            "isRevenue": false,
+            "label": "MQL → SQL",
+            "note": "Onbereikbare leads opnieuw kwalificeren",
+            "rate": 11.1,
+            "target": 89.1,
+            "targetRate": 10.0
+          },
           "label": "NL-Nurture - no contact possible V3",
           "open": 47.2,
           "opens": 236,
@@ -1055,6 +1182,7 @@
             "unsub": null
           },
           "emails": 1,
+          "goal": null,
           "label": "Orderbevestiging",
           "open": 119.71,
           "opens": 249,
@@ -1084,6 +1212,18 @@
             "unsub": 18.9
           },
           "emails": 50,
+          "goal": {
+            "actual": 895,
+            "attainment": null,
+            "configured": false,
+            "goal": "appointment",
+            "isRevenue": false,
+            "label": "Afspraken",
+            "note": null,
+            "rate": 11.5,
+            "target": null,
+            "targetRate": null
+          },
           "label": "Alle flows",
           "open": 70.03,
           "opens": 6369,

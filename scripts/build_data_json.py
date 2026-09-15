@@ -36,6 +36,15 @@ TRACKING_PATH = "exports/sfmc_tracking.json"
 CRM_PATH = "exports/crm_metrics.json"
 CONSENT_PATH = "exports/lead_consent.json"
 OUTCOMES_PATH = "exports/flow_outcomes.json"
+GOALS_PATH = "config/flow_goals.json"
+
+# Welke metric hoort bij welk doeltype, en hoe die heet op het dashboard.
+GOAL_METRICS = {
+    "sql": ("toSql", "MQL → SQL"),
+    "appointment": ("toAppointment", "Afspraken"),
+    "won": ("won", "Gewonnen orders"),
+    "revenue": ("revenue", "Omzet"),
+}
 OUT_PATH = "docs/data.json"
 
 MARKETS = {
@@ -81,7 +90,7 @@ def rel_delta(cur, prev):
     return round((cur - prev) / prev * 100, 1)
 
 
-def build_email_health(market_block, outcomes=None):
+def build_email_health(market_block, outcomes=None, goals=None, goal_defaults=None):
     """Zet de flows uit de tracking-export om naar het emailHealth-contract,
     met per metric een delta t.o.v. de vorige periode."""
     if not market_block:
@@ -109,6 +118,8 @@ def build_email_health(market_block, outcomes=None):
         # Opbrengst per journey: afspraak, conversie en omzet van de leads die
         # deze flow geraakt heeft.
         entry["outcome"] = (outcomes or {}).get(entry["label"]) or (outcomes or {}).get(key)
+        entry["goal"] = build_goal(
+            entry["outcome"], (goals or {}).get(entry["label"]), goal_defaults)
 
         prev_flow = prev.get(key) or {}
         entry["deltas"] = {
@@ -118,6 +129,50 @@ def build_email_health(market_block, outcomes=None):
         out[key] = entry
 
     return out or {"all": {"label": "Alle flows"}}
+
+
+def build_goal(outcome, goal_config, defaults):
+    """Rekent een flow af op zijn eigen doel.
+
+    Een nurture-lane hoort leads te kwalificeren, een geen-gehoor-flow hoort
+    afspraken op te leveren. Afrekenen op een gedeelde omzetkolom doet beide
+    tekort, dus elke flow krijgt de metric die bij zijn opdracht past.
+    """
+    if not outcome:
+        return None
+
+    config = dict(defaults or {})
+    config.update(goal_config or {})
+    goal = config.get("goal")
+    if goal not in GOAL_METRICS:
+        return None
+
+    field, label = GOAL_METRICS[goal]
+    actual = outcome.get(field)
+    touched = outcome.get("touched") or 0
+
+    # Doel mag absoluut zijn of als percentage van de geraakte leads.
+    target = config.get("target")
+    target_rate = config.get("targetRate")
+    if target is None and target_rate is not None and touched:
+        target = round(touched * target_rate / 100, 1)
+
+    return {
+        "goal": goal,
+        "label": label,
+        "actual": actual,
+        "target": target,
+        "targetRate": target_rate,
+        "rate": round(actual / touched * 100, 1) if touched and actual is not None else None,
+        "attainment": (
+            round(actual / target * 100, 0) if target and actual is not None else None
+        ),
+        "isRevenue": goal == "revenue",
+        "note": config.get("note"),
+        # Geen configuratie voor deze flow: het dashboard toont dan het
+        # standaarddoel, maar moet duidelijk maken dat dat niet is afgesproken.
+        "configured": bool(goal_config),
+    }
 
 
 def build_coverage(consent_market, market_block):
@@ -196,6 +251,8 @@ def main():
     consent = load(CONSENT_PATH)
     outcomes = load(OUTCOMES_PATH)
     outcome_markets = (outcomes or {}).get("markets") or {}
+    goals = load(GOALS_PATH) or {}
+    goal_defaults = goals.get("defaults") or {}
 
     crm_current = (crm or {}).get("current") or {}
     crm_markets = (crm or {}).get("markets") or {}
@@ -219,7 +276,8 @@ def main():
     for key, label in MARKETS.items():
         block = tracking_markets.get(key)
         market_outcomes = outcome_markets.get(key) or {}
-        email_health = build_email_health(block, market_outcomes)
+        email_health = build_email_health(
+            block, market_outcomes, goals.get(key) or {}, goal_defaults)
 
         # CRM-cijfers zijn nu echt per markt (report.csv heeft een Market-kolom).
         # Ontbreekt die markt, val dan terug op het totaal.

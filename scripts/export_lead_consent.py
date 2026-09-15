@@ -142,7 +142,12 @@ def load_reached():
         return None
     with open(REACHED_PATH, encoding="utf-8") as f:
         data = json.load(f)
-    out = {market: set(ids) for market, ids in (data.get("markets") or {}).items()}
+    # Het bestand bevat per markt {"all": [...], "by_journey": {...}}; voor
+    # coverage is alleen de ontdubbelde "all" nodig.
+    out = {}
+    for market, block in (data.get("markets") or {}).items():
+        ids = block.get("all") if isinstance(block, dict) else block
+        out[market] = set(ids or [])
     out["_days"] = data.get("coverage_days")
     return out
 
