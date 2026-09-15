@@ -65,6 +65,10 @@ COUNTERS = ["sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "
 # drempel zijn de percentages ruis en zou het dashboard 56 chips tonen voor NL.
 MIN_SENT_FOR_CHIP = int(os.environ.get("MIN_SENT_FOR_CHIP", "50"))
 
+# Welke periode het dashboard standaard toont, en welke coverage gebruikt.
+DEFAULT_PERIOD = "30"
+COVERAGE_PERIOD = "90"
+
 
 # Triggered-send-definities die Journey Builder aanmaakt krijgen een hex-suffix
 # achter de naam ("NL - Nurturemail 2 - 86a9f2d110e7407780c49a3f7c28ed12").
@@ -363,8 +367,17 @@ def main():
     for key, label in MARKETS.items():
         block = tracking_markets.get(key)
         market_outcomes = outcome_markets.get(key) or {}
+        tracking_periods = (block or {}).get("periods") or {}
+
+        # Standaardweergave is 30 dagen; dat blok voedt ook de basisvelden voor
+        # code die nog geen periode meegeeft.
+        default_tp = tracking_periods.get(DEFAULT_PERIOD) or (
+            tracking_periods.get(sorted(tracking_periods, key=int)[0])
+            if tracking_periods else {}
+        )
         email_health = build_email_health(
-            block, market_outcomes, goals.get(key) or {}, goal_defaults)
+            {"flows": default_tp.get("flows"), "prev_flows": default_tp.get("prevFlows")},
+            market_outcomes, goals.get(key) or {}, goal_defaults)
 
         # CRM-cijfers zijn nu echt per markt (report.csv heeft een Market-kolom).
         # Ontbreekt die markt, val dan terug op het totaal.
@@ -379,7 +392,10 @@ def main():
 
         kern = dict(market_crm.get("kernKpis") or {})
         consent_market = consent_markets.get(key)
-        kern["coverage"] = build_coverage(consent_market, block)
+        # Coverage hoort bij het 90-daagse venster, ongeacht de keuze op het
+        # dashboard: de noemer is een momentopname zonder periode.
+        coverage_block = tracking_periods.get(COVERAGE_PERIOD) or default_tp
+        kern["coverage"] = build_coverage(consent_market, coverage_block)
         growth = (consent_market or {}).get("growth")
         growth_prev = (consent_market or {}).get("growthPrev")
         kern["databaseGrowth"] = {
@@ -400,7 +416,6 @@ def main():
         # een ander blok hoeft te pakken. Coverage en opbrengst blijven op hun
         # eigen venster van 90 dagen staan; dat staat zo ook op het dashboard.
         by_period = {}
-        tracking_periods = (block or {}).get("periods") or {}
         crm_periods = (crm or {}).get("byPeriod") or {}
         for period_key in sorted(set(tracking_periods) | set(crm_periods), key=int):
             tp = tracking_periods.get(period_key) or {}
@@ -414,6 +429,7 @@ def main():
                     {"flows": tp.get("flows"), "prev_flows": tp.get("prevFlows")},
                     market_outcomes, goals.get(key) or {}, goal_defaults,
                 ) if tp.get("flows") else None,
+                "uniqueSubscribers": tp.get("uniqueSubscribers"),
                 "reactivation": cm.get("reactivation"),
                 "acquisition": cm.get("acquisition"),
                 "kernKpisPeriod": cm.get("kernKpis"),
@@ -457,6 +473,8 @@ def main():
         # dashboard de flow kan tekenen in plaats van alleen op te sommen.
         "journeyStructures": (tracking or {}).get("journeyStructures") or {},
         "periods": (tracking or {}).get("periods") or (crm or {}).get("periods") or [],
+        "defaultPeriod": DEFAULT_PERIOD,
+        "coveragePeriod": COVERAGE_PERIOD,
         "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),
         "notes": (crm or {}).get("notes", []),
         "markets": markets,

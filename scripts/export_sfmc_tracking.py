@@ -5,9 +5,20 @@ ClickEvent, BounceEvent, UnsubEvent) en de journey-definities via de REST API, e
 schrijft alles geaggregeerd per flow naar `exports/sfmc_tracking.json`.
 
 Een flow is een JOURNEY, niet een losse e-mail: elke tracking-event wordt via zijn
-TriggeredSendDefinition teruggeleid naar de journey die de send deed. Per markt
-staat er ook `unique_subscribers` (distinct SubscriberKey over alle SentEvents in
-het venster, over journeys heen ontdubbeld) en `unique_subscribers_prev`.
+TriggeredSendDefinition teruggeleid naar de journey die de send deed.
+
+Het dashboard laat de lezer wisselen tussen periodes van 7, 30 en 90 dagen, elk
+met de direct eraan voorafgaande periode van dezelfde lengte voor de deltas. Om
+dat te kunnen doen halen we per BU EEN KEER de events op over de langste span die
+nodig is (90 dagen huidig + 90 dagen vorig = 180 dagen terug vanaf `endDate`),
+houden we die events in het geheugen vast met hun `EventDate`, en snijden we er
+in Python de zes vensters uit. Elk venster wordt daarna volledig opnieuw
+geaggregeerd over zijn eigen ruwe events: opens en kliks zijn UNIEKE
+(SubscriberKey, SendID)-paren en mogen dus nooit uit dag- of weeksubtotalen
+opgeteld worden - wie op twee dagen opent zou anders dubbel tellen.
+
+Per periode staat er onder `markets.<markt>.periods.<N>`: `range`, `prevRange`,
+`flows`, `prevFlows`, `uniqueSubscribers` en `uniqueSubscribersPrev`.
 
 Onder `journeyStructures` staat per markt en per journey uit `flows` het
 stroomschema van de live versie (knopen + edges), zodat het dashboard de
@@ -15,7 +26,7 @@ journey als diagram kan tekenen en de metrics eraan kan koppelen.
 
 Gebruik:
 
-    PERIOD_START=2026-08-20 PERIOD_END=2026-09-09 python3 scripts/export_sfmc_tracking.py
+    PERIOD_END=2026-09-16 python3 scripts/export_sfmc_tracking.py
 
 Environment variables:
 
@@ -24,13 +35,11 @@ Environment variables:
 - `SFMC_MID_NL`, `SFMC_MID_BE`, en optioneel `SFMC_MID_FR`, `SFMC_MID_IT` - de MID
   (account_id) per BU. Een BU zonder MID wordt overgeslagen met een waarschuwing;
   FR en IT bestaan nog niet.
-- `PERIOD_START` (default `2026-08-01`) en `PERIOD_END` (default `2026-09-09`),
-  beide `YYYY-MM-DD`, einddatum exclusief.
-- `PREV_START` / `PREV_END` - optioneel. Zijn ze gezet, dan wordt de hele
-  aggregatie twee keer gedraaid zodat verschillen per periode berekend kunnen
-  worden.
+- `PERIOD_END` (default: morgen UTC), `YYYY-MM-DD`, exclusief. Alle vensters
+  worden vanaf die datum teruggerekend: voor N dagen is huidig
+  [endDate - N, endDate) en vorig [endDate - 2N, endDate - N).
 
-Let op: dit is een grote retrieve, reken op enkele minuten per BU.
+Let op: dit is een retrieve over 180 dagen, reken op vele minuten per BU.
 """
 
 import json
@@ -58,6 +67,12 @@ REACHED_PATH = "exports/_reached_lead_ids.json"
 # iedereen in een nurture-flow met een cyclus van zes weken ten onrechte als
 # "niet bereikt". 90 dagen omvat minstens één volledige cyclus.
 COVERAGE_DAYS = int(os.environ.get("COVERAGE_DAYS", "90"))
+
+# De periodes (in dagen) die het dashboard aanbiedt. De langste bepaalt hoe ver
+# de ene retrieve per BU terug moet: 2x de langste, want er hoort een even lange
+# voorafgaande periode bij.
+PERIODS = [7, 30, 90]
+
 NS = {"p": "http://exacttarget.com/wsdl/partnerAPI"}
 UNASSIGNED = "(niet toegewezen)"
 TOKEN_TTL = 15 * 60
@@ -870,10 +885,31 @@ def aggregate(events, tsd_map, window_label, tsd_names=None):
     }
 
 
-def run_window(session, auth, tsd_map, market, start, end, tsd_names=None):
+def slice_events(events, start, end):
+    """Snijdt uit de opgehaalde events de rijen met `start` <= EventDate < `end`.
+
+    `EventDate` komt als ISO-string terug (`YYYY-MM-DDTHH:MM:SS...`), dus een
+    string-vergelijking op de eerste tien tekens is genoeg en scheelt het parsen
+    van miljoenen datums.
+    """
+    out = {}
+    for obj, rows in events.items():
+        out[obj] = [row for row in rows if start <= (row.get("EventDate") or "")[:10] < end]
+    return out
+
+
+def window_dates(end_date, days):
+    """Geeft (start, end) van het venster van `days` dagen dat op `end_date` eindigt."""
+    end = datetime.strptime(end_date, "%Y-%m-%d")
+    return (end - timedelta(days=days)).strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
+
+
+def run_window(events, tsd_map, market, start, end, tsd_names=None):
+    """Aggregeert een venster uit de al opgehaalde events; doet geen retrieve."""
     print(f"  venster {start} t/m {end} (exclusief)")
-    events = retrieve_events(session, auth, f"{start}T00:00:00", f"{end}T00:00:00")
-    return aggregate(events, tsd_map, f"{market.upper()} {start}..{end}", tsd_names)
+    window = slice_events(events, start, end)
+    print("    " + ", ".join(f"{obj}={len(rows)}" for obj, rows in window.items()))
+    return aggregate(window, tsd_map, f"{market.upper()} {start}..{end}", tsd_names)
 
 
 def main():
@@ -881,11 +917,14 @@ def main():
     client_id = os.environ["SFMC_CLIENT_ID"]
     client_secret = os.environ["SFMC_CLIENT_SECRET"]
 
-    period_start = os.environ.get("PERIOD_START") or "2026-08-01"
-    period_end = os.environ.get("PERIOD_END") or "2026-09-09"
-    prev_start = os.environ.get("PREV_START") or ""
-    prev_end = os.environ.get("PREV_END") or ""
-    prev_period = {"start": prev_start, "end": prev_end} if prev_start and prev_end else None
+    # Einddatum waar alle vensters vanaf terugrekenen, exclusief. Default morgen
+    # UTC, zodat de dag van vandaag volledig meetelt.
+    period_end = os.environ.get("PERIOD_END") or (
+        datetime.now(timezone.utc).date() + timedelta(days=1)).strftime("%Y-%m-%d")
+    # De ene retrieve per BU: 2x de langste periode terug.
+    retrieve_days = 2 * max(PERIODS)
+    retrieve_start, _ = window_dates(period_end, retrieve_days)
+    cov_window_start, _ = window_dates(period_end, COVERAGE_DAYS)
 
     session = make_session()
     markets = {}
@@ -914,25 +953,49 @@ def main():
             for tsd, name in id_to_email_name.items():
                 if name:
                     tsd_names[tsd] = (name, raw_names.get(tsd, ""))
-            flows, lead_ids, uniques = run_window(
-                session, auth, tsd_map, market, period_start, period_end, tsd_names)
+            # EEN retrieve per BU over de volledige span; alle vensters worden
+            # daarna uit deze events gesneden.
+            print(f"  retrieve {retrieve_start} t/m {period_end} ({retrieve_days} dagen)")
+            started = time.time()
+            events = retrieve_events(
+                session, auth,
+                f"{retrieve_start}T00:00:00", f"{period_end}T00:00:00")
+            print(f"  retrieve klaar in {time.time() - started:.0f}s: "
+                  + ", ".join(f"{obj}={len(rows)}" for obj, rows in events.items()))
 
-            # Structuur (het stroomschema) van de journeys die ook in `flows`
-            # staan, zodat het dashboard metrics aan het diagram kan koppelen.
+            # Per periode het huidige en het voorafgaande venster, elk volledig
+            # opnieuw geaggregeerd over zijn eigen ruwe events.
+            periods_out = {}
+            flow_names = set()
+            for days in PERIODS:
+                start, end = window_dates(period_end, days)
+                prev_start, _ = window_dates(start, days)
+                print(f"  periode {days} dagen")
+                flows, _, uniques = run_window(
+                    events, tsd_map, market, start, end, tsd_names)
+                prev_flows, _, prev_uniques = run_window(
+                    events, tsd_map, market, prev_start, start, tsd_names)
+                flow_names |= {f for f in flows if f not in ("all", UNASSIGNED)}
+                periods_out[str(days)] = {
+                    "range": {"start": start, "end": end},
+                    "prevRange": {"start": prev_start, "end": start},
+                    "flows": flows,
+                    "prevFlows": prev_flows,
+                    "uniqueSubscribers": uniques,
+                    "uniqueSubscribersPrev": prev_uniques,
+                }
+
+            # Structuur (het stroomschema) van de journeys die in een van de
+            # periodes in `flows` staan, zodat het dashboard metrics aan het
+            # diagram kan koppelen.
             structures = fetch_journey_structures(
-                session, auth, journeys, {f for f in flows if f not in ("all", UNASSIGNED)})
+                session, auth, journeys, flow_names)
 
-            # Aparte, langere retrieve voor de coverage-teller. Alleen
-            # SentEvent en alleen SubscriberKey, dus aanzienlijk lichter dan
-            # een volledige vensteruitdraai.
-            cov_start = (
-                datetime.strptime(period_end, "%Y-%m-%d") - timedelta(days=COVERAGE_DAYS)
-            ).strftime("%Y-%m-%d")
+            # Coverage heeft zijn eigen, langere venster; dat zit al in de
+            # retrieve, dus we snijden het eruit in plaats van opnieuw op te halen.
+            cov_start, _ = window_dates(period_end, COVERAGE_DAYS)
             print(f"  coverage-venster {cov_start} t/m {period_end} ({COVERAGE_DAYS} dagen)")
-            cov_rows = soap_retrieve(
-                session, auth, "SentEvent",
-                ["SubscriberKey", "TriggeredSendDefinitionObjectID"],
-                f"{cov_start}T00:00:00", f"{period_end}T00:00:00")
+            cov_rows = slice_events(events, cov_start, period_end).get("SentEvent", [])
 
             # Per journey bijhouden wie er geraakt is, zodat de uitkomst
             # (afspraak, conversie, omzet) per flow toe te rekenen is.
@@ -954,29 +1017,27 @@ def main():
             }
             print(f"  coverage: {len(cov_leads)} unieke leads over {len(per_journey)} journeys"
                   f" in {COVERAGE_DAYS} dagen")
-            prev_flows, prev_uniques = None, None
-            if prev_period:
-                prev_flows, _, prev_uniques = run_window(
-                    session, auth, tsd_map, market, prev_start, prev_end, tsd_names)
+
+            # De ruwe events van deze BU zijn nu niet meer nodig; vrijgeven voor
+            # de volgende markt.
+            events = None
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue
 
         journeys_out[market] = journeys
         structures_out[market] = structures
-        markets[market] = {
-            "flows": flows,
-            "prev_flows": prev_flows,
-            # teller van Automation Coverage: unieke mensen die we gemaild
-            # hebben, uitgesplitst naar Lead en Contact
-            "unique_subscribers": uniques,
-            "unique_subscribers_prev": prev_uniques,
-        }
+        # teller van Automation Coverage (unieke mensen die we gemaild hebben,
+        # uitgesplitst naar Lead en Contact) staat per periode onder
+        # `uniqueSubscribers` / `uniqueSubscribersPrev`.
+        markets[market] = {"periods": periods_out}
 
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "period": {"start": period_start, "end": period_end},
-        "prev_period": prev_period,
+        # de periodes die het dashboard aanbiedt, en de datum waar ze vanaf
+        # terugrekenen (exclusief)
+        "periods": [str(d) for d in PERIODS],
+        "endDate": period_end,
         "markets": markets,
         "journeys": journeys_out,
         # stroomschema per journey (knopen + edges) voor de diagramweergave
@@ -995,7 +1056,7 @@ def main():
     with open(reached_path, "w", encoding="utf-8") as f:
         json.dump(
             {"coverage_days": COVERAGE_DAYS,
-             "period": {"start": period_start, "end": period_end},
+             "period": {"start": cov_window_start, "end": period_end},
              "markets": reached_lead_ids},
             f)
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
@@ -1003,14 +1064,19 @@ def main():
 
     print(f"\nGeschreven naar {out_path}")
     for market, data in sorted(markets.items()):
-        for label, flows in (("huidig", data["flows"]), ("vorig", data["prev_flows"])):
-            if not flows:
+        for days in PERIODS:
+            period = data["periods"].get(str(days))
+            if not period:
                 continue
-            a = flows["all"]
-            print(
-                f"  {market} {label}: sent={a['sent']} delivered={a['delivered']} "
-                f"open={a['open']}% ctr={a['ctr']}% ctor={a['ctor']}%"
-            )
+            for label, flows in (("huidig", period["flows"]), ("vorig", period["prevFlows"])):
+                if not flows:
+                    continue
+                a = flows["all"]
+                print(
+                    f"  {market} {days}d {label}: sent={a['sent']} delivered={a['delivered']} "
+                    f"open={a['open']}% ctr={a['ctr']}% ctor={a['ctor']}% "
+                    f"uniek={a['uniqueSubscribers']}"
+                )
     if WARNINGS:
         print(f"  {len(WARNINGS)} waarschuwing(en)")
 
