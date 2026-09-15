@@ -286,8 +286,18 @@ function applyCoverageNote(coverage) {
   }
 
   el.classList.remove("nodata");
-  el.innerHTML =
-    "Nog <b>" + nlNum(coverage.toActivate, 0) + " contacten</b> te activeren";
+  let html =
+    "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te activeren";
+  // Coverage telt alleen Leads: het consent-veld is alleen daar leesbaar.
+  // Contacts krijgen ook mail, dus dat deel is expliciet niet meegerekend.
+  if (typeof coverage.reachedContacts === "number" && coverage.reachedContacts > 0) {
+    html +=
+      '<span style="display:block;font-size:11.5px;margin-top:6px">Alleen Leads. ' +
+      "Daarnaast kregen <b>" + nlNum(coverage.reachedContacts, 0) +
+      " Contacts</b> mail; voor die groep is geen consent-cijfer leesbaar, " +
+      "dus die telt hier niet mee.</span>";
+  }
+  el.innerHTML = html;
 }
 
 /* ---------- bronnen-badges ---------- */

@@ -4,6 +4,11 @@ Haalt per BU (markt) de tracking events op via de SOAP API (SentEvent, OpenEvent
 ClickEvent, BounceEvent, UnsubEvent) en de journey-definities via de REST API, en
 schrijft alles geaggregeerd per flow naar `exports/sfmc_tracking.json`.
 
+Een flow is een JOURNEY, niet een losse e-mail: elke tracking-event wordt via zijn
+TriggeredSendDefinition teruggeleid naar de journey die de send deed. Per markt
+staat er ook `unique_subscribers` (distinct SubscriberKey over alle SentEvents in
+het venster, over journeys heen ontdubbeld) en `unique_subscribers_prev`.
+
 Gebruik:
 
     PERIOD_START=2026-08-20 PERIOD_END=2026-09-09 python3 scripts/export_sfmc_tracking.py
@@ -141,6 +146,39 @@ def activity_prefix(value):
     return " ".join(text.lower().split())
 
 
+def iter_interactions(session, auth, status=None):
+    """Pagineert door de interactions-lijst; levert alle versies van elke journey."""
+    url = f"{auth.rest_url.rstrip('/')}/interaction/v1/interactions"
+    page = 1
+    while page <= 200:
+        params = {
+            "extras": "activities",
+            "mostRecentVersionOnly": "false",
+            "$pageSize": 50,
+            "$page": page,
+        }
+        if status:
+            params["status"] = status
+        resp = session.get(
+            url,
+            headers={"Authorization": f"Bearer {auth.valid_token()}"},
+            params=params,
+            timeout=120,
+        )
+        if resp.status_code == 401:
+            auth.refresh()
+            continue
+        resp.raise_for_status()
+        payload = resp.json()
+        items = payload.get("items") or []
+        for item in items:
+            yield item
+        count = payload.get("count")
+        if not items or count is None or page * (payload.get("pageSize") or 50) >= count:
+            return
+        page += 1
+
+
 def fetch_journeys(session, auth):
     """Haalt alle journeyversies op en bouwt maps van send-identifier -> journeynaam.
 
@@ -153,32 +191,15 @@ def fetch_journeys(session, auth):
     id_to_journey = {}
     email_to_journey = {}
     prefix_to_journey = {}
-    page = 1
-    while page <= 200:
-        url = f"{auth.rest_url.rstrip('/')}/interaction/v1/interactions"
-        resp = session.get(
-            url,
-            headers={"Authorization": f"Bearer {auth.valid_token()}"},
-            params={
-                "extras": "activities",
-                "mostRecentVersionOnly": "false",
-                "$pageSize": 50,
-                "$page": page,
-            },
-            timeout=120,
-        )
-        if resp.status_code == 401:
-            auth.refresh()
-            continue
-        resp.raise_for_status()
-        payload = resp.json()
-        items = payload.get("items") or []
-        for item in items:
+    for status in (None, "Deleted"):
+        # Verwijderde journeys staan niet in de standaardlijst maar hebben in het
+        # venster wel gestuurd; die nemen we alleen mee voor de mapping.
+        for item in iter_interactions(session, auth, status):
             # Alle versies van een journey vallen onder een label: de naam zelf.
             name = item.get("name") or UNASSIGNED
             version = item.get("version") or 0
             current = seen_journeys.get(item.get("id"))
-            if current is None or (version or 0) >= (current.get("version") or 0):
+            if status is None and (current is None or version >= (current.get("version") or 0)):
                 seen_journeys[item.get("id")] = {
                     "id": item.get("id"),
                     "name": name,
@@ -189,10 +210,15 @@ def fetch_journeys(session, auth):
                 if activity.get("type") != "EMAILV2":
                     continue
                 args = activity.get("configurationArguments") or {}
+                # Tier 1: `triggeredSendId` is de TSD die bij het draaien van deze
+                # versie echt gebruikt is; die staat in de tracking events.
+                runtime_id = args.get("triggeredSendId")
+                if isinstance(runtime_id, str) and runtime_id.strip():
+                    id_to_journey.setdefault(runtime_id.strip().lower(), name)
                 ts = args.get("triggeredSend")
                 if not isinstance(ts, dict):
                     continue
-                # Tier 1: directe TSD ObjectID en CustomerKey.
+                # Tier 1: de in de definitie geconfigureerde TSD ObjectID/CustomerKey.
                 for key in ("objectId", "objectID", "id", "key", "customerKey"):
                     value = ts.get(key)
                     if isinstance(value, str) and value.strip():
@@ -206,12 +232,6 @@ def fetch_journeys(session, auth):
                     prefix = activity_prefix(value)
                     if prefix:
                         prefix_to_journey.setdefault(prefix, name)
-
-        count = payload.get("count")
-        page_size = payload.get("pageSize") or 50
-        if not items or count is None or page * page_size >= count:
-            break
-        page += 1
 
     journeys = sorted(seen_journeys.values(), key=lambda j: (j["name"], j["id"] or ""))
     print(
@@ -300,8 +320,13 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
         "TriggeredSendDefinition",
         ["ObjectID", "CustomerKey", "Name", "Description", "Email.ID"],
     )
+    # Tier 1 staat los van de SOAP-retrieve: noemt een journey een ObjectID
+    # direct, dan is dat genoeg, ook als de TSD niet meer retrievebaar is.
     tsd_map = {}
-    tiers = {1: 0, 2: 0}
+    for key, name in id_to_journey.items():
+        if len(key) == 36 and key.count("-") == 4:
+            tsd_map[key] = (name, 1)
+    tiers = {1: len(tsd_map), 2: 0}
     for row in rows:
         object_id = (row.get("ObjectID") or "").strip().lower()
         if not object_id:
@@ -311,23 +336,26 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
         email_id = (row.get("Email.ID") or "").strip()
 
         # Tier 1: de journey noemde deze TSD bij ObjectID of CustomerKey.
+        if object_id in tsd_map:
+            continue
         label = id_to_journey.get(object_id) or (id_to_journey.get(key.lower()) if key else None)
-        tier = 1
+        if label is not None:
+            tsd_map[object_id] = (label, 1)
+            tiers[1] += 1
+            continue
+
+        # Tier 2: brug via het e-mail-id van de TSD, anders via de naamprefix.
+        label = email_to_journey.get(email_id) if email_id else None
         if label is None:
-            # Tier 2: brug via het e-mail-id van de TSD.
-            tier = 2
-            if email_id:
-                label = email_to_journey.get(email_id)
-            if label is None:
-                for candidate in (name, (row.get("Description") or "")):
-                    prefix = activity_prefix(candidate)
-                    if prefix and prefix in prefix_to_journey:
-                        label = prefix_to_journey[prefix]
-                        break
+            for candidate in (name, row.get("Description") or ""):
+                prefix = activity_prefix(candidate)
+                if prefix and prefix in prefix_to_journey:
+                    label = prefix_to_journey[prefix]
+                    break
         if label is None:
             continue
-        tsd_map[object_id] = (label, tier)
-        tiers[tier] += 1
+        tsd_map[object_id] = (label, 2)
+        tiers[2] += 1
     print(f"  TSD-map: {len(rows)} definities -> {len(tsd_map)} gekoppeld (tier1={tiers[1]}, tier2={tiers[2]})")
     return tsd_map
 
@@ -364,6 +392,8 @@ def aggregate(events, tsd_map, window_label):
 
     counters = {}
     tier_sent = {1: 0, 2: 0, 3: 0}
+    # Bereik van de BU als geheel: een contact dat drie journeys kreeg telt een keer.
+    subscribers = set()
 
     def bucket(flow):
         return counters.setdefault(
@@ -381,6 +411,9 @@ def aggregate(events, tsd_map, window_label):
         if tsd:
             entry["tsds"].add(tsd)
         tier_sent[tier] += 1
+        key = (row.get("SubscriberKey") or "").strip()
+        if key:
+            subscribers.add(key)
     for row in events.get("OpenEvent", []):
         bucket(label_of(row))["opens"].add((row.get("SubscriberKey", ""), row.get("SendID", "")))
     for row in events.get("ClickEvent", []):
@@ -439,7 +472,17 @@ def aggregate(events, tsd_map, window_label):
             # spam blijft null: ComplaintEvent wordt niet opgehaald, 0 zou misleiden.
             "spam": None,
         }
-    return flows
+    leads = {k for k in subscribers if k.startswith("00Q")}
+    contacts = {k for k in subscribers if k.startswith("003")}
+    return flows, {
+        "total": len(subscribers),
+        # SubscriberKey is een Salesforce-id: 00Q = Lead, 003 = Contact. Beide
+        # krijgen mail. Coverage kan alleen op de Lead-helft berekend worden,
+        # want het consent-veld is alleen op Lead leesbaar.
+        "leads": len(leads),
+        "contacts": len(contacts),
+        "other": len(subscribers) - len(leads) - len(contacts),
+    }
 
 
 def run_window(session, auth, tsd_map, market, start, end):
@@ -479,16 +522,23 @@ def main():
             auth = Auth(session, subdomain, client_id, client_secret, mid)
             journeys, id_to_journey, email_to_journey, prefix_to_journey = fetch_journeys(session, auth)
             tsd_map = fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey)
-            flows = run_window(session, auth, tsd_map, market, period_start, period_end)
-            prev_flows = None
+            flows, uniques = run_window(session, auth, tsd_map, market, period_start, period_end)
+            prev_flows, prev_uniques = None, None
             if prev_period:
-                prev_flows = run_window(session, auth, tsd_map, market, prev_start, prev_end)
+                prev_flows, prev_uniques = run_window(session, auth, tsd_map, market, prev_start, prev_end)
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue
 
         journeys_out[market] = journeys
-        markets[market] = {"flows": flows, "prev_flows": prev_flows}
+        markets[market] = {
+            "flows": flows,
+            "prev_flows": prev_flows,
+            # teller van Automation Coverage: unieke mensen die we gemaild
+            # hebben, uitgesplitst naar Lead en Contact
+            "unique_subscribers": uniques,
+            "unique_subscribers_prev": prev_uniques,
+        }
 
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),

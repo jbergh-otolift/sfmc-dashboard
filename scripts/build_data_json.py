@@ -102,7 +102,7 @@ def build_email_health(market_block):
         for metric in HEALTH_METRICS:
             entry[metric] = flow.get(metric)
         # Volumes meenemen zodat het cijfer navolgbaar is in de devtools.
-        for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs"):
+        for extra in ("delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs", "emails"):
             entry[extra] = flow.get(extra)
 
         prev_flow = prev.get(key) or {}
@@ -129,11 +129,17 @@ def build_coverage(consent_market, market_block):
                 "reason": "no_consent_data"}
 
     consent_total = consent_market.get("consentTotal")
-    reached = (market_block or {}).get("unique_subscribers")
+    uniques = (market_block or {}).get("unique_subscribers") or {}
 
-    if not consent_total or reached is None:
-        # Onderscheid: helemaal geen Business Unit in Marketing Cloud, of wel
-        # een BU maar de teller ontbreekt nog in de export.
+    # SubscriberKey in SFMC is een Salesforce-id: 00Q = Lead, 003 = Contact.
+    # Beide krijgen mail, maar het consent-veld is alleen op Lead leesbaar.
+    # Coverage wordt daarom uitsluitend op de Lead-helft berekend — teller en
+    # noemer gaan dan over hetzelfde object. De Contact-helft wordt apart
+    # gerapporteerd als bekend gat, niet stilzwijgend meegeteld.
+    reached_leads = uniques.get("leads")
+    reached_contacts = uniques.get("contacts")
+
+    if not consent_total or reached_leads is None:
         if not market_block:
             reason = "no_business_unit"
         elif not consent_total:
@@ -145,18 +151,21 @@ def build_coverage(consent_market, market_block):
             "consentTotal": consent_total,
             "toActivate": None,
             "deltaPct": None,
-            "reached": reached,
+            "reached": reached_leads,
+            "reachedContacts": reached_contacts,
             "measurable": False,
             "reason": reason,
         }
 
-    value = round(reached / consent_total * 100, 1)
+    value = round(reached_leads / consent_total * 100, 1)
     return {
         "value": value,
         "consentTotal": consent_total,
-        "toActivate": max(consent_total - reached, 0),
+        "toActivate": max(consent_total - reached_leads, 0),
         "deltaPct": None,
-        "reached": reached,
+        "reached": reached_leads,
+        "reachedContacts": reached_contacts,
+        "scope": "leads",
         "measurable": True,
         "reason": None,
     }
