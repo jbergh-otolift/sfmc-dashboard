@@ -821,7 +821,10 @@ function applySourceBadges(sources) {
 
 let DATA = null;
 let currentMarket = "nl";
-
+// Gekozen periode in dagen. Stuurt Email Health, de funnel en het flow-detail
+// aan. Coverage heeft bewust een eigen venster van 90 dagen, omdat de noemer
+// daar een momentopname is die niet met de periode meebeweegt.
+let currentPeriod = "30";
 function applyMarket(marketKey) {
   if (!DATA) return;
   const market = DATA.markets[marketKey];
@@ -845,11 +848,51 @@ function applyMarket(marketKey) {
   }
   if (empty) empty.hidden = true;
 
-  applyBindings(document, market);
+  // Het blok van de gekozen periode over de basiswaarden heen leggen.
+  const period = (market.byPeriod || {})[currentPeriod];
+  const view = period
+    ? {
+        ...market,
+        emailHealth: period.emailHealth || market.emailHealth,
+        reactivation: period.reactivation || market.reactivation,
+        acquisition: period.acquisition || market.acquisition,
+        kernKpis: {
+          ...market.kernKpis,
+          ...(period.kernKpisPeriod || {}),
+          // Coverage en database-groei zijn niet periodegebonden; die uit het
+          // basisblok houden zodat ze niet zonder reden meeverspringen.
+          coverage: market.kernKpis && market.kernKpis.coverage,
+          databaseGrowth: market.kernKpis && market.kernKpis.databaseGrowth,
+        },
+      }
+    : market;
+
+  applyBindings(document, view);
   applyCoverageNote(market.kernKpis && market.kernKpis.coverage);
-  applyOutcomes(market);
+  applyOutcomes(view);
   applySourceBadges(market._sources);
-  buildFlowChips(market.emailHealth || { all: { label: "Alle flows" } });
+  applyPeriodWarning(period);
+  buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
+}
+
+// Sommige periodes hebben nog te weinig historie om met de vorige periode te
+// vergelijken. Dat moet zichtbaar zijn, anders lijken lege deltas op nul.
+function applyPeriodWarning(period) {
+  let el = document.querySelector("[data-period-warn]");
+  const header = document.querySelector(".head-meta");
+  if (!el && header) {
+    el = document.createElement("div");
+    el.className = "period-warn";
+    el.setAttribute("data-period-warn", "");
+    header.appendChild(el);
+  }
+  if (!el) return;
+  if (period && period.comparable === false) {
+    el.hidden = false;
+    el.textContent = "Geen vergelijking: te weinig historie voor de vorige periode";
+  } else {
+    el.hidden = true;
+  }
 }
 
 function applyMeta(data) {
@@ -859,23 +902,43 @@ function applyMeta(data) {
   const stamp = document.querySelector("[data-stamp]");
   if (stamp && data.generated_at) stamp.textContent = "Bijgewerkt: " + fmtDate(data.generated_at);
 
-  const periodEl = document.querySelector("[data-period-label]");
-  if (periodEl && data.period) {
-    // period.end is exclusief; toon de laatste dag die er wél in zit.
-    const end = new Date(data.period.end);
+  // Bereik van de gekozen periode, uit de markt die nu getoond wordt.
+  const market = data.markets && data.markets[currentMarket];
+  const block = market && (market.byPeriod || {})[currentPeriod];
+  const showRange = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (!el || !value) return;
+    // end is exclusief; toon de laatste dag die er wél in zit.
+    const end = new Date(value.end);
     end.setDate(end.getDate() - 1);
-    periodEl.textContent = fmtDate(data.period.start) + " t/m " + fmtDate(end.toISOString());
+    el.textContent = fmtDate(value.start) + " t/m " + fmtDate(end.toISOString());
+  };
+  showRange("[data-period-label]", (block && block.range) || data.period);
+
+  // Periodes zonder data uitschakelen in plaats van verbergen.
+  if ((data.periods || []).length) {
+    document.querySelectorAll(".per-btn").forEach((btn) => {
+      btn.disabled = !data.periods.includes(btn.dataset.period);
+    });
   }
 
   const daysEl = document.querySelector("[data-outcome-days]");
   if (daysEl && data.outcome_lookback_days) daysEl.textContent = data.outcome_lookback_days;
 
-  const prevEl = document.querySelector("[data-prev-period-label]");
-  if (prevEl && data.prev_period) {
-    const end = new Date(data.prev_period.end);
-    end.setDate(end.getDate() - 1);
-    prevEl.textContent = fmtDate(data.prev_period.start) + " t/m " + fmtDate(end.toISOString());
-  }
+  showRange("[data-prev-period-label]", (block && block.prevRange) || data.prev_period);
+}
+
+function wirePeriodPicker() {
+  document.querySelectorAll(".per-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+      document.querySelectorAll(".per-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentPeriod = btn.dataset.period;
+      applyMeta(DATA);
+      applyMarket(currentMarket);
+    });
+  });
 }
 
 function wireCountryToggle() {
@@ -890,6 +953,7 @@ function wireCountryToggle() {
 
 async function init() {
   wireCountryToggle();
+  wirePeriodPicker();
   try {
     const resp = await fetch("data.json", { cache: "no-store" });
     if (!resp.ok) throw new Error("HTTP " + resp.status);

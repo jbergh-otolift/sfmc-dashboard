@@ -442,6 +442,12 @@
   .fd-tablewrap{margin-top:8px}
   .fd-tablewrap summary{font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:8px 0;list-style:revert}
   .fd-tablewrap summary:hover{color:var(--oto-red)}
+  .period-pick{display:flex;align-items:center;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}
+  .per-btn{border:none;background:transparent;border-radius:7px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+  .per-btn:hover{color:var(--ink)}
+  .per-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .per-btn[disabled]{opacity:.4;cursor:not-allowed}
+  .period-warn{font-size:11px;color:#9A7108;background:#FBF0D8;border:1px solid #EBD9A8;border-radius:7px;padding:5px 10px;margin-left:2px}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -465,6 +471,11 @@
         <button class="flag-btn" data-country="be"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#000"/><rect x="3" width="3" height="6" fill="#FDDA24"/><rect x="6" width="3" height="6" fill="#EF3340"/></svg><span class="cc">BE</span></button>
         <button class="flag-btn" data-country="fr"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#002395"/><rect x="3" width="3" height="6" fill="#fff"/><rect x="6" width="3" height="6" fill="#ED2939"/></svg><span class="cc">FR</span></button>
         <button class="flag-btn" data-country="it"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#008C45"/><rect x="3" width="3" height="6" fill="#F4F5F0"/><rect x="6" width="3" height="6" fill="#CD212A"/></svg><span class="cc">IT</span></button>
+      </div>
+      <div class="period-pick" role="group" aria-label="Periode kiezen">
+        <button class="per-btn" data-period="7">7 dagen</button>
+        <button class="per-btn active" data-period="30">30 dagen</button>
+        <button class="per-btn" data-period="90">90 dagen</button>
       </div>
       <div class="period-static"><span class="ps-lbl">Periode</span><span data-period-label>–</span></div>
       <div class="stamp" data-stamp>Bijgewerkt: –</div>

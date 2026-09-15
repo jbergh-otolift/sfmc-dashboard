@@ -371,6 +371,11 @@ def main():
         market_crm = (crm_markets.get(key) or {}).get("current") or {}
         if not market_crm:
             market_crm = crm_current
+        # Zonder losse markt-data terugvallen op het 30-daagse blok.
+        if not market_crm:
+            default_block = ((crm or {}).get("byPeriod") or {}).get("30") or {}
+            market_crm = ((default_block.get("markets") or {}).get(key) or {}).get("current") \
+                or default_block.get("current") or {}
 
         kern = dict(market_crm.get("kernKpis") or {})
         consent_market = consent_markets.get(key)
@@ -391,8 +396,32 @@ def main():
 
         available = bool(block) or bool(market_crm) or bool(consent_market)
 
+        # Per periode dezelfde opbouw, zodat de kiezer in het dashboard alleen
+        # een ander blok hoeft te pakken. Coverage en opbrengst blijven op hun
+        # eigen venster van 90 dagen staan; dat staat zo ook op het dashboard.
+        by_period = {}
+        tracking_periods = (block or {}).get("periods") or {}
+        crm_periods = (crm or {}).get("byPeriod") or {}
+        for period_key in sorted(set(tracking_periods) | set(crm_periods), key=int):
+            tp = tracking_periods.get(period_key) or {}
+            cp = crm_periods.get(period_key) or {}
+            cm = ((cp.get("markets") or {}).get(key) or {}).get("current") or cp.get("current") or {}
+            by_period[period_key] = {
+                "range": tp.get("range") or cp.get("range"),
+                "prevRange": tp.get("prevRange") or cp.get("prevRange"),
+                "comparable": cp.get("comparable", True),
+                "emailHealth": build_email_health(
+                    {"flows": tp.get("flows"), "prev_flows": tp.get("prevFlows")},
+                    market_outcomes, goals.get(key) or {}, goal_defaults,
+                ) if tp.get("flows") else None,
+                "reactivation": cm.get("reactivation"),
+                "acquisition": cm.get("acquisition"),
+                "kernKpisPeriod": cm.get("kernKpis"),
+            }
+
         markets[key] = {
             "marketLabel": label,
+            "byPeriod": by_period,
             "available": available,
             "_sources": source_state(email_health, bool(market_crm), bool(market_outcomes)),
             "kernKpis": kern,
@@ -427,6 +456,8 @@ def main():
         # Structuur van elke journey (mails, wachttijden, splitsingen) zodat het
         # dashboard de flow kan tekenen in plaats van alleen op te sommen.
         "journeyStructures": (tracking or {}).get("journeyStructures") or {},
+        "periods": (tracking or {}).get("periods") or (crm or {}).get("periods") or [],
+        "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),
         "notes": (crm or {}).get("notes", []),
         "markets": markets,
     }
