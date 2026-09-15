@@ -166,6 +166,7 @@ def main():
             print(f"  {name:40} {row['total']:9}")
 
     probe_history_recordtype(token, instance_url)
+    probe_contact(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -187,6 +188,49 @@ def probe_history_recordtype(token, instance_url):
     for r in rows["records"]:
         lead = r.get("Lead") or {}
         print(f"     {r['LeadId']}  RecordTypeId={lead.get('RecordTypeId')}  {r['OldValue']} -> {r['NewValue']}")
+
+
+def probe_contact(token, instance_url):
+    """SFMC SubscriberKeys beginnen met 003 = Contact, niet 00Q = Lead. De
+    teller van Automation Coverage gaat dus over Contacts, en de noemer moet
+    dat ook doen. Bestaan de consent-velden daar?"""
+    print("\n--- Contact (SubscriberKey = 003... = Contact) ---")
+    resp = requests.get(
+        f"{instance_url}/services/data/{API_VERSION}/sobjects/Contact/describe",
+        headers={"Authorization": f"Bearer {token}"}, timeout=60)
+    if not resp.ok:
+        print(f"  ❌ geen leesrecht op Contact: {resp.status_code}")
+        return
+    fields = {f["name"] for f in resp.json()["fields"]}
+    print(f"  Contact-velden zichtbaar: {len(fields)}")
+    for name in (CONSENT_FIELD, OPTOUT_FIELD, "RecordTypeId", "CreatedDate"):
+        print(f"  {'✅' if name in fields else '❌'} {name}")
+
+    if CONSENT_FIELD not in fields:
+        print("  -> consent-veld bestaat niet op Contact; coverage-noemer moet anders")
+        return
+
+    tot, err = query(token, instance_url, "SELECT COUNT(Id) total FROM Contact")
+    if not err:
+        print(f"  Contacts totaal: {tot['records'][0]['total']}")
+    con, err = query(token, instance_url,
+                     f"SELECT COUNT(Id) total FROM Contact WHERE {CONSENT_WHERE}")
+    if not err:
+        print(f"  Contacts met consent: {con['records'][0]['total']}")
+
+    if "RecordTypeId" in fields:
+        rts, err = query(token, instance_url,
+            "SELECT Id, Name FROM RecordType WHERE SobjectType = 'Contact' ORDER BY Name")
+        if not err:
+            names = {r["Id"]: r["Name"] for r in rts["records"]}
+            grouped, err = query(token, instance_url,
+                f"SELECT RecordTypeId, COUNT(Id) total FROM Contact "
+                f"WHERE {CONSENT_WHERE} GROUP BY RecordTypeId")
+            if not err:
+                print("  Met consent per Contact-RecordType:")
+                for row in grouped["records"]:
+                    label = names.get(row["RecordTypeId"], f"(onbekend {row['RecordTypeId']})")
+                    print(f"    {label:40} {row['total']:9}")
 
 
 if __name__ == "__main__":
