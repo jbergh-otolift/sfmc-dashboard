@@ -2,27 +2,20 @@
 """
 probe_lead_consent.py
 
-Diagnose-script, géén export. Controleert of de consent-velden die Automation
-Coverage en de database-groei nodig hebben daadwerkelijk leesbaar zijn voor de
-integratiegebruiker, en hoeveel rijen ze opleveren.
+Diagnose-script, géén export. Brengt in kaart welke Lead-RecordTypes er zijn,
+hoe ze heten, en hoeveel leads met consent er per RecordType zijn — de basis
+voor Automation Coverage per land.
 
-Schrijft niets weg en verandert niets in Salesforce — alleen leesacties, de
+Schrijft niets weg en verandert niets in Salesforce; alleen leesacties, de
 uitvoer gaat naar de console (in GitHub Actions: naar de job-log).
 
 Gebruik:
     SF_DOMAIN=... SF_CLIENT_ID=... SF_CLIENT_SECRET=... python scripts/probe_lead_consent.py
-
-Wat het rapporteert:
-  1. Onder welke gebruiker de integratie draait (de "Run As" van de Connected App)
-  2. Of Customized_Product_Advice__c en HasOptedOutOfEmail zichtbaar zijn voor
-     die gebruiker — dit is de field-level-securitycheck, zonder dat je in
-     Setup hoeft te klikken
-  3. Of RecordTypeId meekomt (nodig om per markt te kunnen splitsen)
-  4. Hoeveel leads er met consent zijn, uitgesplitst per RecordType
 """
 
 import os
 import sys
+from collections import defaultdict
 
 import requests
 
@@ -33,12 +26,7 @@ API_VERSION = "v60.0"
 
 CONSENT_FIELD = "Customized_Product_Advice__c"
 OPTOUT_FIELD = "HasOptedOutOfEmail"
-
-# RecordTypeId's per markt, uit het stappenplan (vraag 6b).
-LEAD_RECORD_TYPES = {
-    "0127Q000000upr9QAA": "NL",
-    "0127Q000000eERIQA2": "BE",
-}
+CONSENT_WHERE = f"{CONSENT_FIELD} = true AND {OPTOUT_FIELD} = false"
 
 
 def get_token():
@@ -56,21 +44,16 @@ def get_token():
     return data["access_token"], data["instance_url"]
 
 
-def whoami(token, instance_url):
-    """De Run As-gebruiker van de Connected App, zonder in Setup te zoeken."""
+def whoami(token):
     resp = requests.get(
         f"https://{DOMAIN}/services/oauth2/userinfo",
         headers={"Authorization": f"Bearer {token}"},
         timeout=30,
     )
-    if not resp.ok:
-        return None
-    return resp.json()
+    return resp.json() if resp.ok else None
 
 
 def describe_lead(token, instance_url):
-    """Alle Lead-velden die deze gebruiker mág zien. Een veld dat door
-    field-level security is afgeschermd ontbreekt hier gewoon."""
     resp = requests.get(
         f"{instance_url}/services/data/{API_VERSION}/sobjects/Lead/describe",
         headers={"Authorization": f"Bearer {token}"},
@@ -94,82 +77,116 @@ def query(token, instance_url, soql):
 
 def main():
     token, instance_url = get_token()
-    print(f"Verbonden met {instance_url}\n")
 
-    # --- 1. Wie is de integratiegebruiker? --------------------------------
-    info = whoami(token, instance_url)
+    info = whoami(token)
     if info:
-        print("Run As-gebruiker")
-        print(f"  username : {info.get('preferred_username')}")
-        print(f"  naam     : {info.get('name')}")
-        print(f"  user id  : {info.get('user_id')}")
-    else:
-        print("Run As-gebruiker: kon userinfo niet ophalen (niet blokkerend)")
-    print()
+        print(f"Run As: {info.get('preferred_username')} ({info.get('name')})\n")
 
-    # --- 2. Zijn de velden zichtbaar? -------------------------------------
+    # --- Veldzichtbaarheid -------------------------------------------------
     fields = describe_lead(token, instance_url)
-    print(f"Lead-velden zichtbaar voor deze gebruiker: {len(fields)}")
-
-    missing = []
-    for name in (CONSENT_FIELD, OPTOUT_FIELD, "RecordTypeId", "CreatedDate"):
-        field = fields.get(name)
-        if field:
-            print(f"  ✅ {name}  ({field['type']})")
-        else:
-            print(f"  ❌ {name}  — NIET zichtbaar voor dit profiel")
-            missing.append(name)
-
+    missing = [
+        name
+        for name in (CONSENT_FIELD, OPTOUT_FIELD, "RecordTypeId", "CreatedDate")
+        if name not in fields
+    ]
     if missing:
-        print()
-        print("Field-level security blokkeert:", ", ".join(missing))
-        print(
-            "Zet die velden op Visible voor het profiel van bovenstaande gebruiker:\n"
-            "  Setup -> Object Manager -> Lead -> Fields & Relationships -> <veld>\n"
-            "  -> Set Field-Level Security -> Visible aan (Read-Only mag erbij)"
-        )
-        # Zonder het consent-veld heeft verder testen geen zin.
-        if CONSENT_FIELD in missing:
-            sys.exit(1)
-    print()
-
-    # --- 3. Hoeveel leads met consent, per markt? -------------------------
-    where = f"{CONSENT_FIELD} = true AND {OPTOUT_FIELD} = false"
-
-    total, err = query(token, instance_url, f"SELECT COUNT(Id) total FROM Lead WHERE {where}")
-    if err:
-        print(f"Telling mislukt: {err}")
+        print("Niet zichtbaar voor dit profiel:", ", ".join(missing))
         sys.exit(1)
-    total_count = total["records"][0]["total"]
-    print(f"Leads met consent ({where}): {total_count}")
+    print("Alle benodigde velden zichtbaar.\n")
 
-    all_leads, err = query(token, instance_url, "SELECT COUNT(Id) total FROM Lead")
-    if not err:
-        everyone = all_leads["records"][0]["total"]
-        share = f"{total_count / everyone * 100:.1f}%" if everyone else "n.v.t."
-        print(f"Van in totaal {everyone} leads  ->  {share} heeft consent")
-    print()
-
-    # --- 4. Uitsplitsing per markt ----------------------------------------
-    grouped, err = query(
+    # --- Alle Lead-RecordTypes met hun namen -------------------------------
+    # Dit is de kern: welke RecordTypes bestaan er, hoe heten ze, en welke
+    # zijn 'particulier' per land (tegenover bv. zakelijk).
+    rts, err = query(
         token,
         instance_url,
-        f"SELECT RecordTypeId, COUNT(Id) total FROM Lead WHERE {where} GROUP BY RecordTypeId",
+        "SELECT Id, Name, DeveloperName, IsActive FROM RecordType "
+        "WHERE SobjectType = 'Lead' ORDER BY Name",
     )
     if err:
-        print(f"Groepering per RecordTypeId mislukt: {err}")
-        return
+        print(f"RecordType-query mislukt: {err}")
+        sys.exit(1)
 
-    print("Per markt (RecordTypeId):")
-    for row in grouped["records"]:
-        rtid = row["RecordTypeId"]
-        market = LEAD_RECORD_TYPES.get(rtid, "onbekend")
-        print(f"  {market:8} {rtid}  {row['total']}")
+    record_types = {r["Id"]: r for r in rts["records"]}
+    print(f"Lead-RecordTypes ({len(record_types)}):")
+    print(f"  {'Id':20} {'actief':7} {'Name':38} DeveloperName")
+    for r in rts["records"]:
+        active = "ja" if r["IsActive"] else "NEE"
+        print(f"  {r['Id']:20} {active:7} {r['Name']:38} {r['DeveloperName']}")
     print()
-    print(
-        "Als dit klopt, kan Automation Coverage gevuld worden: dit is de noemer "
-        "(contacten met consent). De teller komt uit de SFMC-sends."
+
+    # --- Tellingen per RecordType: totaal en met consent -------------------
+    totals = defaultdict(int)
+    consent = defaultdict(int)
+
+    all_rows, err = query(
+        token, instance_url,
+        "SELECT RecordTypeId, COUNT(Id) total FROM Lead GROUP BY RecordTypeId",
     )
+    if err:
+        print(f"Totaaltelling mislukt: {err}")
+    else:
+        for row in all_rows["records"]:
+            totals[row["RecordTypeId"]] = row["total"]
+
+    consent_rows, err = query(
+        token, instance_url,
+        f"SELECT RecordTypeId, COUNT(Id) total FROM Lead WHERE {CONSENT_WHERE} "
+        "GROUP BY RecordTypeId",
+    )
+    if err:
+        print(f"Consenttelling mislukt: {err}")
+        sys.exit(1)
+    for row in consent_rows["records"]:
+        consent[row["RecordTypeId"]] = row["total"]
+
+    print("Per RecordType — totaal, met consent, en het aandeel:")
+    print(f"  {'Name':40} {'totaal':>9} {'consent':>9} {'aandeel':>8}")
+    for rtid in sorted(totals, key=lambda k: -totals[k]):
+        rt = record_types.get(rtid)
+        name = rt["Name"] if rt else f"(onbekend {rtid})"
+        tot, con = totals[rtid], consent.get(rtid, 0)
+        share = f"{con / tot * 100:.1f}%" if tot else "-"
+        print(f"  {name:40} {tot:9} {con:9} {share:>8}")
+
+    print()
+    print(f"  {'TOTAAL':40} {sum(totals.values()):9} {sum(consent.values()):9}")
+
+    # --- Groei: nieuwe leads met consent in de laatste 30 dagen ------------
+    growth, err = query(
+        token, instance_url,
+        f"SELECT RecordTypeId, COUNT(Id) total FROM Lead "
+        f"WHERE {CONSENT_WHERE} AND CreatedDate = LAST_N_DAYS:30 GROUP BY RecordTypeId",
+    )
+    if not err:
+        print("\nNieuw met consent, laatste 30 dagen:")
+        for row in growth["records"]:
+            rt = record_types.get(row["RecordTypeId"])
+            name = rt["Name"] if rt else f"(onbekend {row['RecordTypeId']})"
+            print(f"  {name:40} {row['total']:9}")
+
+    probe_history_recordtype(token, instance_url)
+
+
+def probe_history_recordtype(token, instance_url):
+    """Kan de LeadHistory-query het RecordType van de bovenliggende Lead
+    meenemen? Zo ja, dan kan de her-activatiefunnel per markt gesplitst worden
+    zonder een tweede query."""
+    print("\n--- LeadHistory met Lead.RecordTypeId ---")
+    soql = (
+        "SELECT CreatedDate, LeadId, Lead.RecordTypeId, Field, OldValue, NewValue "
+        "FROM LeadHistory WHERE Field = 'Status' "
+        "AND CreatedDate >= 2026-09-01T00:00:00Z LIMIT 3"
+    )
+    rows, err = query(token, instance_url, soql)
+    if err:
+        print(f"  ❌ traversal werkt NIET: {err}")
+        print("  -> dan is een aparte Lead-query nodig om LeadId aan markt te koppelen")
+        return
+    print("  ✅ traversal werkt")
+    for r in rows["records"]:
+        lead = r.get("Lead") or {}
+        print(f"     {r['LeadId']}  RecordTypeId={lead.get('RecordTypeId')}  {r['OldValue']} -> {r['NewValue']}")
 
 
 if __name__ == "__main__":
