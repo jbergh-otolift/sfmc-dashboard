@@ -1,16 +1,18 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
-  "generated_at": "2026-09-15T12:38:10+00:00",
+  "coverage_days": 90,
+  "coverage_definition": "Status = 'Mailjourney' AND Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false; bereikt = minstens een e-mail in de laatste 90 dagen",
+  "generated_at": "2026-09-15T12:49:49+00:00",
   "markets": {
     "be": {
       "consentShare": 6.0,
       "consentTotal": 4512,
-      "coverage": 10.4,
+      "coverage": 41.8,
       "growth": 429,
       "growthDeltaPct": -10.3,
       "growthPrev": 478,
       "leadsTotal": 75158,
-      "reachedOfShouldMail": 171,
+      "reachedOfShouldMail": 687,
       "shouldMail": 1644
     },
     "fr": {
@@ -37,13 +39,13 @@
     },
     "nl": {
       "consentShare": 10.7,
-      "consentTotal": 33551,
-      "coverage": 23.6,
-      "growth": 940,
-      "growthDeltaPct": -2.8,
+      "consentTotal": 33552,
+      "coverage": 33.0,
+      "growth": 941,
+      "growthDeltaPct": -2.7,
       "growthPrev": 967,
-      "leadsTotal": 313678,
-      "reachedOfShouldMail": 2706,
+      "leadsTotal": 313695,
+      "reachedOfShouldMail": 3780,
       "shouldMail": 11462
     }
   },
