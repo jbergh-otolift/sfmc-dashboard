@@ -272,7 +272,7 @@ function buildFlowChips(emailHealth) {
 // groep die je werkelijk kunt mailen. Zonder die opbouw is een coverage van
 // 32% niet te beoordelen — je weet niet of het gat aan bereik ligt of aan
 // ontbrekende adressen en consent.
-function renderCoverageBuild(coverage) {
+function renderCoverageBuild(coverage, cohort) {
   const box = document.querySelector("[data-coverage-build]");
   if (!box) return;
   const f = coverage && coverage.funnel;
@@ -301,6 +301,18 @@ function renderCoverageBuild(coverage) {
     box.appendChild(el);
   };
 
+  if (cohort && cohort.mailable) {
+    row("Instroom in de mailflow deze periode", nlNum(cohort.entered, 0));
+    row("Daarvan mailbaar", nlNum(cohort.mailable, 0), "result");
+    row("Daarvan gemaild", nlNum(cohort.reached, 0), "result");
+
+    const gap = document.createElement("div");
+    gap.className = "cb-title";
+    gap.style.marginTop = "16px";
+    gap.textContent = "Staande voorraad, los van deze periode";
+    box.appendChild(gap);
+  }
+
   row("In de mailflow (status Mailjourney)", nlNum(f.mailjourneyTotal, 0));
   row("Zonder e-mailadres", "− " + nlNum(f.noEmail || 0, 0), "minus");
   row("Geen consent of afgemeld", "− " + nlNum(f.noConsent || 0, 0), "minus");
@@ -317,7 +329,22 @@ function renderCoverageBuild(coverage) {
   row("Daarvan bereikt in 90 dagen", nlNum(coverage.reached, 0), "result");
 }
 
-function applyCoverageNote(coverage) {
+// Bouwt de coverage-waarden voor de gekozen periode. Het getoonde percentage
+// is dat van het cohort; de voorraadcijfers blijven eronder als context.
+function coverageForPeriod(base, cohort) {
+  if (!cohort || !cohort.mailable) return base;
+  return {
+    ...(base || {}),
+    value: cohort.coverage,
+    shouldMail: cohort.mailable,
+    reached: cohort.reached,
+    toActivate: Math.max((cohort.mailable || 0) - (cohort.reached || 0), 0),
+    measurable: cohort.coverage !== null && cohort.coverage !== undefined,
+    reason: null,
+  };
+}
+
+function applyCoverageNote(coverage, cohort) {
   const el = document.querySelector("[data-coverage-note]");
   if (!el) return;
 
@@ -347,12 +374,12 @@ function applyCoverageNote(coverage) {
   }
 
   el.classList.remove("nodata");
-  renderCoverageBuild(coverage);
+  renderCoverageBuild(coverage, cohort);
   el.innerHTML =
     "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te bereiken" +
-    '<span style="display:block;font-size:11.5px;margin-top:6px">Noemer: leads met ' +
-    "status <b>Mailjourney</b> én consent — de mensen die we horen te mailen, " +
-    "niet de hele database.</span>";
+    '<span style="display:block;font-size:11.5px;margin-top:6px">Van de leads die ' +
+    "<b>in deze periode</b> in de mailflow kwamen en die we mochten mailen. " +
+    "De staande voorraad staat hieronder apart.</span>";
 }
 
 /* ---------- detail per flow: welke mails zitten erin ---------- */
@@ -909,16 +936,21 @@ function applyMarket(marketKey) {
         kernKpis: {
           ...market.kernKpis,
           ...(period.kernKpisPeriod || {}),
-          // Coverage en database-groei zijn niet periodegebonden; die uit het
-          // basisblok houden zodat ze niet zonder reden meeverspringen.
-          coverage: market.kernKpis && market.kernKpis.coverage,
+          // Coverage volgt wél de periode: het is een cohort. Van de leads
+          // die in deze periode instroomden, hoeveel hebben we gemaild. De
+          // staande voorraad blijft als context in de opbouw staan.
+          coverage: coverageForPeriod(market.kernKpis && market.kernKpis.coverage,
+                                      period && period.cohort),
           databaseGrowth: market.kernKpis && market.kernKpis.databaseGrowth,
         },
       }
     : market;
 
   applyBindings(document, view);
-  applyCoverageNote(market.kernKpis && market.kernKpis.coverage);
+  // Coverage toont het cohort van de gekozen periode: van de instroom van
+  // die periode, wie is er gemaild. De staande voorraad staat eronder als
+  // context — dat is een ander getal dat een andere vraag beantwoordt.
+  applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   applyOutcomes(view);
   applySourceBadges(market._sources);
   applyPeriodWarning(period);

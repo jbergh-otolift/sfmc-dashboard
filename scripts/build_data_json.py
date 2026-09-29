@@ -441,6 +441,8 @@ def main():
                 "reactivation": cm.get("reactivation"),
                 "acquisition": cm.get("acquisition"),
                 "kernKpisPeriod": cm.get("kernKpis"),
+                # Cohort: van de instroom van deze periode, wie is er gemaild?
+                "cohort": ((consent_market or {}).get("cohorts") or {}).get(period_key),
             }
 
         markets[key] = {
