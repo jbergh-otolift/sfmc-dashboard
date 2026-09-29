@@ -314,6 +314,7 @@ def build_coverage(consent_market, market_block):
             "mailjourneyTotal": consent_market.get("mailjourneyTotal"),
             "noEmail": consent_market.get("mailjourneyNoEmail"),
             "noConsent": consent_market.get("mailjourneyNoConsent"),
+            "noContactException": consent_market.get("mailjourneyNoContactException"),
         },
         "reached": reached,
         "consentTotal": consent_market.get("consentTotal"),

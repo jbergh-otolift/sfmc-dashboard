@@ -52,7 +52,25 @@ CONSENT_WHERE = f"{CONSENT_FIELD} = true AND {OPTOUT_FIELD} = false"
 # Consent alleen is niet genoeg om iemand te kunnen mailen: zonder adres lukt
 # het hoe dan ook niet. Die groep hoort niet in de coverage-noemer — voor NL
 # ging het om 807 leads, 6,9% van de noemer.
-MAILABLE_WHERE = f"Email != null AND {CONSENT_WHERE}"
+# Uitzondering: leads met een 'no contact possible'-reden worden sowieso
+# gemaild, ook zonder marketing-consent — dat is de enige manier om ze nog te
+# bereiken. Afgemeld blijft wel een harde stop: HasOptedOutOfEmail = true is
+# een uitschrijving, iets anders dan het ontbreken van een opt-in.
+REASON_FIELD = "Reason_Mailjourney__c"
+NO_CONTACT_REASONS = [
+    "No Contact Possible - number correct",
+    "No Contact Possible - number incorrect",
+    "No contact possible",
+]
+_reasons = ", ".join(f"'{r}'" for r in NO_CONTACT_REASONS)
+NO_CONTACT_WHERE = f"{REASON_FIELD} IN ({_reasons})"
+
+# Mailbaar = een adres, niet afgemeld, en ofwel consent ofwel een
+# no-contact-possible-reden.
+MAILABLE_WHERE = (
+    f"Email != null AND {OPTOUT_FIELD} = false "
+    f"AND ({CONSENT_FIELD} = true OR {NO_CONTACT_WHERE})"
+)
 
 # Alle vier de Lead-RecordTypes zijn "Particulier <land>"; er bestaan geen
 # zakelijke Lead-RecordTypes, dus dit is de volledige set.
@@ -186,10 +204,19 @@ def main():
     mj_total, _ = counts_by_market(session, instance_url, mj)
     mj_no_email, _ = counts_by_market(session, instance_url, f"{mj} AND Email = null")
     # SOQL accepteert NOT (A AND B) niet; uitgeschreven volgens De Morgan.
+    # Afvallers: wel een adres, maar geen consent en ook geen
+    # no-contact-possible-reden, of afgemeld.
     mj_no_consent, _ = counts_by_market(
         session, instance_url,
         f"{mj} AND Email != null "
-        f"AND ({CONSENT_FIELD} = false OR {OPTOUT_FIELD} = true)")
+        f"AND ({OPTOUT_FIELD} = true "
+        f"OR ({CONSENT_FIELD} = false AND NOT {NO_CONTACT_WHERE}))")
+
+    # Hoeveel leads komen er dankzij de uitzondering bij?
+    mj_no_contact, _ = counts_by_market(
+        session, instance_url,
+        f"{mj} AND Email != null AND {OPTOUT_FIELD} = false "
+        f"AND {CONSENT_FIELD} = false AND {NO_CONTACT_WHERE}")
 
     # Groei: nieuwe contacten mét consent, aangemaakt binnen de periode.
     def created_between(start, end):
@@ -230,6 +257,8 @@ def main():
             "mailjourneyTotal": mj_total[market],
             "mailjourneyNoEmail": mj_no_email[market],
             "mailjourneyNoConsent": mj_no_consent[market],
+            # Zonder consent, maar toch mailbaar via de no-contact-uitzondering.
+            "mailjourneyNoContactException": mj_no_contact[market],
             "reachedOfShouldMail": covered,
             "coverage": (
                 round(covered / len(should_mail) * 100, 1)

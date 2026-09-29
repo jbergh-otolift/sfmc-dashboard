@@ -303,7 +303,16 @@ function renderCoverageBuild(coverage) {
 
   row("In de mailflow (status Mailjourney)", nlNum(f.mailjourneyTotal, 0));
   row("Zonder e-mailadres", "− " + nlNum(f.noEmail || 0, 0), "minus");
-  row("Met adres, geen consent of afgemeld", "− " + nlNum(f.noConsent || 0, 0), "minus");
+  row("Geen consent of afgemeld", "− " + nlNum(f.noConsent || 0, 0), "minus");
+  // Deze groep mailen we sowieso: zonder consent, maar met een
+  // no-contact-possible-reden is mail de enige manier om ze te bereiken.
+  if (f.noContactException) {
+    row(
+      "Terug: no contact possible (sowieso mailen)",
+      "+ " + nlNum(f.noContactException, 0),
+      "plus"
+    );
+  }
   row("Kunnen we mailen", nlNum(coverage.shouldMail, 0), "result");
   row("Daarvan bereikt in 90 dagen", nlNum(coverage.reached, 0), "result");
 }
