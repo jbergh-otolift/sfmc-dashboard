@@ -185,9 +185,11 @@ def main():
     mj = f"Status = '{MAILJOURNEY_STATUS}'"
     mj_total, _ = counts_by_market(session, instance_url, mj)
     mj_no_email, _ = counts_by_market(session, instance_url, f"{mj} AND Email = null")
+    # SOQL accepteert NOT (A AND B) niet; uitgeschreven volgens De Morgan.
     mj_no_consent, _ = counts_by_market(
         session, instance_url,
-        f"{mj} AND Email != null AND NOT ({CONSENT_WHERE})")
+        f"{mj} AND Email != null "
+        f"AND ({CONSENT_FIELD} = false OR {OPTOUT_FIELD} = true)")
 
     # Groei: nieuwe contacten mét consent, aangemaakt binnen de periode.
     def created_between(start, end):
