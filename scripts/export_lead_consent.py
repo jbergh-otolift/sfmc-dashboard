@@ -64,6 +64,8 @@ NO_CONTACT_REASONS = [
 ]
 _reasons = ", ".join(f"'{r}'" for r in NO_CONTACT_REASONS)
 NO_CONTACT_WHERE = f"{REASON_FIELD} IN ({_reasons})"
+# SOQL wil "veld NOT IN (...)", niet "NOT veld IN (...)".
+NOT_NO_CONTACT_WHERE = f"({REASON_FIELD} = null OR {REASON_FIELD} NOT IN ({_reasons}))"
 
 # Mailbaar = een adres, niet afgemeld, en ofwel consent ofwel een
 # no-contact-possible-reden.
@@ -210,7 +212,7 @@ def main():
         session, instance_url,
         f"{mj} AND Email != null "
         f"AND ({OPTOUT_FIELD} = true "
-        f"OR ({CONSENT_FIELD} = false AND NOT {NO_CONTACT_WHERE}))")
+        f"OR ({CONSENT_FIELD} = false AND {NOT_NO_CONTACT_WHERE}))")
 
     # Hoeveel leads komen er dankzij de uitzondering bij?
     mj_no_contact, _ = counts_by_market(
