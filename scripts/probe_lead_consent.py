@@ -170,6 +170,7 @@ def main():
     probe_mailjourney(token, instance_url)
     probe_opportunity(token, instance_url)
     probe_mailable(token, instance_url)
+    probe_reasons(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -359,6 +360,45 @@ def probe_mailable(token, instance_url):
         h, e = huidig.get(m, 0), echt.get(m, 0)
         if h:
             print(f"    {m}: {h} -> {e}  ({e - h:+d}, {(e - h) / h * 100:+.1f}%)")
+
+
+def probe_reasons(token, instance_url):
+    """Welke redenvelden bestaan er op Lead, en welke waarden staan erin?
+
+    De groep 'no contact possible' wordt sowieso gemaild, ook zonder consent.
+    Daarvoor moeten we weten in welk veld die reden staat en hoe de waarden
+    exact gespeld zijn.
+    """
+    print("\n--- Redenvelden op Lead ---")
+    fields = describe_lead(token, instance_url)
+    reason_fields = sorted(
+        name for name in fields
+        if "reason" in name.lower() or "redenen" in name.lower()
+    )
+    for name in reason_fields:
+        f = fields[name]
+        print(f"  {name}  ({f['type']})")
+        for value in (f.get("picklistValues") or [])[:30]:
+            if value.get("active"):
+                print(f"      {value['value']!r}")
+
+    if not reason_fields:
+        print("  geen veld met 'reason' in de naam gevonden")
+        return
+
+    # Hoeveel Mailjourney-leads hebben een no-contact-reden, en hoeveel
+    # daarvan zouden we door de consent-eis nu missen?
+    for name in reason_fields:
+        res, err = query(
+            token, instance_url,
+            f"SELECT {name} r, COUNT(Id) total FROM Lead "
+            f"WHERE Status = 'Mailjourney' AND {name} != null "
+            f"GROUP BY {name} ORDER BY COUNT(Id) DESC")
+        if err or not res["records"]:
+            continue
+        print(f"\n  Verdeling van {name} binnen Mailjourney:")
+        for row in res["records"][:15]:
+            print(f"      {str(row['r'])[:52]:54} {row['total']:7}")
 
 
 if __name__ == "__main__":
