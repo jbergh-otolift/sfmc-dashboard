@@ -25,9 +25,10 @@ Consent is gedefinieerd als `Customized_Product_Advice__c = true` EN
 `HasOptedOutOfEmail = false` — beide condities, niet één van de twee.
 """
 
+import csv
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -40,6 +41,11 @@ OUT_PATH = "exports/lead_consent.json"
 # Geschreven door export_sfmc_tracking.py, niet gecommit. Bevat de Lead-id's
 # die in de periode daadwerkelijk een e-mail kregen.
 REACHED_PATH = "exports/_reached_lead_ids.json"
+# Statushistorie, voor de vraag wie er *in de periode* in de mailflow kwam.
+REPORT_PATH = "exports/report.csv"
+
+# Periodes waarover het dashboard cohorten toont.
+PERIOD_DAYS = [7, 30, 90]
 
 # De coverage-noemer is niet "iedereen met consent" maar "iedereen die we
 # horen te mailen": leads die in de mailflow staan én consent hebben.
@@ -161,6 +167,79 @@ def lead_ids_in_mailjourney(session, instance_url):
     return by_market
 
 
+def cohort_entered(path, end_date, days):
+    """Lead-id's die binnen het venster in de mailflow zijn beland, per markt.
+
+    Dit is de instroom van de periode, niet de staande voorraad. Een noemer
+    van 11.000 leads voor een maand klopt niet: dat is iedereen die ooit in
+    Mailjourney is gezet en daar nog staat. De echte maandinstroom ligt rond
+    de 1.450 voor NL.
+    """
+    end = datetime.strptime(end_date, "%Y-%m-%d")
+    start = (end - timedelta(days=days)).strftime("%Y-%m-%d")
+    end_str = end.strftime("%Y-%m-%d")
+
+    by_market = {market: set() for market in MARKET_BY_RECORD_TYPE.values()}
+    if not os.path.exists(path):
+        return by_market
+
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            if (row.get("New Value") or "").strip() != MAILJOURNEY_STATUS:
+                continue
+            day = (row.get("Edit Date") or "")[:10]
+            if not (start <= day < end_str):
+                continue
+            market = (row.get("Market") or "").strip().lower()
+            if market in by_market:
+                by_market[market].add(row["Lead ID"])
+    return by_market
+
+
+def mailable_lead_ids(session, instance_url):
+    """Alle mailbare Lead-id's, ongeacht hun huidige status.
+
+    Voor een cohort is de huidige status niet relevant: een lead die in de
+    periode in de mailflow kwam en inmiddels een afspraak heeft, hoort gewoon
+    in de noemer. Filteren op status Mailjourney zou juist de leads wegstrepen
+    waar het goed ging.
+    """
+    soql = f"SELECT Id, RecordTypeId FROM Lead WHERE {MAILABLE_WHERE}"
+    by_market = {market: set() for market in MARKET_BY_RECORD_TYPE.values()}
+    url = f"{instance_url}/services/data/{API_VERSION}/query"
+    params = {"q": soql}
+
+    while True:
+        resp = session.get(url, params=params, timeout=120)
+        resp.raise_for_status()
+        data = resp.json()
+        for row in data["records"]:
+            market = MARKET_BY_RECORD_TYPE.get(row["RecordTypeId"])
+            if market:
+                by_market[market].add(row["Id"])
+        if data.get("done", True):
+            break
+        url = instance_url + data["nextRecordsUrl"]
+        params = None
+
+    return by_market
+
+
+def cohort_stats(entered, mailable, reached):
+    """Instroom van een periode, afgezet tegen wie mailbaar was en bereikt is."""
+    mailable_in = entered & mailable
+    reached_in = (mailable_in & reached) if reached is not None else None
+    return {
+        "entered": len(entered),
+        "mailable": len(mailable_in),
+        "reached": len(reached_in) if reached_in is not None else None,
+        "coverage": (
+            round(len(reached_in) / len(mailable_in) * 100, 1)
+            if reached_in is not None and mailable_in else None
+        ),
+    }
+
+
 def load_reached():
     """Bereikte Lead-id's per markt, uit de SFMC-export. Ontbreekt dat bestand
     (los gedraaid, of SFMC-stap overgeslagen), dan blijft de doorsnede None."""
@@ -241,6 +320,17 @@ def main():
             f"{REACHED_PATH} ontbreekt; coverage niet berekend. "
             "Draai eerst scripts/export_sfmc_tracking.py.")
 
+    # Cohort per periode: wie kwam er in de mailflow, en hebben we die gemaild?
+    end_date = os.environ.get(
+        "PERIOD_END",
+        (datetime.now(timezone.utc) + timedelta(days=1)).strftime("%Y-%m-%d"),
+    )
+    cohorts = {
+        str(days): cohort_entered(REPORT_PATH, end_date, days)
+        for days in PERIOD_DAYS
+    }
+    mailable_any_status = mailable_lead_ids(session, instance_url)
+
     markets = {}
     for market in MARKET_BY_RECORD_TYPE.values():
         con, tot = consent[market], total[market]
@@ -261,6 +351,16 @@ def main():
             "mailjourneyNoConsent": mj_no_consent[market],
             # Zonder consent, maar toch mailbaar via de no-contact-uitzondering.
             "mailjourneyNoContactException": mj_no_contact[market],
+            # Per periode: van de leads die in die periode in de mailflow
+            # kwamen en mailbaar zijn, hoeveel kregen er mail?
+            "cohorts": {
+                period: cohort_stats(
+                    entered.get(market, set()),
+                    mailable_any_status.get(market, set()),
+                    reached_here,
+                )
+                for period, entered in cohorts.items()
+            },
             "reachedOfShouldMail": covered,
             "coverage": (
                 round(covered / len(should_mail) * 100, 1)
