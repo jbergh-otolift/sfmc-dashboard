@@ -344,6 +344,29 @@ def source_state(email_health, has_crm, has_outcomes=False):
     }
 
 
+def stamp_asset_version(generated_at):
+    """Zet de generatietijd in de script-URL van het dashboard.
+
+    Zonder dat blijft een browser de oude data-layer.js serveren en zie je
+    verse cijfers met oude opmaaklogica — of helemaal geen verandering.
+    """
+    path = "docs/index.html"
+    if not os.path.exists(path):
+        return
+    version = re.sub(r"[^0-9]", "", generated_at)[:14]
+    with open(path, encoding="utf-8") as f:
+        html = f.read()
+    updated = re.sub(
+        r'(<script src="data-layer\.js)(\?v=[^"]*)?(">)',
+        lambda m: f"{m.group(1)}?v={version}{m.group(3)}",
+        html,
+    )
+    if updated != html:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(updated)
+        print(f"  script-versie bijgewerkt naar ?v={version}")
+
+
 def main():
     tracking = load(TRACKING_PATH)
     crm = load(CRM_PATH)
@@ -494,6 +517,8 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")
+
+    stamp_asset_version(out["generated_at"])
 
     print(f"Geschreven naar {OUT_PATH}")
     print(f"  periode: {period}  vorige: {prev_period}")
