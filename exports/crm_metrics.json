@@ -5,26 +5,26 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 1290,
-            "Brochure": 182,
+            "Appointment": 1308,
+            "Brochure": 185,
             "Converted Old SF": 3,
-            "Follow-up": 967,
-            "Lost": 354,
-            "Mailjourney": 1422,
+            "Follow-up": 983,
+            "Lost": 358,
+            "Mailjourney": 1443,
             "New": 8,
-            "Not Qualified": 614,
-            "Not reached": 1310,
-            "Re-entered": 458,
+            "Not Qualified": 620,
+            "Not reached": 1333,
+            "Re-entered": 453,
             "Re-entered - Phone Number Changed": 48
           },
-          "transitionRows": 6656,
-          "uniqueLeads": 3907
+          "transitionRows": 6742,
+          "uniqueLeads": 3960
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 3907,
+              "abs": 3960,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -34,14 +34,14 @@
               "share": null
             },
             "r1": {
-              "abs": 1290,
-              "convDeltaPct": 2.7,
-              "share": 33.02
+              "abs": 1308,
+              "convDeltaPct": 2.8,
+              "share": 33.03
             },
             "sql": {
-              "abs": 458,
-              "convDeltaPct": 4.5,
-              "share": 11.72
+              "abs": 453,
+              "convDeltaPct": -2.5,
+              "share": 11.44
             }
           },
           "totals": {
@@ -66,55 +66,55 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": 4.5,
-            "value": 11.72
+            "deltaPct": -2.5,
+            "value": 11.44
           },
           "reactivationRatio": {
-            "deltaPct": 3.0,
-            "value": 16.95
+            "deltaPct": -4.2,
+            "value": 16.56
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 7,
             "backToNotReached": 15,
-            "enrichRatio": 3.38,
+            "enrichRatio": 3.33,
             "enriched": 48,
             "enrichedLeads": 47,
             "fromMailjourney": 23,
             "fromNotReached": 25,
-            "toAppointment": 21,
+            "toAppointment": 22,
             "toAppointmentDirect": 12,
-            "toAppointmentRatio": 44.68,
-            "toAppointmentViaDetour": 9,
+            "toAppointmentRatio": 46.81,
+            "toAppointmentViaDetour": 10,
             "toFollowUp": 7
           },
           "leadIntake": {
-            "abs": 3907,
+            "abs": 3960,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 1422,
-            "deltaPct": 2.8,
-            "ratio": 73.66,
-            "share": 36.4
+            "abs": 1443,
+            "deltaPct": 1.4,
+            "ratio": 73.14,
+            "share": 36.44
           },
           "notContact": {
-            "abs": 1310,
-            "deltaPct": 1.3,
-            "ratio": 33.53,
-            "share": 33.53
+            "abs": 1333,
+            "deltaPct": 2.8,
+            "ratio": 33.66,
+            "share": 33.66
           },
           "recovered": {
             "cac": null,
-            "count": 241,
+            "count": 239,
             "cpl": null
           },
           "sql": {
-            "abs": 458,
-            "deltaPct": 3.0,
-            "ratio": 16.95,
-            "share": 11.72
+            "abs": 453,
+            "deltaPct": -4.2,
+            "ratio": 16.56,
+            "share": 11.44
           }
         }
       },
@@ -123,25 +123,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 489,
+                "Appointment": 493,
                 "Brochure": 7,
-                "Follow-up": 293,
-                "Lost": 89,
-                "Mailjourney": 461,
+                "Follow-up": 302,
+                "Lost": 91,
+                "Mailjourney": 470,
                 "New": 1,
-                "Not Qualified": 205,
-                "Not reached": 455,
-                "Re-entered": 143,
+                "Not Qualified": 206,
+                "Not reached": 461,
+                "Re-entered": 140,
                 "Re-entered - Phone Number Changed": 7
               },
-              "transitionRows": 2150,
-              "uniqueLeads": 1276
+              "transitionRows": 2178,
+              "uniqueLeads": 1292
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 1276,
+                  "abs": 1292,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -151,14 +151,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 489,
-                  "convDeltaPct": 17.6,
-                  "share": 38.32
+                  "abs": 493,
+                  "convDeltaPct": 16.0,
+                  "share": 38.16
                 },
                 "sql": {
-                  "abs": 143,
-                  "convDeltaPct": 17.0,
-                  "share": 11.21
+                  "abs": 140,
+                  "convDeltaPct": 9.1,
+                  "share": 10.84
                 }
               },
               "totals": {
@@ -183,19 +183,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 17.0,
-                "value": 11.21
+                "deltaPct": 9.1,
+                "value": 10.84
               },
               "reactivationRatio": {
-                "deltaPct": 26.4,
-                "value": 13.88
+                "deltaPct": 13.0,
+                "value": 13.19
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 0,
                 "backToNotReached": 3,
-                "enrichRatio": 1.52,
+                "enrichRatio": 1.49,
                 "enriched": 7,
                 "enrichedLeads": 7,
                 "fromMailjourney": 2,
@@ -207,56 +207,56 @@
                 "toFollowUp": 1
               },
               "leadIntake": {
-                "abs": 1276,
+                "abs": 1292,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 461,
-                "deltaPct": 10.6,
-                "ratio": 81.54,
-                "share": 36.13
+                "abs": 470,
+                "deltaPct": 10.2,
+                "ratio": 82.0,
+                "share": 36.38
               },
               "notContact": {
-                "abs": 455,
-                "deltaPct": -9.3,
-                "ratio": 35.66,
-                "share": 35.66
+                "abs": 461,
+                "deltaPct": -7.3,
+                "ratio": 35.68,
+                "share": 35.68
               },
               "recovered": {
                 "cac": null,
-                "count": 64,
+                "count": 62,
                 "cpl": null
               },
               "sql": {
-                "abs": 143,
-                "deltaPct": 26.4,
-                "ratio": 13.88,
-                "share": 11.21
+                "abs": 140,
+                "deltaPct": 13.0,
+                "ratio": 13.19,
+                "share": 10.84
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 391,
+                "Appointment": 384,
                 "Brochure": 25,
-                "Follow-up": 379,
-                "Lost": 69,
-                "Mailjourney": 437,
+                "Follow-up": 356,
+                "Lost": 65,
+                "Mailjourney": 420,
                 "New": 1,
-                "Not Qualified": 228,
-                "Not reached": 472,
-                "Re-entered": 115,
+                "Not Qualified": 224,
+                "Not reached": 449,
+                "Re-entered": 116,
                 "Re-entered - Phone Number Changed": 8
               },
-              "transitionRows": 2125,
-              "uniqueLeads": 1200
+              "transitionRows": 2048,
+              "uniqueLeads": 1167
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 1200,
+                  "abs": 1167,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -266,14 +266,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 391,
+                  "abs": 384,
                   "convDeltaPct": null,
-                  "share": 32.58
+                  "share": 32.9
                 },
                 "sql": {
-                  "abs": 115,
+                  "abs": 116,
                   "convDeltaPct": null,
-                  "share": 9.58
+                  "share": 9.94
                 }
               },
               "totals": {
@@ -299,18 +299,18 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 9.58
+                "value": 9.94
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 10.98
+                "value": 11.67
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 1,
                 "backToNotReached": 4,
-                "enrichRatio": 1.83,
+                "enrichRatio": 1.9,
                 "enriched": 8,
                 "enrichedLeads": 7,
                 "fromMailjourney": 4,
@@ -322,32 +322,32 @@
                 "toFollowUp": 1
               },
               "leadIntake": {
-                "abs": 1200,
+                "abs": 1167,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 437,
-                "ratio": 73.73,
-                "share": 36.42
+                "abs": 420,
+                "ratio": 74.39,
+                "share": 35.99
               },
               "notContact": {
-                "abs": 472,
-                "ratio": 39.33,
-                "share": 39.33
+                "abs": 449,
+                "ratio": 38.47,
+                "share": 38.47
               },
               "recovered": {
                 "cac": null,
-                "count": 48,
+                "count": 49,
                 "cpl": null
               },
               "sql": {
-                "abs": 115,
-                "ratio": 10.98,
-                "share": 9.58
+                "abs": 116,
+                "ratio": 11.67,
+                "share": 9.94
               }
             }
           },
-          "rows": 14748
+          "rows": 14646
         },
         "fr": {
           "current": {
@@ -356,8 +356,8 @@
                 "Converted Old SF": 1,
                 "Follow-up": 10,
                 "Lost": 2,
-                "Mailjourney": 52,
-                "Not Qualified": 7,
+                "Mailjourney": 53,
+                "Not Qualified": 6,
                 "Re-entered": 20
               },
               "transitionRows": 92,
@@ -383,7 +383,7 @@
                 },
                 "sql": {
                   "abs": 20,
-                  "convDeltaPct": 49.6,
+                  "convDeltaPct": 41.6,
                   "share": 22.73
                 }
               },
@@ -409,12 +409,12 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 49.6,
+                "deltaPct": 41.6,
                 "value": 22.73
               },
               "reactivationRatio": {
-                "deltaPct": 32.1,
-                "value": 25.0
+                "deltaPct": 43.4,
+                "value": 26.42
               }
             },
             "reactivation": {
@@ -437,10 +437,10 @@
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 52,
+                "abs": 53,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 59.09
+                "share": 60.23
               },
               "notContact": {
                 "abs": 0,
@@ -450,13 +450,13 @@
               },
               "recovered": {
                 "cac": null,
-                "count": 13,
+                "count": 14,
                 "cpl": null
               },
               "sql": {
                 "abs": 20,
-                "deltaPct": 32.1,
-                "ratio": 25.0,
+                "deltaPct": 43.4,
+                "ratio": 26.42,
                 "share": 22.73
               }
             }
@@ -467,20 +467,20 @@
                 "Converted Old SF": 2,
                 "Follow-up": 7,
                 "Lost": 1,
-                "Mailjourney": 37,
-                "New": 19,
-                "Not Qualified": 9,
+                "Mailjourney": 38,
+                "New": 16,
+                "Not Qualified": 10,
                 "Other": 1,
-                "Re-entered": 12
+                "Re-entered": 13
               },
               "transitionRows": 88,
-              "uniqueLeads": 79
+              "uniqueLeads": 81
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 79,
+                  "abs": 81,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -495,9 +495,9 @@
                   "share": 0.0
                 },
                 "sql": {
-                  "abs": 12,
+                  "abs": 13,
                   "convDeltaPct": null,
-                  "share": 15.19
+                  "share": 16.05
                 }
               },
               "totals": {
@@ -523,11 +523,11 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 15.19
+                "value": 16.05
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 18.92
+                "value": 18.42
               }
             },
             "reactivation": {
@@ -546,13 +546,13 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 79,
+                "abs": 81,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 37,
+                "abs": 38,
                 "ratio": null,
-                "share": 46.84
+                "share": 46.91
               },
               "notContact": {
                 "abs": 0,
@@ -565,34 +565,34 @@
                 "cpl": null
               },
               "sql": {
-                "abs": 12,
-                "ratio": 18.92,
-                "share": 15.19
+                "abs": 13,
+                "ratio": 18.42,
+                "share": 16.05
               }
             }
           },
-          "rows": 7353
+          "rows": 7321
         },
         "it": {
           "current": {
             "_debug": {
               "statusCounts": {
                 "Converted Old SF": 2,
-                "Follow-up": 6,
+                "Follow-up": 7,
                 "Lost": 9,
                 "Mailjourney": 11,
-                "Not Qualified": 42,
-                "Not reached": 4,
+                "Not Qualified": 41,
+                "Not reached": 3,
                 "Re-entered": 15
               },
-              "transitionRows": 89,
-              "uniqueLeads": 87
+              "transitionRows": 88,
+              "uniqueLeads": 86
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 87,
+                  "abs": 86,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -608,8 +608,8 @@
                 },
                 "sql": {
                   "abs": 15,
-                  "convDeltaPct": -26.7,
-                  "share": 17.24
+                  "convDeltaPct": -33.2,
+                  "share": 17.44
                 }
               },
               "totals": {
@@ -634,8 +634,8 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -26.7,
-                "value": 17.24
+                "deltaPct": -33.2,
+                "value": 17.44
               },
               "reactivationRatio": {
                 "deltaPct": null,
@@ -658,20 +658,20 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 87,
+                "abs": 86,
                 "share": 100.0
               },
               "mailjourney": {
                 "abs": 11,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 12.64
+                "share": 12.79
               },
               "notContact": {
-                "abs": 4,
-                "deltaPct": -41.3,
-                "ratio": 4.6,
-                "share": 4.6
+                "abs": 3,
+                "deltaPct": -67.9,
+                "ratio": 3.49,
+                "share": 3.49
               },
               "recovered": {
                 "cac": null,
@@ -682,7 +682,7 @@
                 "abs": 15,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 17.24
+                "share": 17.44
               }
             }
           },
@@ -692,19 +692,19 @@
                 "Follow-up": 6,
                 "Lost": 3,
                 "Mailjourney": 3,
-                "New": 14,
-                "Not Qualified": 11,
-                "Not reached": 4,
+                "New": 7,
+                "Not Qualified": 12,
+                "Not reached": 5,
                 "Re-entered": 12
               },
-              "transitionRows": 53,
-              "uniqueLeads": 51
+              "transitionRows": 48,
+              "uniqueLeads": 46
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 51,
+                  "abs": 46,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -721,7 +721,7 @@
                 "sql": {
                   "abs": 12,
                   "convDeltaPct": null,
-                  "share": 23.53
+                  "share": 26.09
                 }
               },
               "totals": {
@@ -747,7 +747,7 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 23.53
+                "value": 26.09
               },
               "reactivationRatio": {
                 "deltaPct": null,
@@ -770,18 +770,18 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 51,
+                "abs": 46,
                 "share": 100.0
               },
               "mailjourney": {
                 "abs": 3,
                 "ratio": null,
-                "share": 5.88
+                "share": 6.52
               },
               "notContact": {
-                "abs": 4,
-                "ratio": 7.84,
-                "share": 7.84
+                "abs": 5,
+                "ratio": 10.87,
+                "share": 10.87
               },
               "recovered": {
                 "cac": null,
@@ -791,35 +791,35 @@
               "sql": {
                 "abs": 12,
                 "ratio": null,
-                "share": 23.53
+                "share": 26.09
               }
             }
           },
-          "rows": 7361
+          "rows": 7302
         },
         "nl": {
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 801,
-                "Brochure": 175,
-                "Follow-up": 658,
-                "Lost": 254,
-                "Mailjourney": 898,
+                "Appointment": 815,
+                "Brochure": 178,
+                "Follow-up": 664,
+                "Lost": 256,
+                "Mailjourney": 909,
                 "New": 7,
-                "Not Qualified": 360,
-                "Not reached": 851,
-                "Re-entered": 280,
+                "Not Qualified": 367,
+                "Not reached": 869,
+                "Re-entered": 278,
                 "Re-entered - Phone Number Changed": 41
               },
-              "transitionRows": 4325,
-              "uniqueLeads": 2456
+              "transitionRows": 4384,
+              "uniqueLeads": 2494
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 2456,
+                  "abs": 2494,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -829,14 +829,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 801,
-                  "convDeltaPct": -3.5,
-                  "share": 32.61
+                  "abs": 815,
+                  "convDeltaPct": -2.7,
+                  "share": 32.68
                 },
                 "sql": {
-                  "abs": 280,
-                  "convDeltaPct": -2.3,
-                  "share": 11.4
+                  "abs": 278,
+                  "convDeltaPct": -8.8,
+                  "share": 11.15
                 }
               },
               "totals": {
@@ -861,80 +861,80 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -2.3,
-                "value": 11.4
+                "deltaPct": -8.8,
+                "value": 11.15
               },
               "reactivationRatio": {
-                "deltaPct": -6.7,
-                "value": 17.82
+                "deltaPct": -12.6,
+                "value": 17.49
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 7,
                 "backToNotReached": 12,
-                "enrichRatio": 4.57,
+                "enrichRatio": 4.51,
                 "enriched": 41,
                 "enrichedLeads": 40,
                 "fromMailjourney": 21,
                 "fromNotReached": 20,
-                "toAppointment": 17,
+                "toAppointment": 18,
                 "toAppointmentDirect": 9,
-                "toAppointmentRatio": 42.5,
-                "toAppointmentViaDetour": 8,
+                "toAppointmentRatio": 45.0,
+                "toAppointmentViaDetour": 9,
                 "toFollowUp": 6
               },
               "leadIntake": {
-                "abs": 2456,
+                "abs": 2494,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 898,
-                "deltaPct": -1.1,
-                "ratio": 69.8,
-                "share": 36.56
+                "abs": 909,
+                "deltaPct": -3.4,
+                "ratio": 68.7,
+                "share": 36.45
               },
               "notContact": {
-                "abs": 851,
-                "deltaPct": 10.1,
-                "ratio": 34.65,
-                "share": 34.65
+                "abs": 869,
+                "deltaPct": 11.2,
+                "ratio": 34.84,
+                "share": 34.84
               },
               "recovered": {
                 "cac": null,
-                "count": 160,
+                "count": 159,
                 "cpl": null
               },
               "sql": {
-                "abs": 280,
-                "deltaPct": -6.7,
-                "ratio": 17.82,
-                "share": 11.4
+                "abs": 278,
+                "deltaPct": -12.6,
+                "ratio": 17.49,
+                "share": 11.15
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 753,
-                "Brochure": 183,
-                "Follow-up": 604,
-                "Lost": 280,
-                "Mailjourney": 744,
+                "Appointment": 728,
+                "Brochure": 178,
+                "Follow-up": 579,
+                "Lost": 266,
+                "Mailjourney": 725,
                 "New": 23,
-                "Not Qualified": 351,
-                "Not reached": 701,
-                "Re-entered": 260,
-                "Re-entered - Phone Number Changed": 26
+                "Not Qualified": 343,
+                "Not reached": 679,
+                "Re-entered": 265,
+                "Re-entered - Phone Number Changed": 25
               },
-              "transitionRows": 3925,
-              "uniqueLeads": 2227
+              "transitionRows": 3811,
+              "uniqueLeads": 2167
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 2227,
+                  "abs": 2167,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -944,14 +944,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 753,
+                  "abs": 728,
                   "convDeltaPct": null,
-                  "share": 33.81
+                  "share": 33.59
                 },
                 "sql": {
-                  "abs": 260,
+                  "abs": 265,
                   "convDeltaPct": null,
-                  "share": 11.67
+                  "share": 12.23
                 }
               },
               "totals": {
@@ -977,85 +977,85 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 11.67
+                "value": 12.23
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 19.09
+                "value": 20.0
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 2,
-                "backToNotReached": 6,
-                "enrichRatio": 3.49,
-                "enriched": 26,
-                "enrichedLeads": 25,
+                "backToNotReached": 5,
+                "enrichRatio": 3.45,
+                "enriched": 25,
+                "enrichedLeads": 24,
                 "fromMailjourney": 18,
-                "fromNotReached": 8,
+                "fromNotReached": 7,
                 "toAppointment": 16,
                 "toAppointmentDirect": 12,
-                "toAppointmentRatio": 64.0,
+                "toAppointmentRatio": 66.67,
                 "toAppointmentViaDetour": 4,
-                "toFollowUp": 3
+                "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 2227,
+                "abs": 2167,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 744,
-                "ratio": 70.61,
-                "share": 33.41
+                "abs": 725,
+                "ratio": 71.13,
+                "share": 33.46
               },
               "notContact": {
-                "abs": 701,
-                "ratio": 31.48,
-                "share": 31.48
+                "abs": 679,
+                "ratio": 31.33,
+                "share": 31.33
               },
               "recovered": {
                 "cac": null,
-                "count": 142,
+                "count": 145,
                 "cpl": null
               },
               "sql": {
-                "abs": 260,
-                "ratio": 19.09,
-                "share": 11.67
+                "abs": 265,
+                "ratio": 20.0,
+                "share": 12.23
               }
             }
           },
-          "rows": 29757
+          "rows": 29659
         }
       },
       "prevRange": {
-        "end": "2026-08-30",
-        "start": "2026-07-31"
+        "end": "2026-08-31",
+        "start": "2026-08-01"
       },
       "previous": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 1144,
-            "Brochure": 208,
+            "Appointment": 1112,
+            "Brochure": 203,
             "Converted Old SF": 2,
-            "Follow-up": 996,
-            "Lost": 353,
-            "Mailjourney": 1221,
-            "New": 57,
-            "Not Qualified": 599,
-            "Not reached": 1177,
+            "Follow-up": 948,
+            "Lost": 335,
+            "Mailjourney": 1186,
+            "New": 47,
+            "Not Qualified": 589,
+            "Not reached": 1133,
             "Other": 1,
-            "Re-entered": 399,
-            "Re-entered - Phone Number Changed": 34
+            "Re-entered": 406,
+            "Re-entered - Phone Number Changed": 33
           },
-          "transitionRows": 6191,
-          "uniqueLeads": 3557
+          "transitionRows": 5995,
+          "uniqueLeads": 3461
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 3557,
+              "abs": 3461,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -1065,14 +1065,14 @@
               "share": null
             },
             "r1": {
-              "abs": 1144,
+              "abs": 1112,
               "convDeltaPct": null,
-              "share": 32.16
+              "share": 32.13
             },
             "sql": {
-              "abs": 399,
+              "abs": 406,
               "convDeltaPct": null,
-              "share": 11.22
+              "share": 11.73
             }
           },
           "totals": {
@@ -1098,57 +1098,57 @@
           },
           "mqlToSql": {
             "deltaPct": null,
-            "value": 11.22
+            "value": 11.73
           },
           "reactivationRatio": {
             "deltaPct": null,
-            "value": 16.46
+            "value": 17.28
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 3,
-            "backToNotReached": 10,
+            "backToNotReached": 9,
             "enrichRatio": 2.78,
-            "enriched": 34,
-            "enrichedLeads": 32,
+            "enriched": 33,
+            "enrichedLeads": 31,
             "fromMailjourney": 22,
-            "fromNotReached": 12,
+            "fromNotReached": 11,
             "toAppointment": 19,
             "toAppointmentDirect": 14,
-            "toAppointmentRatio": 59.38,
+            "toAppointmentRatio": 61.29,
             "toAppointmentViaDetour": 5,
-            "toFollowUp": 4
+            "toFollowUp": 3
           },
           "leadIntake": {
-            "abs": 3557,
+            "abs": 3461,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 1221,
-            "ratio": 71.62,
-            "share": 34.33
+            "abs": 1186,
+            "ratio": 72.11,
+            "share": 34.27
           },
           "notContact": {
-            "abs": 1177,
-            "ratio": 33.09,
-            "share": 33.09
+            "abs": 1133,
+            "ratio": 32.74,
+            "share": 32.74
           },
           "recovered": {
             "cac": null,
-            "count": 201,
+            "count": 205,
             "cpl": null
           },
           "sql": {
-            "abs": 399,
-            "ratio": 16.46,
-            "share": 11.22
+            "abs": 406,
+            "ratio": 17.28,
+            "share": 11.73
           }
         }
       },
       "range": {
-        "end": "2026-09-29",
-        "start": "2026-08-30"
+        "end": "2026-09-30",
+        "start": "2026-08-31"
       }
     },
     "7": {
@@ -1156,26 +1156,26 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 293,
-            "Brochure": 56,
+            "Appointment": 246,
+            "Brochure": 26,
             "Converted Old SF": 1,
-            "Follow-up": 242,
-            "Lost": 84,
-            "Mailjourney": 326,
+            "Follow-up": 192,
+            "Lost": 67,
+            "Mailjourney": 251,
             "New": 1,
-            "Not Qualified": 115,
-            "Not reached": 278,
-            "Re-entered": 99,
-            "Re-entered - Phone Number Changed": 13
+            "Not Qualified": 99,
+            "Not reached": 247,
+            "Re-entered": 84,
+            "Re-entered - Phone Number Changed": 12
           },
-          "transitionRows": 1508,
-          "uniqueLeads": 1049
+          "transitionRows": 1226,
+          "uniqueLeads": 870
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 1049,
+              "abs": 870,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -1185,14 +1185,14 @@
               "share": null
             },
             "r1": {
-              "abs": 293,
-              "convDeltaPct": 4.8,
-              "share": 27.93
+              "abs": 246,
+              "convDeltaPct": 2.9,
+              "share": 28.28
             },
             "sql": {
-              "abs": 99,
-              "convDeltaPct": -9.3,
-              "share": 9.44
+              "abs": 84,
+              "convDeltaPct": -16.9,
+              "share": 9.66
             }
           },
           "totals": {
@@ -1217,55 +1217,55 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": -9.3,
-            "value": 9.44
+            "deltaPct": -16.9,
+            "value": 9.66
           },
           "reactivationRatio": {
-            "deltaPct": 1.4,
-            "value": 16.56
+            "deltaPct": -1.7,
+            "value": 17.93
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 2,
-            "backToNotReached": 5,
-            "enrichRatio": 3.99,
-            "enriched": 13,
-            "enrichedLeads": 13,
+            "backToNotReached": 3,
+            "enrichRatio": 4.78,
+            "enriched": 12,
+            "enrichedLeads": 12,
             "fromMailjourney": 7,
-            "fromNotReached": 6,
+            "fromNotReached": 5,
             "toAppointment": 3,
             "toAppointmentDirect": 2,
-            "toAppointmentRatio": 23.08,
+            "toAppointmentRatio": 25.0,
             "toAppointmentViaDetour": 1,
             "toFollowUp": 3
           },
           "leadIntake": {
-            "abs": 1049,
+            "abs": 870,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 326,
-            "deltaPct": -6.9,
-            "ratio": 81.29,
-            "share": 31.08
+            "abs": 251,
+            "deltaPct": -19.0,
+            "ratio": 65.18,
+            "share": 28.85
           },
           "notContact": {
-            "abs": 278,
-            "deltaPct": 6.6,
-            "ratio": 26.5,
-            "share": 26.5
+            "abs": 247,
+            "deltaPct": 5.4,
+            "ratio": 28.39,
+            "share": 28.39
           },
           "recovered": {
             "cac": null,
-            "count": 54,
+            "count": 45,
             "cpl": null
           },
           "sql": {
-            "abs": 99,
-            "deltaPct": 1.4,
-            "ratio": 16.56,
-            "share": 9.44
+            "abs": 84,
+            "deltaPct": -1.7,
+            "ratio": 17.93,
+            "share": 9.66
           }
         }
       },
@@ -1274,24 +1274,23 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 111,
-                "Brochure": 2,
-                "Follow-up": 67,
-                "Lost": 23,
-                "Mailjourney": 110,
-                "Not Qualified": 36,
-                "Not reached": 90,
-                "Re-entered": 26,
-                "Re-entered - Phone Number Changed": 3
+                "Appointment": 94,
+                "Follow-up": 61,
+                "Lost": 16,
+                "Mailjourney": 84,
+                "Not Qualified": 32,
+                "Not reached": 83,
+                "Re-entered": 21,
+                "Re-entered - Phone Number Changed": 2
               },
-              "transitionRows": 468,
-              "uniqueLeads": 335
+              "transitionRows": 393,
+              "uniqueLeads": 281
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 335,
+                  "abs": 281,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1301,14 +1300,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 111,
-                  "convDeltaPct": 16.8,
-                  "share": 33.13
+                  "abs": 94,
+                  "convDeltaPct": 8.6,
+                  "share": 33.45
                 },
                 "sql": {
-                  "abs": 26,
-                  "convDeltaPct": -34.5,
-                  "share": 7.76
+                  "abs": 21,
+                  "convDeltaPct": -39.4,
+                  "share": 7.47
                 }
               },
               "totals": {
@@ -1333,78 +1332,79 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -34.5,
-                "value": 7.76
+                "deltaPct": -39.4,
+                "value": 7.47
               },
               "reactivationRatio": {
-                "deltaPct": -6.3,
-                "value": 11.82
+                "deltaPct": -18.6,
+                "value": 10.71
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 0,
-                "backToNotReached": 2,
-                "enrichRatio": 2.73,
-                "enriched": 3,
-                "enrichedLeads": 3,
+                "backToNotReached": 1,
+                "enrichRatio": 2.38,
+                "enriched": 2,
+                "enrichedLeads": 2,
                 "fromMailjourney": 0,
-                "fromNotReached": 3,
-                "toAppointment": 1,
+                "fromNotReached": 2,
+                "toAppointment": 0,
                 "toAppointmentDirect": 0,
                 "toAppointmentRatio": null,
-                "toAppointmentViaDetour": 1,
+                "toAppointmentViaDetour": 0,
                 "toFollowUp": 1
               },
               "leadIntake": {
-                "abs": 335,
+                "abs": 281,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 110,
-                "deltaPct": null,
-                "ratio": null,
-                "share": 32.84
+                "abs": 84,
+                "deltaPct": -5.6,
+                "ratio": 87.95,
+                "share": 29.89
               },
               "notContact": {
-                "abs": 90,
-                "deltaPct": -10.5,
-                "ratio": 26.87,
-                "share": 26.87
+                "abs": 83,
+                "deltaPct": -2.2,
+                "ratio": 29.54,
+                "share": 29.54
               },
               "recovered": {
                 "cac": null,
-                "count": 13,
+                "count": 9,
                 "cpl": null
               },
               "sql": {
-                "abs": 26,
-                "deltaPct": -6.3,
-                "ratio": 11.82,
-                "share": 7.76
+                "abs": 21,
+                "deltaPct": -18.6,
+                "ratio": 10.71,
+                "share": 7.47
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 103,
-                "Brochure": 2,
-                "Follow-up": 71,
-                "Lost": 18,
-                "Mailjourney": 111,
-                "Not Qualified": 57,
-                "Not reached": 109,
-                "Re-entered": 43
+                "Appointment": 105,
+                "Brochure": 3,
+                "Follow-up": 70,
+                "Lost": 22,
+                "Mailjourney": 114,
+                "Not Qualified": 48,
+                "Not reached": 103,
+                "Re-entered": 42,
+                "Re-entered - Phone Number Changed": 1
               },
-              "transitionRows": 514,
-              "uniqueLeads": 363
+              "transitionRows": 508,
+              "uniqueLeads": 341
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 363,
+                  "abs": 341,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1414,14 +1414,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 103,
+                  "abs": 105,
                   "convDeltaPct": null,
-                  "share": 28.37
+                  "share": 30.79
                 },
                 "sql": {
-                  "abs": 43,
+                  "abs": 42,
                   "convDeltaPct": null,
-                  "share": 11.85
+                  "share": 12.32
                 }
               },
               "totals": {
@@ -1447,22 +1447,22 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 11.85
+                "value": 12.32
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 12.61
+                "value": 13.16
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 0,
-                "backToNotReached": 0,
-                "enrichRatio": 0.0,
-                "enriched": 0,
-                "enrichedLeads": 0,
+                "backToNotReached": 1,
+                "enrichRatio": 0.88,
+                "enriched": 1,
+                "enrichedLeads": 1,
                 "fromMailjourney": 0,
-                "fromNotReached": 0,
+                "fromNotReached": 1,
                 "toAppointment": 0,
                 "toAppointmentDirect": 0,
                 "toAppointmentRatio": null,
@@ -1470,40 +1470,39 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 363,
+                "abs": 341,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 111,
-                "ratio": 83.49,
-                "share": 30.58
+                "abs": 114,
+                "ratio": 93.2,
+                "share": 33.43
               },
               "notContact": {
-                "abs": 109,
-                "ratio": 30.03,
-                "share": 30.03
+                "abs": 103,
+                "ratio": 30.21,
+                "share": 30.21
               },
               "recovered": {
                 "cac": null,
-                "count": 14,
+                "count": 15,
                 "cpl": null
               },
               "sql": {
-                "abs": 43,
-                "ratio": 12.61,
-                "share": 11.85
+                "abs": 42,
+                "ratio": 13.16,
+                "share": 12.32
               }
             }
           },
-          "rows": 14748
+          "rows": 14646
         },
         "fr": {
           "current": {
             "_debug": {
               "statusCounts": {
                 "Follow-up": 4,
-                "Mailjourney": 7,
-                "Not Qualified": 1,
+                "Mailjourney": 8,
                 "Re-entered": 8
               },
               "transitionRows": 20,
@@ -1583,7 +1582,7 @@
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 7,
+                "abs": 8,
                 "deltaPct": null,
                 "ratio": null,
                 "share": null
@@ -1596,7 +1595,7 @@
               },
               "recovered": {
                 "cac": null,
-                "count": 4,
+                "count": 5,
                 "cpl": null
               },
               "sql": {
@@ -1611,18 +1610,18 @@
             "_debug": {
               "statusCounts": {
                 "Follow-up": 2,
-                "Mailjourney": 12,
-                "Not Qualified": 4,
-                "Re-entered": 3
+                "Mailjourney": 13,
+                "Not Qualified": 3,
+                "Re-entered": 4
               },
-              "transitionRows": 21,
-              "uniqueLeads": 21
+              "transitionRows": 22,
+              "uniqueLeads": 22
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 21,
+                  "abs": 22,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1637,7 +1636,7 @@
                   "share": null
                 },
                 "sql": {
-                  "abs": 3,
+                  "abs": 4,
                   "convDeltaPct": null,
                   "share": null
                 }
@@ -1688,11 +1687,11 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 21,
+                "abs": 22,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 12,
+                "abs": 13,
                 "ratio": null,
                 "share": null
               },
@@ -1707,34 +1706,34 @@
                 "cpl": null
               },
               "sql": {
-                "abs": 3,
+                "abs": 4,
                 "ratio": null,
                 "share": null
               }
             }
           },
-          "rows": 7353
+          "rows": 7321
         },
         "it": {
           "current": {
             "_debug": {
               "statusCounts": {
                 "Converted Old SF": 1,
-                "Follow-up": 3,
+                "Follow-up": 4,
                 "Lost": 1,
-                "Mailjourney": 5,
-                "Not Qualified": 9,
+                "Mailjourney": 3,
+                "Not Qualified": 8,
                 "Not reached": 2,
                 "Re-entered": 4
               },
-              "transitionRows": 25,
-              "uniqueLeads": 25
+              "transitionRows": 23,
+              "uniqueLeads": 23
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 25,
+                  "abs": 23,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1746,12 +1745,12 @@
                 "r1": {
                   "abs": 0,
                   "convDeltaPct": null,
-                  "share": 0.0
+                  "share": null
                 },
                 "sql": {
                   "abs": 4,
                   "convDeltaPct": null,
-                  "share": 16.0
+                  "share": null
                 }
               },
               "totals": {
@@ -1777,7 +1776,7 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 16.0
+                "value": null
               },
               "reactivationRatio": {
                 "deltaPct": null,
@@ -1800,20 +1799,20 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 25,
+                "abs": 23,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 5,
+                "abs": 3,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 20.0
+                "share": null
               },
               "notContact": {
                 "abs": 2,
                 "deltaPct": null,
-                "ratio": 8.0,
-                "share": 8.0
+                "ratio": null,
+                "share": null
               },
               "recovered": {
                 "cac": null,
@@ -1824,7 +1823,7 @@
                 "abs": 4,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 16.0
+                "share": null
               }
             }
           },
@@ -1834,18 +1833,18 @@
                 "Converted Old SF": 1,
                 "Follow-up": 1,
                 "Lost": 1,
-                "Mailjourney": 2,
-                "Not Qualified": 12,
+                "Mailjourney": 4,
+                "Not Qualified": 13,
                 "Re-entered": 4
               },
-              "transitionRows": 21,
-              "uniqueLeads": 21
+              "transitionRows": 24,
+              "uniqueLeads": 24
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 21,
+                  "abs": 24,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1911,11 +1910,11 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 21,
+                "abs": 24,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 2,
+                "abs": 4,
                 "ratio": null,
                 "share": null
               },
@@ -1936,31 +1935,31 @@
               }
             }
           },
-          "rows": 7361
+          "rows": 7302
         },
         "nl": {
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 182,
-                "Brochure": 54,
-                "Follow-up": 168,
-                "Lost": 60,
-                "Mailjourney": 204,
+                "Appointment": 152,
+                "Brochure": 26,
+                "Follow-up": 123,
+                "Lost": 50,
+                "Mailjourney": 156,
                 "New": 1,
-                "Not Qualified": 69,
-                "Not reached": 186,
-                "Re-entered": 61,
+                "Not Qualified": 59,
+                "Not reached": 162,
+                "Re-entered": 51,
                 "Re-entered - Phone Number Changed": 10
               },
-              "transitionRows": 995,
-              "uniqueLeads": 669
+              "transitionRows": 790,
+              "uniqueLeads": 546
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 669,
+                  "abs": 546,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1970,14 +1969,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 182,
-                  "convDeltaPct": -0.6,
-                  "share": 27.2
+                  "abs": 152,
+                  "convDeltaPct": 0.5,
+                  "share": 27.84
                 },
                 "sql": {
-                  "abs": 61,
-                  "convDeltaPct": -2.0,
-                  "share": 9.12
+                  "abs": 51,
+                  "convDeltaPct": -14.3,
+                  "share": 9.34
                 }
               },
               "totals": {
@@ -2002,79 +2001,79 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -2.0,
-                "value": 9.12
+                "deltaPct": -14.3,
+                "value": 9.34
               },
               "reactivationRatio": {
-                "deltaPct": 1.4,
-                "value": 18.14
+                "deltaPct": -5.6,
+                "value": 19.87
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 2,
-                "backToNotReached": 3,
-                "enrichRatio": 4.9,
+                "backToNotReached": 2,
+                "enrichRatio": 6.41,
                 "enriched": 10,
                 "enrichedLeads": 10,
                 "fromMailjourney": 7,
                 "fromNotReached": 3,
-                "toAppointment": 2,
+                "toAppointment": 3,
                 "toAppointmentDirect": 2,
-                "toAppointmentRatio": 20.0,
-                "toAppointmentViaDetour": 0,
+                "toAppointmentRatio": 30.0,
+                "toAppointmentViaDetour": 1,
                 "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 669,
+                "abs": 546,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 204,
-                "deltaPct": -24.0,
-                "ratio": 68.28,
-                "share": 30.49
+                "abs": 156,
+                "deltaPct": -26.1,
+                "ratio": 54.32,
+                "share": 28.57
               },
               "notContact": {
-                "abs": 186,
-                "deltaPct": 17.3,
-                "ratio": 27.8,
-                "share": 27.8
+                "abs": 162,
+                "deltaPct": 9.4,
+                "ratio": 29.67,
+                "share": 29.67
               },
               "recovered": {
                 "cac": null,
-                "count": 37,
+                "count": 31,
                 "cpl": null
               },
               "sql": {
-                "abs": 61,
-                "deltaPct": 1.4,
-                "ratio": 18.14,
-                "share": 9.12
+                "abs": 51,
+                "deltaPct": -5.6,
+                "ratio": 19.87,
+                "share": 9.34
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 194,
-                "Brochure": 36,
-                "Follow-up": 139,
-                "Lost": 77,
-                "Mailjourney": 218,
-                "Not Qualified": 93,
-                "Not reached": 168,
-                "Re-entered": 66,
-                "Re-entered - Phone Number Changed": 9
+                "Appointment": 193,
+                "Brochure": 55,
+                "Follow-up": 148,
+                "Lost": 72,
+                "Mailjourney": 209,
+                "Not Qualified": 88,
+                "Not reached": 189,
+                "Re-entered": 76,
+                "Re-entered - Phone Number Changed": 8
               },
-              "transitionRows": 1000,
-              "uniqueLeads": 709
+              "transitionRows": 1038,
+              "uniqueLeads": 697
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 709,
+                  "abs": 697,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2084,14 +2083,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 194,
+                  "abs": 193,
                   "convDeltaPct": null,
-                  "share": 27.36
+                  "share": 27.69
                 },
                 "sql": {
-                  "abs": 66,
+                  "abs": 76,
                   "convDeltaPct": null,
-                  "share": 9.31
+                  "share": 10.9
                 }
               },
               "totals": {
@@ -2117,83 +2116,83 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 9.31
+                "value": 10.9
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 17.89
+                "value": 21.05
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 3,
-                "backToNotReached": 1,
-                "enrichRatio": 4.13,
-                "enriched": 9,
-                "enrichedLeads": 9,
-                "fromMailjourney": 6,
+                "backToNotReached": 2,
+                "enrichRatio": 3.83,
+                "enriched": 8,
+                "enrichedLeads": 8,
+                "fromMailjourney": 5,
                 "fromNotReached": 3,
                 "toAppointment": 2,
                 "toAppointmentDirect": 1,
                 "toAppointmentRatio": null,
                 "toAppointmentViaDetour": 1,
-                "toFollowUp": 3
+                "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 709,
+                "abs": 697,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 218,
-                "ratio": 89.88,
-                "share": 30.75
+                "abs": 209,
+                "ratio": 73.54,
+                "share": 29.99
               },
               "notContact": {
-                "abs": 168,
-                "ratio": 23.7,
-                "share": 23.7
+                "abs": 189,
+                "ratio": 27.12,
+                "share": 27.12
               },
               "recovered": {
                 "cac": null,
-                "count": 39,
+                "count": 44,
                 "cpl": null
               },
               "sql": {
-                "abs": 66,
-                "ratio": 17.89,
-                "share": 9.31
+                "abs": 76,
+                "ratio": 21.05,
+                "share": 10.9
               }
             }
           },
-          "rows": 29757
+          "rows": 29659
         }
       },
       "prevRange": {
-        "end": "2026-09-22",
-        "start": "2026-09-15"
+        "end": "2026-09-23",
+        "start": "2026-09-16"
       },
       "previous": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 297,
-            "Brochure": 38,
+            "Appointment": 298,
+            "Brochure": 58,
             "Converted Old SF": 1,
-            "Follow-up": 213,
-            "Lost": 96,
-            "Mailjourney": 343,
-            "Not Qualified": 166,
-            "Not reached": 277,
-            "Re-entered": 116,
+            "Follow-up": 221,
+            "Lost": 95,
+            "Mailjourney": 340,
+            "Not Qualified": 152,
+            "Not reached": 292,
+            "Re-entered": 126,
             "Re-entered - Phone Number Changed": 9
           },
-          "transitionRows": 1556,
-          "uniqueLeads": 1114
+          "transitionRows": 1592,
+          "uniqueLeads": 1084
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 1114,
+              "abs": 1084,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -2203,14 +2202,14 @@
               "share": null
             },
             "r1": {
-              "abs": 297,
+              "abs": 298,
               "convDeltaPct": null,
-              "share": 26.66
+              "share": 27.49
             },
             "sql": {
-              "abs": 116,
+              "abs": 126,
               "convDeltaPct": null,
-              "share": 10.41
+              "share": 11.62
             }
           },
           "totals": {
@@ -2236,57 +2235,57 @@
           },
           "mqlToSql": {
             "deltaPct": null,
-            "value": 10.41
+            "value": 11.62
           },
           "reactivationRatio": {
             "deltaPct": null,
-            "value": 16.33
+            "value": 18.24
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 3,
-            "backToNotReached": 1,
-            "enrichRatio": 2.62,
+            "backToNotReached": 3,
+            "enrichRatio": 2.65,
             "enriched": 9,
             "enrichedLeads": 9,
-            "fromMailjourney": 6,
-            "fromNotReached": 3,
+            "fromMailjourney": 5,
+            "fromNotReached": 4,
             "toAppointment": 2,
             "toAppointmentDirect": 1,
             "toAppointmentRatio": null,
             "toAppointmentViaDetour": 1,
-            "toFollowUp": 3
+            "toFollowUp": 2
           },
           "leadIntake": {
-            "abs": 1114,
+            "abs": 1084,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 343,
-            "ratio": 87.36,
-            "share": 30.79
+            "abs": 340,
+            "ratio": 80.48,
+            "share": 31.37
           },
           "notContact": {
-            "abs": 277,
-            "ratio": 24.87,
-            "share": 24.87
+            "abs": 292,
+            "ratio": 26.94,
+            "share": 26.94
           },
           "recovered": {
             "cac": null,
-            "count": 56,
+            "count": 62,
             "cpl": null
           },
           "sql": {
-            "abs": 116,
-            "ratio": 16.33,
-            "share": 10.41
+            "abs": 126,
+            "ratio": 18.24,
+            "share": 11.62
           }
         }
       },
       "range": {
-        "end": "2026-09-29",
-        "start": "2026-09-22"
+        "end": "2026-09-30",
+        "start": "2026-09-23"
       }
     },
     "90": {
@@ -2294,27 +2293,27 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 3620,
-            "Brochure": 613,
-            "Converted Old SF": 137,
-            "Follow-up": 3144,
-            "Lost": 1131,
-            "Mailjourney": 3945,
-            "New": 89,
-            "Not Qualified": 1995,
-            "Not reached": 3884,
+            "Appointment": 3588,
+            "Brochure": 609,
+            "Converted Old SF": 114,
+            "Follow-up": 3084,
+            "Lost": 1102,
+            "Mailjourney": 3883,
+            "New": 87,
+            "Not Qualified": 1962,
+            "Not reached": 3832,
             "Other": 1,
-            "Re-entered": 1289,
+            "Re-entered": 1277,
             "Re-entered - Phone Number Changed": 105
           },
-          "transitionRows": 19953,
-          "uniqueLeads": 10954
+          "transitionRows": 19644,
+          "uniqueLeads": 10773
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 10954,
+              "abs": 10773,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -2324,14 +2323,14 @@
               "share": null
             },
             "r1": {
-              "abs": 3620,
-              "convDeltaPct": 70.3,
-              "share": 33.05
+              "abs": 3588,
+              "convDeltaPct": 72.1,
+              "share": 33.31
             },
             "sql": {
-              "abs": 1289,
-              "convDeltaPct": 15.2,
-              "share": 11.77
+              "abs": 1277,
+              "convDeltaPct": 16.2,
+              "share": 11.85
             }
           },
           "totals": {
@@ -2356,55 +2355,55 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": 15.2,
-            "value": 11.77
+            "deltaPct": 16.2,
+            "value": 11.85
           },
           "reactivationRatio": {
-            "deltaPct": 26.5,
-            "value": 16.1
+            "deltaPct": 29.2,
+            "value": 16.25
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 14,
             "backToNotReached": 31,
-            "enrichRatio": 2.66,
+            "enrichRatio": 2.7,
             "enriched": 105,
             "enrichedLeads": 98,
             "fromMailjourney": 54,
             "fromNotReached": 49,
-            "toAppointment": 49,
+            "toAppointment": 50,
             "toAppointmentDirect": 30,
-            "toAppointmentRatio": 50.0,
-            "toAppointmentViaDetour": 19,
+            "toAppointmentRatio": 51.02,
+            "toAppointmentViaDetour": 20,
             "toFollowUp": 13
           },
           "leadIntake": {
-            "abs": 10954,
+            "abs": 10773,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 3945,
-            "deltaPct": -12.6,
-            "ratio": 71.99,
-            "share": 36.01
+            "abs": 3883,
+            "deltaPct": -14.0,
+            "ratio": 71.35,
+            "share": 36.04
           },
           "notContact": {
-            "abs": 3884,
-            "deltaPct": 7.5,
-            "ratio": 35.46,
-            "share": 35.46
+            "abs": 3832,
+            "deltaPct": 7.8,
+            "ratio": 35.57,
+            "share": 35.57
           },
           "recovered": {
             "cac": null,
-            "count": 635,
+            "count": 631,
             "cpl": null
           },
           "sql": {
-            "abs": 1289,
-            "deltaPct": 26.5,
-            "ratio": 16.1,
-            "share": 11.77
+            "abs": 1277,
+            "deltaPct": 29.2,
+            "ratio": 16.25,
+            "share": 11.85
           }
         }
       },
@@ -2413,25 +2412,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 1297,
+                "Appointment": 1284,
                 "Brochure": 45,
-                "Follow-up": 1073,
-                "Lost": 222,
-                "Mailjourney": 1267,
+                "Follow-up": 1055,
+                "Lost": 219,
+                "Mailjourney": 1262,
                 "New": 11,
-                "Not Qualified": 660,
-                "Not reached": 1401,
-                "Re-entered": 377,
+                "Not Qualified": 653,
+                "Not reached": 1382,
+                "Re-entered": 374,
                 "Re-entered - Phone Number Changed": 18
               },
-              "transitionRows": 6371,
-              "uniqueLeads": 3362
+              "transitionRows": 6303,
+              "uniqueLeads": 3334
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 3362,
+                  "abs": 3334,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2441,14 +2440,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 1297,
-                  "convDeltaPct": 16.9,
-                  "share": 38.58
+                  "abs": 1284,
+                  "convDeltaPct": 17.0,
+                  "share": 38.51
                 },
                 "sql": {
-                  "abs": 377,
-                  "convDeltaPct": 17.8,
-                  "share": 11.21
+                  "abs": 374,
+                  "convDeltaPct": 18.2,
+                  "share": 11.22
                 }
               },
               "totals": {
@@ -2473,19 +2472,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 17.8,
-                "value": 11.21
+                "deltaPct": 18.2,
+                "value": 11.22
               },
               "reactivationRatio": {
-                "deltaPct": 19.0,
-                "value": 13.26
+                "deltaPct": 21.2,
+                "value": 13.23
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 1,
                 "backToNotReached": 9,
-                "enrichRatio": 1.42,
+                "enrichRatio": 1.43,
                 "enriched": 18,
                 "enrichedLeads": 17,
                 "fromMailjourney": 7,
@@ -2497,31 +2496,31 @@
                 "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 3362,
+                "abs": 3334,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 1267,
-                "deltaPct": 12.4,
-                "ratio": 72.95,
-                "share": 37.69
+                "abs": 1262,
+                "deltaPct": 13.6,
+                "ratio": 73.59,
+                "share": 37.85
               },
               "notContact": {
-                "abs": 1401,
-                "deltaPct": -5.0,
-                "ratio": 41.67,
-                "share": 41.67
+                "abs": 1382,
+                "deltaPct": -5.9,
+                "ratio": 41.45,
+                "share": 41.45
               },
               "recovered": {
                 "cac": null,
-                "count": 168,
+                "count": 167,
                 "cpl": null
               },
               "sql": {
-                "abs": 377,
-                "deltaPct": 19.0,
-                "ratio": 13.26,
-                "share": 11.21
+                "abs": 374,
+                "deltaPct": 21.2,
+                "ratio": 13.23,
+                "share": 11.22
               }
             }
           },
@@ -2529,23 +2528,23 @@
             "_debug": {
               "statusCounts": {
                 "Appointment": 1137,
-                "Brochure": 85,
-                "Follow-up": 1415,
-                "Lost": 281,
-                "Mailjourney": 1221,
+                "Brochure": 80,
+                "Follow-up": 1427,
+                "Lost": 284,
+                "Mailjourney": 1227,
                 "New": 2,
-                "Not Qualified": 745,
-                "Not reached": 1511,
+                "Not Qualified": 751,
+                "Not reached": 1522,
                 "Re-entered": 328
               },
-              "transitionRows": 6725,
-              "uniqueLeads": 3445
+              "transitionRows": 6758,
+              "uniqueLeads": 3455
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 3445,
+                  "abs": 3455,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2557,12 +2556,12 @@
                 "r1": {
                   "abs": 1137,
                   "convDeltaPct": null,
-                  "share": 33.0
+                  "share": 32.91
                 },
                 "sql": {
                   "abs": 328,
                   "convDeltaPct": null,
-                  "share": 9.52
+                  "share": 9.49
                 }
               },
               "totals": {
@@ -2588,11 +2587,11 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 9.52
+                "value": 9.49
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 11.14
+                "value": 10.92
               }
             },
             "reactivation": {
@@ -2611,55 +2610,55 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 3445,
+                "abs": 3455,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 1221,
-                "ratio": 64.92,
-                "share": 35.44
+                "abs": 1227,
+                "ratio": 64.78,
+                "share": 35.51
               },
               "notContact": {
-                "abs": 1511,
-                "ratio": 43.86,
-                "share": 43.86
+                "abs": 1522,
+                "ratio": 44.05,
+                "share": 44.05
               },
               "recovered": {
                 "cac": null,
-                "count": 136,
+                "count": 134,
                 "cpl": null
               },
               "sql": {
                 "abs": 328,
-                "ratio": 11.14,
-                "share": 9.52
+                "ratio": 10.92,
+                "share": 9.49
               }
             }
           },
-          "rows": 14748
+          "rows": 14646
         },
         "fr": {
           "current": {
             "_debug": {
               "statusCounts": {
-                "Converted Old SF": 54,
-                "Follow-up": 46,
-                "Lost": 24,
-                "Mailjourney": 251,
+                "Converted Old SF": 48,
+                "Follow-up": 44,
+                "Lost": 20,
+                "Mailjourney": 221,
                 "New": 19,
-                "Not Qualified": 63,
-                "Not reached": 85,
+                "Not Qualified": 60,
+                "Not reached": 83,
                 "Other": 1,
-                "Re-entered": 65
+                "Re-entered": 61
               },
-              "transitionRows": 608,
-              "uniqueLeads": 511
+              "transitionRows": 557,
+              "uniqueLeads": 468
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 511,
+                  "abs": 468,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2674,9 +2673,9 @@
                   "share": 0.0
                 },
                 "sql": {
-                  "abs": 65,
-                  "convDeltaPct": 11.9,
-                  "share": 12.72
+                  "abs": 61,
+                  "convDeltaPct": 13.8,
+                  "share": 13.03
                 }
               },
               "totals": {
@@ -2701,12 +2700,12 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 11.9,
-                "value": 12.72
+                "deltaPct": 13.8,
+                "value": 13.03
               },
               "reactivationRatio": {
-                "deltaPct": 39.9,
-                "value": 14.34
+                "deltaPct": 60.5,
+                "value": 16.29
               }
             },
             "reactivation": {
@@ -2725,20 +2724,20 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 511,
+                "abs": 468,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 251,
+                "abs": 221,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 49.12
+                "share": 47.22
               },
               "notContact": {
-                "abs": 85,
-                "deltaPct": -39.6,
-                "ratio": 16.63,
-                "share": 16.63
+                "abs": 83,
+                "deltaPct": -35.4,
+                "ratio": 17.74,
+                "share": 17.74
               },
               "recovered": {
                 "cac": null,
@@ -2746,33 +2745,33 @@
                 "cpl": null
               },
               "sql": {
-                "abs": 65,
-                "deltaPct": 39.9,
-                "ratio": 14.34,
-                "share": 12.72
+                "abs": 61,
+                "deltaPct": 60.5,
+                "ratio": 16.29,
+                "share": 13.03
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Converted Old SF": 713,
-                "Follow-up": 169,
-                "Lost": 124,
-                "Mailjourney": 2234,
+                "Converted Old SF": 719,
+                "Follow-up": 171,
+                "Lost": 128,
+                "Mailjourney": 2266,
                 "New": 4,
-                "Not Qualified": 719,
-                "Not reached": 1032,
-                "Re-entered": 426
+                "Not Qualified": 722,
+                "Not reached": 1034,
+                "Re-entered": 431
               },
-              "transitionRows": 5421,
-              "uniqueLeads": 3747
+              "transitionRows": 5475,
+              "uniqueLeads": 3765
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 3747,
+                  "abs": 3765,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2787,9 +2786,9 @@
                   "share": 0.0
                 },
                 "sql": {
-                  "abs": 426,
+                  "abs": 431,
                   "convDeltaPct": null,
-                  "share": 11.37
+                  "share": 11.45
                 }
               },
               "totals": {
@@ -2815,11 +2814,11 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 11.37
+                "value": 11.45
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 10.25
+                "value": 10.15
               }
             },
             "reactivation": {
@@ -2838,54 +2837,54 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 3747,
+                "abs": 3765,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 2234,
+                "abs": 2266,
                 "ratio": null,
-                "share": 59.62
+                "share": 60.19
               },
               "notContact": {
-                "abs": 1032,
-                "ratio": 27.54,
-                "share": 27.54
+                "abs": 1034,
+                "ratio": 27.46,
+                "share": 27.46
               },
               "recovered": {
                 "cac": null,
-                "count": 229,
+                "count": 230,
                 "cpl": null
               },
               "sql": {
-                "abs": 426,
-                "ratio": 10.25,
-                "share": 11.37
+                "abs": 431,
+                "ratio": 10.15,
+                "share": 11.45
               }
             }
           },
-          "rows": 7353
+          "rows": 7321
         },
         "it": {
           "current": {
             "_debug": {
               "statusCounts": {
-                "Converted Old SF": 83,
-                "Follow-up": 75,
-                "Lost": 58,
-                "Mailjourney": 66,
-                "New": 21,
-                "Not Qualified": 131,
-                "Not reached": 83,
-                "Re-entered": 60
+                "Converted Old SF": 66,
+                "Follow-up": 63,
+                "Lost": 50,
+                "Mailjourney": 61,
+                "New": 19,
+                "Not Qualified": 116,
+                "Not reached": 72,
+                "Re-entered": 57
               },
-              "transitionRows": 577,
-              "uniqueLeads": 522
+              "transitionRows": 504,
+              "uniqueLeads": 463
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 522,
+                  "abs": 463,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2900,9 +2899,9 @@
                   "share": 0.0
                 },
                 "sql": {
-                  "abs": 60,
-                  "convDeltaPct": 51.8,
-                  "share": 11.49
+                  "abs": 57,
+                  "convDeltaPct": 63.0,
+                  "share": 12.31
                 }
               },
               "totals": {
@@ -2927,12 +2926,12 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 51.8,
-                "value": 11.49
+                "deltaPct": 63.0,
+                "value": 12.31
               },
               "reactivationRatio": {
-                "deltaPct": 95.6,
-                "value": 19.7
+                "deltaPct": 93.8,
+                "value": 19.67
               }
             },
             "reactivation": {
@@ -2951,54 +2950,54 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 522,
+                "abs": 463,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 66,
-                "deltaPct": -9.5,
-                "ratio": 60.24,
-                "share": 12.64
+                "abs": 61,
+                "deltaPct": -3.4,
+                "ratio": 63.89,
+                "share": 13.17
               },
               "notContact": {
-                "abs": 83,
-                "deltaPct": -26.9,
-                "ratio": 15.9,
-                "share": 15.9
+                "abs": 72,
+                "deltaPct": -28.6,
+                "ratio": 15.55,
+                "share": 15.55
               },
               "recovered": {
                 "cac": null,
-                "count": 13,
+                "count": 12,
                 "cpl": null
               },
               "sql": {
-                "abs": 60,
-                "deltaPct": 95.6,
-                "ratio": 19.7,
-                "share": 11.49
+                "abs": 57,
+                "deltaPct": 93.8,
+                "ratio": 19.67,
+                "share": 12.31
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Converted Old SF": 980,
-                "Follow-up": 570,
-                "Lost": 998,
-                "Mailjourney": 606,
-                "New": 72,
-                "Not Qualified": 818,
-                "Not reached": 822,
-                "Re-entered": 286
+                "Converted Old SF": 997,
+                "Follow-up": 583,
+                "Lost": 1006,
+                "Mailjourney": 611,
+                "New": 74,
+                "Not Qualified": 833,
+                "Not reached": 833,
+                "Re-entered": 289
               },
-              "transitionRows": 5152,
-              "uniqueLeads": 3777
+              "transitionRows": 5226,
+              "uniqueLeads": 3827
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 3777,
+                  "abs": 3827,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -3013,9 +3012,9 @@
                   "share": 0.0
                 },
                 "sql": {
-                  "abs": 286,
+                  "abs": 289,
                   "convDeltaPct": null,
-                  "share": 7.57
+                  "share": 7.55
                 }
               },
               "totals": {
@@ -3041,11 +3040,11 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 7.57
+                "value": 7.55
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 10.07
+                "value": 10.15
               }
             },
             "reactivation": {
@@ -3064,56 +3063,56 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 3777,
+                "abs": 3827,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 606,
-                "ratio": 66.55,
-                "share": 16.04
+                "abs": 611,
+                "ratio": 66.15,
+                "share": 15.97
               },
               "notContact": {
-                "abs": 822,
-                "ratio": 21.76,
-                "share": 21.76
+                "abs": 833,
+                "ratio": 21.77,
+                "share": 21.77
               },
               "recovered": {
                 "cac": null,
-                "count": 61,
+                "count": 62,
                 "cpl": null
               },
               "sql": {
-                "abs": 286,
-                "ratio": 10.07,
-                "share": 7.57
+                "abs": 289,
+                "ratio": 10.15,
+                "share": 7.55
               }
             }
           },
-          "rows": 7361
+          "rows": 7302
         },
         "nl": {
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 2323,
-                "Brochure": 568,
-                "Follow-up": 1950,
-                "Lost": 827,
-                "Mailjourney": 2361,
+                "Appointment": 2304,
+                "Brochure": 564,
+                "Follow-up": 1922,
+                "Lost": 813,
+                "Mailjourney": 2339,
                 "New": 38,
-                "Not Qualified": 1141,
-                "Not reached": 2315,
-                "Re-entered": 787,
+                "Not Qualified": 1133,
+                "Not reached": 2295,
+                "Re-entered": 785,
                 "Re-entered - Phone Number Changed": 87
               },
-              "transitionRows": 12397,
-              "uniqueLeads": 6559
+              "transitionRows": 12280,
+              "uniqueLeads": 6508
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 6559,
+                  "abs": 6508,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -3123,14 +3122,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 2323,
-                  "convDeltaPct": 6.0,
-                  "share": 35.42
+                  "abs": 2304,
+                  "convDeltaPct": 5.7,
+                  "share": 35.4
                 },
                 "sql": {
-                  "abs": 787,
-                  "convDeltaPct": 5.6,
-                  "share": 12.0
+                  "abs": 785,
+                  "convDeltaPct": 6.5,
+                  "share": 12.06
                 }
               },
               "totals": {
@@ -3155,80 +3154,80 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 5.6,
-                "value": 12.0
+                "deltaPct": 6.5,
+                "value": 12.06
               },
               "reactivationRatio": {
-                "deltaPct": 8.0,
-                "value": 17.7
+                "deltaPct": 9.7,
+                "value": 17.79
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 13,
                 "backToNotReached": 22,
-                "enrichRatio": 3.68,
+                "enrichRatio": 3.72,
                 "enriched": 87,
                 "enrichedLeads": 81,
                 "fromMailjourney": 47,
                 "fromNotReached": 38,
-                "toAppointment": 41,
+                "toAppointment": 42,
                 "toAppointmentDirect": 24,
-                "toAppointmentRatio": 50.62,
-                "toAppointmentViaDetour": 17,
+                "toAppointmentRatio": 51.85,
+                "toAppointmentViaDetour": 18,
                 "toFollowUp": 11
               },
               "leadIntake": {
-                "abs": 6559,
+                "abs": 6508,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 2361,
-                "deltaPct": 8.7,
-                "ratio": 69.07,
-                "share": 36.0
+                "abs": 2339,
+                "deltaPct": 7.2,
+                "ratio": 68.67,
+                "share": 35.94
               },
               "notContact": {
-                "abs": 2315,
-                "deltaPct": -3.5,
-                "ratio": 35.3,
-                "share": 35.3
+                "abs": 2295,
+                "deltaPct": -3.6,
+                "ratio": 35.26,
+                "share": 35.26
               },
               "recovered": {
                 "cac": null,
-                "count": 418,
+                "count": 416,
                 "cpl": null
               },
               "sql": {
-                "abs": 787,
-                "deltaPct": 8.0,
-                "ratio": 17.7,
-                "share": 12.0
+                "abs": 785,
+                "deltaPct": 9.7,
+                "ratio": 17.79,
+                "share": 12.06
               }
             }
           },
           "previous": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 2367,
-                "Brochure": 1061,
+                "Appointment": 2370,
+                "Brochure": 1052,
                 "Converted Old SF": 1,
-                "Follow-up": 2269,
-                "Lost": 1027,
-                "Mailjourney": 2477,
-                "New": 11,
-                "Not Qualified": 1219,
-                "Not reached": 2592,
-                "Re-entered": 805
+                "Follow-up": 2270,
+                "Lost": 1029,
+                "Mailjourney": 2485,
+                "New": 10,
+                "Not Qualified": 1211,
+                "Not reached": 2589,
+                "Re-entered": 801
               },
-              "transitionRows": 13829,
-              "uniqueLeads": 7086
+              "transitionRows": 13818,
+              "uniqueLeads": 7076
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 7086,
+                  "abs": 7076,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -3238,14 +3237,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 2367,
+                  "abs": 2370,
                   "convDeltaPct": null,
-                  "share": 33.4
+                  "share": 33.49
                 },
                 "sql": {
-                  "abs": 805,
+                  "abs": 801,
                   "convDeltaPct": null,
-                  "share": 11.36
+                  "share": 11.32
                 }
               },
               "totals": {
@@ -3271,11 +3270,11 @@
               },
               "mqlToSql": {
                 "deltaPct": null,
-                "value": 11.36
+                "value": 11.32
               },
               "reactivationRatio": {
                 "deltaPct": null,
-                "value": 16.39
+                "value": 16.22
               }
             },
             "reactivation": {
@@ -3294,60 +3293,60 @@
                 "toFollowUp": 0
               },
               "leadIntake": {
-                "abs": 7086,
+                "abs": 7076,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 2477,
-                "ratio": 63.54,
-                "share": 34.96
+                "abs": 2485,
+                "ratio": 64.04,
+                "share": 35.12
               },
               "notContact": {
-                "abs": 2592,
-                "ratio": 36.58,
-                "share": 36.58
+                "abs": 2589,
+                "ratio": 36.59,
+                "share": 36.59
               },
               "recovered": {
                 "cac": null,
-                "count": 406,
+                "count": 403,
                 "cpl": null
               },
               "sql": {
-                "abs": 805,
-                "ratio": 16.39,
-                "share": 11.36
+                "abs": 801,
+                "ratio": 16.22,
+                "share": 11.32
               }
             }
           },
-          "rows": 29757
+          "rows": 29659
         }
       },
       "prevRange": {
-        "end": "2026-07-01",
-        "start": "2026-04-02"
+        "end": "2026-07-02",
+        "start": "2026-04-03"
       },
       "previous": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 3504,
-            "Brochure": 1146,
-            "Converted Old SF": 1694,
-            "Follow-up": 4423,
-            "Lost": 2430,
-            "Mailjourney": 6538,
-            "New": 89,
-            "Not Qualified": 3501,
-            "Not reached": 5957,
-            "Re-entered": 1845
+            "Appointment": 3507,
+            "Brochure": 1132,
+            "Converted Old SF": 1717,
+            "Follow-up": 4451,
+            "Lost": 2447,
+            "Mailjourney": 6589,
+            "New": 90,
+            "Not Qualified": 3517,
+            "Not reached": 5978,
+            "Re-entered": 1849
           },
-          "transitionRows": 31127,
-          "uniqueLeads": 18055
+          "transitionRows": 31277,
+          "uniqueLeads": 18123
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 18055,
+              "abs": 18123,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -3357,14 +3356,14 @@
               "share": null
             },
             "r1": {
-              "abs": 3504,
+              "abs": 3507,
               "convDeltaPct": null,
-              "share": 19.41
+              "share": 19.35
             },
             "sql": {
-              "abs": 1845,
+              "abs": 1849,
               "convDeltaPct": null,
-              "share": 10.22
+              "share": 10.2
             }
           },
           "totals": {
@@ -3390,11 +3389,11 @@
           },
           "mqlToSql": {
             "deltaPct": null,
-            "value": 10.22
+            "value": 10.2
           },
           "reactivationRatio": {
             "deltaPct": null,
-            "value": 12.73
+            "value": 12.58
           }
         },
         "reactivation": {
@@ -3413,39 +3412,39 @@
             "toFollowUp": 0
           },
           "leadIntake": {
-            "abs": 18055,
+            "abs": 18123,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 6538,
-            "ratio": 82.41,
-            "share": 36.21
+            "abs": 6589,
+            "ratio": 82.95,
+            "share": 36.36
           },
           "notContact": {
-            "abs": 5957,
+            "abs": 5978,
             "ratio": 32.99,
             "share": 32.99
           },
           "recovered": {
             "cac": null,
-            "count": 832,
+            "count": 829,
             "cpl": null
           },
           "sql": {
-            "abs": 1845,
-            "ratio": 12.73,
-            "share": 10.22
+            "abs": 1849,
+            "ratio": 12.58,
+            "share": 10.2
           }
         }
       },
       "range": {
-        "end": "2026-09-29",
-        "start": "2026-07-01"
+        "end": "2026-09-30",
+        "start": "2026-07-02"
       }
     }
   },
-  "endDate": "2026-09-29",
-  "generated_at": "2026-09-28T14:22:51+00:00",
+  "endDate": "2026-09-30",
+  "generated_at": "2026-09-29T08:26:15+00:00",
   "market_scope": "per_market",
   "notes": [
     "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
@@ -3457,5 +3456,5 @@
     "90"
   ],
   "rows_without_market": 0,
-  "source_rows": 59219
+  "source_rows": 58928
 }

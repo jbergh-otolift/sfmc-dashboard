@@ -1,19 +1,22 @@
 {
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
-  "coverage_definition": "Status = 'Mailjourney' AND Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false; bereikt = minstens een e-mail in de laatste 90 dagen",
-  "generated_at": "2026-09-28T14:22:48+00:00",
+  "coverage_definition": "Status = 'Mailjourney' AND Email != null AND Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false; bereikt = minstens een e-mail in de laatste 90 dagen",
+  "generated_at": "2026-09-29T08:26:12+00:00",
   "markets": {
     "be": {
-      "consentShare": 6.31,
-      "consentTotal": 4768,
-      "coverage": 39.8,
-      "growth": 881,
-      "growthDeltaPct": 87.8,
+      "consentShare": 6.32,
+      "consentTotal": 4778,
+      "coverage": 40.8,
+      "growth": 890,
+      "growthDeltaPct": 89.8,
       "growthPrev": 469,
-      "leadsTotal": 75548,
-      "reachedOfShouldMail": 698,
-      "shouldMail": 1754
+      "leadsTotal": 75561,
+      "mailjourneyNoConsent": 14941,
+      "mailjourneyNoEmail": 635,
+      "mailjourneyTotal": 17282,
+      "reachedOfShouldMail": 696,
+      "shouldMail": 1706
     },
     "fr": {
       "consentShare": 0.0,
@@ -22,7 +25,10 @@
       "growth": 0,
       "growthDeltaPct": null,
       "growthPrev": 0,
-      "leadsTotal": 137414,
+      "leadsTotal": 137418,
+      "mailjourneyNoConsent": 38417,
+      "mailjourneyNoEmail": 4090,
+      "mailjourneyTotal": 42507,
       "reachedOfShouldMail": null,
       "shouldMail": 0
     },
@@ -33,24 +39,30 @@
       "growth": 0,
       "growthDeltaPct": null,
       "growthPrev": 0,
-      "leadsTotal": 151996,
+      "leadsTotal": 152001,
+      "mailjourneyNoConsent": 10855,
+      "mailjourneyNoEmail": 1355,
+      "mailjourneyTotal": 12210,
       "reachedOfShouldMail": null,
       "shouldMail": 0
     },
     "nl": {
       "consentShare": 10.43,
-      "consentTotal": 34006,
-      "coverage": 32.0,
-      "growth": 1840,
-      "growthDeltaPct": 87.2,
+      "consentTotal": 34028,
+      "coverage": 34.2,
+      "growth": 1867,
+      "growthDeltaPct": 89.9,
       "growthPrev": 983,
-      "leadsTotal": 325945,
-      "reachedOfShouldMail": 3719,
-      "shouldMail": 11614
+      "leadsTotal": 326288,
+      "mailjourneyNoConsent": 25968,
+      "mailjourneyNoEmail": 5246,
+      "mailjourneyTotal": 42026,
+      "reachedOfShouldMail": 3701,
+      "shouldMail": 10812
     }
   },
   "period": {
-    "end": "2026-09-29",
+    "end": "2026-09-30",
     "start": "2026-08-20"
   },
   "prev_period": {
