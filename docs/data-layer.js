@@ -268,6 +268,46 @@ function buildFlowChips(emailHealth) {
 // CRM) en de teller (unieke bereikte contacten, uit de SFMC-sends). Ontbreekt
 // de teller omdat een markt nog geen Business Unit heeft, dan is coverage niet
 // 0% maar niet meetbaar — dat onderscheid moet zichtbaar zijn.
+// Laat zien hoe de noemer is opgebouwd: van iedereen in de mailflow naar de
+// groep die je werkelijk kunt mailen. Zonder die opbouw is een coverage van
+// 32% niet te beoordelen — je weet niet of het gat aan bereik ligt of aan
+// ontbrekende adressen en consent.
+function renderCoverageBuild(coverage) {
+  const box = document.querySelector("[data-coverage-build]");
+  if (!box) return;
+  const f = coverage && coverage.funnel;
+  if (!f || !f.mailjourneyTotal) {
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  box.innerHTML = "";
+
+  const title = document.createElement("div");
+  title.className = "cb-title";
+  title.textContent = "Hoe de noemer is opgebouwd";
+  box.appendChild(title);
+
+  const row = (label, value, cls) => {
+    const el = document.createElement("div");
+    el.className = "cb-row" + (cls ? " " + cls : "");
+    const l = document.createElement("div");
+    l.className = "cb-lbl";
+    l.textContent = label;
+    const n = document.createElement("div");
+    n.className = "cb-num";
+    n.textContent = value;
+    el.append(l, n);
+    box.appendChild(el);
+  };
+
+  row("In de mailflow (status Mailjourney)", nlNum(f.mailjourneyTotal, 0));
+  row("Zonder e-mailadres", "− " + nlNum(f.noEmail || 0, 0), "minus");
+  row("Met adres, geen consent of afgemeld", "− " + nlNum(f.noConsent || 0, 0), "minus");
+  row("Kunnen we mailen", nlNum(coverage.shouldMail, 0), "result");
+  row("Daarvan bereikt in 90 dagen", nlNum(coverage.reached, 0), "result");
+}
+
 function applyCoverageNote(coverage) {
   const el = document.querySelector("[data-coverage-note]");
   if (!el) return;
@@ -298,6 +338,7 @@ function applyCoverageNote(coverage) {
   }
 
   el.classList.remove("nodata");
+  renderCoverageBuild(coverage);
   el.innerHTML =
     "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te bereiken" +
     '<span style="display:block;font-size:11.5px;margin-top:6px">Noemer: leads met ' +

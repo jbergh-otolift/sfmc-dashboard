@@ -308,6 +308,13 @@ def build_coverage(consent_market, market_block):
     return {
         "value": value,
         "shouldMail": should_mail,
+        # Opbouw van de noemer, zodat het dashboard kan laten zien waarom
+        # leads afvallen in plaats van alleen het eindcijfer te tonen.
+        "funnel": {
+            "mailjourneyTotal": consent_market.get("mailjourneyTotal"),
+            "noEmail": consent_market.get("mailjourneyNoEmail"),
+            "noConsent": consent_market.get("mailjourneyNoConsent"),
+        },
         "reached": reached,
         "consentTotal": consent_market.get("consentTotal"),
         "toActivate": max(should_mail - reached, 0),

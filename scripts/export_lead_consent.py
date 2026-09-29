@@ -49,6 +49,11 @@ CONSENT_FIELD = "Customized_Product_Advice__c"
 OPTOUT_FIELD = "HasOptedOutOfEmail"
 CONSENT_WHERE = f"{CONSENT_FIELD} = true AND {OPTOUT_FIELD} = false"
 
+# Consent alleen is niet genoeg om iemand te kunnen mailen: zonder adres lukt
+# het hoe dan ook niet. Die groep hoort niet in de coverage-noemer — voor NL
+# ging het om 807 leads, 6,9% van de noemer.
+MAILABLE_WHERE = f"Email != null AND {CONSENT_WHERE}"
+
 # Alle vier de Lead-RecordTypes zijn "Particulier <land>"; er bestaan geen
 # zakelijke Lead-RecordTypes, dus dit is de volledige set.
 MARKET_BY_RECORD_TYPE = {
@@ -106,14 +111,15 @@ def counts_by_market(session, instance_url, where):
 
 
 def lead_ids_in_mailjourney(session, instance_url):
-    """Alle Lead-id's met status Mailjourney én consent, per markt.
+    """Alle Lead-id's die we werkelijk kunnen mailen, per markt.
 
-    Dit is de coverage-noemer: de mensen die we horen te mailen. Gebruikt de
-    gewone query-API met paginatie via nextRecordsUrl (circa 13.000 rijen).
+    De coverage-noemer: status Mailjourney, een e-mailadres, consent, en niet
+    afgemeld — alle vier de voorwaarden. Een lead met consent zonder adres kun
+    je niet bereiken en telt dus niet mee. Paginatie via nextRecordsUrl.
     """
     soql = (
         f"SELECT Id, RecordTypeId FROM Lead "
-        f"WHERE Status = '{MAILJOURNEY_STATUS}' AND {CONSENT_WHERE}"
+        f"WHERE Status = '{MAILJOURNEY_STATUS}' AND {MAILABLE_WHERE}"
     )
     by_market = {market: set() for market in MARKET_BY_RECORD_TYPE.values()}
     url = f"{instance_url}/services/data/{API_VERSION}/query"
@@ -174,6 +180,15 @@ def main():
 
     consent, _ = counts_by_market(session, instance_url, CONSENT_WHERE)
 
+    # Waarom valt een Mailjourney-lead af? Drie elkaar uitsluitende groepen,
+    # zodat het dashboard het gat kan verklaren in plaats van alleen te tonen.
+    mj = f"Status = '{MAILJOURNEY_STATUS}'"
+    mj_total, _ = counts_by_market(session, instance_url, mj)
+    mj_no_email, _ = counts_by_market(session, instance_url, f"{mj} AND Email = null")
+    mj_no_consent, _ = counts_by_market(
+        session, instance_url,
+        f"{mj} AND Email != null AND NOT ({CONSENT_WHERE})")
+
     # Groei: nieuwe contacten mét consent, aangemaakt binnen de periode.
     def created_between(start, end):
         where = (
@@ -209,6 +224,10 @@ def main():
             # Coverage-noemer en -teller: in de mailflow met consent, en
             # daarvan degenen die in de periode echt een e-mail kregen.
             "shouldMail": len(should_mail),
+            # Uitsplitsing van de Mailjourney-populatie: waarom valt iemand af?
+            "mailjourneyTotal": mj_total[market],
+            "mailjourneyNoEmail": mj_no_email[market],
+            "mailjourneyNoConsent": mj_no_consent[market],
             "reachedOfShouldMail": covered,
             "coverage": (
                 round(covered / len(should_mail) * 100, 1)
@@ -234,7 +253,7 @@ def main():
         # iedereen in een trage nurture-flow onterecht als gemist tellen.
         "coverage_days": coverage_days,
         "coverage_definition": (
-            f"Status = '{MAILJOURNEY_STATUS}' AND {CONSENT_WHERE}; "
+            f"Status = '{MAILJOURNEY_STATUS}' AND {MAILABLE_WHERE}; "
             f"bereikt = minstens een e-mail in de laatste {coverage_days} dagen"
         ),
         "markets": markets,
