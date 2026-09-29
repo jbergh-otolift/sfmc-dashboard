@@ -169,6 +169,7 @@ def main():
     probe_contact(token, instance_url)
     probe_mailjourney(token, instance_url)
     probe_opportunity(token, instance_url)
+    probe_mailable(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -304,6 +305,60 @@ def probe_opportunity(token, instance_url):
         "SELECT COUNT(Id) n FROM Lead WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:90")
     if not err and res["records"]:
         print(f"  Leads geconverteerd laatste 90 dagen: {res['records'][0]['n']}")
+
+
+def probe_mailable(token, instance_url):
+    """Wie kun je werkelijk mailen?
+
+    De dashboardnoemer keek alleen naar consent, niet naar de aanwezigheid van
+    een e-mailadres. Een lead met consent zonder adres kun je niet bereiken en
+    hoort dus niet in de noemer. Deze probe splitst Mailjourney-leads in drie
+    elkaar uitsluitende groepen, zoals de Salesforce-analyse dat ook doet.
+    """
+    print("\n--- Wie kunnen we echt mailen? (status Mailjourney) ---")
+    RT = {"0127Q000000upr9QAA": "NL", "0127Q000000eERIQA2": "BE",
+          "012QD000002ylXZYAY": "FR", "012QD000002ylcPYAQ": "IT"}
+    base = "Status = 'Mailjourney'"
+    groups = {
+        "totaal": base,
+        "zonder mailadres": f"{base} AND Email = null",
+        "adres, geen consent": f"{base} AND Email != null AND {CONSENT_FIELD} = false",
+        "adres, consent, afgemeld": (
+            f"{base} AND Email != null AND {CONSENT_FIELD} = true "
+            f"AND {OPTOUT_FIELD} = true"),
+        "WEL MAILEN": (
+            f"{base} AND Email != null AND {CONSENT_FIELD} = true "
+            f"AND {OPTOUT_FIELD} = false"),
+        # Wat het dashboard nu als noemer gebruikt: zonder adrescontrole.
+        "huidige noemer": f"{base} AND {CONSENT_WHERE}",
+    }
+    rows = {}
+    for label, where in groups.items():
+        res, err = query(
+            token, instance_url,
+            f"SELECT RecordTypeId, COUNT(Id) total FROM Lead WHERE {where} "
+            "GROUP BY RecordTypeId")
+        if err:
+            print(f"  {label}: mislukt {err}")
+            continue
+        rows[label] = {RT.get(r["RecordTypeId"], "?"): r["total"] for r in res["records"]}
+
+    markets = ["NL", "BE", "FR", "IT"]
+    print(f"  {'groep':26} " + " ".join(f"{m:>8}" for m in markets))
+    for label in groups:
+        if label not in rows:
+            continue
+        line = " ".join(f"{rows[label].get(m, 0):8}" for m in markets)
+        print(f"  {label:26} {line}")
+
+    huidig = rows.get("huidige noemer", {})
+    echt = rows.get("WEL MAILEN", {})
+    print()
+    print("  Verschil huidige noemer t.o.v. werkelijk mailbaar:")
+    for m in markets:
+        h, e = huidig.get(m, 0), echt.get(m, 0)
+        if h:
+            print(f"    {m}: {h} -> {e}  ({e - h:+d}, {(e - h) / h * 100:+.1f}%)")
 
 
 if __name__ == "__main__":
