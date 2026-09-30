@@ -343,13 +343,13 @@ def main():
     }
     print(f"Flows op naam meegeteld: {sorted(first_send_flow)}")
 
-    # Leads met een ingevulde Reason - Mailjourney: die zitten geparkeerd in
-    # de mailflow en worden daar bewerkt.
-    parked = {
-        lead for lead, info in paths.items()
-        if (info.get("entryReason") or info.get("reason") or "").strip()
-    }
-    print(f"Leads met een Reason - Mailjourney: {len(parked)}")
+    # Iedereen die in de mailflow is beland hoort bij de doelgroep. Filteren
+    # op een ingevulde reden zou 1.640 leads laten vallen die wel degelijk
+    # bewerkt worden — en dan zou het strenge cijfer hoger uitvallen dan het
+    # brede, terwijl het er een deelverzameling van hoort te zijn. De reden is
+    # een uitsplitsing, geen toegangseis.
+    parked = set(paths)
+    print(f"Leads in de mailflow: {len(parked)}")
 
     # Eerste mail per lead binnen de doelgroep. Voor geparkeerde leads telt
     # elke automation-mail; voor de offerte- en nurtureflows alleen die flows.
@@ -428,7 +428,8 @@ def main():
         # kwam daarna. Dit is de noemer die het dashboard toont, want alle
         # orders in het CRM zeggen hier niets.
         mailed_on = first_send.get(lead)
-        if mailed_on and conv["date"] >= mailed_on:
+        in_scope = bool(mailed_on and conv["date"] >= mailed_on)
+        if in_scope:
             bucket["mailedOrders"] += 1
             bucket["mailedRevenue"] += conv["amount"]
             for flow, per_lead in first_send_flow.items():
@@ -443,8 +444,15 @@ def main():
         # heractivatiesignaal, en de conversie ná dat signaal. Zonder die
         # volgorde is het toeval in dezelfde periode, geen heractivatie.
         # Leads zonder mailflow-historie tellen alleen in de noemer mee.
+        # Het strenge cijfer is per definitie een deelverzameling van het
+        # brede: eerst gemaild, en daarbovenop een aantoonbaar heractivatiepad.
         route = (info or {}).get("route")
-        if route and info.get("routeDate") and conv["date"] >= info["routeDate"]:
+        if (
+            in_scope
+            and route
+            and info.get("routeDate")
+            and conv["date"] >= info["routeDate"]
+        ):
             bucket["viaAutomationOrders"] += 1
             bucket["viaAutomationRevenue"] += conv["amount"]
             bucket["byRoute"][route]["orders"] += 1
