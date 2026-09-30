@@ -144,6 +144,31 @@ def build_status_path(reason, steps, until=None):
 # binnenkomt en zouden vrijwel alle omzet opeisen.
 FLOW_PATTERNS = ("offerte", "nurturelane", "nurture lane")
 
+# Flows die mikken op leads met een al bestaande Opportunity. Daar is de
+# leadconversie niet de uitkomst — die is al gebeurd — maar het winnen van de
+# offerte. De volgorde wordt voor deze flows dus op de sluitdatum getoetst.
+OPPORTUNITY_FLOW_PATTERNS = ("offerte",)
+
+
+def targets_open_opportunity(name):
+    lowered = (name or "").lower()
+    return any(p in lowered for p in OPPORTUNITY_FLOW_PATTERNS)
+
+
+def active_reasons(path):
+    """Instroomredenen waar een actieve mailflow op zit.
+
+    De status Mailjourney zegt alleen dat een lead geparkeerd staat, niet dat
+    er een journey op aangesloten is. Zonder dit onderscheid krijgen redenen
+    zonder flow toch orders toegerekend.
+    """
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as f:
+        config = json.load(f)
+    reasons = config.get("mailjourneyReasons") or {}
+    return {reason for reason, active in reasons.items() if active}
+
 
 def is_scoped_flow(name):
     """Hoort deze journey bij de offerteflow of de nurture lane?"""
@@ -367,8 +392,19 @@ def main():
     # bewerkt worden — en dan zou het strenge cijfer hoger uitvallen dan het
     # brede, terwijl het er een deelverzameling van hoort te zijn. De reden is
     # een uitsplitsing, geen toegangseis.
-    parked = set(paths)
-    print(f"Leads in de mailflow: {len(parked)}")
+    warnings = []
+
+    active = active_reasons(GOALS_PATH)
+    if active is None:
+        active = set()
+        warnings.append(
+            f"{GOALS_PATH} ontbreekt; geen enkele instroomreden telt mee.")
+    parked = {
+        lead for lead, info in paths.items()
+        if (info.get("entryReason") or info.get("reason") or "").strip() in active
+    }
+    print(f"Leads in de mailflow met een actieve reden: {len(parked)} "
+          f"(van {len(paths)}), {len(active)} redenen actief")
 
     # Eerste mail per lead binnen de doelgroep. Voor geparkeerde leads telt
     # elke automation-mail; voor de offerte- en nurtureflows alleen die flows.
@@ -383,7 +419,6 @@ def main():
     print(f"Conversies in {LOOKBACK_DAYS} dagen: {len(converted)}")
     print(f"Leads met een mailflow-historie: {len(paths)}")
 
-    warnings = []
     if flows is None:
         warnings.append(
             f"{REACHED_PATH} ontbreekt of is onleesbaar; byFlow is overgeslagen."
@@ -450,13 +485,30 @@ def main():
         # Volgorde toetsen op de conversiedatum, niet op de sluitdatum: een
         # mail die pas ná de conversie uitging heeft de order niet veroorzaakt.
         outcome = conv.get("convertedDate") or conv["date"]
-        in_scope = bool(mailed_on and outcome >= mailed_on)
+
+        # Voor flows die mikken op een openstaande offerte ligt de conversie
+        # al achter ons; daar telt of de offerte daarna gewonnen is.
+        opp_mailed_on = None
+        for flow, per_lead in first_send_flow.items():
+            if not targets_open_opportunity(flow):
+                continue
+            day = per_lead.get(lead)
+            if day and (opp_mailed_on is None or day < opp_mailed_on):
+                opp_mailed_on = day
+
+        in_scope = bool(
+            (mailed_on and outcome >= mailed_on)
+            or (opp_mailed_on and conv["date"] >= opp_mailed_on)
+        )
         if in_scope:
             bucket["mailedOrders"] += 1
             bucket["mailedRevenue"] += conv["amount"]
             for flow, per_lead in first_send_flow.items():
                 day = per_lead.get(lead)
-                if day and outcome >= day:
+                # Per flow de juiste uitkomstdatum: sluitdatum voor
+                # offerteflows, conversiedatum voor de rest.
+                deadline = conv["date"] if targets_open_opportunity(flow) else outcome
+                if day and deadline >= day:
                     box = bucket["byFlow"].setdefault(
                         flow, {"orders": 0, "revenue": 0.0})
                     box["orders"] += 1

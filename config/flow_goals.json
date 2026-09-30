@@ -25,6 +25,37 @@
     "Journeynamen moeten exact overeenkomen met de labels op het dashboard."
   ],
 
+  "_mailjourneyReasons_comment": [
+    "Welke instroomredenen een actieve mailflow hebben. Alleen redenen die hier",
+    "op true staan tellen mee in de omzettoerekening.",
+    "",
+    "Waarom dit nodig is: de status Mailjourney zegt alleen dat een lead daar",
+    "geparkeerd staat, niet dat er een journey op aangesloten is. Zonder dit",
+    "onderscheid kregen redenen zonder flow toch orders toegerekend — 37% van",
+    "de toerekening hing daarop.",
+    "",
+    "Zet een reden op true zodra de flow er echt draait. Een reden die hier",
+    "niet in staat telt niet mee: liever te weinig toerekenen dan te veel."
+  ],
+
+  "mailjourneyReasons": {
+    "No Contact Possible - number correct": true,
+    "No Contact Possible - number incorrect": true,
+    "No contact possible": true,
+    "Never had contact with the customer": true,
+    "Orientation for later moment": true,
+    "WMO": true,
+    "Wmo application is in progress": true,
+    "Financially not feasible": true,
+
+    "Customer contacts himself": false,
+    "No contact after sending brochure": false,
+    "MQL - Longer at home": false,
+    "MQL - Puzzle": false,
+    "Making a home suitable for aging in place": false,
+    "Other": false
+  },
+
   "defaults": { "type": "marketing", "goal": "appointment", "target": null },
 
   "nl": {
