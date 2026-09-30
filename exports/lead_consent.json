@@ -2873,16 +2873,16 @@
         "reached": null
       },
       "nl": {
-        "entered": 30,
-        "mailable": 15,
-        "reached": 14
+        "entered": 32,
+        "mailable": 16,
+        "reached": 15
       }
     }
   },
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
   "coverage_definition": "Status = 'Mailjourney' AND Email != null AND HasOptedOutOfEmail = false AND (Customized_Product_Advice__c = true OR Reason_Mailjourney__c IN ('No Contact Possible - number correct', 'No Contact Possible - number incorrect', 'No contact possible')); bereikt = minstens een e-mail in de laatste 90 dagen",
-  "generated_at": "2026-09-30T12:58:24+00:00",
+  "generated_at": "2026-09-30T13:39:56+00:00",
   "markets": {
     "be": {
       "cohorts": {
@@ -2906,12 +2906,12 @@
         }
       },
       "consentShare": 6.35,
-      "consentTotal": 4797,
+      "consentTotal": 4798,
       "coverage": 43.5,
-      "growth": 909,
-      "growthDeltaPct": 93.8,
+      "growth": 910,
+      "growthDeltaPct": 94.0,
       "growthPrev": 469,
-      "leadsTotal": 75596,
+      "leadsTotal": 75598,
       "mailjourneyNoConsent": 14885,
       "mailjourneyNoContactException": 71,
       "mailjourneyNoEmail": 635,
@@ -2993,36 +2993,36 @@
       "cohorts": {
         "30": {
           "coverage": 97.0,
-          "entered": 931,
-          "mailable": 567,
-          "reached": 550
+          "entered": 933,
+          "mailable": 568,
+          "reached": 551
         },
         "7": {
-          "coverage": 96.8,
-          "entered": 203,
-          "mailable": 126,
-          "reached": 122
+          "coverage": 96.9,
+          "entered": 205,
+          "mailable": 127,
+          "reached": 123
         },
         "90": {
           "coverage": 93.4,
-          "entered": 2290,
-          "mailable": 1415,
-          "reached": 1321
+          "entered": 2292,
+          "mailable": 1416,
+          "reached": 1322
         }
       },
       "consentShare": 10.39,
-      "consentTotal": 34085,
+      "consentTotal": 34086,
       "coverage": 36.1,
-      "growth": 1927,
-      "growthDeltaPct": 96.0,
+      "growth": 1928,
+      "growthDeltaPct": 96.1,
       "growthPrev": 983,
-      "leadsTotal": 328095,
-      "mailjourneyNoConsent": 25691,
-      "mailjourneyNoContactException": 315,
+      "leadsTotal": 328189,
+      "mailjourneyNoConsent": 25692,
+      "mailjourneyNoContactException": 314,
       "mailjourneyNoEmail": 5246,
-      "mailjourneyTotal": 42096,
-      "reachedOfShouldMail": 4025,
-      "shouldMail": 11159
+      "mailjourneyTotal": 42098,
+      "reachedOfShouldMail": 4026,
+      "shouldMail": 11160
     }
   },
   "period": {
