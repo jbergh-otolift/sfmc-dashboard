@@ -1022,7 +1022,7 @@ function safeRatio(num, den, minimum) {
   return value > 100 ? null : value;
 }
 
-function crmFromSums(crm, prevCrm) {
+function crmFromSums(crm, prevCrm, value) {
   const to = crm.toStatus || {};
   const pairs = crm.transitions || {};
   const at = (k) => to[k] || 0;
@@ -1039,7 +1039,7 @@ function crmFromSums(crm, prevCrm) {
   const mjToSql = via("Mailjourney", "Re-entered");
 
   const delta = (a, b) => (a !== null && b) ? round1(((a - b) / b) * 100) : null;
-  const prev = prevCrm ? crmFromSums(prevCrm, null) : null;
+  const prev = prevCrm ? crmFromSums(prevCrm, null, null) : null;
 
   const reactivation = {
     leadIntake: { abs: intake, share: 100 },
@@ -1083,7 +1083,14 @@ function crmFromSums(crm, prevCrm) {
         share: safeRatio(appointment, intake),
         convDeltaPct: prev ? delta(safeRatio(appointment, intake), prev.acquisition.funnel.r1.share) : null,
       },
-      order: { abs: null, share: null, convDeltaPct: null },
+      // Gewonnen orders die in deze periode zijn gesloten. Andere populatie
+      // dan MQL en R1 — dat zijn statusovergangen in de periode, dit zijn
+      // conversies — maar wel hetzelfde venster.
+      order: {
+        abs: value ? value.orders : null,
+        share: value ? safeRatio(value.orders, intake) : null,
+        convDeltaPct: null,
+      },
     },
     channels: [],
     totals: { contacts: null, avgCpa: null, avgCpql: null },
@@ -1182,7 +1189,7 @@ function applyMarket(marketKey) {
   };
   const summed = sumRange(market.days, range.start, range.end);
   const prevSummed = sumRange(market.days, prevRange.start, prevRange.end);
-  const derived = crmFromSums(summed.crm, prevSummed.crm);
+  const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value);
 
   // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
   const allFlow = (summed.flows || {}).all || {};
