@@ -5,26 +5,26 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 1267,
+            "Appointment": 1272,
             "Brochure": 180,
             "Converted Old SF": 3,
-            "Follow-up": 965,
-            "Lost": 352,
-            "Mailjourney": 1520,
+            "Follow-up": 973,
+            "Lost": 358,
+            "Mailjourney": 1531,
             "New": 8,
-            "Not Qualified": 594,
-            "Not reached": 1272,
-            "Re-entered": 456,
+            "Not Qualified": 597,
+            "Not reached": 1276,
+            "Re-entered": 463,
             "Re-entered - Phone Number Changed": 48
           },
-          "transitionRows": 6665,
-          "uniqueLeads": 3919
+          "transitionRows": 6709,
+          "uniqueLeads": 3925
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 3919,
+              "abs": 3925,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -34,14 +34,14 @@
               "share": null
             },
             "r1": {
-              "abs": 1267,
-              "convDeltaPct": -0.8,
-              "share": 32.33
+              "abs": 1272,
+              "convDeltaPct": -0.6,
+              "share": 32.41
             },
             "sql": {
-              "abs": 456,
-              "convDeltaPct": 7.0,
-              "share": 11.64
+              "abs": 463,
+              "convDeltaPct": 8.5,
+              "share": 11.8
             }
           },
           "totals": {
@@ -66,19 +66,19 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": 7.0,
-            "value": 11.64
+            "deltaPct": 8.5,
+            "value": 11.8
           },
           "reactivationRatio": {
-            "deltaPct": -3.6,
-            "value": 15.86
+            "deltaPct": -3.1,
+            "value": 15.94
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 7,
             "backToNotReached": 16,
-            "enrichRatio": 3.16,
+            "enrichRatio": 3.14,
             "enriched": 48,
             "enrichedLeads": 47,
             "fromMailjourney": 24,
@@ -90,31 +90,31 @@
             "toFollowUp": 8
           },
           "leadIntake": {
-            "abs": 3919,
+            "abs": 3925,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 1520,
-            "deltaPct": 26.0,
-            "ratio": 83.41,
-            "share": 38.79
+            "abs": 1531,
+            "deltaPct": 26.6,
+            "ratio": 83.78,
+            "share": 39.01
           },
           "notContact": {
-            "abs": 1272,
-            "deltaPct": -2.9,
-            "ratio": 32.46,
-            "share": 32.46
+            "abs": 1276,
+            "deltaPct": -2.8,
+            "ratio": 32.51,
+            "share": 32.51
           },
           "recovered": {
             "cac": null,
-            "count": 241,
+            "count": 244,
             "cpl": null
           },
           "sql": {
-            "abs": 456,
-            "deltaPct": -3.6,
-            "ratio": 15.86,
-            "share": 11.64
+            "abs": 463,
+            "deltaPct": -3.1,
+            "ratio": 15.94,
+            "share": 11.8
           }
         }
       },
@@ -123,25 +123,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 472,
+                "Appointment": 473,
                 "Brochure": 6,
-                "Follow-up": 285,
-                "Lost": 91,
-                "Mailjourney": 507,
+                "Follow-up": 286,
+                "Lost": 92,
+                "Mailjourney": 508,
                 "New": 1,
                 "Not Qualified": 199,
                 "Not reached": 427,
                 "Re-entered": 137,
                 "Re-entered - Phone Number Changed": 5
               },
-              "transitionRows": 2130,
-              "uniqueLeads": 1276
+              "transitionRows": 2134,
+              "uniqueLeads": 1278
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 1276,
+                  "abs": 1278,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -151,14 +151,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 472,
-                  "convDeltaPct": 11.1,
-                  "share": 36.99
+                  "abs": 473,
+                  "convDeltaPct": 11.2,
+                  "share": 37.01
                 },
                 "sql": {
                   "abs": 137,
-                  "convDeltaPct": 14.5,
-                  "share": 10.74
+                  "convDeltaPct": 14.3,
+                  "share": 10.72
                 }
               },
               "totals": {
@@ -183,19 +183,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 14.5,
-                "value": 10.74
+                "deltaPct": 14.3,
+                "value": 10.72
               },
               "reactivationRatio": {
-                "deltaPct": -3.9,
-                "value": 11.44
+                "deltaPct": -4.0,
+                "value": 11.42
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 0,
                 "backToNotReached": 3,
-                "enrichRatio": 0.99,
+                "enrichRatio": 0.98,
                 "enriched": 5,
                 "enrichedLeads": 5,
                 "fromMailjourney": 1,
@@ -207,20 +207,20 @@
                 "toFollowUp": 1
               },
               "leadIntake": {
-                "abs": 1276,
+                "abs": 1278,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 507,
-                "deltaPct": 46.7,
-                "ratio": 99.77,
-                "share": 39.73
+                "abs": 508,
+                "deltaPct": 47.0,
+                "ratio": 100.0,
+                "share": 39.75
               },
               "notContact": {
                 "abs": 427,
-                "deltaPct": -14.6,
-                "ratio": 33.46,
-                "share": 33.46
+                "deltaPct": -14.8,
+                "ratio": 33.41,
+                "share": 33.41
               },
               "recovered": {
                 "cac": null,
@@ -229,9 +229,9 @@
               },
               "sql": {
                 "abs": 137,
-                "deltaPct": -3.9,
-                "ratio": 11.44,
-                "share": 10.74
+                "deltaPct": -4.0,
+                "ratio": 11.42,
+                "share": 10.72
               }
             }
           },
@@ -347,7 +347,7 @@
               }
             }
           },
-          "rows": 14641
+          "rows": 14645
         },
         "fr": {
           "current": {
@@ -801,25 +801,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 795,
+                "Appointment": 799,
                 "Brochure": 174,
-                "Follow-up": 664,
-                "Lost": 249,
-                "Mailjourney": 946,
+                "Follow-up": 671,
+                "Lost": 254,
+                "Mailjourney": 956,
                 "New": 7,
-                "Not Qualified": 347,
-                "Not reached": 841,
-                "Re-entered": 284,
+                "Not Qualified": 350,
+                "Not reached": 845,
+                "Re-entered": 291,
                 "Re-entered - Phone Number Changed": 43
               },
-              "transitionRows": 4350,
-              "uniqueLeads": 2464
+              "transitionRows": 4390,
+              "uniqueLeads": 2468
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 2464,
+                  "abs": 2468,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -829,14 +829,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 795,
-                  "convDeltaPct": -4.6,
-                  "share": 32.26
+                  "abs": 799,
+                  "convDeltaPct": -4.3,
+                  "share": 32.37
                 },
                 "sql": {
-                  "abs": 284,
-                  "convDeltaPct": 3.3,
-                  "share": 11.53
+                  "abs": 291,
+                  "convDeltaPct": 5.6,
+                  "share": 11.79
                 }
               },
               "totals": {
@@ -861,19 +861,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 3.3,
-                "value": 11.53
+                "deltaPct": 5.6,
+                "value": 11.79
               },
               "reactivationRatio": {
-                "deltaPct": -5.7,
-                "value": 17.44
+                "deltaPct": -5.0,
+                "value": 17.57
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 7,
                 "backToNotReached": 13,
-                "enrichRatio": 4.55,
+                "enrichRatio": 4.5,
                 "enriched": 43,
                 "enrichedLeads": 42,
                 "fromMailjourney": 23,
@@ -885,31 +885,31 @@
                 "toFollowUp": 7
               },
               "leadIntake": {
-                "abs": 2464,
+                "abs": 2468,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 946,
-                "deltaPct": 15.4,
-                "ratio": 75.51,
-                "share": 38.39
+                "abs": 956,
+                "deltaPct": 16.1,
+                "ratio": 75.98,
+                "share": 38.74
               },
               "notContact": {
-                "abs": 841,
-                "deltaPct": 7.3,
-                "ratio": 34.13,
-                "share": 34.13
+                "abs": 845,
+                "deltaPct": 7.6,
+                "ratio": 34.24,
+                "share": 34.24
               },
               "recovered": {
                 "cac": null,
-                "count": 165,
+                "count": 168,
                 "cpl": null
               },
               "sql": {
-                "abs": 284,
-                "deltaPct": -5.7,
-                "ratio": 17.44,
-                "share": 11.53
+                "abs": 291,
+                "deltaPct": -5.0,
+                "ratio": 17.57,
+                "share": 11.79
               }
             }
           },
@@ -1025,7 +1025,7 @@
               }
             }
           },
-          "rows": 29756
+          "rows": 29796
         }
       },
       "prevRange": {
@@ -1156,25 +1156,25 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 281,
+            "Appointment": 286,
             "Brochure": 29,
             "Converted Old SF": 1,
-            "Follow-up": 195,
-            "Lost": 74,
-            "Mailjourney": 335,
-            "Not Qualified": 114,
-            "Not reached": 269,
-            "Re-entered": 86,
+            "Follow-up": 203,
+            "Lost": 80,
+            "Mailjourney": 346,
+            "Not Qualified": 117,
+            "Not reached": 273,
+            "Re-entered": 93,
             "Re-entered - Phone Number Changed": 13
           },
-          "transitionRows": 1397,
-          "uniqueLeads": 979
+          "transitionRows": 1441,
+          "uniqueLeads": 990
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 979,
+              "abs": 990,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -1184,14 +1184,14 @@
               "share": null
             },
             "r1": {
-              "abs": 281,
-              "convDeltaPct": 4.3,
-              "share": 28.7
+              "abs": 286,
+              "convDeltaPct": 5.0,
+              "share": 28.89
             },
             "sql": {
-              "abs": 86,
-              "convDeltaPct": -23.3,
-              "share": 8.78
+              "abs": 93,
+              "convDeltaPct": -18.0,
+              "share": 9.39
             }
           },
           "totals": {
@@ -1216,19 +1216,19 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": -23.3,
-            "value": 8.78
+            "deltaPct": -18.0,
+            "value": 9.39
           },
           "reactivationRatio": {
-            "deltaPct": -16.8,
-            "value": 14.33
+            "deltaPct": -14.4,
+            "value": 14.74
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 3,
             "backToNotReached": 4,
-            "enrichRatio": 3.88,
+            "enrichRatio": 3.76,
             "enriched": 13,
             "enrichedLeads": 13,
             "fromMailjourney": 9,
@@ -1240,31 +1240,31 @@
             "toFollowUp": 3
           },
           "leadIntake": {
-            "abs": 979,
+            "abs": 990,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 335,
-            "deltaPct": 10.3,
-            "ratio": 83.64,
-            "share": 34.22
+            "abs": 346,
+            "deltaPct": 12.6,
+            "ratio": 85.35,
+            "share": 34.95
           },
           "notContact": {
-            "abs": 269,
-            "deltaPct": -1.5,
-            "ratio": 27.48,
-            "share": 27.48
+            "abs": 273,
+            "deltaPct": -1.1,
+            "ratio": 27.58,
+            "share": 27.58
           },
           "recovered": {
             "cac": null,
-            "count": 48,
+            "count": 51,
             "cpl": null
           },
           "sql": {
-            "abs": 86,
-            "deltaPct": -16.8,
-            "ratio": 14.33,
-            "share": 8.78
+            "abs": 93,
+            "deltaPct": -14.4,
+            "ratio": 14.74,
+            "share": 9.39
           }
         }
       },
@@ -1273,23 +1273,23 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 95,
-                "Follow-up": 57,
-                "Lost": 16,
-                "Mailjourney": 118,
+                "Appointment": 96,
+                "Follow-up": 58,
+                "Lost": 17,
+                "Mailjourney": 119,
                 "Not Qualified": 34,
                 "Not reached": 79,
                 "Re-entered": 20,
                 "Re-entered - Phone Number Changed": 1
               },
-              "transitionRows": 420,
-              "uniqueLeads": 298
+              "transitionRows": 424,
+              "uniqueLeads": 300
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 298,
+                  "abs": 300,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1299,14 +1299,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 95,
-                  "convDeltaPct": 7.1,
-                  "share": 31.88
+                  "abs": 96,
+                  "convDeltaPct": 7.5,
+                  "share": 32.0
                 },
                 "sql": {
                   "abs": 20,
-                  "convDeltaPct": -42.2,
-                  "share": 6.71
+                  "convDeltaPct": -42.5,
+                  "share": 6.67
                 }
               },
               "totals": {
@@ -1331,19 +1331,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -42.2,
-                "value": 6.71
+                "deltaPct": -42.5,
+                "value": 6.67
               },
               "reactivationRatio": {
-                "deltaPct": -25.1,
-                "value": 7.63
+                "deltaPct": -25.8,
+                "value": 7.56
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 0,
                 "backToNotReached": 1,
-                "enrichRatio": 0.85,
+                "enrichRatio": 0.84,
                 "enriched": 1,
                 "enrichedLeads": 1,
                 "fromMailjourney": 0,
@@ -1355,20 +1355,20 @@
                 "toFollowUp": 1
               },
               "leadIntake": {
-                "abs": 298,
+                "abs": 300,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 118,
+                "abs": 119,
                 "deltaPct": null,
                 "ratio": null,
-                "share": 39.6
+                "share": 39.67
               },
               "notContact": {
                 "abs": 79,
-                "deltaPct": -16.8,
-                "ratio": 26.51,
-                "share": 26.51
+                "deltaPct": -17.3,
+                "ratio": 26.33,
+                "share": 26.33
               },
               "recovered": {
                 "cac": null,
@@ -1377,9 +1377,9 @@
               },
               "sql": {
                 "abs": 20,
-                "deltaPct": -25.1,
-                "ratio": 7.63,
-                "share": 6.71
+                "deltaPct": -25.8,
+                "ratio": 7.56,
+                "share": 6.67
               }
             }
           },
@@ -1494,7 +1494,7 @@
               }
             }
           },
-          "rows": 14641
+          "rows": 14645
         },
         "fr": {
           "current": {
@@ -1942,24 +1942,24 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 186,
+                "Appointment": 190,
                 "Brochure": 29,
-                "Follow-up": 131,
-                "Lost": 56,
-                "Mailjourney": 204,
-                "Not Qualified": 70,
-                "Not reached": 188,
-                "Re-entered": 56,
+                "Follow-up": 138,
+                "Lost": 61,
+                "Mailjourney": 214,
+                "Not Qualified": 73,
+                "Not reached": 192,
+                "Re-entered": 63,
                 "Re-entered - Phone Number Changed": 12
               },
-              "transitionRows": 932,
-              "uniqueLeads": 636
+              "transitionRows": 972,
+              "uniqueLeads": 645
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 636,
+                  "abs": 645,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -1969,14 +1969,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 186,
-                  "convDeltaPct": 3.8,
-                  "share": 29.25
+                  "abs": 190,
+                  "convDeltaPct": 4.6,
+                  "share": 29.46
                 },
                 "sql": {
-                  "abs": 56,
-                  "convDeltaPct": -18.5,
-                  "share": 8.81
+                  "abs": 63,
+                  "convDeltaPct": -9.6,
+                  "share": 9.77
                 }
               },
               "totals": {
@@ -2001,19 +2001,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": -18.5,
-                "value": 8.81
+                "deltaPct": -9.6,
+                "value": 9.77
               },
               "reactivationRatio": {
-                "deltaPct": -15.0,
-                "value": 17.16
+                "deltaPct": -12.0,
+                "value": 17.76
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 3,
                 "backToNotReached": 3,
-                "enrichRatio": 5.88,
+                "enrichRatio": 5.61,
                 "enriched": 12,
                 "enrichedLeads": 12,
                 "fromMailjourney": 9,
@@ -2025,31 +2025,31 @@
                 "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 636,
+                "abs": 645,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 204,
-                "deltaPct": -11.8,
-                "ratio": 62.77,
-                "share": 32.08
+                "abs": 214,
+                "deltaPct": -8.5,
+                "ratio": 65.1,
+                "share": 33.18
               },
               "notContact": {
-                "abs": 188,
-                "deltaPct": 7.1,
-                "ratio": 29.56,
-                "share": 29.56
+                "abs": 192,
+                "deltaPct": 7.9,
+                "ratio": 29.77,
+                "share": 29.77
               },
               "recovered": {
                 "cac": null,
-                "count": 35,
+                "count": 38,
                 "cpl": null
               },
               "sql": {
-                "abs": 56,
-                "deltaPct": -15.0,
-                "ratio": 17.16,
-                "share": 8.81
+                "abs": 63,
+                "deltaPct": -12.0,
+                "ratio": 17.76,
+                "share": 9.77
               }
             }
           },
@@ -2165,7 +2165,7 @@
               }
             }
           },
-          "rows": 29756
+          "rows": 29796
         }
       },
       "prevRange": {
@@ -2294,27 +2294,27 @@
       "current": {
         "_debug": {
           "statusCounts": {
-            "Appointment": 3616,
+            "Appointment": 3621,
             "Brochure": 607,
             "Converted Old SF": 96,
-            "Follow-up": 3072,
-            "Lost": 1091,
-            "Mailjourney": 3932,
+            "Follow-up": 3080,
+            "Lost": 1097,
+            "Mailjourney": 3943,
             "New": 86,
-            "Not Qualified": 1961,
-            "Not reached": 3839,
+            "Not Qualified": 1964,
+            "Not reached": 3843,
             "Other": 1,
-            "Re-entered": 1281,
+            "Re-entered": 1288,
             "Re-entered - Phone Number Changed": 109
           },
-          "transitionRows": 19691,
-          "uniqueLeads": 10744
+          "transitionRows": 19735,
+          "uniqueLeads": 10750
         },
         "acquisition": {
           "channels": [],
           "funnel": {
             "mql": {
-              "abs": 10744,
+              "abs": 10750,
               "convDeltaPct": null,
               "share": 100.0
             },
@@ -2324,14 +2324,14 @@
               "share": null
             },
             "r1": {
-              "abs": 3616,
-              "convDeltaPct": 74.6,
-              "share": 33.66
+              "abs": 3621,
+              "convDeltaPct": 74.7,
+              "share": 33.68
             },
             "sql": {
-              "abs": 1281,
-              "convDeltaPct": 17.4,
-              "share": 11.92
+              "abs": 1288,
+              "convDeltaPct": 18.0,
+              "share": 11.98
             }
           },
           "totals": {
@@ -2356,19 +2356,19 @@
             "value": null
           },
           "mqlToSql": {
-            "deltaPct": 17.4,
-            "value": 11.92
+            "deltaPct": 18.0,
+            "value": 11.98
           },
           "reactivationRatio": {
-            "deltaPct": 28.6,
-            "value": 16.07
+            "deltaPct": 28.8,
+            "value": 16.1
           }
         },
         "reactivation": {
           "enrichment": {
             "backToMailjourney": 15,
             "backToNotReached": 32,
-            "enrichRatio": 2.77,
+            "enrichRatio": 2.76,
             "enriched": 109,
             "enrichedLeads": 102,
             "fromMailjourney": 57,
@@ -2380,31 +2380,31 @@
             "toFollowUp": 14
           },
           "leadIntake": {
-            "abs": 10744,
+            "abs": 10750,
             "share": 100.0
           },
           "mailjourney": {
-            "abs": 3932,
-            "deltaPct": -13.5,
-            "ratio": 72.0,
-            "share": 36.6
+            "abs": 3943,
+            "deltaPct": -13.3,
+            "ratio": 72.13,
+            "share": 36.68
           },
           "notContact": {
-            "abs": 3839,
+            "abs": 3843,
             "deltaPct": 8.4,
-            "ratio": 35.73,
-            "share": 35.73
+            "ratio": 35.75,
+            "share": 35.75
           },
           "recovered": {
             "cac": null,
-            "count": 632,
+            "count": 635,
             "cpl": null
           },
           "sql": {
-            "abs": 1281,
-            "deltaPct": 28.6,
-            "ratio": 16.07,
-            "share": 11.92
+            "abs": 1288,
+            "deltaPct": 28.8,
+            "ratio": 16.1,
+            "share": 11.98
           }
         }
       },
@@ -2413,25 +2413,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 1281,
+                "Appointment": 1282,
                 "Brochure": 45,
-                "Follow-up": 1055,
-                "Lost": 216,
-                "Mailjourney": 1303,
+                "Follow-up": 1056,
+                "Lost": 217,
+                "Mailjourney": 1304,
                 "New": 11,
                 "Not Qualified": 657,
                 "Not reached": 1378,
                 "Re-entered": 374,
                 "Re-entered - Phone Number Changed": 18
               },
-              "transitionRows": 6338,
-              "uniqueLeads": 3337
+              "transitionRows": 6342,
+              "uniqueLeads": 3339
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 3337,
+                  "abs": 3339,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -2441,14 +2441,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 1281,
+                  "abs": 1282,
                   "convDeltaPct": 16.7,
                   "share": 38.39
                 },
                 "sql": {
                   "abs": 374,
-                  "convDeltaPct": 17.9,
-                  "share": 11.21
+                  "convDeltaPct": 17.8,
+                  "share": 11.2
                 }
               },
               "totals": {
@@ -2473,12 +2473,12 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 17.9,
-                "value": 11.21
+                "deltaPct": 17.8,
+                "value": 11.2
               },
               "reactivationRatio": {
-                "deltaPct": 14.5,
-                "value": 12.59
+                "deltaPct": 14.4,
+                "value": 12.58
               }
             },
             "reactivation": {
@@ -2497,20 +2497,20 @@
                 "toFollowUp": 2
               },
               "leadIntake": {
-                "abs": 3337,
+                "abs": 3339,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 1303,
-                "deltaPct": 17.6,
-                "ratio": 76.63,
+                "abs": 1304,
+                "deltaPct": 17.7,
+                "ratio": 76.71,
                 "share": 39.05
               },
               "notContact": {
                 "abs": 1378,
                 "deltaPct": -6.5,
-                "ratio": 41.29,
-                "share": 41.29
+                "ratio": 41.27,
+                "share": 41.27
               },
               "recovered": {
                 "cac": null,
@@ -2519,9 +2519,9 @@
               },
               "sql": {
                 "abs": 374,
-                "deltaPct": 14.5,
-                "ratio": 12.59,
-                "share": 11.21
+                "deltaPct": 14.4,
+                "ratio": 12.58,
+                "share": 11.2
               }
             }
           },
@@ -2636,7 +2636,7 @@
               }
             }
           },
-          "rows": 14641
+          "rows": 14645
         },
         "fr": {
           "current": {
@@ -3095,25 +3095,25 @@
           "current": {
             "_debug": {
               "statusCounts": {
-                "Appointment": 2335,
+                "Appointment": 2339,
                 "Brochure": 562,
-                "Follow-up": 1925,
-                "Lost": 813,
-                "Mailjourney": 2380,
+                "Follow-up": 1932,
+                "Lost": 818,
+                "Mailjourney": 2390,
                 "New": 38,
-                "Not Qualified": 1140,
-                "Not reached": 2323,
-                "Re-entered": 794,
+                "Not Qualified": 1143,
+                "Not reached": 2327,
+                "Re-entered": 801,
                 "Re-entered - Phone Number Changed": 91
               },
-              "transitionRows": 12401,
-              "uniqueLeads": 6563
+              "transitionRows": 12441,
+              "uniqueLeads": 6567
             },
             "acquisition": {
               "channels": [],
               "funnel": {
                 "mql": {
-                  "abs": 6563,
+                  "abs": 6567,
                   "convDeltaPct": null,
                   "share": 100.0
                 },
@@ -3123,14 +3123,14 @@
                   "share": null
                 },
                 "r1": {
-                  "abs": 2335,
-                  "convDeltaPct": 6.4,
-                  "share": 35.58
+                  "abs": 2339,
+                  "convDeltaPct": 6.6,
+                  "share": 35.62
                 },
                 "sql": {
-                  "abs": 794,
-                  "convDeltaPct": 7.6,
-                  "share": 12.1
+                  "abs": 801,
+                  "convDeltaPct": 8.4,
+                  "share": 12.2
                 }
               },
               "totals": {
@@ -3155,19 +3155,19 @@
                 "value": null
               },
               "mqlToSql": {
-                "deltaPct": 7.6,
-                "value": 12.1
+                "deltaPct": 8.4,
+                "value": 12.2
               },
               "reactivationRatio": {
-                "deltaPct": 10.5,
-                "value": 17.73
+                "deltaPct": 10.8,
+                "value": 17.78
               }
             },
             "reactivation": {
               "enrichment": {
                 "backToMailjourney": 14,
                 "backToNotReached": 23,
-                "enrichRatio": 3.82,
+                "enrichRatio": 3.81,
                 "enriched": 91,
                 "enrichedLeads": 85,
                 "fromMailjourney": 50,
@@ -3179,31 +3179,31 @@
                 "toFollowUp": 12
               },
               "leadIntake": {
-                "abs": 6563,
+                "abs": 6567,
                 "share": 100.0
               },
               "mailjourney": {
-                "abs": 2380,
-                "deltaPct": 7.1,
-                "ratio": 68.88,
-                "share": 36.26
+                "abs": 2390,
+                "deltaPct": 7.4,
+                "ratio": 69.06,
+                "share": 36.39
               },
               "notContact": {
-                "abs": 2323,
-                "deltaPct": -3.1,
-                "ratio": 35.4,
-                "share": 35.4
+                "abs": 2327,
+                "deltaPct": -3.0,
+                "ratio": 35.43,
+                "share": 35.43
               },
               "recovered": {
                 "cac": null,
-                "count": 422,
+                "count": 425,
                 "cpl": null
               },
               "sql": {
-                "abs": 794,
-                "deltaPct": 10.5,
-                "ratio": 17.73,
-                "share": 12.1
+                "abs": 801,
+                "deltaPct": 10.8,
+                "ratio": 17.78,
+                "share": 12.2
               }
             }
           },
@@ -3318,7 +3318,7 @@
               }
             }
           },
-          "rows": 29756
+          "rows": 29796
         }
       },
       "prevRange": {
@@ -3770,10 +3770,10 @@
         "00QQD00000Zj4EE2AZ",
         "00QQD00000ZmgVA2AZ",
         "00QQD00000ZfOv22AF",
-        "00QQD00000ZSQEg2AP",
         "00QQD00000ZhtnL2AR",
         "00QQD00000ZhtnN2AR",
         "00QQD00000ZXega2AD",
+        "00QQD00000ZSQEg2AP",
         "00QQD00000ZkDUU2A3",
         "00QQD00000ZhtnC2AR",
         "00QQD00000Zk42K2AR",
@@ -3886,12 +3886,12 @@
         "00QQD00000Za8i42AB",
         "00QQD00000Za8hU2AR",
         "00QQD00000ZGX1K2AX",
-        "00QQD00000ZGRrg2AH",
+        "00QQD00000Za8iW2AR",
         "00QQD00000ZcqwX2AR",
         "00QQD00000ZcqwC2AR",
         "00QQD00000Zcqvf2AB",
-        "00QQD00000Za8iW2AR",
         "00QQD00000ZGzqI2AT",
+        "00QQD00000ZGRrg2AH",
         "00QQD00000ZH0442AD",
         "00QQD00000ZGsVD2A1",
         "00QQD00000ZGwvX2AT"
@@ -4028,7 +4028,6 @@
         "00QQD00000ZErW22AL"
       ],
       "it": [
-        "00QQD00000Zj4E52AJ",
         "00QQD00000ZH0VB2A1",
         "00QQD00000ZXegI2AT",
         "00QQD00000ZpPgE2AV",
@@ -4046,6 +4045,7 @@
         "00QQD00000Zk4252AB",
         "00QQD00000Zk41U2AR",
         "00QQD00000Zj4DN2AZ",
+        "00QQD00000Zj4E52AJ",
         "00QQD00000Zj4E72AJ",
         "00QQD00000Zhjbc2AB",
         "00QQD00000ZpPge2AF",
@@ -4159,7 +4159,6 @@
         "00QQD00000ZuSqp2AF",
         "00QQD00000ZuSqk2AF",
         "00QQD00000Zy4gY2AR",
-        "00QQD00000ZuSqV2AV",
         "00QQD00000ZuKPa2AN",
         "00QQD00000Zs3XX2AZ",
         "00QQD00000ZzG1b2AF",
@@ -4172,6 +4171,7 @@
         "00QQD00000ZGvWe2AL",
         "00QQD00000ZuSqT2AV",
         "00QQD00000ZuKPY2A3",
+        "00QQD00000ZuSqV2AV",
         "00QQD00000ZuKP92AN",
         "00QQD00000ZuKPA2A3"
       ],
@@ -4906,9 +4906,9 @@
         "00QQD00000a7CkZ2AU",
         "00QQD00000a7Ckn2AE",
         "00QQD00000a7Ckp2AE",
+        "00QQD00000a72do2AA",
         "00QQD00000a72eE2AQ",
-        "00QQD00000a72eH2AQ",
-        "00QQD00000a72do2AA"
+        "00QQD00000a72eH2AQ"
       ],
       "nl": [
         "00QQD00000aGgpm2AC",
@@ -4927,9 +4927,9 @@
         "00QQD00000WUv9o2AD",
         "00QQD00000Z4Ra92AF",
         "00QQD00000a2eCl2AI",
-        "00QQD00000aIEXf2AO",
-        "00QQD00000aHPri2AG",
         "00QQD00000aGUOp2AO",
+        "00QQD00000aHPri2AG",
+        "00QQD00000aIEXf2AO",
         "00QQD00000Ztzxy2AB",
         "00QQD00000AQBHE2A5",
         "00QQD00000aCdDn2AK",
@@ -4997,6 +4997,7 @@
         "00QQD00000aJZji2AG"
       ],
       "fr": [
+        "00QQD00000aKbpv2AC",
         "00QQD00000aEfPr2AK",
         "00QQD00000aEfPp2AK",
         "00QQD00000aC9gE2AS",
@@ -5019,7 +5020,6 @@
         "00QQD00000aKbs62AC",
         "00QQD00000aKbqt2AC",
         "00QQD00000aKbrJ2AS",
-        "00QQD00000aKbpv2AC",
         "00QQD00000aKbqO2AS",
         "00QQD00000aKbqT2AS",
         "00QQD00000aC9gD2AS",
@@ -5064,10 +5064,10 @@
         "00QQD00000a4qg12AA",
         "00QQD00000a5IQz2AM",
         "00QQD00000HUBdq2AH",
-        "00QQD00000aLD7B2AW",
+        "00QQD00000aJrqH2AS",
         "00QQD00000ZykAK2AZ",
         "00QQD00000aJMxo2AG",
-        "00QQD00000aJrqH2AS",
+        "00QQD00000aLD7B2AW",
         "00QQD00000aJY1F2AW",
         "00QQD00000aGej72AC",
         "00QQD00000aLdUf2AK",
@@ -5108,8 +5108,8 @@
         "00QQD00000ZyiMz2AJ",
         "00QQD00000aNfXC2A0",
         "00QQD00000ZkvGr2AJ",
-        "00QQD00000aL48j2AC",
         "00QQD00000aNWbx2AG",
+        "00QQD00000aL48j2AC",
         "00QQD00000ZsTX72AN",
         "00QQD00000ZvwpW2AR",
         "00QQD00000a0Uvq2AE",
@@ -5141,12 +5141,12 @@
         "00QQD00000aKbqs2AC"
       ],
       "it": [
-        "00QQD00000aEfON2A0",
+        "00QQD00000aKbq92AC",
         "00QQD00000aC9fu2AC",
         "00QQD00000aEfPn2AK",
-        "00QQD00000aKbq92AC",
         "00QQD00000aEfPg2AK",
         "00QQD00000aEfPC2A0",
+        "00QQD00000aEfON2A0",
         "00QQD00000ZGuEr2AL",
         "00QQD00000aDRIM2A4",
         "00QQD00000aDRHh2AO",
@@ -5187,9 +5187,9 @@
         "00QQD00000Z93FT2AZ",
         "00QQD00000aQMkw2AG",
         "00QQD00000a6znF2AQ",
+        "00QQD00000aQNcC2AW",
         "00QQD00000aQh9R2AS",
         "00QQD00000O70f02AB",
-        "00QQD00000aQNcC2AW",
         "00QQD00000Wqv2z2AB",
         "00QQD00000JnMcN2AV"
       ]
@@ -5206,8 +5206,8 @@
     },
     "2026-04-06": {
       "fr": [
-        "00QQD00000aKbqz2AC",
-        "00QQD00000aKbra2AC"
+        "00QQD00000aKbra2AC",
+        "00QQD00000aKbqz2AC"
       ]
     },
     "2026-04-07": {
@@ -5268,9 +5268,9 @@
         "00QQD00000aSKS62AO",
         "00QQD00000aUT1R2AW",
         "00QQD00000aTwdN2AS",
-        "00QQD00000aSaNB2A0",
-        "00QQD00000aQtx02AC",
         "00QQD00000aTulG2AS",
+        "00QQD00000aQtx02AC",
+        "00QQD00000aSaNB2A0",
         "00QQD00000aTiiY2AS",
         "00QQD00000aTeyE2AS",
         "00QQD00000aThxi2AC",
@@ -5333,7 +5333,7 @@
         "00QQD00000aTzL72AK"
       ],
       "fr": [
-        "00QQD00000aYzNy2AK",
+        "00QQD00000aSyaC2AS",
         "00QQD00000aYsNo2AK",
         "00QQD00000aC9gH2AS",
         "00QQD00000aUJBF2A4",
@@ -5360,7 +5360,7 @@
         "00QQD00000aN5rW2AS",
         "00QQD00000ZH2O52AL",
         "00QQD00000aN5qy2AC",
-        "00QQD00000aSyaC2AS",
+        "00QQD00000aYzNy2AK",
         "00QQD00000aSya52AC",
         "00QQD00000aKbsH2AS",
         "00QQD00000aYzNp2AK",
@@ -6045,10 +6045,10 @@
         "00QQD00000ahePJ2AY",
         "00QQD00000aod8Z2AQ",
         "00QQD00000aod942AA",
+        "00QQD00000ae4pT2AQ",
         "00QQD00000ae4qB2AQ",
         "00QQD00000ae4qC2AQ",
         "00QQD00000ae4om2AA",
-        "00QQD00000ae4pT2AQ",
         "00QQD00000agRQZ2A2",
         "00QQD00000agSsv2AE",
         "00QQD00000agStA2AU",
@@ -6171,9 +6171,9 @@
         "00QQD00000abZ492AE",
         "00QQD00000ahePX2AY",
         "00QQD00000aRiXo2AK",
+        "00QQD00000agRRw2AM",
         "00QQD00000aYsNg2AK",
         "00QQD00000ae4pY2AQ",
-        "00QQD00000agRRw2AM",
         "00QQD00000ZhtnZ2AR",
         "00QQD00000abZ4E2AU"
       ],
@@ -6241,6 +6241,13 @@
         "00QQD00000arIRu2AM",
         "00QQD00000arIRm2AM",
         "00QQD00000atp0o2AA",
+        "00QQD00000arIRP2A2",
+        "00QQD00000arIS22AM",
+        "00QQD00000arIRO2A2",
+        "00QQD00000atowj2AA",
+        "00QQD00000arIRL2A2",
+        "00QQD00000atowl2AA",
+        "00QQD00000arIRM2A2",
         "00QQD00000ZFNet2AH",
         "00QQD00000atowL2AQ",
         "00QQD00000arIR72AM",
@@ -6252,14 +6259,7 @@
         "00QQD00000arIRl2AM",
         "00QQD00000atp0z2AA",
         "00QQD00000arIRx2AM",
-        "00QQD00000aod9D2AQ",
-        "00QQD00000arIRP2A2",
-        "00QQD00000arIS22AM",
-        "00QQD00000arIRO2A2",
-        "00QQD00000atowj2AA",
-        "00QQD00000arIRL2A2",
-        "00QQD00000atowl2AA",
-        "00QQD00000arIRM2A2"
+        "00QQD00000aod9D2AQ"
       ],
       "it": [
         "00QQD00000aod7U2AQ",
@@ -6276,11 +6276,11 @@
         "00QQD00000ZGsFr2AL",
         "00QQD00000aikBY2AY",
         "00QQD00000alU4z2AE",
-        "00QQD00000ae4pw2AA",
         "00QQD00000aikBb2AI",
         "00QQD00000ahkUR2AY",
         "00QQD00000aod7m2AA",
         "00QQD00000ae4qR2AQ",
+        "00QQD00000ae4pw2AA",
         "00QQD00000aod6T2AQ",
         "00QQD00000arIQT2A2",
         "00QQD00000aikBN2AY",
@@ -6310,16 +6310,16 @@
     },
     "2026-04-19": {
       "fr": [
-        "00QQD00000arISO2A2",
         "00QQD00000ae4qI2AQ",
         "00QQD00000ZGzzd2AD",
         "00QQD00000ZuSqh2AF",
         "00QQD00000aKbsQ2AS",
         "00QQD00000aEfOf2AK",
+        "00QQD00000ZH2Bb2AL",
         "00QQD00000ZmgVI2AZ",
         "00QQD00000abZ3m2AE",
-        "00QQD00000Zrzhz2AB",
-        "00QQD00000ZH2Bb2AL"
+        "00QQD00000arISO2A2",
+        "00QQD00000Zrzhz2AB"
       ]
     },
     "2026-04-20": {
@@ -6477,6 +6477,7 @@
       "fr": [
         "00QQD00000atovd2AA",
         "00QQD00000axSMb2AM",
+        "00QQD00000atp0q2AA",
         "00QQD00000atows2AA",
         "00QQD00000aye3T2AQ",
         "00QQD00000atp0O2AQ",
@@ -6505,8 +6506,7 @@
         "00QQD00000awCRM2A2",
         "00QQD00000awCQm2AM",
         "00QQD00000arISI2A2",
-        "00QQD00000axSMK2A2",
-        "00QQD00000atp0q2AA"
+        "00QQD00000axSMK2A2"
       ],
       "it": [
         "00QQD00000ZEmfN2AT"
@@ -6565,20 +6565,12 @@
         "00QQD00000afFj82AE"
       ],
       "fr": [
+        "00QQD00000axUS22AM",
         "00QQD00000atowt2AA",
         "00QQD00000aye3Z2AQ",
         "00QQD00000atp0P2AQ",
         "00QQD00000axSLZ2A2",
         "00QQD00000atowJ2AQ",
-        "00QQD00000awCQl2AM",
-        "00QQD00000axUS22AM",
-        "00QQD00000arISS2A2",
-        "00QQD00000ZGt8R2AT",
-        "00QQD00000axSLi2AM",
-        "00QQD00000atp0e2AA",
-        "00QQD00000axSLq2AM",
-        "00QQD00000aod9L2AQ",
-        "00QQD00000axSLz2AM",
         "00QQD00000aye3H2AQ",
         "00QQD00000awCVh2AM",
         "00QQD00000awCVi2AM",
@@ -6592,6 +6584,14 @@
         "00QQD00000axSMe2AM",
         "00QQD00000axUS62AM",
         "00QQD00000awCQj2AM",
+        "00QQD00000awCQl2AM",
+        "00QQD00000arISS2A2",
+        "00QQD00000ZGt8R2AT",
+        "00QQD00000axSLi2AM",
+        "00QQD00000atp0e2AA",
+        "00QQD00000axSLq2AM",
+        "00QQD00000aod9L2AQ",
+        "00QQD00000axSLz2AM",
         "00QQD00000aye3X2AQ",
         "00QQD00000aye492AA",
         "00QQD00000b3yr02AA",
@@ -6665,14 +6665,14 @@
         "00QQD00000atox22AA",
         "00QQD00000arIQQ2A2",
         "00QQD00000atovi2AA",
-        "00QQD00000aikBF2AY",
-        "00QQD00000ae4py2AA",
-        "00QQD00000atp0v2AA",
         "00QQD00000atowc2AA",
         "00QQD00000atow22AA",
         "00QQD00000awCRd2AM",
         "00QQD00000awCRh2AM",
         "00QQD00000awCR22AM",
+        "00QQD00000aikBF2AY",
+        "00QQD00000ae4py2AA",
+        "00QQD00000atp0v2AA",
         "00QQD00000arIRS2A2",
         "00QQD00000aod6S2AQ",
         "00QQD00000aod6d2AA",
@@ -6777,11 +6777,11 @@
         "00QQD00000ahePe2AI",
         "00QQD00000axSMg2AM",
         "00QQD00000axSLs2AM",
-        "00QQD00000ZGwI12AL",
+        "00QQD00000ZH0e42AD",
         "00QQD00000awCVo2AM",
         "00QQD00000atovv2AA",
         "00QQD00000atowZ2AQ",
-        "00QQD00000ZH0e42AD",
+        "00QQD00000ZGwI12AL",
         "00QQD00000b3yrL2AQ"
       ],
       "nl": [
@@ -6837,12 +6837,12 @@
         "00QQD00000b40mS2AQ",
         "00QQD00000b40mF2AQ",
         "00QQD00000awCRw2AM",
-        "00QQD00000b9A1W2AU",
         "00QQD00000b6RCh2AM",
         "00QQD00000b9A1H2AU",
         "00QQD00000b3yrb2AA",
         "00QQD00000b6RBc2AM",
         "00QQD00000axSLf2AM",
+        "00QQD00000b9A1W2AU",
         "00QQD00000b9A002AE",
         "00QQD00000b6aLb2AI",
         "00QQD00000b6aLP2AY",
@@ -6872,6 +6872,7 @@
         "00QQD00000b1FUN2A2",
         "00QQD00000b1Onx2AE",
         "00QQD00000axUS72AM",
+        "00QQD00000aye3s2AA",
         "00QQD00000arIRF2A2",
         "00QQD00000aye3p2AA",
         "00QQD00000axSM52AM",
@@ -6884,7 +6885,6 @@
         "00QQD00000awCSA2A2",
         "00QQD00000b1Oo62AE",
         "00QQD00000axSMn2AM",
-        "00QQD00000aye3s2AA",
         "00QQD00000axSML2A2"
       ],
       "nl": [
@@ -6951,7 +6951,6 @@
         "00QQD00000b6RCS2A2",
         "00QQD00000ZmgTy2AJ",
         "00QQD00000bCVMX2A4",
-        "00QQD00000aKbrb2AC",
         "00QQD00000aKbqB2AS",
         "00QQD00000aKbq42AC",
         "00QQD00000ae4pE2AQ",
@@ -6967,13 +6966,14 @@
         "00QQD00000bBR7K2AW",
         "00QQD00000aKbqS2AS",
         "00QQD00000Zhjbx2AB",
+        "00QQD00000aKbrb2AC",
         "00QQD00000bCVMb2AO",
         "00QQD00000Zhjaq2AB",
         "00QQD00000abZ4J2AU",
         "00QQD00000ZpPgx2AF",
         "00QQD00000bBR7Z2AW",
-        "00QQD00000Zrzi02AB",
-        "00QQD00000Zy4g22AB"
+        "00QQD00000Zy4g22AB",
+        "00QQD00000Zrzi02AB"
       ],
       "it": [
         "00QQD00000bDue52AC",
@@ -7017,31 +7017,17 @@
         "00QQD00000ZH0JO2A1"
       ],
       "fr": [
-        "00QQD00000bGK7T2AW",
         "00QQD00000ZGLfv2AH",
         "00QQD00000bDueL2AS",
         "00QQD00000bDudY2AS",
         "00QQD00000bGK7W2AW",
-        "00QQD00000ZGswJ2AT",
+        "00QQD00000bGK7T2AW",
         "00QQD00000ZF9OD2A1",
         "00QQD00000ZGlkp2AD",
         "00QQD00000b3yrw2AA",
         "00QQD00000ZGFi82AH",
         "00QQD00000ZFksG2AT",
-        "00QQD00000b9A1P2AU",
-        "00QQD00000ZGTiz2AH",
-        "00QQD00000b9A0k2AE",
-        "00QQD00000b3yrm2AA",
-        "00QQD00000b9A0Y2AU",
-        "00QQD00000ZGpIJ2A1",
-        "00QQD00000bBR6x2AG",
-        "00QQD00000b9A0Z2AU",
-        "00QQD00000bBR6d2AG",
-        "00QQD00000bBR6e2AG",
-        "00QQD00000bBR6n2AG",
-        "00QQD00000bBR6R2AW",
-        "00QQD00000bBR6V2AW",
-        "00QQD00000bBR6Y2AW",
+        "00QQD00000ZGswJ2AT",
         "00QQD00000bBR6A2AW",
         "00QQD00000bBR6L2AW",
         "00QQD00000bBR6M2AW",
@@ -7056,13 +7042,27 @@
         "00QQD00000bGK782AG",
         "00QQD00000ZGqW92AL",
         "00QQD00000ZGuRP2A1",
-        "00QQD00000b9A0c2AE"
+        "00QQD00000b9A0c2AE",
+        "00QQD00000b9A1P2AU",
+        "00QQD00000ZGTiz2AH",
+        "00QQD00000b9A0k2AE",
+        "00QQD00000b3yrm2AA",
+        "00QQD00000b9A0Y2AU",
+        "00QQD00000ZGpIJ2A1",
+        "00QQD00000bBR6x2AG",
+        "00QQD00000b9A0Z2AU",
+        "00QQD00000bBR6d2AG",
+        "00QQD00000bBR6e2AG",
+        "00QQD00000bBR6n2AG",
+        "00QQD00000bBR6R2AW",
+        "00QQD00000bBR6V2AW",
+        "00QQD00000bBR6Y2AW"
       ],
       "it": [
-        "00QQD00000b6RCn2AM",
-        "00QQD00000b9A0R2AU",
-        "00QQD00000b6RBa2AM",
         "00QQD00000bGK7R2AW",
+        "00QQD00000b9A0R2AU",
+        "00QQD00000b6RCn2AM",
+        "00QQD00000b6RBa2AM",
         "00QQD00000b40mL2AQ"
       ],
       "nl": [
@@ -7137,6 +7137,13 @@
         "00QQD00000bCRC22AO"
       ],
       "fr": [
+        "00QQD00000ZGqYK2A1",
+        "00QQD00000bDudp2AC",
+        "00QQD00000bGK7a2AG",
+        "00QQD00000bDueD2AS",
+        "00QQD00000bDudd2AC",
+        "00QQD00000bDudi2AC",
+        "00QQD00000bDueJ2AS",
         "00QQD00000bGK7A2AW",
         "00QQD00000bJPVd2AO",
         "00QQD00000bJPVc2AO",
@@ -7159,23 +7166,16 @@
         "00QQD00000bCVN32AO",
         "00QQD00000bCVM92AO",
         "00QQD00000bBR732AG",
-        "00QQD00000bBR6Z2AW",
-        "00QQD00000ZGqYK2A1",
-        "00QQD00000bDudp2AC",
-        "00QQD00000bGK7a2AG",
-        "00QQD00000bDueD2AS",
-        "00QQD00000bDudd2AC",
-        "00QQD00000bDudi2AC",
-        "00QQD00000bDueJ2AS"
+        "00QQD00000bBR6Z2AW"
       ],
       "it": [
         "00QQD00000bDudR2AS",
         "00QQD00000ayiBP2AY",
-        "00QQD00000ZGyW92AL",
-        "00QQD00000ZGyTG2A1",
         "00QQD00000bBR7V2AW",
         "00QQD00000bBR6j2AG",
         "00QQD00000bCVMB2A4",
+        "00QQD00000ZGyW92AL",
+        "00QQD00000ZGyTG2A1",
         "00QQD00000b9A0P2AU",
         "00QQD00000b9A0O2AU"
       ],
@@ -7199,8 +7199,8 @@
         "00QQD00000bIZwV2AW",
         "00QQD00000bDOdW2AW",
         "00QQD00000amWiQ2AU",
-        "00QQD00000bJ3cn2AC",
         "00QQD00000bK9Zh2AK",
+        "00QQD00000bJ3cn2AC",
         "00QQD00000AQ5LG2A1",
         "00QQD00000bHf6I2AS",
         "00QQD00000ahXbv2AE",
@@ -7336,30 +7336,30 @@
     },
     "2026-05-02": {
       "fr": [
+        "00QQD00000bCVN12AO",
         "00QQD00000bCVMw2AO",
         "00QQD00000bCVMy2AO",
         "00QQD00000bCVMm2AO",
         "00QQD00000bCVMq2AO",
         "00QQD00000bCVN62AO",
         "00QQD00000bCVMF2A4",
-        "00QQD00000bCVMQ2A4",
-        "00QQD00000bCVN12AO"
+        "00QQD00000bCVMQ2A4"
       ],
       "it": [
-        "00QQD00000bCVNI2A4",
         "00QQD00000bCVMR2A4",
-        "00QQD00000bCVMC2A4"
+        "00QQD00000bCVMC2A4",
+        "00QQD00000bCVNI2A4"
       ]
     },
     "2026-05-03": {
       "fr": [
-        "00QQD00000bDueZ2AS",
         "00QQD00000bDudq2AC",
-        "00QQD00000bDue12AC",
-        "00QQD00000bDudP2AS",
+        "00QQD00000bDueZ2AS",
         "00QQD00000bDueB2AS",
         "00QQD00000bDude2AC",
-        "00QQD00000bDueG2AS"
+        "00QQD00000bDueG2AS",
+        "00QQD00000bDue12AC",
+        "00QQD00000bDudP2AS"
       ],
       "it": [
         "00QQD00000bDuee2AC",
@@ -7533,6 +7533,7 @@
         "00QQD00000bFkV32AK"
       ],
       "fr": [
+        "00QQD00000bMGJq2AO",
         "00QQD00000bSBM22AO",
         "00QQD00000bSBM62AO",
         "00QQD00000bQpI42AK",
@@ -7541,7 +7542,13 @@
         "00QQD00000ZF8S72AL",
         "00QQD00000bSBLF2A4",
         "00QQD00000bSBLD2A4",
-        "00QQD00000bMGJq2AO",
+        "00QQD00000bSBML2A4",
+        "00QQD00000bMGJ52AO",
+        "00QQD00000bMGJ42AO",
+        "00QQD00000bTMM12AO",
+        "00QQD00000bMGJ12AO",
+        "00QQD00000bTMKp2AO",
+        "00QQD00000bQpJI2A0",
         "00QQD00000bQpIv2AK",
         "00QQD00000bGK7C2AW",
         "00QQD00000bTMME2A4",
@@ -7553,13 +7560,6 @@
         "00QQD00000bMGIt2AO",
         "00QQD00000bMGIp2AO",
         "00QQD00000bSBLn2AO",
-        "00QQD00000bSBML2A4",
-        "00QQD00000bMGJ52AO",
-        "00QQD00000bMGJ42AO",
-        "00QQD00000bTMM12AO",
-        "00QQD00000bMGJ12AO",
-        "00QQD00000bTMKp2AO",
-        "00QQD00000bQpJI2A0",
         "00QQD00000bSBL42AO",
         "00QQD00000bSBLB2A4",
         "00QQD00000bSBLC2A4",
@@ -7584,14 +7584,14 @@
         "00QQD00000bQpI22AK",
         "00QQD00000bQpI12AK",
         "00QQD00000bMGK42AO",
+        "00QQD00000bMGKZ2A4",
+        "00QQD00000bMGKT2A4",
+        "00QQD00000bMGKO2A4",
         "00QQD00000bMGKK2A4",
         "00QQD00000bMGKM2A4",
         "00QQD00000bMGKf2AO",
         "00QQD00000bSBLT2A4",
-        "00QQD00000ZErUF2A1",
-        "00QQD00000bMGKZ2A4",
-        "00QQD00000bMGKT2A4",
-        "00QQD00000bMGKO2A4"
+        "00QQD00000ZErUF2A1"
       ],
       "it": [
         "00QQD00000bQpID2A0",
@@ -7661,19 +7661,6 @@
       "fr": [
         "00QQD00000bSBL72AO",
         "00QQD00000bbqb72AA",
-        "00QQD00000bbqaI2AQ",
-        "00QQD00000bbqYE2AY",
-        "00QQD00000bbqaL2AQ",
-        "00QQD00000bbqaM2AQ",
-        "00QQD00000bbqaR2AQ",
-        "00QQD00000bbqZ22AI",
-        "00QQD00000bbqZ12AI",
-        "00QQD00000bbqa22AA",
-        "00QQD00000bbqa12AA",
-        "00QQD00000bbqa92AA",
-        "00QQD00000bbqXO2AY",
-        "00QQD00000bMGK32AO",
-        "00QQD00000bbqZv2AI",
         "00QQD00000bbqZW2AY",
         "00QQD00000bbqZU2AY",
         "00QQD00000bbqZY2AY",
@@ -7696,7 +7683,20 @@
         "00QQD00000bbqaG2AQ",
         "00QQD00000bbqaD2AQ",
         "00QQD00000bbqaE2AQ",
-        "00QQD00000bbqaJ2AQ"
+        "00QQD00000bbqaJ2AQ",
+        "00QQD00000bbqaI2AQ",
+        "00QQD00000bbqYE2AY",
+        "00QQD00000bbqaL2AQ",
+        "00QQD00000bbqaM2AQ",
+        "00QQD00000bbqaR2AQ",
+        "00QQD00000bbqZ22AI",
+        "00QQD00000bbqZ12AI",
+        "00QQD00000bbqa22AA",
+        "00QQD00000bbqa12AA",
+        "00QQD00000bbqa92AA",
+        "00QQD00000bMGK32AO",
+        "00QQD00000bbqXO2AY",
+        "00QQD00000bbqZv2AI"
       ],
       "it": [
         "00QQD00000bSBMF2A4",
@@ -7771,15 +7771,16 @@
         "00QQD00000bQpIB2A0",
         "00QQD00000bQpIE2A0",
         "00QQD00000bQpIH2A0",
-        "00QQD00000bQpJ62AK",
         "00QQD00000bQpIx2AK",
         "00QQD00000bQpJ52AK",
+        "00QQD00000bQpJ62AK",
         "00QQD00000bQpIn2AK",
         "00QQD00000bQpIh2AK",
         "00QQD00000bQpJ22AK"
       ],
       "it": [
         "00QQD00000ZGL2n2AH",
+        "00QQD00000bbqaX2AQ",
         "00QQD00000bSBLK2A4",
         "00QQD00000bSBLb2AO",
         "00QQD00000aod7k2AA",
@@ -7807,13 +7808,12 @@
         "00QQD00000bbqYM2AY",
         "00QQD00000bbqaT2AQ",
         "00QQD00000bbqaU2AQ",
-        "00QQD00000bbqaX2AQ",
+        "00QQD00000ZGzG52AL",
         "00QQD00000bSBLo2AO",
         "00QQD00000bSBLj2AO",
         "00QQD00000ZGjDK2A1",
-        "00QQD00000ZGzG52AL",
-        "00QQD00000bQvQQ2A0",
-        "00QQD00000bQpHu2AK"
+        "00QQD00000bQpHu2AK",
+        "00QQD00000bQvQQ2A0"
       ],
       "nl": [
         "00QQD00000bPytK2AS",
@@ -7842,17 +7842,19 @@
     },
     "2026-05-09": {
       "fr": [
-        "00QQD00000bSBLp2AO",
-        "00QQD00000bSBLi2AO",
         "00QQD00000bSBMC2A4",
         "00QQD00000bSBLe2AO",
         "00QQD00000bSBLY2A4",
         "00QQD00000bSBLW2A4",
-        "00QQD00000bSBL32AO"
+        "00QQD00000bSBL32AO",
+        "00QQD00000bSBLp2AO",
+        "00QQD00000bSBLi2AO"
       ]
     },
     "2026-05-10": {
       "fr": [
+        "00QQD00000bTMLA2A4",
+        "00QQD00000bTMLC2A4",
         "00QQD00000ZH0nb2AD",
         "00QQD00000bTML92AO",
         "00QQD00000bTML12AO",
@@ -7861,8 +7863,6 @@
         "00QQD00000bTMLo2AO",
         "00QQD00000bTMLq2AO",
         "00QQD00000bTMLG2A4",
-        "00QQD00000bTMLA2A4",
-        "00QQD00000bTMLC2A4",
         "00QQD00000bTMKr2AO"
       ],
       "it": [
@@ -7903,14 +7903,14 @@
         "00QQD00000bhwQX2AY",
         "00QQD00000ZGhQJ2A1",
         "00QQD00000ZGABj2AP",
-        "00QQD00000awCSE2A2",
-        "00QQD00000ZGsUo2AL",
-        "00QQD00000ZH1io2AD",
         "00QQD00000ZGonP2AT",
         "00QQD00000beKOI2A2",
         "00QQD00000ZGz8G2AT",
         "00QQD00000ZGy3G2AT",
         "00QQD00000ZGqU22AL",
+        "00QQD00000awCSE2A2",
+        "00QQD00000ZGsUo2AL",
+        "00QQD00000ZH1io2AD",
         "00QQD00000a1nnM2AQ",
         "00QQD00000ZGC9i2AH",
         "00QQD00000ZGynM2AT",
@@ -7977,6 +7977,7 @@
         "00QQD00000bmz3t2AA"
       ],
       "fr": [
+        "00QQD00000bgetz2AA",
         "00QQD00000bSBLS2A4",
         "00QQD00000blwrf2AA",
         "00QQD00000blws82AA",
@@ -7988,7 +7989,6 @@
         "00QQD00000ZFbts2AD",
         "00QQD00000bgeuU2AQ",
         "00QQD00000bgetv2AA",
-        "00QQD00000bgetz2AA",
         "00QQD00000beKOR2A2",
         "00QQD00000bgeu12AA",
         "00QQD00000bgeu42AA",
@@ -8002,6 +8002,7 @@
         "00QQD00000ZhjbW2AR",
         "00QQD00000beSd52AE",
         "00QQD00000bgrYs2AI",
+        "00QQD00000blwrq2AA",
         "00QQD00000blwsD2AQ",
         "00QQD00000blwsC2AQ",
         "00QQD00000blws22AA",
@@ -8009,7 +8010,6 @@
         "00QQD00000blwrw2AA",
         "00QQD00000blwrx2AA",
         "00QQD00000blwrv2AA",
-        "00QQD00000blwrq2AA",
         "00QQD00000bgeta2AA",
         "00QQD00000bgetf2AA",
         "00QQD00000bgetu2AA",
@@ -8158,8 +8158,8 @@
         "00QQD00000bobh02AA"
       ],
       "it": [
-        "00QQD00000bobhM2AQ",
         "00QQD00000bobhL2AQ",
+        "00QQD00000bobhM2AQ",
         "00QQD00000bltCz2AI",
         "00QQD00000bbqZh2AI",
         "00QQD00000bbqaW2AQ",
@@ -8207,25 +8207,25 @@
     },
     "2026-05-14": {
       "fr": [
-        "00QQD00000bobh82AA",
+        "00QQD00000b3yrZ2AQ",
+        "00QQD00000br9Ha2AI",
         "00QQD00000bobhY2AQ",
         "00QQD00000bobhK2AQ",
+        "00QQD00000bobh82AA",
         "00QQD00000br9Gf2AI",
         "00QQD00000br9Gb2AI",
         "00QQD00000br9Gc2AI",
-        "00QQD00000b3yrZ2AQ",
-        "00QQD00000br9Ha2AI",
         "00QQD00000br9HP2AY",
         "00QQD00000bobgo2AA"
       ],
       "it": [
+        "00QQD00000bltDE2AY",
+        "00QQD00000ZGTNy2AP",
+        "00QQD00000bltCO2AY",
         "00QQD00000beKOU2A2",
         "00QQD00000beKOV2A2",
         "00QQD00000ZGvhd2AD",
         "00QQD00000beKO12AM",
-        "00QQD00000bltDE2AY",
-        "00QQD00000ZGTNy2AP",
-        "00QQD00000bltCO2AY",
         "00QQD00000bgrYy2AI",
         "00QQD00000bhwRF2AY",
         "00QQD00000boaX82AI",
@@ -8284,15 +8284,15 @@
         "00QQD00000br9HT2AY",
         "00QQD00000br9HU2AY",
         "00QQD00000br9HL2AY",
-        "00QQD00000bobhW2AQ",
-        "00QQD00000ZGrk32AD",
         "00QQD00000btEwk2AE",
         "00QQD00000bt80u2AA",
         "00QQD00000bt81E2AQ",
         "00QQD00000bjB2z2AE",
         "00QQD00000br9Hn2AI",
         "00QQD00000bjB2X2AU",
-        "00QQD00000bt80x2AA"
+        "00QQD00000bt80x2AA",
+        "00QQD00000bobhW2AQ",
+        "00QQD00000ZGrk32AD"
       ],
       "it": [
         "00QQD00000bltDD2AY",
@@ -8316,12 +8316,12 @@
         "00QQD00000boaX02AI",
         "00QQD00000boaWt2AI",
         "00QQD00000br9Gn2AI",
+        "00QQD00000bgeuk2AA",
+        "00QQD00000boaX42AI",
         "00QQD00000bltCb2AI",
         "00QQD00000bobhS2AQ",
         "00QQD00000bobhC2AQ",
-        "00QQD00000br9GI2AY",
-        "00QQD00000bgeuk2AA",
-        "00QQD00000boaX42AI"
+        "00QQD00000br9GI2AY"
       ],
       "nl": [
         "00QQD00000bswwB2AQ",
@@ -8393,12 +8393,13 @@
         "00QQD00000bkbTu2AI"
       ],
       "fr": [
+        "00QQD00000bwcQT2AY",
         "00QQD00000bvGNP2A2",
         "00QQD00000bwcQM2AY",
         "00QQD00000bvQSO2A2",
         "00QQD00000bvQSC2A2",
-        "00QQD00000bwcQT2AY",
         "00QQD00000bvGNY2A2",
+        "00QQD00000bxoU52AI",
         "00QQD00000bwcQg2AI",
         "00QQD00000beKOz2AM",
         "00QQD00000ZGU0i2AH",
@@ -8409,11 +8410,6 @@
         "00QQD00000ZGy8G2AT",
         "00QQD00000bvGNM2A2",
         "00QQD00000bgeuC2AQ",
-        "00QQD00000bxoU52AI",
-        "00QQD00000bbqbA2AQ",
-        "00QQD00000ZGtw42AD",
-        "00QQD00000ZGYNa2AP",
-        "00QQD00000ZFKwY2AX",
         "00QQD00000bTMM32AO",
         "00QQD00000bGK5F2AW",
         "00QQD00000ZGf6h2AD",
@@ -8421,9 +8417,13 @@
         "00QQD00000bhwQb2AI",
         "00QQD00000ZH23S2AT",
         "00QQD00000ZG9SV2A1",
+        "00QQD00000bbqbA2AQ",
+        "00QQD00000ZGtw42AD",
+        "00QQD00000ZGYNa2AP",
+        "00QQD00000ZFKwY2AX",
         "00QQD00000ZGxCE2A1",
-        "00QQD00000ZGWd72AH",
         "00QQD00000bxoTm2AI",
+        "00QQD00000ZGWd72AH",
         "00QQD00000ZFH5s2AH",
         "00QQD00000ZH1aH2AT",
         "00QQD00000ZF8VX2A1",
@@ -8434,13 +8434,13 @@
         "00QQD00000bvQSB2A2",
         "00QQD00000bvGNg2AM",
         "00QQD00000ZH26Q2AT",
+        "00QQD00000bltDQ2AY",
+        "00QQD00000bltDG2AY",
         "00QQD00000br9Gi2AI",
         "00QQD00000bhwQK2AY",
         "00QQD00000bjB2l2AE",
         "00QQD00000bobhV2AQ",
-        "00QQD00000bt80c2AA",
-        "00QQD00000bltDQ2AY",
-        "00QQD00000bltDG2AY"
+        "00QQD00000bt80c2AA"
       ],
       "nl": [
         "00QQD00000AQAK62AP",
@@ -8532,18 +8532,13 @@
         "00QQD00000bw4lt2AA"
       ],
       "fr": [
-        "00QQD00000c0ZOP2A2",
         "00QQD00000btEwy2AE",
         "00QQD00000bvGMN2A2",
         "00QQD00000btEww2AE",
         "00QQD00000aC1XT2A0",
         "00QQD00000c0ZO92AM",
         "00QQD00000ZH0n92AD",
-        "00QQD00000bvGNR2A2",
-        "00QQD00000btEx02AE",
-        "00QQD00000bxoUG2AY",
-        "00QQD00000Zrzi42AB",
-        "00QQD00000ZGu4e2AD",
+        "00QQD00000c0ZOP2A2",
         "00QQD00000ZH1692AD",
         "00QQD00000Zrzhe2AB",
         "00QQD00000a4Qvk2AE",
@@ -8568,7 +8563,11 @@
         "00QQD00000aKbr02AC",
         "00QQD00000Zy4gP2AR",
         "00QQD00000ZpPiO2AV",
-        "00QQD00000aRgam2AC",
+        "00QQD00000bvGNR2A2",
+        "00QQD00000btEx02AE",
+        "00QQD00000bxoUG2AY",
+        "00QQD00000Zrzi42AB",
+        "00QQD00000ZGu4e2AD",
         "00QQD00000ZGolv2AD",
         "00QQD00000aRiXf2AK",
         "00QQD00000c0ZNp2AM",
@@ -8589,8 +8588,6 @@
         "00QQD00000c0ZNj2AM",
         "00QQD00000aEfOa2AK",
         "00QQD00000bltDI2AY",
-        "00QQD00000bgrYt2AI",
-        "00QQD00000bjB2B2AU",
         "00QQD00000c0ZNc2AM",
         "00QQD00000aEfP82AK",
         "00QQD00000btEwJ2AU",
@@ -8610,6 +8607,7 @@
         "00QQD00000blwrH2AQ",
         "00QQD00000blwrF2AQ",
         "00QQD00000btEwf2AE",
+        "00QQD00000aRgam2AC",
         "00QQD00000btEwZ2AU",
         "00QQD00000bgeu22AA",
         "00QQD00000bgetR2AQ",
@@ -8633,9 +8631,8 @@
         "00QQD00000bhwQj2AI",
         "00QQD00000br9H82AI",
         "00QQD00000ZH1sW2AT",
-        "00QQD00000bvQSJ2A2",
-        "00QQD00000bwcPh2AI",
-        "00QQD00000bwcQG2AY",
+        "00QQD00000bgrYt2AI",
+        "00QQD00000bjB2B2AU",
         "00QQD00000bwcQj2AI",
         "00QQD00000bobgq2AA",
         "00QQD00000bwcQe2AI",
@@ -8644,20 +8641,23 @@
         "00QQD00000bgeuh2AA",
         "00QQD00000ZFBUs2AP",
         "00QQD00000bvGMs2AM",
-        "00QQD00000bvGNG2A2"
+        "00QQD00000bvGNG2A2",
+        "00QQD00000bvQSJ2A2",
+        "00QQD00000bwcQG2AY",
+        "00QQD00000bwcPh2AI"
       ],
       "it": [
+        "00QQD00000bt8112AA",
         "00QQD00000bvGNa2AM",
         "00QQD00000bvGNb2AM",
         "00QQD00000bvGNf2AM",
         "00QQD00000bvGNd2AM",
         "00QQD00000bltDO2AY",
-        "00QQD00000bt8112AA",
-        "00QQD00000br9HW2AY",
         "00QQD00000bvGMk2AM",
         "00QQD00000bwcQH2AY",
         "00QQD00000bvQRz2AM",
-        "00QQD00000br9Ge2AI"
+        "00QQD00000br9Ge2AI",
+        "00QQD00000br9HW2AY"
       ],
       "nl": [
         "00QQD00000c08B02AI",
@@ -8684,16 +8684,16 @@
         "00QQD00000aZZmB2AW",
         "00QQD00000bMcZD2A0",
         "00QQD00000c19Ef2AI",
-        "00QQD00000bWPfW2AW",
         "00QQD00000bUMQn2AO",
+        "00QQD00000bWPfW2AW",
         "00QQD00000bWlhe2AC",
         "00QQD00000bWtfC2AS",
         "00QQD00000FrCyV2AV",
         "00QQD00000V2bsr2AB",
         "00QQD00000bXEQH2A4",
         "00QQD00000bgBwE2AU",
-        "00QQD00000b5Dov2AE",
         "00QQD00000bhapJ2AQ",
+        "00QQD00000b5Dov2AE",
         "00QQD00000bhdwt2AA",
         "00QQD00000bik9v2AA",
         "00QQD00000bimwU2AQ",
@@ -8766,12 +8766,6 @@
         "00QQD00000bmpvl2AA"
       ],
       "fr": [
-        "00QQD00000bhwQD2AY",
-        "00QQD00000bvGNB2A2",
-        "00QQD00000beKOy2AM",
-        "00QQD00000bwcQS2AY",
-        "00QQD00000beKP72AM",
-        "00QQD00000bgeuf2AA",
         "00QQD00000bvGMp2AM",
         "00QQD00000bwcQs2AI",
         "00QQD00000bwcQv2AI",
@@ -8787,6 +8781,12 @@
         "00QQD00000bbqat2AA",
         "00QQD00000bxoUM2AY",
         "00QQD00000bhwQm2AI",
+        "00QQD00000bvGNB2A2",
+        "00QQD00000beKOy2AM",
+        "00QQD00000bwcQS2AY",
+        "00QQD00000beKP72AM",
+        "00QQD00000bgeuf2AA",
+        "00QQD00000bhwQD2AY",
         "00QQD00000bhwQp2AI",
         "00QQD00000beSdn2AE",
         "00QQD00000beSdm2AE",
@@ -8795,7 +8795,6 @@
         "00QQD00000beSdN2AU",
         "00QQD00000beSdO2AU",
         "00QQD00000beSdQ2AU",
-        "00QQD00000bxoTr2AI",
         "00QQD00000c0ZNy2AM",
         "00QQD00000c0ZNs2AM",
         "00QQD00000c0ZNr2AM",
@@ -8824,11 +8823,7 @@
         "00QQD00000bxoUf2AI",
         "00QQD00000bxoUQ2AY",
         "00QQD00000bxoTp2AI",
-        "00QQD00000c2zZE2AY",
-        "00QQD00000c2zZC2AY",
-        "00QQD00000c2zZD2AY",
-        "00QQD00000c2zYa2AI",
-        "00QQD00000c2zZM2AY",
+        "00QQD00000bxoTr2AI",
         "00QQD00000c33WX2AY",
         "00QQD00000bxoTs2AI",
         "00QQD00000bxoUH2AY",
@@ -8836,7 +8831,12 @@
         "00QQD00000bxoTi2AI",
         "00QQD00000bwcQ32AI",
         "00QQD00000c33X52AI",
-        "00QQD00000bjB2W2AU"
+        "00QQD00000bjB2W2AU",
+        "00QQD00000c2zZE2AY",
+        "00QQD00000c2zZC2AY",
+        "00QQD00000c2zZD2AY",
+        "00QQD00000c2zYa2AI",
+        "00QQD00000c2zZM2AY"
       ],
       "it": [
         "00QQD00000bvQS62AM",
@@ -8904,7 +8904,6 @@
         "00QQD00000anVvb2AE"
       ],
       "fr": [
-        "00QQD00000c0ZOQ2A2",
         "00QQD00000c5cd92AA",
         "00QQD00000bwcPu2AI",
         "00QQD00000c0ZNX2A2",
@@ -8913,6 +8912,7 @@
         "00QQD00000c2zY62AI",
         "00QQD00000c0ZNa2AM",
         "00QQD00000c0ZN72AM",
+        "00QQD00000c0ZOQ2A2",
         "00QQD00000c33Wa2AI",
         "00QQD00000c33XR2AY",
         "00QQD00000ZGnFu2AL",
@@ -8939,22 +8939,22 @@
         "00QQD00000c33X92AI",
         "00QQD00000c33X82AI",
         "00QQD00000bQpIR2A0",
-        "00QQD00000c59YU2AY",
         "00QQD00000beSdK2AU",
         "00QQD00000c59ZI2AY",
         "00QQD00000c59Yw2AI",
         "00QQD00000c59YF2AY",
         "00QQD00000c59YG2AY",
-        "00QQD00000c59Xu2AI"
+        "00QQD00000c59Xu2AI",
+        "00QQD00000c59YU2AY"
       ],
       "it": [
-        "00QQD00000bwh2g2AA",
         "00QQD00000bwh2b2AA",
         "00QQD00000bwh2U2AQ",
         "00QQD00000bwh2Y2AQ",
         "00QQD00000c0ZOJ2A2",
         "00QQD00000bvGNJ2A2",
         "00QQD00000bvGMi2AM",
+        "00QQD00000bwh2g2AA",
         "00QQD00000c0ZNA2A2",
         "00QQD00000bwcQL2AY",
         "00QQD00000bxoUg2AI",
@@ -9051,6 +9051,8 @@
         "00QQD00000c33XL2AY",
         "00QQD00000c33XC2AY",
         "00QQD00000c33XB2AY",
+        "00QQD00000c33Ws2AI",
+        "00QQD00000c33XU2AY",
         "00QQD00000c7yrz2AA",
         "00QQD00000c59Yh2AI",
         "00QQD00000c59Yi2AI",
@@ -9060,9 +9062,7 @@
         "00QQD00000c59Yn2AI",
         "00QQD00000c59ZP2AY",
         "00QQD00000c2zZA2AY",
-        "00QQD00000c59YV2AY",
-        "00QQD00000c33Ws2AI",
-        "00QQD00000c33XU2AY"
+        "00QQD00000c59YV2AY"
       ],
       "it": [
         "00QQD00000ZH20X2AT",
@@ -9329,11 +9329,11 @@
         "00QQD00000ZFIyV2AX"
       ],
       "fr": [
-        "00QQD00000c0ZNe2AM",
         "00QQD00000cCeMJ2A0",
         "00QQD00000cCeMH2A0",
         "00QQD00000bxoUj2AI",
         "00QQD00000ZGayV2AT",
+        "00QQD00000c0ZNe2AM",
         "00QQD00000ZGzIp2AL",
         "00QQD00000cJKtv2AG",
         "00QQD00000cJKuZ2AW",
@@ -9365,8 +9365,6 @@
         "00QQD00000c5cdD2AQ",
         "00QQD00000br9Gk2AI",
         "00QQD00000cEUe32AG",
-        "00QQD00000cBWxN2AW",
-        "00QQD00000cBWwl2AG",
         "00QQD00000cCeLa2AK",
         "00QQD00000cCeLg2AK",
         "00QQD00000cCeMN2A0",
@@ -9405,6 +9403,8 @@
         "00QQD00000cCeMT2A0",
         "00QQD00000cCeMb2AK",
         "00QQD00000cCeMs2AK",
+        "00QQD00000cBWxN2AW",
+        "00QQD00000cBWwl2AG",
         "00QQD00000cBWxQ2AW",
         "00QQD00000cBWxV2AW",
         "00QQD00000cBWxT2AW",
@@ -9421,13 +9421,13 @@
         "00QQD00000ZGwz52AD",
         "00QQD00000cBWwk2AG",
         "00QQD00000cCeMg2AK",
-        "00QQD00000ZFfBB2A1",
-        "00QQD00000cEUe92AG",
         "00QQD00000cCeM62AK",
         "00QQD00000ZGFSW2A5",
         "00QQD00000c86Ns2AI",
         "00QQD00000c86Nx2AI",
+        "00QQD00000ZFfBB2A1",
         "00QQD00000cAEMe2AO",
+        "00QQD00000cEUe92AG",
         "00QQD00000cBWxg2AG"
       ],
       "nl": [
@@ -9508,9 +9508,6 @@
         "00QQD00000cAEMt2AO",
         "00QQD00000cBWwv2AG",
         "00QQD00000ZGrfr2AD",
-        "00QQD00000cCeMG2A0",
-        "00QQD00000cCeME2A0",
-        "00QQD00000cCeLi2AK",
         "00QQD00000cJKta2AG",
         "00QQD00000cJKuB2AW",
         "00QQD00000cJKtb2AG",
@@ -9534,6 +9531,9 @@
         "00QQD00000cBWwm2AG",
         "00QQD00000cBWxU2AW",
         "00QQD00000cCeM82AK",
+        "00QQD00000cCeMG2A0",
+        "00QQD00000cCeME2A0",
+        "00QQD00000cCeLi2AK",
         "00QQD00000cCeLu2AK",
         "00QQD00000cCeMe2AK",
         "00QQD00000cCeMt2AK",
@@ -9591,20 +9591,20 @@
     },
     "2026-05-30": {
       "fr": [
-        "00QQD00000cBWxK2AW",
         "00QQD00000cBWwn2AG",
         "00QQD00000cBWx02AG",
         "00QQD00000ZGujd2AD",
-        "00QQD00000cBWwW2AW"
+        "00QQD00000cBWwW2AW",
+        "00QQD00000cBWxK2AW"
       ]
     },
     "2026-05-31": {
       "fr": [
         "00QQD00000cCeMF2A0",
-        "00QQD00000cCeMQ2A0",
-        "00QQD00000cCeMx2AK",
         "00QQD00000cCeMj2AK",
-        "00QQD00000cCeMl2AK"
+        "00QQD00000cCeMl2AK",
+        "00QQD00000cCeMQ2A0",
+        "00QQD00000cCeMx2AK"
       ]
     },
     "2026-06-01": {
@@ -9639,13 +9639,13 @@
       ],
       "fr": [
         "00QQD00000cPHTY2A4",
+        "00QQD00000cPHT42AO",
+        "00QQD00000cEUdO2AW",
         "00QQD00000ZGqUZ2A1",
         "00QQD00000cQY7U2AW",
         "00QQD00000bCVMg2AO",
         "00QQD00000ZGMvW2AX",
         "00QQD00000ZGwXa2AL",
-        "00QQD00000cPHT42AO",
-        "00QQD00000cEUdO2AW",
         "00QQD00000cLuXp2AK",
         "00QQD00000cPHU62AO",
         "00QQD00000ZGWfX2AX",
@@ -9675,10 +9675,10 @@
         "00QQD00000cQY782AG",
         "00QQD00000c7ysB2AQ",
         "00QQD00000br9Fx2AI",
-        "00QQD00000cJKu42AG",
-        "00QQD00000cJKtZ2AW",
         "00QQD00000cJKuJ2AW",
-        "00QQD00000cJKtN2AW"
+        "00QQD00000cJKtN2AW",
+        "00QQD00000cJKu42AG",
+        "00QQD00000cJKtZ2AW"
       ],
       "it": [
         "00QQD00000ZFm8R2AT"
@@ -9728,7 +9728,7 @@
         "00QQD00000c6ZgM2AU"
       ],
       "fr": [
-        "00QQD00000ZGxRn2AL",
+        "00QQD00000cJKsi2AG",
         "00QQD00000cLuXw2AK",
         "00QQD00000cPHUB2A4",
         "00QQD00000cJKua2AG",
@@ -9750,7 +9750,6 @@
         "00QQD00000cOEpb2AG",
         "00QQD00000cQY7w2AG",
         "00QQD00000cQY7q2AG",
-        "00QQD00000cJKsi2AG",
         "00QQD00000cJKsk2AG",
         "00QQD00000cJKtT2AW",
         "00QQD00000cLuWu2AK",
@@ -9766,6 +9765,7 @@
         "00QQD00000cQY6s2AG",
         "00QQD00000cLuW42AK",
         "00QQD00000cLuW12AK",
+        "00QQD00000ZGxRn2AL",
         "00QQD00000cQY6q2AG",
         "00QQD00000cTJEv2AO",
         "00QQD00000cTJFL2A4",
@@ -9776,8 +9776,6 @@
         "00QQD00000cCeLv2AK",
         "00QQD00000cTJFs2AO",
         "00QQD00000cTJFl2AO",
-        "00QQD00000cOEpB2AW",
-        "00QQD00000cPHTe2AO",
         "00QQD00000cOEpR2AW",
         "00QQD00000cOEpK2AW",
         "00QQD00000cOEpH2AW",
@@ -9787,7 +9785,9 @@
         "00QQD00000ZGuSQ2A1",
         "00QQD00000cTJFe2AO",
         "00QQD00000cTJFo2AO",
-        "00QQD00000cPHTW2A4"
+        "00QQD00000cPHTW2A4",
+        "00QQD00000cOEpB2AW",
+        "00QQD00000cPHTe2AO"
       ],
       "nl": [
         "00QQD00000cT8M72AK",
@@ -9863,6 +9863,11 @@
         "00QQD00000cLuXU2A0",
         "00QQD00000cPHT12AO",
         "00QQD00000cJKsS2AW",
+        "00QQD00000cPHUC2A4",
+        "00QQD00000cPHTd2AO",
+        "00QQD00000cPHSz2AO",
+        "00QQD00000cLuXf2AK",
+        "00QQD00000cPHTF2A4",
         "00QQD00000cQY7y2AG",
         "00QQD00000cQY742AG",
         "00QQD00000cW0mO2AS",
@@ -9876,20 +9881,15 @@
         "00QQD00000cW0mf2AC",
         "00QQD00000cW0mk2AC",
         "00QQD00000cQY7B2AW",
-        "00QQD00000cPHUC2A4",
-        "00QQD00000cPHTd2AO",
-        "00QQD00000cPHSz2AO",
-        "00QQD00000cLuXf2AK",
-        "00QQD00000cPHTF2A4",
+        "00QQD00000cW0nB2AS",
+        "00QQD00000cTJG32AO",
         "00QQD00000cTJFr2AO",
         "00QQD00000cTJFk2AO",
         "00QQD00000cTJFg2AO",
-        "00QQD00000cW0nB2AS",
-        "00QQD00000cTJG32AO",
-        "00QQD00000ZH0AU2A1",
         "00QQD00000cTJF32AO",
         "00QQD00000cTJF12AO",
         "00QQD00000cW0ln2AC",
+        "00QQD00000ZH0AU2A1",
         "00QQD00000cW0mC2AS",
         "00QQD00000cW0mr2AC",
         "00QQD00000cW0mh2AC",
@@ -9939,18 +9939,6 @@
         "00QQD00000cQY7X2AW",
         "00QQD00000cOEpv2AG",
         "00QQD00000cYpTY2A0",
-        "00QQD00000cCeLc2AK",
-        "00QQD00000cJKti2AG",
-        "00QQD00000c86Nd2AI",
-        "00QQD00000cLuX02AK",
-        "00QQD00000cLuX12AK",
-        "00QQD00000cJKsg2AG",
-        "00QQD00000cJKsj2AG",
-        "00QQD00000cOEpM2AW",
-        "00QQD00000cJKsr2AG",
-        "00QQD00000cJKss2AG",
-        "00QQD00000ZGjpn2AD",
-        "00QQD00000cW0n92AC",
         "00QQD00000cW0mM2AS",
         "00QQD00000cYpSz2AK",
         "00QQD00000cYpSy2AK",
@@ -9970,10 +9958,21 @@
         "00QQD00000cYpTE2A0",
         "00QQD00000cYpTD2A0",
         "00QQD00000cYpT42AK",
-        "00QQD00000cYpSI2A0"
+        "00QQD00000cYpSI2A0",
+        "00QQD00000cCeLc2AK",
+        "00QQD00000cJKti2AG",
+        "00QQD00000c86Nd2AI",
+        "00QQD00000cLuX02AK",
+        "00QQD00000cLuX12AK",
+        "00QQD00000cJKsg2AG",
+        "00QQD00000cJKsj2AG",
+        "00QQD00000cOEpM2AW",
+        "00QQD00000cJKsr2AG",
+        "00QQD00000cJKss2AG",
+        "00QQD00000ZGjpn2AD",
+        "00QQD00000cW0n92AC"
       ],
       "it": [
-        "00QQD00000cJKtY2AW",
         "00QQD00000cLuXt2AK",
         "00QQD00000cJKtw2AG",
         "00QQD00000cLuWQ2A0",
@@ -9983,8 +9982,7 @@
         "00QQD00000cOEor2AG",
         "00QQD00000cJKtW2AW",
         "00QQD00000cJKsv2AG",
-        "00QQD00000ZGY2g2AH",
-        "00QQD00000ZH19a2AD",
+        "00QQD00000cJKtY2AW",
         "00QQD00000cLuW82AK",
         "00QQD00000cLuWm2AK",
         "00QQD00000cJKrf2AG",
@@ -9992,6 +9990,8 @@
         "00QQD00000cLuXG2A0",
         "00QQD00000cJKrl2AG",
         "00QQD00000cJKs92AG",
+        "00QQD00000ZGY2g2AH",
+        "00QQD00000ZH19a2AD",
         "00QQD00000ZGqqV2AT",
         "00QQD00000cLuXs2AK",
         "00QQD00000cLuXl2AK",
@@ -10084,6 +10084,11 @@
         "00QQD00000bwcQN2AY",
         "00QQD00000bbqaq2AA",
         "00QQD00000bxoTk2AI",
+        "00QQD00000cYpTc2AK",
+        "00QQD00000bJPVb2AO",
+        "00QQD00000bQpIP2A0",
+        "00QQD00000cJKs12AG",
+        "00QQD00000ZGK0u2AH",
         "00QQD00000bMGJr2AO",
         "00QQD00000ZGgA22AL",
         "00QQD00000cbNMG2A2",
@@ -10095,16 +10100,12 @@
         "00QQD00000bMGIo2AO",
         "00QQD00000bbqX22AI",
         "00QQD00000cbOwz2AE",
-        "00QQD00000cYpTc2AK",
-        "00QQD00000bJPVb2AO",
-        "00QQD00000bQpIP2A0",
-        "00QQD00000cJKs12AG",
-        "00QQD00000ZGK0u2AH",
-        "00QQD00000c2zYG2AY",
         "00QQD00000cbNMI2A2",
-        "00QQD00000cbNM62AM"
+        "00QQD00000cbNM62AM",
+        "00QQD00000c2zYG2AY"
       ],
       "it": [
+        "00QQD00000cQY7L2AW",
         "00QQD00000cPHUA2A4",
         "00QQD00000cPHSq2AO",
         "00QQD00000cPHTH2A4",
@@ -10112,11 +10113,10 @@
         "00QQD00000cLuX22AK",
         "00QQD00000cLuWh2AK",
         "00QQD00000cQY752AG",
+        "00QQD00000cQY762AG",
         "00QQD00000cQY7P2AW",
-        "00QQD00000cQY7L2AW",
         "00QQD00000cTJEp2AO",
         "00QQD00000cTJEt2AO",
-        "00QQD00000cQY762AG",
         "00QQD00000cOEq92AG",
         "00QQD00000cOEpl2AG"
       ],
@@ -10178,9 +10178,9 @@
         "00QQD00000ZGf1u2AD",
         "00QQD00000ZGV2J2AX",
         "00QQD00000cgHvi2AE",
+        "00QQD00000bvQSK2A2",
         "00QQD00000cdnaR2AQ",
         "00QQD00000ZGv2a2AD",
-        "00QQD00000bvQSK2A2",
         "00QQD00000cetDB2AY"
       ],
       "nl": [
@@ -10247,6 +10247,7 @@
         "00QQD00000ckYte2AE"
       ],
       "fr": [
+        "00QQD00000cbNLX2A2",
         "00QQD00000cPHTb2AO",
         "00QQD00000cOEqA2AW",
         "00QQD00000cOEpV2AW",
@@ -10258,7 +10259,6 @@
         "00QQD00000cgHvY2AU",
         "00QQD00000cgHvC2AU",
         "00QQD00000ciuw22AA",
-        "00QQD00000cbNLX2A2",
         "00QQD00000ciuwG2AQ",
         "00QQD00000ciuwF2AQ",
         "00QQD00000ciuw52AA",
@@ -10269,13 +10269,13 @@
         "00QQD00000cW0lv2AC",
         "00QQD00000cW0lu2AC",
         "00QQD00000cdnaY2AQ",
+        "00QQD00000cetDN2AY",
         "00QQD00000cetE32AI",
         "00QQD00000cetDW2AY",
         "00QQD00000cetDu2AI",
         "00QQD00000cgHvt2AE",
         "00QQD00000cgHvb2AE",
         "00QQD00000cetD62AI",
-        "00QQD00000ciuwB2AQ",
         "00QQD00000ciux52AA",
         "00QQD00000ciuwZ2AQ",
         "00QQD00000cgHup2AE",
@@ -10288,7 +10288,7 @@
         "00QQD00000ZGlif2AD",
         "00QQD00000ciux02AA",
         "00QQD00000ciuw92AA",
-        "00QQD00000cetDN2AY"
+        "00QQD00000ciuwB2AQ"
       ],
       "it": [
         "00QQD00000cPHU52AO",
@@ -10464,9 +10464,9 @@
         "00QQD00000ciuvh2AA",
         "00QQD00000cYpSP2A0",
         "00QQD00000cYpST2A0",
-        "00QQD00000aod7h2AA",
         "00QQD00000cbOwp2AE",
-        "00QQD00000cbNLw2AM"
+        "00QQD00000cbNLw2AM",
+        "00QQD00000aod7h2AA"
       ],
       "nl": [
         "00QQD00000cnzcM2AQ",
@@ -10543,11 +10543,11 @@
         "00QQD00000cetD72AI",
         "00QQD00000clWuN2AU",
         "00QQD00000cqi7J2AQ",
-        "00QQD00000cbOwx2AE",
         "00QQD00000ciuwz2AA",
         "00QQD00000cgHvH2AU",
         "00QQD00000cgHvG2AU",
-        "00QQD00000cqd2V2AQ"
+        "00QQD00000cqd2V2AQ",
+        "00QQD00000cbOwx2AE"
       ],
       "it": [
         "00QQD00000clWtu2AE",
@@ -10601,9 +10601,9 @@
         "00QQD00000ZGiZU2A1",
         "00QQD00000cvt2v2AA",
         "00QQD00000cvt2u2AA",
-        "00QQD00000ZFkaK2AT",
         "00QQD00000cQY702AG",
         "00QQD00000ZGucw2AD",
+        "00QQD00000ZFkaK2AT",
         "00QQD00000cqd212AA"
       ],
       "it": [
@@ -10689,9 +10689,9 @@
         "00QQD00000cyR8C2AU",
         "00QQD00000ZH0xN2AT",
         "00QQD00000cYpT32AK",
-        "00QQD00000co9dE2AQ",
         "00QQD00000co9cn2AA",
         "00QQD00000co9cj2AA",
+        "00QQD00000co9dE2AQ",
         "00QQD00000co9cd2AA",
         "00QQD00000co9dD2AQ",
         "00QQD00000co9cc2AA",
@@ -10742,20 +10742,20 @@
         "00QQD00000cvt2a2AA",
         "00QQD00000cbNM92AM",
         "00QQD00000cbNLy2AM",
-        "00QQD00000cvt2i2AA",
-        "00QQD00000cyR6v2AE",
-        "00QQD00000cyR7o2AE",
-        "00QQD00000ctEOD2A2",
+        "00QQD00000cqi7d2AA",
         "00QQD00000ctEOO2A2",
         "00QQD00000ZFMLk2AP",
         "00QQD00000ZGRz92AH",
         "00QQD00000cyR732AE",
-        "00QQD00000cqi7d2AA",
         "00QQD00000coE1z2AE",
         "00QQD00000cvt302AA",
         "00QQD00000cufG42AI",
         "00QQD00000ZFC7i2AH",
-        "00QQD00000ctEOz2AM"
+        "00QQD00000ctEOz2AM",
+        "00QQD00000cvt2i2AA",
+        "00QQD00000cyR6v2AE",
+        "00QQD00000cyR7o2AE",
+        "00QQD00000ctEOD2A2"
       ],
       "it": [
         "00QQD00000cetCo2AI",
@@ -10849,7 +10849,7 @@
         "00QQD00000cvWQJ2A2"
       ],
       "fr": [
-        "00QQD00000cdnZn2AI",
+        "00QQD00000cdnZO2AY",
         "00QQD00000coE212AE",
         "00QQD00000cPHTR2A4",
         "00QQD00000ZGZRU2A5",
@@ -10871,25 +10871,6 @@
         "00QQD00000cufGK2AY",
         "00QQD00000cufGL2AY",
         "00QQD00000d0yni2AA",
-        "00QQD00000cdnZO2AY",
-        "00QQD00000cufGM2AY",
-        "00QQD00000cufGN2AY",
-        "00QQD00000cufGE2AY",
-        "00QQD00000cQY7k2AG",
-        "00QQD00000cufFa2AI",
-        "00QQD00000d0yo62AA",
-        "00QQD00000cufGT2AY",
-        "00QQD00000d0yok2AA",
-        "00QQD00000ZF8XZ2A1",
-        "00QQD00000ZGz8N2AT",
-        "00QQD00000d0yoa2AA",
-        "00QQD00000d0yoZ2AQ",
-        "00QQD00000d0yoW2AQ",
-        "00QQD00000d0yoX2AQ",
-        "00QQD00000cdnZf2AI",
-        "00QQD00000ctEP52AM",
-        "00QQD00000ctEP02AM",
-        "00QQD00000ctEPE2A2",
         "00QQD00000ctEPF2A2",
         "00QQD00000ZGXts2AH",
         "00QQD00000ctEOk2AM",
@@ -10915,6 +10896,25 @@
         "00QQD00000cyR7k2AE",
         "00QQD00000cyR7w2AE",
         "00QQD00000ctEO72AM",
+        "00QQD00000cufGM2AY",
+        "00QQD00000cufGN2AY",
+        "00QQD00000cufGE2AY",
+        "00QQD00000cQY7k2AG",
+        "00QQD00000cufFa2AI",
+        "00QQD00000d0yo62AA",
+        "00QQD00000cufGT2AY",
+        "00QQD00000d0yok2AA",
+        "00QQD00000cdnZn2AI",
+        "00QQD00000ZF8XZ2A1",
+        "00QQD00000ZGz8N2AT",
+        "00QQD00000d0yoa2AA",
+        "00QQD00000d0yoZ2AQ",
+        "00QQD00000d0yoW2AQ",
+        "00QQD00000d0yoX2AQ",
+        "00QQD00000cdnZf2AI",
+        "00QQD00000ctEP52AM",
+        "00QQD00000ctEP02AM",
+        "00QQD00000ctEPE2A2",
         "00QQD00000cPHU22AO",
         "00QQD00000cgHvP2AU",
         "00QQD00000cQY6r2AG",
@@ -10942,8 +10942,8 @@
         "00QQD00000cqi7V2AQ",
         "00QQD00000cufFZ2AY",
         "00QQD00000cqi7X2AQ",
-        "00QQD00000b1FUg2AM",
-        "00QQD00000bBR7R2AW"
+        "00QQD00000bBR7R2AW",
+        "00QQD00000b1FUg2AM"
       ],
       "nl": [
         "00QQD00000d1OQ12AM",
@@ -11068,13 +11068,13 @@
         "00QQD00000d4wi62AA"
       ],
       "fr": [
-        "00QQD00000d3Z8N2AU",
         "00QQD00000d3Z862AE",
         "00QQD00000d3Z872AE",
         "00QQD00000d0yoH2AQ",
         "00QQD00000d3Z842AE",
         "00QQD00000d3Z7s2AE",
         "00QQD00000d3Z8M2AU",
+        "00QQD00000d3Z8N2AU",
         "00QQD00000d3Z8P2AU",
         "00QQD00000d3Z7d2AE",
         "00QQD00000d12Cu2AI",
@@ -11092,12 +11092,12 @@
         "00QQD00000co9cH2AQ"
       ],
       "it": [
+        "00QQD00000cvt2s2AA",
         "00QQD00000cvt1v2AA",
         "00QQD00000cyR6a2AE",
         "00QQD00000ctEOo2AM",
         "00QQD00000ctEPK2A2",
         "00QQD00000cyR8B2AU",
-        "00QQD00000cvt2s2AA",
         "00QQD00000d12Cc2AI",
         "00QQD00000cyR8A2AU"
       ],
@@ -11156,7 +11156,6 @@
         "00QQD00000d7PeL2AU"
       ],
       "fr": [
-        "00QQD00000d60Iq2AI",
         "00QQD00000cPHSt2AO",
         "00QQD00000d5ysC2AQ",
         "00QQD00000cdnZJ2AY",
@@ -11165,15 +11164,16 @@
         "00QQD00000d0ynv2AA",
         "00QQD00000d0yoT2AQ",
         "00QQD00000bJPVh2AO",
+        "00QQD00000d60Iq2AI",
         "00QQD00000ZGrx92AD",
         "00QQD00000ctEOR2A2",
+        "00QQD00000d5ysw2AA",
         "00QQD00000ctEOZ2A2",
         "00QQD00000d60Ix2AI",
         "00QQD00000b99zt2AA",
         "00QQD00000d60IR2AY",
         "00QQD00000d60IT2AY",
-        "00QQD00000d5ysx2AA",
-        "00QQD00000d5ysw2AA"
+        "00QQD00000d5ysx2AA"
       ],
       "it": [
         "00QQD00000cyR7C2AU",
@@ -11246,6 +11246,12 @@
         "00QQD00000d8GxO2AU",
         "00QQD00000d5ysB2AQ",
         "00QQD00000d8Gu82AE",
+        "00QQD00000d8Gug2AE",
+        "00QQD00000d8Gue2AE",
+        "00QQD00000d8Gtx2AE",
+        "00QQD00000d3Z8H2AU",
+        "00QQD00000d9RBI2A2",
+        "00QQD00000d5yst2AA",
         "00QQD00000d9RB22AM",
         "00QQD00000d9RB32AM",
         "00QQD00000d9RBj2AM",
@@ -11254,12 +11260,15 @@
         "00QQD00000d9RBg2AM",
         "00QQD00000d9RAy2AM",
         "00QQD00000d9RAz2AM",
-        "00QQD00000d8Gug2AE",
-        "00QQD00000d8Gue2AE",
-        "00QQD00000d8Gtx2AE",
-        "00QQD00000d3Z8H2AU",
-        "00QQD00000d9RBI2A2",
-        "00QQD00000d5yst2AA",
+        "00QQD00000cgHvT2AU",
+        "00QQD00000cqi7a2AA",
+        "00QQD00000d5ysq2AA",
+        "00QQD00000ZGubZ2AT",
+        "00QQD00000ZGKpp2AH",
+        "00QQD00000cbNM82AM",
+        "00QQD00000d60IF2AY",
+        "00QQD00000d60IE2AY",
+        "00QQD00000cbNLk2AM",
         "00QQD00000cetCp2AI",
         "00QQD00000dAZWq2AO",
         "00QQD00000d5ysQ2AQ",
@@ -11277,17 +11286,8 @@
         "00QQD00000d60Iv2AI",
         "00QQD00000d60Im2AI",
         "00QQD00000d60IZ2AY",
-        "00QQD00000cgHvT2AU",
-        "00QQD00000cqi7a2AA",
-        "00QQD00000d5ysq2AA",
-        "00QQD00000ZGubZ2AT",
-        "00QQD00000ZGKpp2AH",
-        "00QQD00000cbNM82AM",
-        "00QQD00000d60IF2AY",
-        "00QQD00000d60IE2AY",
-        "00QQD00000cbNLk2AM",
-        "00QQD00000cgHvg2AE",
-        "00QQD00000ZGAdF2AX"
+        "00QQD00000ZGAdF2AX",
+        "00QQD00000cgHvg2AE"
       ],
       "it": [
         "00QQD00000d8GvX2AU"
@@ -11422,15 +11422,6 @@
         "00QQD00000dCx3T2AS",
         "00QQD00000ZGqTT2A1",
         "00QQD00000d8GxW2AU",
-        "00QQD00000d8GvJ2AU",
-        "00QQD00000dCx2u2AC",
-        "00QQD00000dCx3V2AS",
-        "00QQD00000d8Guk2AE",
-        "00QQD00000dCx4E2AS",
-        "00QQD00000dAZWa2AO",
-        "00QQD00000dCx3F2AS",
-        "00QQD00000dAZWR2A4",
-        "00QQD00000dCx3U2AS",
         "00QQD00000ctENq2AM",
         "00QQD00000cgHvO2AU",
         "00QQD00000cgHuz2AE",
@@ -11454,7 +11445,16 @@
         "00QQD00000co9bt2AA",
         "00QQD00000cetDs2AI",
         "00QQD00000cyR6c2AE",
-        "00QQD00000ZFYAj2AP"
+        "00QQD00000ZFYAj2AP",
+        "00QQD00000d8GvJ2AU",
+        "00QQD00000dCx2u2AC",
+        "00QQD00000dCx3V2AS",
+        "00QQD00000d8Guk2AE",
+        "00QQD00000dCx4E2AS",
+        "00QQD00000dAZWa2AO",
+        "00QQD00000dCx3F2AS",
+        "00QQD00000dAZWR2A4",
+        "00QQD00000dCx3U2AS"
       ],
       "it": [
         "00QQD00000d3Z8B2AU",
@@ -11563,7 +11563,6 @@
         "00QQD00000ZGyB22AL"
       ],
       "fr": [
-        "00QQD00000dAZWZ2A4",
         "00QQD00000dCx3v2AC",
         "00QQD00000d8Guv2AE",
         "00QQD00000dFQ6Z2AW",
@@ -11576,6 +11575,7 @@
         "00QQD00000dCx3C2AS",
         "00QQD00000cufFd2AI",
         "00QQD00000dAZW32AO",
+        "00QQD00000dAZWZ2A4",
         "00QQD00000d8Gul2AE",
         "00QQD00000dFQ5n2AG",
         "00QQD00000dAZWc2AO",
@@ -11597,26 +11597,26 @@
         "00QQD00000d60J22AI",
         "00QQD00000d9RBR2A2",
         "00QQD00000ZGIm62AH",
-        "00QQD00000cqd1a2AA",
         "00QQD00000cqi7i2AA",
         "00QQD00000cufGS2AY",
         "00QQD00000d0yob2AA",
         "00QQD00000d0yoY2AQ",
         "00QQD00000cgHum2AE",
         "00QQD00000cyR6r2AE",
-        "00QQD00000cyR6j2AE"
+        "00QQD00000cyR6j2AE",
+        "00QQD00000cqd1a2AA"
       ],
       "it": [
+        "00QQD00000d60Ic2AI",
         "00QQD00000ZGgLA2A1",
         "00QQD00000ctEP72AM",
-        "00QQD00000d60Ic2AI",
         "00QQD00000d60IY2AY",
         "00QQD00000d60IW2AY",
         "00QQD00000d5ysc2AA",
-        "00QQD00000ZGSMK2A5",
         "00QQD00000d9RBa2AM",
         "00QQD00000d8Gun2AE",
-        "00QQD00000dAZWs2AO"
+        "00QQD00000dAZWs2AO",
+        "00QQD00000ZGSMK2A5"
       ],
       "nl": [
         "00QQD00000dFEPB2A4",
@@ -11693,8 +11693,6 @@
         "00QQD00000ZGKKF2A5",
         "00QQD00000d3Z7f2AE",
         "00QQD00000dFQ662AG",
-        "00QQD00000dHems2AC",
-        "00QQD00000dHemt2AC",
         "00QQD00000dHeme2AC",
         "00QQD00000cqi7I2AQ",
         "00QQD00000ZGjmt2AD",
@@ -11703,13 +11701,14 @@
         "00QQD00000dHeln2AC",
         "00QQD00000dHemV2AS",
         "00QQD00000dHemW2AS",
+        "00QQD00000dHems2AC",
+        "00QQD00000dHemt2AC",
+        "00QQD00000c0ZMi2AM",
         "00QQD00000d5ysD2AQ",
         "00QQD00000dCx4X2AS",
-        "00QQD00000d8Gu72AE",
-        "00QQD00000c0ZMi2AM"
+        "00QQD00000d8Gu72AE"
       ],
       "it": [
-        "00QQD00000d60IQ2AY",
         "00QQD00000dCx3z2AC",
         "00QQD00000cyR652AE",
         "00QQD00000dAZWw2AO",
@@ -11727,6 +11726,7 @@
         "00QQD00000ZGgxY2AT",
         "00QQD00000d9RB92AM",
         "00QQD00000d8GxU2AU",
+        "00QQD00000d60IQ2AY",
         "00QQD00000d9RBd2AM",
         "00QQD00000d9RBY2A2",
         "00QQD00000d60Iw2AI"
@@ -11772,17 +11772,13 @@
         "00QQD00000dLJnZ2AW"
       ],
       "fr": [
-        "00QQD00000dFQ6o2AG",
+        "00QQD00000dK8WL2A0",
+        "00QQD00000dFQ672AG",
         "00QQD00000dK8XI2A0",
         "00QQD00000dK8Wi2AK",
         "00QQD00000dK8XJ2A0",
         "00QQD00000dK8XH2A0",
-        "00QQD00000dK8WL2A0",
-        "00QQD00000dFQ672AG",
-        "00QQD00000dHenD2AS",
-        "00QQD00000dHemg2AC",
-        "00QQD00000dHemx2AC",
-        "00QQD00000ZH1bV2AT",
+        "00QQD00000dFQ6o2AG",
         "00QQD00000dK8XN2A0",
         "00QQD00000dK8XK2A0",
         "00QQD00000dK8Wk2AK",
@@ -11796,14 +11792,18 @@
         "00QQD00000dK8Wa2AK",
         "00QQD00000dK8XS2A0",
         "00QQD00000dFQ6y2AG",
+        "00QQD00000dHenD2AS",
+        "00QQD00000dHemg2AC",
+        "00QQD00000dHemx2AC",
+        "00QQD00000ZH1bV2AT",
         "00QQD00000cyR7y2AE"
       ],
       "it": [
         "00QQD00000dAZW52AO",
-        "00QQD00000d60Ip2AI",
+        "00QQD00000dAZWp2AO",
         "00QQD00000d9RBi2AM",
         "00QQD00000d9RBf2AM",
-        "00QQD00000dAZWp2AO"
+        "00QQD00000d60Ip2AI"
       ],
       "nl": [
         "00QQD00000AQCOt2AP",
@@ -11870,7 +11870,6 @@
         "00QQD00000dNfJh2AK",
         "00QQD00000ZGxGv2AL",
         "00QQD00000dOwBY2A0",
-        "00QQD00000d5ys62AA",
         "00QQD00000ZH1PW2A1",
         "00QQD00000ZFcpI2AT",
         "00QQD00000ZGeiM2AT",
@@ -11884,6 +11883,7 @@
         "00QQD00000dHemh2AC",
         "00QQD00000dHen92AC",
         "00QQD00000dNfJc2AK",
+        "00QQD00000d5ys62AA",
         "00QQD00000ZG9SX2A1",
         "00QQD00000dOwBC2A0"
       ],
@@ -11958,7 +11958,6 @@
         "00QQD00000ZFjJ22AL"
       ],
       "fr": [
-        "00QQD00000dRX932AG",
         "00QQD00000dK8XD2A0",
         "00QQD00000dNfJ72AK",
         "00QQD00000dK8X52AK",
@@ -11979,15 +11978,16 @@
         "00QQD00000d3Z8Q2AU",
         "00QQD00000dMPPQ2A4",
         "00QQD00000dRX952AG",
-        "00QQD00000dNfJg2AK",
-        "00QQD00000cyR7q2AE",
-        "00QQD00000dHen62AC",
+        "00QQD00000dRX932AG",
         "00QQD00000dRX942AG",
         "00QQD00000dAZWT2A4",
         "00QQD00000dRX912AG",
         "00QQD00000dRX8Q2AW",
         "00QQD00000dOwBp2AK",
         "00QQD00000ZGtKC2A1",
+        "00QQD00000dNfJg2AK",
+        "00QQD00000cyR7q2AE",
+        "00QQD00000dHen62AC",
         "00QQD00000dRX8f2AG",
         "00QQD00000dRX9A2AW",
         "00QQD00000dNfJV2A0",
@@ -12089,20 +12089,20 @@
         "00QQD00000dCx3G2AS",
         "00QQD00000dAZWS2A4",
         "00QQD00000dUC1z2AG",
-        "00QQD00000d9RBE2A2",
-        "00QQD00000dNfJf2AK",
-        "00QQD00000dUC1P2AW",
-        "00QQD00000dOwBG2A0",
-        "00QQD00000dUC1g2AG",
-        "00QQD00000dOwCA2A0",
-        "00QQD00000dUC1j2AG",
-        "00QQD00000dOwAy2AK",
-        "00QQD00000dOwBX2A0",
-        "00QQD00000d9RAt2AM",
         "00QQD00000dUC1n2AG",
         "00QQD00000dOwCD2A0",
         "00QQD00000dOwBx2AK",
         "00QQD00000ctEP92AM",
+        "00QQD00000d9RBE2A2",
+        "00QQD00000dNfJf2AK",
+        "00QQD00000dUC1j2AG",
+        "00QQD00000dOwAy2AK",
+        "00QQD00000dOwBX2A0",
+        "00QQD00000d9RAt2AM",
+        "00QQD00000dUC1P2AW",
+        "00QQD00000dOwBG2A0",
+        "00QQD00000dUC1g2AG",
+        "00QQD00000dOwCA2A0",
         "00QQD00000dMPP72AO",
         "00QQD00000dUC1w2AG",
         "00QQD00000dNfJk2AK"
@@ -12175,9 +12175,6 @@
         "00QQD00000dWcJD2A0",
         "00QQD00000dWcJE2A0",
         "00QQD00000dNfIh2AK",
-        "00QQD00000dMPNy2AO",
-        "00QQD00000ZGwA42AL",
-        "00QQD00000dUC182AG",
         "00QQD00000dUC122AG",
         "00QQD00000dUC112AG",
         "00QQD00000dWcJF2A0",
@@ -12191,7 +12188,10 @@
         "00QQD00000dOwC82AK",
         "00QQD00000dOwC72AK",
         "00QQD00000dUC1a2AG",
-        "00QQD00000dOwAs2AK"
+        "00QQD00000dOwAs2AK",
+        "00QQD00000dMPNy2AO",
+        "00QQD00000ZGwA42AL",
+        "00QQD00000dUC182AG"
       ],
       "it": [
         "00QQD00000dK8Wg2AK",
@@ -12260,26 +12260,27 @@
         "00QQD00000dNfJ12AK",
         "00QQD00000dNfJ52AK",
         "00QQD00000dWcIN2A0",
-        "00QQD00000ZGxIV2A1",
-        "00QQD00000dOwBr2AK",
-        "00QQD00000dWcIo2AK",
         "00QQD00000dWcJc2AK",
         "00QQD00000dUC0b2AG",
         "00QQD00000dYzQl2AK",
         "00QQD00000dUC0l2AG",
         "00QQD00000ZGOFb2AP",
         "00QQD00000d5ysy2AA",
-        "00QQD00000dYzQV2A0",
-        "00QQD00000dYzQW2A0",
-        "00QQD00000dYzQT2A0",
+        "00QQD00000ZGxIV2A1",
+        "00QQD00000dOwBr2AK",
+        "00QQD00000dWcIo2AK",
         "00QQD00000dYzQN2A0",
         "00QQD00000dYzQO2A0",
         "00QQD00000dWcJR2A0",
+        "00QQD00000dUC1d2AG",
         "00QQD00000dWcJS2A0",
         "00QQD00000dWcJM2A0",
-        "00QQD00000dUC1d2AG"
+        "00QQD00000dYzQV2A0",
+        "00QQD00000dYzQW2A0",
+        "00QQD00000dYzQT2A0"
       ],
       "it": [
+        "00QQD00000dOwBn2AK",
         "00QQD00000dMPOu2AO",
         "00QQD00000dNfIo2AK",
         "00QQD00000dNfK42AK",
@@ -12292,16 +12293,15 @@
         "00QQD00000dMPPN2A4",
         "00QQD00000dRX7w2AG",
         "00QQD00000dRX8O2AW",
-        "00QQD00000dOwBn2AK",
-        "00QQD00000dOwBe2AK",
-        "00QQD00000dOwBd2AK",
-        "00QQD00000dOwBz2AK",
-        "00QQD00000dNfJl2AK",
         "00QQD00000dWcIw2AK",
         "00QQD00000dOwBO2A0",
         "00QQD00000dUC0r2AG",
         "00QQD00000dOwBF2A0",
         "00QQD00000dOwC92AK",
+        "00QQD00000dOwBe2AK",
+        "00QQD00000dOwBd2AK",
+        "00QQD00000dOwBz2AK",
+        "00QQD00000dNfJl2AK",
         "00QQD00000dMPPL2A4"
       ],
       "nl": [
@@ -12337,18 +12337,16 @@
         "00QQD00000dWVBt2AO"
       ],
       "fr": [
+        "00QQD00000ZGmrW2AT",
         "00QQD00000ddbOh2AI",
         "00QQD00000ZGt4m2AD",
         "00QQD00000ZGA0t2AH",
         "00QQD00000ddbPQ2AY",
         "00QQD00000ZGovW2AT",
-        "00QQD00000ZGmrW2AT",
         "00QQD00000dYzPr2AK",
         "00QQD00000db51g2AA",
         "00QQD00000ddbNs2AI",
         "00QQD00000db52D2AQ",
-        "00QQD00000ddbOO2AY",
-        "00QQD00000dbx8A2AQ",
         "00QQD00000ddbP32AI",
         "00QQD00000dbAAH2A2",
         "00QQD00000dWcIm2AK",
@@ -12360,6 +12358,8 @@
         "00QQD00000dYzPH2A0",
         "00QQD00000dYzQL2A0",
         "00QQD00000db51v2AA",
+        "00QQD00000ddbOO2AY",
+        "00QQD00000dbx8A2AQ",
         "00QQD00000bbqXz2AI"
       ],
       "it": [
@@ -12458,8 +12458,6 @@
         "00QQD00000dg4Ie2AI",
         "00QQD00000dg4JG2AY",
         "00QQD00000dg4K22AI",
-        "00QQD00000dg4KD2AY",
-        "00QQD00000d8GvM2AU",
         "00QQD00000ddbOF2AY",
         "00QQD00000dg4KO2AY",
         "00QQD00000ZGKCA2A5",
@@ -12473,6 +12471,8 @@
         "00QQD00000dYzQp2AK",
         "00QQD00000dHemK2AS",
         "00QQD00000dOwBI2A0",
+        "00QQD00000dg4KD2AY",
+        "00QQD00000d8GvM2AU",
         "00QQD00000dbx7s2AA",
         "00QQD00000ddbPB2AY",
         "00QQD00000dbx8S2AQ",
@@ -12988,12 +12988,12 @@
       "fr": [
         "00QQD00000ZEyI02AL",
         "00QQD00000ZGtqI2AT",
-        "00QQD00000ZGjyt2AD",
         "00QQD00000ddbOL2AY",
-        "00QQD00000ZFoeE2AT",
         "00QQD00000ZGwGA2A1",
         "00QQD00000ZGrLJ2A1",
-        "00QQD00000ZGtfA2AT"
+        "00QQD00000ZGtfA2AT",
+        "00QQD00000ZGjyt2AD",
+        "00QQD00000ZFoeE2AT"
       ],
       "nl": [
         "00QQD00000APy9O2AT",
@@ -13810,8 +13810,8 @@
     },
     "2026-08-09": {
       "fr": [
-        "00QP500000r3bMQMAY",
-        "00QP500000r3bMOMAY"
+        "00QP500000r3bMOMAY",
+        "00QP500000r3bMQMAY"
       ],
       "nl": [
         "00QQD00000AQA6b2AH"
@@ -14072,9 +14072,9 @@
         "00QQD00000cV18Q2AS"
       ],
       "fr": [
+        "00QP500000rZdw5MAC",
         "00QP500000rZdw2MAC",
-        "00QP500000rZdwAMAS",
-        "00QP500000rZdw5MAC"
+        "00QP500000rZdwAMAS"
       ],
       "nl": [
         "00QP500000sAFWXMA4",
@@ -14120,8 +14120,8 @@
     },
     "2026-08-16": {
       "fr": [
-        "00QP500000riTeAMAU",
-        "00QP500000riTe9MAE"
+        "00QP500000riTe9MAE",
+        "00QP500000riTeAMAU"
       ]
     },
     "2026-08-17": {
@@ -14370,9 +14370,9 @@
         "00QP500000sW1UvMAK"
       ],
       "fr": [
-        "00QP500000s5m3QMAQ",
         "00QP500000s5m3RMAQ",
-        "00QP500000s5m3KMAQ"
+        "00QP500000s5m3KMAQ",
+        "00QP500000s5m3QMAQ"
       ],
       "nl": [
         "00QP500000rqSLAMA2",
@@ -14430,9 +14430,9 @@
         "00QQD00000e0FBJ2A2"
       ],
       "fr": [
-        "00QP500000sD6QKMA0",
         "00QP500000sD6QNMA0",
-        "00QP500000sD6QIMA0"
+        "00QP500000sD6QIMA0",
+        "00QP500000sD6QKMA0"
       ],
       "it": [
         "00QP500000sD6QHMA0"
@@ -14494,8 +14494,8 @@
         "00QP500000t9XUwMAM"
       ],
       "fr": [
-        "00QP500000sPEgfMAG",
-        "00QP500000sPEgkMAG"
+        "00QP500000sPEgkMAG",
+        "00QP500000sPEgfMAG"
       ],
       "nl": [
         "00QP500000t26hbMAA",
@@ -14558,8 +14558,8 @@
         "00QP500000sy4UiMAI",
         "00QP500000t2BKiMAM",
         "00QP500000rxMFjMAM",
-        "00QP500000tFoG9MAK",
         "00QP500000t13iXMAQ",
+        "00QP500000tFoG9MAK",
         "00QP500000t1h8EMAQ",
         "00QQD00000ZFRTD2A5",
         "00QP500000t23zzMAA",
@@ -14634,9 +14634,9 @@
         "00QQD00000bVMqB2AW"
       ],
       "fr": [
-        "00QP500000sg9ClMAI",
+        "00QP500000sg9CfMAI",
         "00QP500000sg9CjMAI",
-        "00QP500000sg9CfMAI"
+        "00QP500000sg9ClMAI"
       ],
       "nl": [
         "00QP500000rZa0TMAS",
@@ -14959,8 +14959,8 @@
         "00QP500000tEqezMAC"
       ],
       "fr": [
-        "00QP500000tM9kwMAC",
-        "00QP500000tM9l2MAC"
+        "00QP500000tM9l2MAC",
+        "00QP500000tM9kwMAC"
       ],
       "nl": [
         "00QP500000tyYFFMA2",
@@ -15020,10 +15020,10 @@
         "00QP500000uCTQzMAO"
       ],
       "fr": [
-        "00QQD00000ZGxeG2AT",
         "00QP500000tTUvuMAG",
         "00QP500000tTUvwMAG",
-        "00QP500000tTUvxMAG"
+        "00QP500000tTUvxMAG",
+        "00QQD00000ZGxeG2AT"
       ],
       "nl": [
         "00QP500000u5OPhMAM",
@@ -15084,8 +15084,8 @@
         "00QQD00000ZGpZa2AL"
       ],
       "fr": [
-        "00QP500000taQqqMAE",
-        "00QP500000taQqlMAE"
+        "00QP500000taQqlMAE",
+        "00QP500000taQqqMAE"
       ],
       "it": [
         "00QP500000taQqkMAE"
@@ -15121,8 +15121,8 @@
     },
     "2026-09-06": {
       "fr": [
-        "00QP500000tjbS2MAI",
-        "00QP500000tjbS0MAI"
+        "00QP500000tjbS0MAI",
+        "00QP500000tjbS2MAI"
       ]
     },
     "2026-09-07": {
@@ -15156,9 +15156,9 @@
         "00QP500000uXfIfMAK"
       ],
       "fr": [
+        "00QP500000tmsXuMAI",
         "00QP500000tmsXxMAI",
-        "00QP500000tmsXtMAI",
-        "00QP500000tmsXuMAI"
+        "00QP500000tmsXtMAI"
       ],
       "nl": [
         "00QP500000uQGthMAG",
@@ -15179,8 +15179,8 @@
         "00QP500000uQNFNMA4",
         "00QP500000uNE5IMAW",
         "00QP500000uNGiFMAW",
-        "00QP500000uQuBFMA0",
         "00QP500000uTLaLMAW",
+        "00QP500000uQuBFMA0",
         "00QP500000uOYjUMAW",
         "00QQD00000AQOxy2AH",
         "00QP500000uTnbRMAS",
@@ -15339,12 +15339,12 @@
         "00QP500000uFJA9MAO"
       ],
       "fr": [
-        "00QP500000u1tX2MAI",
+        "00QP500000u1tX6MAI",
         "00QP500000u1tWzMAI",
         "00QP500000u1tWyMAI",
         "00QP500000u1tXCMAY",
         "00QP500000u1tX7MAI",
-        "00QP500000u1tX6MAI"
+        "00QP500000u1tX2MAI"
       ],
       "it": [
         "00QP500000u1tX5MAI"
@@ -15456,8 +15456,8 @@
         "00QP500000uvvAzMAI"
       ],
       "fr": [
-        "00QP500000uGq4BMAS",
-        "00QP500000uGq46MAC"
+        "00QP500000uGq46MAC",
+        "00QP500000uGq4BMAS"
       ],
       "it": [
         "00QP500000uGq48MAC"
@@ -15506,9 +15506,9 @@
     },
     "2026-09-12": {
       "fr": [
-        "00QQD00000ZGiY82AL",
         "00QP500000uN6EIMA0",
-        "00QP500000uN6EHMA0"
+        "00QP500000uN6EHMA0",
+        "00QQD00000ZGiY82AL"
       ],
       "it": [
         "00QQD00000ZGwtt2AD"
@@ -15778,8 +15778,8 @@
         "00QP500000uCElLMAW",
         "00QP500000vDuq7MAC",
         "00QQD00000ZGQv92AH",
-        "00QP500000uoarGMAQ",
         "00QQD00000ZGUOW2A5",
+        "00QP500000uoarGMAQ",
         "00QQD00000ZFSji2AH",
         "00QP500000vb31JMAQ",
         "00QP500000vUR23MAG",
@@ -15899,9 +15899,9 @@
         "00QP500000voR2bMAE"
       ],
       "fr": [
+        "00QP500000vBZo5MAG",
         "00QP500000vBZoCMAW",
-        "00QP500000vBZo4MAG",
-        "00QP500000vBZo5MAG"
+        "00QP500000vBZo4MAG"
       ],
       "nl": [
         "00QP500000vrfYsMAI",
@@ -16240,8 +16240,8 @@
     },
     "2026-09-27": {
       "fr": [
-        "00QP500000vrSrzMAE",
-        "00QP500000vrSryMAE"
+        "00QP500000vrSryMAE",
+        "00QP500000vrSrzMAE"
       ],
       "it": [
         "00QP500000vrSs0MAE"
@@ -16477,7 +16477,15 @@
         "00QP500000wzrxGMAQ",
         "00QP500000w9RE8MAM",
         "00QP500000wza6rMAA",
-        "00QQD00000HfQmM2AV"
+        "00QQD00000HfQmM2AV",
+        "00QP500000vnoxUMAQ",
+        "00QP500000wxaHPMAY",
+        "00QP500000w5O57MAE",
+        "00QP500000w6EZyMAM",
+        "00QP500000wvGwLMAU",
+        "00QQD00000APzgu2AD",
+        "00QP500000wTaQ7MAK",
+        "00QP500000wUYkjMAG"
       ]
     }
   },
@@ -36871,7 +36879,7 @@
         }
       },
       "nl": {
-        "activeLeads": 201,
+        "activeLeads": 200,
         "toStatus": {
           "Appointment": 52,
           "Brochure": 6,
@@ -36879,7 +36887,7 @@
           "Lost": 15,
           "Mailjourney": 61,
           "Not Qualified": 19,
-          "Not reached": 44,
+          "Not reached": 43,
           "Re-entered": 12,
           "Re-entered - Phone Number Changed": 4
         },
@@ -36904,7 +36912,7 @@
           "New>Lost": 1,
           "New>Mailjourney": 17,
           "New>Not Qualified": 9,
-          "New>Not reached": 34,
+          "New>Not reached": 33,
           "Not Qualified>Re-entered": 1,
           "Not reached>Appointment": 10,
           "Not reached>Brochure": 4,
@@ -36926,12 +36934,12 @@
     },
     "2026-09-30": {
       "be": {
-        "activeLeads": 48,
+        "activeLeads": 52,
         "toStatus": {
-          "Appointment": 9,
-          "Follow-up": 3,
-          "Lost": 4,
-          "Mailjourney": 25,
+          "Appointment": 10,
+          "Follow-up": 4,
+          "Lost": 5,
+          "Mailjourney": 26,
           "Not Qualified": 5,
           "Not reached": 7,
           "Re-entered": 2
@@ -36939,12 +36947,12 @@
         "transitions": {
           "Converted Old SF>Re-entered": 1,
           "Follow-up>Appointment": 2,
-          "Follow-up>Lost": 2,
-          "Follow-up>Mailjourney": 15,
+          "Follow-up>Lost": 3,
+          "Follow-up>Mailjourney": 16,
           "Follow-up>Not Qualified": 1,
           "Mailjourney>Appointment": 1,
-          "New>Appointment": 5,
-          "New>Follow-up": 1,
+          "New>Appointment": 6,
+          "New>Follow-up": 2,
           "New>Lost": 1,
           "New>Not Qualified": 3,
           "New>Not reached": 6,
@@ -36982,45 +36990,52 @@
         }
       },
       "nl": {
-        "activeLeads": 94,
+        "activeLeads": 119,
         "toStatus": {
-          "Appointment": 19,
+          "Appointment": 23,
           "Brochure": 4,
-          "Follow-up": 15,
-          "Lost": 2,
-          "Mailjourney": 27,
-          "Not Qualified": 9,
-          "Not reached": 24,
-          "Re-entered": 4
+          "Follow-up": 22,
+          "Lost": 7,
+          "Mailjourney": 37,
+          "Not Qualified": 12,
+          "Not reached": 29,
+          "Re-entered": 11
         },
         "transitions": {
           "Brochure>Follow-up": 4,
           "Converted Old SF>Follow-up": 1,
-          "Follow-up>Appointment": 1,
-          "Follow-up>Mailjourney": 9,
+          "Follow-up>Appointment": 3,
+          "Follow-up>Mailjourney": 14,
+          "Follow-up>Not Qualified": 1,
+          "Follow-up>Re-entered": 3,
+          "Lost>Re-entered": 1,
           "Mailjourney>Appointment": 1,
           "Mailjourney>Brochure": 1,
+          "Mailjourney>Lost": 1,
           "Mailjourney>Not Qualified": 1,
-          "Mailjourney>Re-entered": 4,
-          "New>Appointment": 12,
+          "Mailjourney>Re-entered": 7,
+          "New>Appointment": 13,
           "New>Brochure": 3,
           "New>Follow-up": 4,
-          "New>Lost": 2,
+          "New>Lost": 3,
           "New>Mailjourney": 10,
           "New>Not Qualified": 7,
-          "New>Not reached": 23,
+          "New>Not reached": 25,
           "Not reached>Appointment": 5,
-          "Not reached>Follow-up": 6,
-          "Not reached>Mailjourney": 6,
-          "Not reached>Not Qualified": 1,
-          "Re-entered>Mailjourney": 2,
-          "Re-entered>Not reached": 1
+          "Not reached>Follow-up": 13,
+          "Not reached>Lost": 2,
+          "Not reached>Mailjourney": 8,
+          "Not reached>Not Qualified": 3,
+          "Re-entered>Appointment": 1,
+          "Re-entered>Lost": 1,
+          "Re-entered>Mailjourney": 5,
+          "Re-entered>Not reached": 4
         }
       }
     }
   },
   "endDate": "2026-10-01",
-  "generated_at": "2026-09-30T11:45:22+00:00",
+  "generated_at": "2026-09-30T12:57:58+00:00",
   "market_scope": "per_market",
   "notes": [
     "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
@@ -37032,5 +37047,5 @@
     "90"
   ],
   "rows_without_market": 0,
-  "source_rows": 58826
+  "source_rows": 58870
 }
