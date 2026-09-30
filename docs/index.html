@@ -319,8 +319,6 @@
 
   .footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   .placeholder-note{background:#FCEAEC;border:1px solid #F5CBD0;border-radius:10px;padding:11px 16px;font-size:12.5px;color:#8A0512;margin-top:24px;display:flex;align-items:flex-start;gap:9px}
-  .source-note{background:#F7F9FB;border:1px solid var(--line);border-radius:10px;padding:13px 16px;font-size:12.5px;color:var(--ink-soft);margin-top:24px;display:flex;align-items:flex-start;gap:9px;line-height:1.5}
-  .source-note b{color:var(--ink)}
 
   /* Niet-aangesloten waarden: bewust een streepje, nooit een nul */
   .nodata{color:#A8B3C1!important;font-weight:600!important}
@@ -907,23 +905,7 @@
 
 
 
-  <div class="source-note">
-    <span style="font-size:15px">ℹ</span>
-    <span><b>Wat is hier live en wat niet.</b>
-      <b>Email Health</b> komt rechtstreeks uit de Marketing Cloud tracking events (SentEvent, OpenEvent,
-      ClickEvent, BounceEvent, UnsubEvent) per journey, per Business Unit. <b>Her-activatie</b> en de
-      <b>lead funnel</b> komen uit Salesforce <code>LeadHistory</code> — echte statusovergangen op
-      <code>Lead.Status</code>. <b>Automation coverage</b>, <b>database-groei</b> en alle
-      <b>kosten-KPI's</b> hebben nog geen bron en staan daarom leeg (–), niet op nul.
-      Spam-complaint rate is null omdat <code>ComplaintEvent</code> niet is opgevraagd.
-      De badge per sectie laat zien wat de status is. Benchmarkdrempels volgen algemene
-      B2C-leadgenrichtlijnen en moeten per flow gekalibreerd worden.
-      <br><br>
-      <b>Alles is nu per land.</b> De LeadHistory-export levert het RecordType van de Lead mee, en
-      alle vier de Lead-RecordTypes zijn <i>Particulier &lt;land&gt;</i> — er zijn geen zakelijke
-      RecordTypes. Ratio's met een noemer onder 25 worden onderdrukt: bij zulke kleine aantallen
-      vallen statusovergangen buiten hun eigen instroomvenster en krijg je percentages boven 100%.</span>
-  </div>
+
 
   <div class="footer">
     <div>Otolift · Marketing Automation Performance · opgesteld door Brandfirm</div>
