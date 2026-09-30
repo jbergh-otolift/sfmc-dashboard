@@ -2858,9 +2858,9 @@
     },
     "2026-09-30": {
       "be": {
-        "entered": 12,
-        "mailable": 10,
-        "reached": 10
+        "entered": 22,
+        "mailable": 17,
+        "reached": 13
       },
       "fr": {
         "entered": 2,
@@ -2873,51 +2873,51 @@
         "reached": null
       },
       "nl": {
-        "entered": 10,
-        "mailable": 5,
-        "reached": 4
+        "entered": 19,
+        "mailable": 10,
+        "reached": 9
       }
     }
   },
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
   "coverage_definition": "Status = 'Mailjourney' AND Email != null AND HasOptedOutOfEmail = false AND (Customized_Product_Advice__c = true OR Reason_Mailjourney__c IN ('No Contact Possible - number correct', 'No Contact Possible - number incorrect', 'No contact possible')); bereikt = minstens een e-mail in de laatste 90 dagen",
-  "generated_at": "2026-09-30T09:10:32+00:00",
+  "generated_at": "2026-09-30T10:28:10+00:00",
   "markets": {
     "be": {
       "cohorts": {
         "30": {
-          "coverage": 94.2,
-          "entered": 480,
-          "mailable": 365,
-          "reached": 344
+          "coverage": 93.3,
+          "entered": 490,
+          "mailable": 372,
+          "reached": 347
         },
         "7": {
-          "coverage": 97.4,
-          "entered": 102,
-          "mailable": 76,
-          "reached": 74
+          "coverage": 91.7,
+          "entered": 113,
+          "mailable": 84,
+          "reached": 77
         },
         "90": {
-          "coverage": 89.7,
-          "entered": 1220,
-          "mailable": 956,
-          "reached": 858
+          "coverage": 89.4,
+          "entered": 1230,
+          "mailable": 963,
+          "reached": 861
         }
       },
-      "consentShare": 6.34,
-      "consentTotal": 4796,
+      "consentShare": 6.35,
+      "consentTotal": 4797,
       "coverage": 43.4,
-      "growth": 908,
-      "growthDeltaPct": 93.6,
+      "growth": 909,
+      "growthDeltaPct": 93.8,
       "growthPrev": 469,
-      "leadsTotal": 75590,
-      "mailjourneyNoConsent": 14882,
-      "mailjourneyNoContactException": 70,
+      "leadsTotal": 75593,
+      "mailjourneyNoConsent": 14885,
+      "mailjourneyNoContactException": 71,
       "mailjourneyNoEmail": 635,
-      "mailjourneyTotal": 17325,
-      "reachedOfShouldMail": 785,
-      "shouldMail": 1808
+      "mailjourneyTotal": 17332,
+      "reachedOfShouldMail": 787,
+      "shouldMail": 1812
     },
     "fr": {
       "cohorts": {
@@ -2993,36 +2993,36 @@
       "cohorts": {
         "30": {
           "coverage": 97.0,
-          "entered": 911,
-          "mailable": 560,
-          "reached": 543
+          "entered": 920,
+          "mailable": 565,
+          "reached": 548
         },
         "7": {
-          "coverage": 96.6,
-          "entered": 182,
-          "mailable": 117,
-          "reached": 113
+          "coverage": 96.7,
+          "entered": 191,
+          "mailable": 122,
+          "reached": 118
         },
         "90": {
           "coverage": 93.3,
-          "entered": 2270,
-          "mailable": 1408,
-          "reached": 1314
+          "entered": 2279,
+          "mailable": 1413,
+          "reached": 1319
         }
       },
       "consentShare": 10.4,
-      "consentTotal": 34066,
-      "coverage": 36.0,
-      "growth": 1906,
-      "growthDeltaPct": 93.9,
+      "consentTotal": 34077,
+      "coverage": 36.1,
+      "growth": 1919,
+      "growthDeltaPct": 95.2,
       "growthPrev": 983,
-      "leadsTotal": 327644,
-      "mailjourneyNoConsent": 25684,
-      "mailjourneyNoContactException": 312,
+      "leadsTotal": 327812,
+      "mailjourneyNoConsent": 25685,
+      "mailjourneyNoContactException": 314,
       "mailjourneyNoEmail": 5246,
-      "mailjourneyTotal": 42084,
-      "reachedOfShouldMail": 4019,
-      "shouldMail": 11154
+      "mailjourneyTotal": 42087,
+      "reachedOfShouldMail": 4022,
+      "shouldMail": 11156
     }
   },
   "period": {
