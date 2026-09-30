@@ -173,6 +173,7 @@ def main():
     probe_reasons(token, instance_url)
     probe_order_counting(token, instance_url)
     probe_quote_fields(token, instance_url)
+    probe_quote_object(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -534,6 +535,45 @@ def probe_quote_fields(token, instance_url):
         total = gelijk + achter + vooruit
         print(f"\n  CloseDate versus LastModifiedDate (n={total}):")
         print(f"    zelfde dag {gelijk} · CloseDate eerder {achter} · CloseDate later {vooruit}")
+
+
+def probe_quote_object(token, instance_url):
+    """Het Quote-object: bestaat het, en staat er een tekendatum op?
+
+    De offerteflow mikt op openstaande offertes. Als er een veld is met het
+    moment van tekenen, is dat het juiste signaal — beter dan CloseDate, dat
+    een verwachte datum blijkt die niet wordt bijgewerkt.
+    """
+    print("\n--- Quote-object ---")
+    resp = requests.get(
+        f"{instance_url}/services/data/{API_VERSION}/sobjects/Quote/describe",
+        headers={"Authorization": f"Bearer {token}"}, timeout=60)
+    if not resp.ok:
+        print(f"  Quote niet leesbaar of bestaat niet: {resp.status_code}")
+        return
+    fields = resp.json()["fields"]
+    print(f"  velden zichtbaar: {len(fields)}")
+
+    relevant = [
+        f for f in fields
+        if any(w in (f["name"] + " " + (f.get("label") or "")).lower()
+               for w in ("sign", "getekend", "accept", "status", "date", "expir"))
+    ]
+    print(f"  {'veld':46} {'type':10} label")
+    for f in relevant[:26]:
+        print(f"  {f['name'][:46]:46} {f['type']:10} {f.get('label')}")
+
+    res, err = query(token, instance_url, "SELECT COUNT(Id) n FROM Quote")
+    if not err:
+        print(f"\n  Aantal quotes: {res['records'][0]['n']}")
+
+    res, err = query(
+        token, instance_url,
+        "SELECT Status, COUNT(Id) n FROM Quote GROUP BY Status ORDER BY COUNT(Id) DESC")
+    if not err:
+        print("  Statusverdeling:")
+        for row in res["records"][:10]:
+            print(f"    {str(row['Status'])[:34]:36} {row['n']}")
 
 
 if __name__ == "__main__":
