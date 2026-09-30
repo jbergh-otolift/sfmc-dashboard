@@ -1083,12 +1083,12 @@ function crmFromSums(crm, prevCrm, value) {
         share: safeRatio(appointment, intake),
         convDeltaPct: prev ? delta(safeRatio(appointment, intake), prev.acquisition.funnel.r1.share) : null,
       },
-      // Gewonnen orders die in deze periode zijn gesloten. Andere populatie
-      // dan MQL en R1 — dat zijn statusovergangen in de periode, dit zijn
-      // conversies — maar wel hetzelfde venster.
+      // Alleen orders die aantoonbaar via de mailflow zijn binnengekomen.
+      // Alle orders in het CRM tellen zou hier niets zeggen: daar zit alles
+      // in wat nooit een mail heeft gezien.
       order: {
-        abs: value ? value.orders : null,
-        share: value ? safeRatio(value.orders, intake) : null,
+        abs: value ? value.viaOrders : null,
+        share: value ? safeRatio(value.viaOrders, intake) : null,
         convDeltaPct: null,
       },
     },

@@ -29,10 +29,23 @@ optelbaar zijn en elk gekozen bereik exact klopt. Dit zegt dus: van de orders
 die in deze periode binnenkwamen, kwam dit deel via automation — niet: van de
 leads die instroomden leverde dit deel op.
 
+Naast de routes wordt per conversie het volledige **statuspad** opgebouwd: een
+leesbare tekenreeks als `Mailjourney (No contact possible) → Re-entered →
+Appointment`. Daarmee is op het dashboard te zien welke volgorde van stappen
+daadwerkelijk omzet oplevert, in plaats van alleen het eerste signaal.
+
+LET OP bij `byFlow`: een lead kan door meerdere journeys zijn aangeraakt en
+telt dan bij élke journey mee. De omzet in `byFlow` is dus **meervoudig
+toegerekend** en mag niet worden opgeteld of vergeleken met het totaal. Dat
+staat ook als `byFlowNote` in de output. `byRoute`, `byReason` en `byPath`
+zijn wél exclusief: daar telt elke order precies één keer.
+
 Gebruik:
     SF_DOMAIN=... SF_CLIENT_ID=... SF_CLIENT_SECRET=... python scripts/export_reactivation_value.py
 
-Draai dit ná export_salesforce_report.py. Schrijft `exports/reactivation_value.json`.
+Draai dit ná export_salesforce_report.py en export_sfmc_tracking.py (die laatste
+schrijft `exports/_reached_lead_ids.json`, nodig voor `byFlow`).
+Schrijft `exports/reactivation_value.json`.
 """
 
 import csv
@@ -49,6 +62,7 @@ CLIENT_SECRET = os.environ["SF_CLIENT_SECRET"]
 API_VERSION = "v60.0"
 
 REPORT_PATH = "exports/report.csv"
+REACHED_PATH = "exports/_reached_lead_ids.json"
 OUT_PATH = "exports/reactivation_value.json"
 
 # Ruim terugkijken: een lead die maanden geleden instroomde kan nu pas tekenen.
@@ -71,6 +85,75 @@ REENTRY_ROUTES = {
     "Re-entered - Phone Number Changed": "Nummer gewijzigd",
     S_APPOINTMENT: "Direct afspraak",
 }
+
+# Alleen deze statussen komen ná de Mailjourney-instroom in het statuspad.
+# Al het overige (Lost, Not Qualified, New, Converted Old SF, ...) wordt
+# genegeerd; anders wordt het pad onleesbaar en valt er niets meer te groeperen.
+PATH_STATUSES = {
+    "Re-entered",
+    "Re-entered - Phone Number Changed",
+    S_APPOINTMENT,
+    "Follow-up",
+    "Brochure",
+    "Not reached",
+}
+
+# Hoeveel stappen ná de Mailjourney-instroom maximaal getoond worden.
+PATH_MAX_STEPS = 4
+PATH_ARROW = " → "
+PATH_MORE = "…"
+
+
+def build_status_path(reason, steps, until=None):
+    """Bouwt de leesbare statuspad-string voor één lead.
+
+    `steps` is een op datum gesorteerde lijst van (dag, status) ná de
+    instroom in Mailjourney. `until` is de conversiedatum: stappen daarná
+    horen niet in het pad, want die zeggen niets over de order.
+
+    Directe herhalingen worden samengevouwen (A → A wordt A) en het pad
+    wordt afgekapt op PATH_MAX_STEPS stappen, met een afsluitend '…'.
+    """
+    head = f"{S_MAILJOURNEY} ({reason})" if reason else S_MAILJOURNEY
+
+    kept = []
+    for day, status in steps:
+        if until and day > until:
+            continue
+        if kept and kept[-1] == status:
+            continue
+        kept.append(status)
+
+    truncated = len(kept) > PATH_MAX_STEPS
+    parts = [head] + kept[:PATH_MAX_STEPS]
+    path = PATH_ARROW.join(parts)
+    if truncated:
+        path += PATH_ARROW + PATH_MORE
+    return path
+
+
+def reached_by_flow(path):
+    """Lead-ID -> journeys die die lead gemaild hebben.
+
+    Eén lead kan in meerdere journeys zitten; die worden allemaal bewaard.
+    Ontbreekt het bestand, dan geven we None terug en slaan we byFlow over.
+    """
+    if not os.path.exists(path):
+        return None
+
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError) as exc:
+        print(f"WAARSCHUWING: {path} onleesbaar ({exc}).")
+        return None
+
+    by_lead = defaultdict(set)
+    for per_market in (data.get("markets") or {}).values():
+        for journey, lead_ids in (per_market.get("by_journey") or {}).items():
+            for lead in lead_ids or ():
+                by_lead[lead].add(journey)
+    return by_lead
 
 
 def get_token():
@@ -148,9 +231,11 @@ def reactivation_paths(path):
         rows.sort(key=lambda r: r.get("Edit Date") or "")
 
         entered = None
+        entry_reason = ""
         route = None
         route_date = None
         appointment = None
+        steps = []
 
         for row in rows:
             new = (row.get("New Value") or "").strip()
@@ -159,6 +244,7 @@ def reactivation_paths(path):
             if entered is None:
                 if new == S_MAILJOURNEY:
                     entered = day
+                    entry_reason = (row.get("Reason") or "").strip()
                 continue
 
             if route is None and new in REENTRY_ROUTES:
@@ -166,6 +252,11 @@ def reactivation_paths(path):
                 route_date = day
             if appointment is None and new == S_APPOINTMENT:
                 appointment = day
+            # Alleen de betekenisvolle statussen bewaren; de string zelf
+            # wordt pas bij de conversie opgebouwd, want dan pas weten we
+            # tot welke datum het pad loopt.
+            if new in PATH_STATUSES:
+                steps.append((day, new))
 
         if entered is None:
             continue
@@ -174,10 +265,15 @@ def reactivation_paths(path):
         paths[lead] = {
             "market": (last.get("Market") or "").strip().lower(),
             "reason": (last.get("Reason") or "").strip(),
+            # De reden zoals vastgelegd bij de instroom in de mailflow; die
+            # beschrijft waaróm de lead de flow in ging. Valt terug op de
+            # laatst bekende reden als het instroommoment er geen had.
+            "entryReason": entry_reason or (last.get("Reason") or "").strip(),
             "entered": entered,
             "route": route,
             "routeDate": route_date,
             "appointment": appointment,
+            "steps": steps,
         }
     return paths
 
@@ -189,8 +285,16 @@ def main():
 
     converted = conversions(session, instance_url)
     paths = reactivation_paths(REPORT_PATH)
+    flows = reached_by_flow(REACHED_PATH)
     print(f"Conversies in {LOOKBACK_DAYS} dagen: {len(converted)}")
     print(f"Leads met een mailflow-historie: {len(paths)}")
+
+    warnings = []
+    if flows is None:
+        warnings.append(
+            f"{REACHED_PATH} ontbreekt of is onleesbaar; byFlow is overgeslagen."
+        )
+        print(f"WAARSCHUWING: {warnings[-1]}")
 
     def empty_day():
         return {
@@ -200,9 +304,18 @@ def main():
             "viaAutomationRevenue": 0.0,
             "byRoute": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
             "byReason": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
+            "byPath": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
+            "byRouteReason": defaultdict(
+                lambda: defaultdict(lambda: {"orders": 0, "revenue": 0.0})
+            ),
+            "byFlow": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
         }
 
     days = defaultdict(lambda: defaultdict(empty_day))
+    # Totalen over de hele terugkijkperiode, per markt en per statuspad.
+    path_totals = defaultdict(
+        lambda: defaultdict(lambda: {"orders": 0, "revenue": 0.0, "leads": set()})
+    )
     routes = defaultdict(lambda: defaultdict(lambda: {
         "reached": 0, "withAppointment": 0, "orders": 0, "revenue": 0.0,
     }))
@@ -244,8 +357,34 @@ def main():
             reason = info.get("reason") or "(geen reden)"
             bucket["byReason"][reason]["orders"] += 1
             bucket["byReason"][reason]["revenue"] += conv["amount"]
+            # Reden gekruist met route, zodat een route uit te klappen is
+            # naar de Mailjourney-redenen waar hij vandaan komt.
+            cross = bucket["byRouteReason"][route][reason]
+            cross["orders"] += 1
+            cross["revenue"] += conv["amount"]
             routes[market][route]["orders"] += 1
             routes[market][route]["revenue"] += conv["amount"]
+
+            # Het statuspad tot en met de laatste stap vóór de conversie.
+            path_str = build_status_path(
+                info.get("entryReason") or "",
+                info.get("steps") or [],
+                until=conv["date"],
+            )
+            bucket["byPath"][path_str]["orders"] += 1
+            bucket["byPath"][path_str]["revenue"] += conv["amount"]
+            total = path_totals[market][path_str]
+            total["orders"] += 1
+            total["revenue"] += conv["amount"]
+            total["leads"].add(lead)
+
+            # Meervoudig toegerekend: een lead die door drie journeys is
+            # aangeraakt telt bij alle drie mee. Nooit optellen.
+            if flows is not None:
+                for journey in sorted(flows.get(lead, ())):
+                    flow = bucket["byFlow"][journey]
+                    flow["orders"] += 1
+                    flow["revenue"] += conv["amount"]
 
     def flatten(nested):
         return {
@@ -264,7 +403,14 @@ def main():
                 "viaAutomationRevenue": round(bucket["viaAutomationRevenue"], 2),
                 "byRoute": flatten(bucket["byRoute"]),
                 "byReason": flatten(bucket["byReason"]),
+                "byPath": flatten(bucket["byPath"]),
+                "byRouteReason": {
+                    route: flatten(per_reason)
+                    for route, per_reason in bucket["byRouteReason"].items()
+                },
             }
+            if flows is not None:
+                out_days[day][market]["byFlow"] = flatten(bucket["byFlow"])
 
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -275,7 +421,22 @@ def main():
             "(Re-entered, Nummer gewijzigd of direct Appointment), en de conversie "
             "ná dat signaal. Toegerekend aan de conversiedatum."
         ),
+        # byFlow telt een order bij élke journey die de lead raakte. Kolommen
+        # daaruit nooit optellen of naast het totaal leggen.
+        "byFlowNote": "meervoudig toegerekend",
+        "warnings": warnings,
         "days": out_days,
+        "paths": {
+            market: {
+                path_str: {
+                    "orders": v["orders"],
+                    "revenue": round(v["revenue"], 2),
+                    "leads": len(v["leads"]),
+                }
+                for path_str, v in per_path.items()
+            }
+            for market, per_path in path_totals.items()
+        },
         "routes": {
             market: {
                 route: {**v, "revenue": round(v["revenue"], 2)}
