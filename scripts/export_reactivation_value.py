@@ -280,7 +280,8 @@ def conversions(session, instance_url):
     # aan een markt te koppelen zijn. Anders zou de noemer alleen uit
     # mailflow-leads bestaan en zou elk percentage 100% worden.
     soql = (
-        "SELECT Id, RecordTypeId, ConvertedDate, ConvertedOpportunity.Amount, "
+        "SELECT Id, RecordTypeId, ConvertedDate, ConvertedOpportunityId, "
+        "ConvertedOpportunity.Amount, "
         "ConvertedOpportunity.IsWon, ConvertedOpportunity.CloseDate "
         "FROM Lead "
         "WHERE IsConverted = true AND ConvertedOpportunity.IsWon = true "
@@ -294,10 +295,36 @@ def conversions(session, instance_url):
             # om te controleren dat de mail ervoor lag.
             "date": (opp.get("CloseDate") or "")[:10],
             "convertedDate": (row.get("ConvertedDate") or "")[:10],
+            "opportunityId": row.get("ConvertedOpportunityId"),
             "market": MARKET_BY_RECORD_TYPE.get(row.get("RecordTypeId")),
             "won": bool(opp.get("IsWon")),
             "amount": opp.get("Amount") or 0,
         }
+    return out
+
+
+def signed_quotes(session, instance_url):
+    """Per Opportunity de datum waarop de offerte getekend is.
+
+    Voor de offerteflow is dit het juiste signaal. CloseDate op de Opportunity
+    blijkt een verwachte datum die niet wordt bijgewerkt — bij 436 van de 500
+    gewonnen opportunities ligt die vóór de laatste wijziging. Date - Quote
+    signed op het Quote-object is wél het werkelijke moment.
+    """
+    soql = (
+        "SELECT OpportunityId, Date_Quote_signed__c FROM Quote "
+        "WHERE Date_Quote_signed__c != null "
+        f"AND Date_Quote_signed__c = LAST_N_DAYS:{LOOKBACK_DAYS}"
+    )
+    out = {}
+    for row in query_all(session, instance_url, soql):
+        opp = row.get("OpportunityId")
+        day = (row.get("Date_Quote_signed__c") or "")[:10]
+        if not opp or not day:
+            continue
+        # Meerdere offertes per opportunity: de eerste ondertekening telt.
+        if opp not in out or day < out[opp]:
+            out[opp] = day
     return out
 
 
@@ -375,6 +402,8 @@ def main():
     session.headers["Authorization"] = f"Bearer {token}"
 
     converted = conversions(session, instance_url)
+    signed = signed_quotes(session, instance_url)
+    print(f"Getekende offertes in {LOOKBACK_DAYS} dagen: {len(signed)}")
     paths = reactivation_paths(REPORT_PATH)
     flows = reached_by_flow(REACHED_PATH)
     first_send_all, first_send_flow = first_send_dates(REACHED_PATH)
@@ -487,7 +516,9 @@ def main():
         outcome = conv.get("convertedDate") or conv["date"]
 
         # Voor flows die mikken op een openstaande offerte ligt de conversie
-        # al achter ons; daar telt of de offerte daarna gewonnen is.
+        # al achter ons; daar telt het moment van tekenen.
+        signed_on = signed.get(conv.get("opportunityId"))
+        opp_outcome = signed_on or conv["date"]
         opp_mailed_on = None
         for flow, per_lead in first_send_flow.items():
             if not targets_open_opportunity(flow):
@@ -498,7 +529,7 @@ def main():
 
         in_scope = bool(
             (mailed_on and outcome >= mailed_on)
-            or (opp_mailed_on and conv["date"] >= opp_mailed_on)
+            or (opp_mailed_on and opp_outcome >= opp_mailed_on)
         )
         if in_scope:
             bucket["mailedOrders"] += 1
@@ -507,7 +538,7 @@ def main():
                 day = per_lead.get(lead)
                 # Per flow de juiste uitkomstdatum: sluitdatum voor
                 # offerteflows, conversiedatum voor de rest.
-                deadline = conv["date"] if targets_open_opportunity(flow) else outcome
+                deadline = opp_outcome if targets_open_opportunity(flow) else outcome
                 if day and deadline >= day:
                     box = bucket["byFlow"].setdefault(
                         flow, {"orders": 0, "revenue": 0.0})
