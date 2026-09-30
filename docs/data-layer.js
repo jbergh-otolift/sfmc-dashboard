@@ -348,7 +348,18 @@ function renderCoverageBuild(coverage, cohort) {
 // Bouwt de coverage-waarden voor de gekozen periode. Het getoonde percentage
 // is dat van het cohort: van de instroom van deze periode, wie is er gemaild.
 function coverageForPeriod(base, cohort) {
-  if (!cohort || !cohort.mailable) return base;
+  // Zonder cohort is er niets te tonen voor dit bereik. Terugvallen op de
+  // staande voorraad zou een getal opleveren dat over iets anders gaat.
+  if (!cohort || !cohort.mailable) {
+    return {
+      value: null,
+      shouldMail: null,
+      reached: null,
+      toActivate: null,
+      measurable: false,
+      reason: "no_data_in_range",
+    };
+  }
   return {
     ...(base || {}),
     value: cohort.coverage,
@@ -364,7 +375,15 @@ function applyCoverageNote(coverage, cohort) {
   const el = document.querySelector("[data-coverage-note]");
   if (!el) return;
 
-  if (!coverage || coverage.consentTotal === null || coverage.consentTotal === undefined) {
+  if (coverage && coverage.reason === "no_data_in_range") {
+    el.classList.add("nodata");
+    el.textContent = "Geen instroom in de mailflow binnen dit bereik.";
+    const wrap = document.querySelector("[data-coverage-details]");
+    if (wrap) wrap.hidden = true;
+    return;
+  }
+
+  if (!coverage || coverage.shouldMail === null || coverage.shouldMail === undefined) {
     el.innerHTML = "Geen consent-cijfer beschikbaar voor deze markt.";
     el.classList.add("nodata");
     return;
@@ -381,6 +400,7 @@ function applyCoverageNote(coverage, cohort) {
       numerator_missing:
         ", maar het aantal bereikte contacten ontbreekt nog in de tracking-export.",
       no_consent_data: " — geen consent-cijfer beschikbaar.",
+      no_data_in_range: "",
       nobody_to_mail:
         ", maar geen enkele lead staat op status Mailjourney mét consent, " +
         "dus er valt niets te bereiken.",
@@ -829,28 +849,33 @@ function daysBetween(start, end) {
 }
 
 // Zet een preset om naar een bereik. `end` is exclusief, zoals overal.
+//
+// De kalenderpresets rekenen vanaf de laatste dag mét data, niet vanaf de
+// kalenderdatum. Op 1 oktober is "deze maand" anders een leeg bereik, terwijl
+// de lezer september bedoelt: de maand waar de cijfers over gaan.
 function rangeForPreset(preset, endDate) {
   const end = endDate;
+  const lastDay = addDays(end, -1);
+
   if (preset === "month") {
-    return { start: end.slice(0, 8) + "01", end };
+    return { start: lastDay.slice(0, 8) + "01", end };
   }
   if (preset === "lastmonth") {
-    const firstOfThis = end.slice(0, 8) + "01";
-    const lastMonthEnd = firstOfThis;
+    const firstOfThis = lastDay.slice(0, 8) + "01";
     const d = new Date(firstOfThis + "T00:00:00Z");
     d.setUTCMonth(d.getUTCMonth() - 1);
-    return { start: d.toISOString().slice(0, 10), end: lastMonthEnd };
+    return { start: d.toISOString().slice(0, 10), end: firstOfThis };
   }
   if (preset === "quarter") {
-    const month = parseInt(end.slice(5, 7), 10) - 1;
+    const month = parseInt(lastDay.slice(5, 7), 10) - 1;
     const qStart = Math.floor(month / 3) * 3;
     return {
-      start: end.slice(0, 4) + "-" + String(qStart + 1).padStart(2, "0") + "-01",
+      start: lastDay.slice(0, 4) + "-" + String(qStart + 1).padStart(2, "0") + "-01",
       end,
     };
   }
   if (preset === "ytd") {
-    return { start: end.slice(0, 4) + "-01-01", end };
+    return { start: lastDay.slice(0, 4) + "-01-01", end };
   }
   return { start: addDays(end, -parseInt(preset, 10)), end };
 }
@@ -1150,6 +1175,10 @@ function applyMeta(data) {
   const showRange = (selector, value) => {
     const el = document.querySelector(selector);
     if (!el || !value) return;
+    if (daysBetween(value.start, value.end) < 1) {
+      el.textContent = "geen dagen in dit bereik";
+      return;
+    }
     // end is exclusief; toon de laatste dag die er wél in zit.
     const end = new Date(value.end);
     end.setDate(end.getDate() - 1);
