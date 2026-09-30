@@ -331,6 +331,72 @@ def fill_deltas(cur, prev):
         a[key]["convDeltaPct"] = delta_pct(a[key]["share"], pa[key]["share"])
 
 
+def daily_buckets(rows):
+    """Statusovergangen per dag per markt.
+
+    Overgangen zijn gebeurtenissen, geen unieke personen, dus dagcijfers mogen
+    opgeteld worden over elk gewenst bereik. Daarmee kan het dashboard een
+    vrije periode laten kiezen zonder dat er vooraf vensters vastliggen.
+    """
+    days = defaultdict(lambda: defaultdict(lambda: {
+        "leads": set(),
+        "toStatus": Counter(),
+        "pairs": Counter(),
+    }))
+
+    for row in rows:
+        day = (row.get("Edit Date") or "")[:10]
+        if not day:
+            continue
+        market = (row.get("Market") or "").strip().lower()
+        if market not in MARKETS:
+            continue
+        old = (row.get("Old Value") or "").strip()
+        new_value = (row.get("New Value") or "").strip()
+        bucket = days[day][market]
+        bucket["leads"].add(row["Lead ID"])
+        bucket["toStatus"][new_value] += 1
+        bucket["pairs"][f"{old}>{new_value}"] += 1
+
+    out = {}
+    for day, markets in days.items():
+        out[day] = {}
+        for market, bucket in markets.items():
+            out[day][market] = {
+                # Unieke leads met activiteit; niet optelbaar over dagen, maar
+                # bruikbaar voor een dagweergave. Het dashboard leidt de
+                # instroom van een bereik af uit de overgangen zelf.
+                "activeLeads": len(bucket["leads"]),
+                "toStatus": dict(bucket["toStatus"]),
+                "transitions": dict(bucket["pairs"]),
+            }
+    return out
+
+
+def cohort_days(rows):
+    """Per dag: welke leads kwamen die dag voor het eerst in de mailflow.
+
+    Een lead die twee keer instroomt telt maar een keer, op zijn eerste dag
+    binnen de export. Zo blijven de dagcijfers optelbaar over elk bereik.
+    """
+    first_seen = {}
+    for row in sorted(rows, key=lambda r: r.get("Edit Date") or ""):
+        if (row.get("New Value") or "").strip() != S_MAILJOURNEY:
+            continue
+        lead = row["Lead ID"]
+        if lead in first_seen:
+            continue
+        market = (row.get("Market") or "").strip().lower()
+        if market not in MARKETS:
+            continue
+        first_seen[lead] = ((row.get("Edit Date") or "")[:10], market)
+
+    out = defaultdict(lambda: defaultdict(list))
+    for lead, (day, market) in first_seen.items():
+        out[day][market].append(lead)
+    return {day: dict(markets) for day, markets in out.items()}
+
+
 def window_for(end_date, days):
     """Huidige en vorige venster voor een periode van N dagen."""
     end = datetime.strptime(end_date, "%Y-%m-%d")
@@ -394,6 +460,11 @@ def main():
         "rows_without_market": unknown,
         "market_scope": "per_market" if has_market_column else "all",
         "byPeriod": periods,
+        # Per dag, zodat het dashboard elk gewenst bereik kan optellen.
+        "days": daily_buckets(rows),
+        # Per dag de leads die voor het eerst in de mailflow kwamen; de
+        # coverage-noemer van een vrij gekozen periode.
+        "cohortDays": cohort_days(rows),
         "notes": [
             "Order-stap en alle kosten (CPA/CPQL/CPL) hebben geen bron in deze export.",
             "Coverage-noemer en database-groei komen uit exports/lead_consent.json.",

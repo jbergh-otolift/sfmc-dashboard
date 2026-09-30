@@ -84,14 +84,6 @@ jobs:
           SFMC_MID_IT: ${{ secrets.SFMC_MID_IT }}
           PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
 
-      - name: Consent en database-groei per markt exporteren
-        run: python scripts/export_lead_consent.py
-        env:
-          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
-          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
-          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
-          PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
-
       - name: Opbrengst per flow berekenen
         run: python scripts/export_flow_outcomes.py
         env:
@@ -102,6 +94,14 @@ jobs:
       - name: CRM-metrics berekenen
         run: python scripts/build_crm_metrics.py
         env:
+          PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
+
+      - name: Consent en database-groei per markt exporteren
+        run: python scripts/export_lead_consent.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
           PERIOD_END: ${{ steps.period.outputs.PERIOD_END }}
 
       - name: data.json bouwen

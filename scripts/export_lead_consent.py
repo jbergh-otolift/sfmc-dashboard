@@ -43,6 +43,9 @@ OUT_PATH = "exports/lead_consent.json"
 REACHED_PATH = "exports/_reached_lead_ids.json"
 # Statushistorie, voor de vraag wie er *in de periode* in de mailflow kwam.
 REPORT_PATH = "exports/report.csv"
+# Door build_crm_metrics.py geschreven: per dag welke leads voor het eerst in
+# de mailflow kwamen. Draait daarom eerder in de pipeline.
+CRM_METRICS_PATH = "exports/crm_metrics.json"
 
 # Periodes waarover het dashboard cohorten toont.
 PERIOD_DAYS = [7, 30, 90]
@@ -331,6 +334,28 @@ def main():
     }
     mailable_any_status = mailable_lead_ids(session, instance_url)
 
+    # Per dag het cohort doorrekenen, zodat het dashboard elk gewenst bereik
+    # kan optellen in plaats van vast te zitten aan drie vensters.
+    cohort_by_day = {}
+    if os.path.exists(CRM_METRICS_PATH):
+        with open(CRM_METRICS_PATH, encoding="utf-8") as f:
+            cohort_days_raw = json.load(f).get("cohortDays") or {}
+        for day, per_market in cohort_days_raw.items():
+            cohort_by_day[day] = {}
+            for market, lead_ids in per_market.items():
+                entered = set(lead_ids)
+                mailable = entered & mailable_any_status.get(market, set())
+                hit = (reached or {}).get(market)
+                cohort_by_day[day][market] = {
+                    "entered": len(entered),
+                    "mailable": len(mailable),
+                    "reached": len(mailable & hit) if hit is not None else None,
+                }
+    else:
+        warnings.append(
+            f"{CRM_METRICS_PATH} ontbreekt; dagcohorten niet berekend. "
+            "Draai eerst scripts/build_crm_metrics.py.")
+
     markets = {}
     for market in MARKET_BY_RECORD_TYPE.values():
         con, tot = consent[market], total[market]
@@ -385,6 +410,7 @@ def main():
         # dashboard: de noemer is een momentopname, dus een kort venster zou
         # iedereen in een trage nurture-flow onterecht als gemist tellen.
         "coverage_days": coverage_days,
+        "cohortDays": cohort_by_day,
         "coverage_definition": (
             f"Status = '{MAILJOURNEY_STATUS}' AND {MAILABLE_WHERE}; "
             f"bereikt = minstens een e-mail in de laatste {coverage_days} dagen"

@@ -481,8 +481,24 @@ def main():
                 "cohort": ((consent_market or {}).get("cohorts") or {}).get(period_key),
             }
 
+        # Dagbuckets doorgeven: de browser telt zelf op over het gekozen
+        # bereik. Alles is toegerekend aan de verzenddatum, dus optellen mag.
+        crm_days = (crm or {}).get("days") or {}
+        cohort_days = (consent or {}).get("cohortDays") or {}
+        days = {}
+        for day, flows_block in ((block or {}).get("days") or {}).items():
+            days[day] = {"flows": flows_block.get("flows") or {}}
+        for day, per_market in crm_days.items():
+            if key in per_market:
+                days.setdefault(day, {})["crm"] = per_market[key]
+        for day, per_market in cohort_days.items():
+            if key in per_market:
+                days.setdefault(day, {})["cohort"] = per_market[key]
+
         markets[key] = {
             "marketLabel": label,
+            "days": days,
+            "reach": (block or {}).get("reach") or {},
             "byPeriod": by_period,
             "available": available,
             "_sources": source_state(email_health, bool(market_crm), bool(market_outcomes)),
@@ -519,6 +535,8 @@ def main():
         # dashboard de flow kan tekenen in plaats van alleen op te sommen.
         "journeyStructures": (tracking or {}).get("journeyStructures") or {},
         "periods": (tracking or {}).get("periods") or (crm or {}).get("periods") or [],
+        "firstDay": (tracking or {}).get("firstDay"),
+        "reachPeriods": (tracking or {}).get("reachPeriods") or [],
         "defaultPeriod": DEFAULT_PERIOD,
         "coveragePeriod": COVERAGE_PERIOD,
         "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),

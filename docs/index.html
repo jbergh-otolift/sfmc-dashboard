@@ -462,6 +462,11 @@
   .cov-details summary{font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:11px 0 3px;list-style:revert;text-align:left}
   .cov-details summary:hover{color:var(--oto-red)}
   .cov-details .cov-build{margin-top:2px;border-top:none;padding-top:4px}
+  .daterange{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .dr-custom{display:flex;align-items:center;gap:7px}
+  .dr-custom input[type="date"]{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;color:var(--ink)}
+  .dr-custom input[type="date"]:focus{outline:2px solid var(--oto-red-soft);outline-offset:1px}
+  .dr-sep{font-size:12px;color:var(--ink-soft)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -486,11 +491,23 @@
         <button class="flag-btn" data-country="fr"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#002395"/><rect x="3" width="3" height="6" fill="#fff"/><rect x="6" width="3" height="6" fill="#ED2939"/></svg><span class="cc">FR</span></button>
         <button class="flag-btn" data-country="it"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#008C45"/><rect x="3" width="3" height="6" fill="#F4F5F0"/><rect x="6" width="3" height="6" fill="#CD212A"/></svg><span class="cc">IT</span></button>
       </div>
-      <select class="period" data-period-select aria-label="Periode kiezen">
-        <option value="7">Laatste 7 dagen</option>
-        <option value="30" selected>Laatste 30 dagen</option>
-        <option value="90">Laatste 90 dagen</option>
-      </select>
+      <div class="daterange">
+        <select class="period" data-preset aria-label="Periode kiezen">
+          <option value="7">Laatste 7 dagen</option>
+          <option value="30" selected>Laatste 30 dagen</option>
+          <option value="90">Laatste 90 dagen</option>
+          <option value="month">Deze maand</option>
+          <option value="lastmonth">Vorige maand</option>
+          <option value="quarter">Dit kwartaal</option>
+          <option value="ytd">Dit jaar</option>
+          <option value="custom">Zelf kiezen…</option>
+        </select>
+        <div class="dr-custom" data-custom-range hidden>
+          <input type="date" data-date-from aria-label="Van">
+          <span class="dr-sep">t/m</span>
+          <input type="date" data-date-to aria-label="Tot en met">
+        </div>
+      </div>
       <div class="period-static"><span class="ps-lbl">Periode</span><span data-period-label>–</span></div>
       <div class="stamp" data-stamp>Bijgewerkt: –</div>
     </div>
@@ -914,7 +931,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20260930083822"></script>
+<script src="data-layer.js?v=20260930085901"></script>
 
 </body>
 </html>

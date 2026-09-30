@@ -2,23 +2,36 @@
 
 Haalt per BU (markt) de tracking events op via de SOAP API (SentEvent, OpenEvent,
 ClickEvent, BounceEvent, UnsubEvent) en de journey-definities via de REST API, en
-schrijft alles geaggregeerd per flow naar `exports/sfmc_tracking.json`.
+schrijft alles geaggregeerd per DAG en per flow naar `exports/sfmc_tracking.json`.
 
 Een flow is een JOURNEY, niet een losse e-mail: elke tracking-event wordt via zijn
 TriggeredSendDefinition teruggeleid naar de journey die de send deed.
 
-Het dashboard laat de lezer wisselen tussen periodes van 7, 30 en 90 dagen, elk
-met de direct eraan voorafgaande periode van dezelfde lengte voor de deltas. Om
-dat te kunnen doen halen we per BU EEN KEER de events op over de langste span die
-nodig is (90 dagen huidig + 90 dagen vorig = 180 dagen terug vanaf `endDate`),
-houden we die events in het geheugen vast met hun `EventDate`, en snijden we er
-in Python de zes vensters uit. Elk venster wordt daarna volledig opnieuw
-geaggregeerd over zijn eigen ruwe events: opens en kliks zijn UNIEKE
-(SubscriberKey, SendID)-paren en mogen dus nooit uit dag- of weeksubtotalen
-opgeteld worden - wie op twee dagen opent zou anders dubbel tellen.
+Het dashboard laat de lezer een WILLEKEURIGE begin- en einddatum kiezen en telt
+zelf op. Dat kan alleen als elke metric optelbaar is over dagen, en dat is precies
+wat verzendattributie oplevert: elke teller hangt aan de dag van de SENTEVENT, niet
+aan de dag waarop de open/klik/bounce binnenkwam. Een (SubscriberKey, SendID)-paar
+hoort bij precies een send, en die send gebeurde op precies een dag; een open op
+20 september van een mail van 14 september telt dus in de bucket van 14 september.
+Opens en kliks blijven UNIEKE (SubscriberKey, SendID)-paren - de deduplicatie zelf
+verandert niet - maar omdat zo'n paar in exact een dagbucket valt, mogen de
+dagtotalen nu wel opgeteld worden.
 
-Per periode staat er onder `markets.<markt>.periods.<N>`: `range`, `prevRange`,
-`flows`, `prevFlows`, `uniqueSubscribers` en `uniqueSubscribersPrev`.
+Per markt staat er onder `markets.<markt>`:
+
+- `days.<YYYY-MM-DD>.flows.<journeynaam>` met `sent`, `delivered`, `opens`,
+  `clicks`, `bounces` (alleen hard), `soft_bounces`, `unsubs`, `subscribers` en
+  `emails.<mailnaam>` met dezelfde tellers. `all` is het markttotaal.
+- `unattributed`: engagement waarvan de bijbehorende send BUITEN het opgehaalde
+  venster viel en die dus geen dagbucket heeft. Die events worden niet stilletjes
+  weggegooid maar hier per eventtype geteld (met `eventTotals` als noemer).
+- `reach.{7,30,90}`: unieke SubscriberKeys over het rollende venster dat op
+  `endDate` eindigt. Bereik is niet optelbaar over dagen, dus het dashboard toont
+  "mails per persoon" alleen voor deze drie presets.
+
+Percentages (delivery, open, ctr, ctor, unsub, bounce) staan er BEWUST niet in:
+de browser rekent ze uit de opgetelde tellers, zodat een voorberekend percentage
+nooit kan botsen met een opgeteld percentage.
 
 Onder `journeyStructures` staat per markt en per journey uit `flows` het
 stroomschema van de live versie (knopen + edges), zodat het dashboard de
@@ -26,7 +39,7 @@ journey als diagram kan tekenen en de metrics eraan kan koppelen.
 
 Gebruik:
 
-    PERIOD_END=2026-09-16 python3 scripts/export_sfmc_tracking.py
+    PERIOD_END=2026-09-16 RETRIEVE_DAYS=400 python3 scripts/export_sfmc_tracking.py
 
 Environment variables:
 
@@ -35,11 +48,14 @@ Environment variables:
 - `SFMC_MID_NL`, `SFMC_MID_BE`, en optioneel `SFMC_MID_FR`, `SFMC_MID_IT` - de MID
   (account_id) per BU. Een BU zonder MID wordt overgeslagen met een waarschuwing;
   FR en IT bestaan nog niet.
-- `PERIOD_END` (default: morgen UTC), `YYYY-MM-DD`, exclusief. Alle vensters
-  worden vanaf die datum teruggerekend: voor N dagen is huidig
-  [endDate - N, endDate) en vorig [endDate - 2N, endDate - N).
+- `PERIOD_END` (default: morgen UTC), `YYYY-MM-DD`, exclusief.
+- `RETRIEVE_DAYS` (default 400) - hoe ver de ene retrieve per BU terugkijkt vanaf
+  `endDate`. Dat bepaalt hoe ver de datumkiezer in het dashboard terug kan.
 
-Let op: dit is een retrieve over 180 dagen, reken op vele minuten per BU.
+Let op: dit is een retrieve over hondederden dagen (~380k events voor NL bij 400
+dagen), reken op vele minuten per BU. De events worden per pagina meteen in de
+dagbuckets verwerkt en daarna weer vrijgegeven, zodat het geheugengebruik niet
+met de venstergrootte meegroeit.
 """
 
 import json
@@ -68,15 +84,20 @@ REACHED_PATH = "exports/_reached_lead_ids.json"
 # "niet bereikt". 90 dagen omvat minstens één volledige cyclus.
 COVERAGE_DAYS = int(os.environ.get("COVERAGE_DAYS", "90"))
 
-# De periodes (in dagen) die het dashboard aanbiedt. De langste bepaalt hoe ver
-# de ene retrieve per BU terug moet: 2x de langste, want er hoort een even lange
-# voorafgaande periode bij.
-PERIODS = [7, 30, 90]
+# De rollende vensters waarvoor we bereik (`reach`) voorberekenen. Bereik is
+# een distinct-count over SubscriberKeys en dus niet optelbaar over dagen; het
+# dashboard toont "mails per persoon" daarom alleen voor deze drie presets.
+REACH_PERIODS = [7, 30, 90]
+
+# Hoe ver de ene retrieve per BU terugkijkt vanaf `endDate`. Ruim een jaar,
+# zodat de datumkiezer in het dashboard ver terug kan en er weinig engagement
+# overblijft waarvan de send buiten het venster valt (zie `unattributed`).
+RETRIEVE_DAYS = int(os.environ.get("RETRIEVE_DAYS", "400"))
 
 NS = {"p": "http://exacttarget.com/wsdl/partnerAPI"}
 UNASSIGNED = "(niet toegewezen)"
 TOKEN_TTL = 15 * 60
-MAX_PAGES = 400
+MAX_PAGES = 1200
 
 TRACKING_OBJECTS = [
     ("SentEvent", ["SubscriberKey", "EventDate", "SendID", "TriggeredSendDefinitionObjectID"]),
@@ -506,11 +527,18 @@ def fetch_journey_structures(session, auth, journeys, flow_names):
     return structures
 
 
-def soap_retrieve(session, auth, obj, properties, start=None, end=None):
-    """Retrieve met verplichte ContinueRequest-paginering (2500 rijen per pagina)."""
+def soap_retrieve(session, auth, obj, properties, start=None, end=None, on_page=None):
+    """Retrieve met verplichte ContinueRequest-paginering (2500 rijen per pagina).
+
+    Zonder `on_page` komen alle rijen als lijst terug. Met `on_page` wordt elke
+    pagina meteen doorgegeven en daarna vrijgegeven - dan is de returnwaarde
+    alleen het aantal verwerkte rijen. Dat scheelt bij een retrieve over
+    honderden dagen honderden megabytes.
+    """
     props = "".join(f"<Properties>{escape(p)}</Properties>" for p in properties)
     tail = DATE_FILTER.format(start=escape(start), end=escape(end)) if start else ""
     rows = []
+    seen = 0
     request_id = None
     for page in range(1, MAX_PAGES + 1):
         if request_id:
@@ -540,6 +568,7 @@ def soap_retrieve(session, auth, obj, properties, start=None, end=None):
             msg_el = root.find(".//p:StatusMessage", NS)
             raise RuntimeError(f"{obj} retrieve mislukt ({status}): {msg_el.text if msg_el is not None else '?'}")
 
+        page_rows = []
         for result in root.findall(".//p:Results", NS):
             row = {}
             for prop in properties:
@@ -547,34 +576,26 @@ def soap_retrieve(session, auth, obj, properties, start=None, end=None):
                 path = "/".join(f"p:{part}" for part in prop.split("."))
                 el = result.find(path, NS)
                 row[prop] = el.text if el is not None and el.text else ""
-            rows.append(row)
-
+            page_rows.append(row)
+        seen += len(page_rows)
         req_el = root.find(".//p:RequestID", NS)
         request_id = req_el.text if req_el is not None else None
-        print(f"    {obj} pagina {page}: {len(rows)} rijen totaal ({status})")
+        if on_page is not None:
+            on_page(page_rows)
+        else:
+            rows.extend(page_rows)
+        # De geparste XML en de ruwe rijen van deze pagina zijn nu klaar; bij
+        # honderden pagina's scheelt expliciet vrijgeven veel geheugen.
+        page_rows = None
+        root = None
+        print(f"    {obj} pagina {page}: {seen} rijen totaal ({status})", flush=True)
         if status != "MoreDataAvailable":
-            return rows
+            return seen if on_page is not None else rows
         if not request_id:
-            warn(f"{obj}: MoreDataAvailable zonder RequestID, stop na {len(rows)} rijen")
-            return rows
-    warn(f"{obj}: paginalimiet ({MAX_PAGES}) bereikt na {len(rows)} rijen")
-    return rows
-
-
-def retrieve_events(session, auth, start, end):
-    """Haalt alle tracking objects op; valt terug op SendID-only bij een TSD-fout."""
-    events = {}
-    for obj, properties in TRACKING_OBJECTS:
-        print(f"  {obj} ophalen...")
-        try:
-            events[obj] = soap_retrieve(session, auth, obj, properties, start, end)
-        except RuntimeError as exc:
-            if "TriggeredSendDefinitionObjectID" not in properties:
-                raise
-            warn(f"{obj}: retrieve met TriggeredSendDefinitionObjectID mislukt ({exc}); opnieuw zonder die property, attributie via SendID")
-            fallback = [p for p in properties if p != "TriggeredSendDefinitionObjectID"]
-            events[obj] = soap_retrieve(session, auth, obj, fallback, start, end)
-    return events
+            warn(f"{obj}: MoreDataAvailable zonder RequestID, stop na {seen} rijen")
+            return seen if on_page is not None else rows
+    warn(f"{obj}: paginalimiet ({MAX_PAGES}) bereikt na {seen} rijen")
+    return seen if on_page is not None else rows
 
 
 def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_journey):
@@ -641,15 +662,9 @@ def flow_for(row, tsd_map, sendid_to_flow):
     return UNASSIGNED, 3, tsd
 
 
-def rate(numerator, denominator):
-    if not denominator:
-        return None
-    return round(numerator / denominator * 100, 2)
-
-
 def email_bucket():
     return {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0,
-            "unsubs": 0, "first": "", "last": ""}
+            "unsubs": 0, "subs": set(), "first": "", "last": ""}
 
 
 def merge_email_bucket(target, source):
@@ -659,6 +674,7 @@ def merge_email_bucket(target, source):
     target["hard"] += source["hard"]
     target["soft"] += source["soft"]
     target["unsubs"] += source["unsubs"]
+    target["subs"] |= source["subs"]
     for field, pick in (("first", min), ("last", max)):
         if source[field]:
             target[field] = pick(target[field], source[field]) if target[field] else source[field]
@@ -690,212 +706,10 @@ def fold_late_engagement(per_tsd, names):
     return folded
 
 
-def email_row(tsd, entry, names):
-    """Zet een per-TSD teller om in een regel van `emailBreakdown`."""
-    sent = entry["sent"]
-    delivered = max(sent - entry["hard"], 0)
-    opens = len(entry["opens"])
-    clicks = len(entry["clicks"])
-    # names: TSD -> (leesbare naam, ruwe TSD-naam)
+def email_name(tsd, names):
+    """De weergavenaam van een e-mail: journey-activiteitnaam > TSD-naam > id."""
     label, raw = names.get(tsd, ("", ""))
-    return {
-        "name": label or raw or tsd or UNASSIGNED,
-        "rawName": raw,
-        "tsdId": tsd,
-        "sent": sent,
-        "delivered": delivered,
-        "opens": opens,
-        "clicks": clicks,
-        "bounces": entry["hard"],
-        "soft_bounces": entry["soft"],
-        "unsubs": entry["unsubs"],
-        "delivery": rate(delivered, sent),
-        "open": rate(opens, delivered),
-        "ctr": rate(clicks, delivered),
-        "ctor": rate(clicks, opens),
-        "unsub": rate(entry["unsubs"], delivered),
-        "bounce": rate(entry["hard"], sent),
-        "firstSend": entry["first"],
-        "lastSend": entry["last"],
-    }
-
-
-def check_breakdown(flow, totals, breakdown):
-    """Waarschuwt als de som van de e-mails niet gelijk is aan het journeytotaal."""
-    for field in ("sent", "delivered", "opens", "clicks", "bounces", "unsubs"):
-        summed = sum(row[field] for row in breakdown)
-        if summed != totals[field]:
-            warn(f"emailBreakdown telt niet op voor '{flow}': {field} {summed} != {totals[field]}")
-    # Alleen zinvol als de journey in het venster stuurde; anders bestaat de
-    # breakdown uit late opens/kliks op sends van ervoor.
-    sending = sum(1 for row in breakdown if row["sent"] > 0)
-    if totals["sent"] and sending != totals["emails"]:
-        warn(f"emailBreakdown voor '{flow}': {sending} e-mails met send, journey telt {totals['emails']}")
-
-
-def aggregate(events, tsd_map, window_label, tsd_names=None):
-    tsd_names = tsd_names or {}
-    sendid_to_flow = {}
-    # SendID -> TSD, zodat een open/klik altijd bij dezelfde e-mail landt als de
-    # send; anders zou een (SubscriberKey, SendID)-paar over twee e-mails
-    # gesplitst kunnen worden en telt de breakdown niet op.
-    sendid_to_tsd = {}
-    for row in events.get("SentEvent", []):
-        send_id = (row.get("SendID") or "").strip()
-        tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
-        if not send_id or not tsd:
-            continue
-        sendid_to_tsd.setdefault(send_id, tsd)
-        if send_id in sendid_to_flow:
-            continue
-        hit = tsd_map.get(tsd)
-        if hit:
-            sendid_to_flow[send_id] = hit
-
-    def tsd_of(row):
-        send_id = (row.get("SendID") or "").strip()
-        return sendid_to_tsd.get(send_id) or (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
-
-    counters = {}
-    tier_sent = {1: 0, 2: 0, 3: 0}
-    # Bereik van de BU als geheel: een contact dat drie journeys kreeg telt een keer.
-    subscribers = set()
-
-    def bucket(flow):
-        return counters.setdefault(
-            flow,
-            {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0,
-             "tsds": set(), "subs": set(), "per_tsd": {}},
-        )
-
-    def email_entry(flow, row):
-        entry = bucket(flow)
-        return entry["per_tsd"].setdefault(tsd_of(row), email_bucket())
-
-    def label_of(row):
-        return flow_for(row, tsd_map, sendid_to_flow)[0]
-
-    for row in events.get("SentEvent", []):
-        flow, tier, tsd = flow_for(row, tsd_map, sendid_to_flow)
-        entry = bucket(flow)
-        entry["sent"] += 1
-        if tsd:
-            entry["tsds"].add(tsd)
-        tier_sent[tier] += 1
-        key = (row.get("SubscriberKey") or "").strip()
-        if key:
-            subscribers.add(key)
-            entry["subs"].add(key)
-        mail = email_entry(flow, row)
-        mail["sent"] += 1
-        day = (row.get("EventDate") or "")[:10]
-        if day:
-            mail["first"] = min(mail["first"], day) if mail["first"] else day
-            mail["last"] = max(mail["last"], day) if mail["last"] else day
-    for row in events.get("OpenEvent", []):
-        flow = label_of(row)
-        pair = (row.get("SubscriberKey", ""), row.get("SendID", ""))
-        bucket(flow)["opens"].add(pair)
-        email_entry(flow, row)["opens"].add(pair)
-    for row in events.get("ClickEvent", []):
-        flow = label_of(row)
-        pair = (row.get("SubscriberKey", ""), row.get("SendID", ""))
-        bucket(flow)["clicks"].add(pair)
-        email_entry(flow, row)["clicks"].add(pair)
-    for row in events.get("BounceEvent", []):
-        flow = label_of(row)
-        entry = bucket(flow)
-        mail = email_entry(flow, row)
-        field = "hard" if "hard" in (row.get("BounceCategory") or "").lower() else "soft"
-        entry[field] += 1
-        mail[field] += 1
-    for row in events.get("UnsubEvent", []):
-        flow = label_of(row)
-        bucket(flow)["unsubs"] += 1
-        email_entry(flow, row)["unsubs"] += 1
-
-    total = {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0, "unsubs": 0,
-             "tsds": set(), "subs": set(), "per_tsd": {}}
-    for entry in counters.values():
-        total["sent"] += entry["sent"]
-        total["opens"] |= entry["opens"]
-        total["clicks"] |= entry["clicks"]
-        total["hard"] += entry["hard"]
-        total["soft"] += entry["soft"]
-        total["unsubs"] += entry["unsubs"]
-        total["tsds"] |= entry["tsds"]
-        total["subs"] |= entry["subs"]
-        for tsd, mail in entry["per_tsd"].items():
-            merge_email_bucket(total["per_tsd"].setdefault(tsd, email_bucket()), mail)
-
-    sent_total = total["sent"] or 1
-    warn(
-        f"{window_label}: attributie van {total['sent']} sends - tier1 "
-        f"{tier_sent[1]} ({tier_sent[1] / sent_total * 100:.1f}%), tier2 "
-        f"{tier_sent[2]} ({tier_sent[2] / sent_total * 100:.1f}%), {UNASSIGNED} "
-        f"{tier_sent[3]} ({tier_sent[3] / sent_total * 100:.1f}%)"
-    )
-
-    flows = {}
-    for flow, entry in list(counters.items()) + [("all", total)]:
-        sent = entry["sent"]
-        hard = entry["hard"]
-        delivered = max(sent - hard, 0)
-        opens = len(entry["opens"])
-        clicks = len(entry["clicks"])
-        # Per e-mail (TriggeredSendDefinition) binnen deze journey, op volgorde
-        # van eerste send: dat is de volgorde van de stappen in de journey.
-        per_tsd = fold_late_engagement(entry["per_tsd"], tsd_names)
-        breakdown = [email_row(tsd, mail, tsd_names) for tsd, mail in per_tsd.items()]
-        breakdown.sort(key=lambda row: (row["firstSend"] or "9999", row["name"]))
-        flows[flow] = {
-            "label": "Alle flows" if flow == "all" else flow,
-            "sent": sent,
-            "delivered": delivered,
-            "opens": opens,
-            "clicks": clicks,
-            "bounces": hard,
-            "soft_bounces": entry["soft"],
-            "unsubs": entry["unsubs"],
-            # aantal losse triggered sends (e-mails) dat onder deze journey valt
-            "emails": len(entry["tsds"]),
-            "delivery": rate(delivered, sent),
-            "open": rate(opens, delivered),
-            "ctr": rate(clicks, delivered),
-            "ctor": rate(clicks, opens),
-            "unsub": rate(entry["unsubs"], delivered),
-            "bounce": rate(hard, sent),
-            # spam blijft null: ComplaintEvent wordt niet opgehaald, 0 zou misleiden.
-            "spam": None,
-            # bereik: distinct SubscriberKeys met minstens een send in het venster
-            "uniqueSubscribers": len(entry["subs"]),
-            "emailBreakdown": breakdown,
-        }
-        check_breakdown(flow, flows[flow], breakdown)
-    leads = {k for k in subscribers if k.startswith("00Q")}
-    contacts = {k for k in subscribers if k.startswith("003")}
-    return flows, leads, {
-        "total": len(subscribers),
-        # SubscriberKey is een Salesforce-id: 00Q = Lead, 003 = Contact. Beide
-        # krijgen mail. Coverage kan alleen op de Lead-helft berekend worden,
-        # want het consent-veld is alleen op Lead leesbaar.
-        "leads": len(leads),
-        "contacts": len(contacts),
-        "other": len(subscribers) - len(leads) - len(contacts),
-    }
-
-
-def slice_events(events, start, end):
-    """Snijdt uit de opgehaalde events de rijen met `start` <= EventDate < `end`.
-
-    `EventDate` komt als ISO-string terug (`YYYY-MM-DDTHH:MM:SS...`), dus een
-    string-vergelijking op de eerste tien tekens is genoeg en scheelt het parsen
-    van miljoenen datums.
-    """
-    out = {}
-    for obj, rows in events.items():
-        out[obj] = [row for row in rows if start <= (row.get("EventDate") or "")[:10] < end]
-    return out
+    return label or raw or tsd or UNASSIGNED
 
 
 def window_dates(end_date, days):
@@ -904,12 +718,243 @@ def window_dates(end_date, days):
     return (end - timedelta(days=days)).strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
 
 
-def run_window(events, tsd_map, market, start, end, tsd_names=None):
-    """Aggregeert een venster uit de al opgehaalde events; doet geen retrieve."""
-    print(f"  venster {start} t/m {end} (exclusief)")
-    window = slice_events(events, start, end)
-    print("    " + ", ".join(f"{obj}={len(rows)}" for obj, rows in window.items()))
-    return aggregate(window, tsd_map, f"{market.upper()} {start}..{end}", tsd_names)
+def flow_bucket():
+    return {"sent": 0, "opens": set(), "clicks": set(), "hard": 0, "soft": 0,
+            "unsubs": 0, "subs": set(), "per_tsd": {}}
+
+
+class DayAggregator:
+    """Telt alle events van een BU weg in dagbuckets op basis van de VERZENDDATUM.
+
+    De SentEvents komen als eerste binnen en vullen `send_day`: een map van
+    (SendID, SubscriberKey) naar de dag van de send. Elke open, klik, bounce en
+    unsub wordt via die map in de bucket van zijn send gezet. Daardoor is elke
+    teller optelbaar over dagen en kan het dashboard elk gewenst datumbereik
+    sommeren. Engagement waarvan de send buiten de retrieve valt heeft geen
+    bucket; die tellen we apart in `unattributed` in plaats van weg te gooien.
+    """
+
+    def __init__(self, market, tsd_map, tsd_names, period_end):
+        self.market = market
+        self.tsd_map = tsd_map
+        self.tsd_names = tsd_names
+        self.period_end = period_end
+        # dag -> flow -> teller
+        self.days = {}
+        # (SendID, SubscriberKey) -> dag van de send
+        self.send_day = {}
+        # SendID -> TSD, zodat een open/klik altijd bij dezelfde e-mail landt als
+        # de send; anders zou een (SubscriberKey, SendID)-paar over twee e-mails
+        # gesplitst kunnen worden en telt de breakdown niet op.
+        self.sendid_to_tsd = {}
+        self.sendid_to_flow = {}
+        self.tier_sent = {1: 0, 2: 0, 3: 0}
+        self.unattributed = {}
+        self.event_totals = {}
+        # Bereik per rollend venster; niet optelbaar, dus voorberekend.
+        self.reach_starts = {days: window_dates(period_end, days)[0] for days in REACH_PERIODS}
+        self.reach = {days: set() for days in REACH_PERIODS}
+        # Coverage: welke Lead-id's zijn in het coveragevenster geraakt, per journey.
+        self.cov_start = window_dates(period_end, COVERAGE_DAYS)[0]
+        self.cov_leads = set()
+        self.cov_per_journey = {}
+
+    def bucket(self, day, flow):
+        return self.days.setdefault(day, {}).setdefault(flow, flow_bucket())
+
+    def tsd_of(self, row):
+        send_id = (row.get("SendID") or "").strip()
+        return self.sendid_to_tsd.get(send_id) or (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
+
+    def add_sent(self, rows):
+        self.event_totals["SentEvent"] = self.event_totals.get("SentEvent", 0) + len(rows)
+        for row in rows:
+            day = (row.get("EventDate") or "")[:10]
+            send_id = (row.get("SendID") or "").strip()
+            key = (row.get("SubscriberKey") or "").strip()
+            tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
+            if not day:
+                self.unattributed["SentEvent"] = self.unattributed.get("SentEvent", 0) + 1
+                continue
+            if send_id:
+                self.sendid_to_tsd.setdefault(send_id, tsd)
+                if send_id not in self.sendid_to_flow:
+                    hit = self.tsd_map.get(tsd)
+                    if hit:
+                        self.sendid_to_flow[send_id] = hit
+                self.send_day.setdefault((send_id, key), day)
+
+            flow, tier, _ = flow_for(row, self.tsd_map, self.sendid_to_flow)
+            self.tier_sent[tier] += 1
+            entry = self.bucket(day, flow)
+            entry["sent"] += 1
+            mail = entry["per_tsd"].setdefault(self.tsd_of(row), email_bucket())
+            mail["sent"] += 1
+            mail["first"] = min(mail["first"], day) if mail["first"] else day
+            mail["last"] = max(mail["last"], day) if mail["last"] else day
+            if key:
+                entry["subs"].add(key)
+                mail["subs"].add(key)
+                for days, start in self.reach_starts.items():
+                    if day >= start:
+                        self.reach[days].add(key)
+                if key.startswith("00Q") and day >= self.cov_start:
+                    self.cov_leads.add(key)
+                    self.cov_per_journey.setdefault(flow, set()).add(key)
+
+    def add_engagement(self, obj, rows):
+        """Plaatst opens/kliks/bounces/unsubs in de dagbucket van HUN SEND."""
+        self.event_totals[obj] = self.event_totals.get(obj, 0) + len(rows)
+        for row in rows:
+            send_id = (row.get("SendID") or "").strip()
+            key = (row.get("SubscriberKey") or "").strip()
+            day = self.send_day.get((send_id, key))
+            if day is None:
+                # De send van dit event valt buiten de retrieve: geen dagbucket.
+                self.unattributed[obj] = self.unattributed.get(obj, 0) + 1
+                continue
+            flow = flow_for(row, self.tsd_map, self.sendid_to_flow)[0]
+            entry = self.bucket(day, flow)
+            mail = entry["per_tsd"].setdefault(self.tsd_of(row), email_bucket())
+            if obj == "OpenEvent":
+                pair = (key, send_id)
+                entry["opens"].add(pair)
+                mail["opens"].add(pair)
+            elif obj == "ClickEvent":
+                pair = (key, send_id)
+                entry["clicks"].add(pair)
+                mail["clicks"].add(pair)
+            elif obj == "BounceEvent":
+                field = "hard" if "hard" in (row.get("BounceCategory") or "").lower() else "soft"
+                entry[field] += 1
+                mail[field] += 1
+            elif obj == "UnsubEvent":
+                entry["unsubs"] += 1
+                mail["unsubs"] += 1
+
+    def feed(self, obj, rows):
+        if obj == "SentEvent":
+            self.add_sent(rows)
+        else:
+            self.add_engagement(obj, rows)
+
+    # -- uitvoer ---------------------------------------------------------
+
+    def _counters(self, entry):
+        sent = entry["sent"]
+        hard = entry["hard"]
+        return {
+            "sent": sent,
+            "delivered": max(sent - hard, 0),
+            "opens": len(entry["opens"]),
+            "clicks": len(entry["clicks"]),
+            "bounces": hard,
+            "soft_bounces": entry["soft"],
+            "unsubs": entry["unsubs"],
+            # NIET optelbaar over dagen: iemand kan op twee dagen gemaild zijn.
+            "subscribers": len(entry["subs"]),
+        }
+
+    def _emails(self, entry):
+        """Per-e-mail regels, samengevoegd op weergavenaam zodat versies niet splitsen."""
+        folded = fold_late_engagement(entry["per_tsd"], self.tsd_names)
+        by_name = {}
+        for tsd, mail in folded.items():
+            merge_email_bucket(by_name.setdefault(email_name(tsd, self.tsd_names), email_bucket()), mail)
+        return {name: self._counters(mail) for name, mail in sorted(by_name.items())}
+
+    def payload(self):
+        out_days = {}
+        for day in sorted(self.days):
+            flows = self.days[day]
+            total = flow_bucket()
+            for entry in flows.values():
+                total["sent"] += entry["sent"]
+                total["opens"] |= entry["opens"]
+                total["clicks"] |= entry["clicks"]
+                total["hard"] += entry["hard"]
+                total["soft"] += entry["soft"]
+                total["unsubs"] += entry["unsubs"]
+                total["subs"] |= entry["subs"]
+                for tsd, mail in entry["per_tsd"].items():
+                    merge_email_bucket(total["per_tsd"].setdefault(tsd, email_bucket()), mail)
+            out_flows = {}
+            for flow, entry in sorted(list(flows.items()) + [("all", total)]):
+                row = self._counters(entry)
+                row["emails"] = self._emails(entry)
+                out_flows[flow] = row
+                self._check(day, flow, row)
+            out_days[day] = {"flows": out_flows}
+        return out_days
+
+    def _check(self, day, flow, row):
+        """Waarschuwt als de som van de e-mails niet gelijk is aan het flowtotaal."""
+        for field in ("sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs"):
+            summed = sum(mail[field] for mail in row["emails"].values())
+            if summed != row[field]:
+                warn(f"{self.market} {day} '{flow}': e-mails tellen niet op, {field} {summed} != {row[field]}")
+
+    def reach_payload(self):
+        out = {}
+        for days in REACH_PERIODS:
+            keys = self.reach[days]
+            leads = sum(1 for k in keys if k.startswith("00Q"))
+            contacts = sum(1 for k in keys if k.startswith("003"))
+            out[str(days)] = {
+                # SubscriberKey is een Salesforce-id: 00Q = Lead, 003 = Contact.
+                # Beide krijgen mail. Coverage kan alleen op de Lead-helft
+                # berekend worden, want het consent-veld is alleen op Lead leesbaar.
+                "total": len(keys),
+                "leads": leads,
+                "contacts": contacts,
+                "other": len(keys) - leads - contacts,
+            }
+        return out
+
+    def flow_names(self):
+        names = set()
+        for flows in self.days.values():
+            names |= {f for f in flows if f not in ("all", UNASSIGNED)}
+        return names
+
+    def report_tiers(self):
+        sent_total = sum(self.tier_sent.values()) or 1
+        warn(
+            f"{self.market.upper()}: attributie van {sum(self.tier_sent.values())} sends - tier1 "
+            f"{self.tier_sent[1]} ({self.tier_sent[1] / sent_total * 100:.1f}%), tier2 "
+            f"{self.tier_sent[2]} ({self.tier_sent[2] / sent_total * 100:.1f}%), {UNASSIGNED} "
+            f"{self.tier_sent[3]} ({self.tier_sent[3] / sent_total * 100:.1f}%)"
+        )
+
+
+def retrieve_and_aggregate(session, auth, agg, start, end):
+    """Haalt elk tracking object op en verwerkt het per pagina in de dagbuckets.
+
+    Per pagina aggregeren houdt het geheugengebruik vlak: de ruwe rijen worden
+    meteen weer vrijgegeven. SentEvent staat bewust vooraan, want de map van
+    (SendID, SubscriberKey) naar verzenddag moet gevuld zijn voordat de
+    engagement-events geplaatst kunnen worden.
+    """
+    for obj, properties in TRACKING_OBJECTS:
+        print(f"  {obj} ophalen...", flush=True)
+        started = time.time()
+        state = {"pages": 0}
+
+        def on_page(rows, obj=obj, state=state):
+            state["pages"] += 1
+            agg.feed(obj, rows)
+
+        try:
+            count = soap_retrieve(session, auth, obj, properties, start, end, on_page=on_page)
+        except RuntimeError as exc:
+            if "TriggeredSendDefinitionObjectID" not in properties or state["pages"]:
+                # Al verwerkte pagina's kunnen we niet terugdraaien; opnieuw
+                # ophalen zou dubbel tellen.
+                raise
+            warn(f"{obj}: retrieve met TriggeredSendDefinitionObjectID mislukt ({exc}); opnieuw zonder die property, attributie via SendID")
+            fallback = [p for p in properties if p != "TriggeredSendDefinitionObjectID"]
+            count = soap_retrieve(session, auth, obj, fallback, start, end, on_page=on_page)
+        print(f"  {obj}: {count} events verwerkt in {time.time() - started:.0f}s", flush=True)
 
 
 def main():
@@ -917,13 +962,11 @@ def main():
     client_id = os.environ["SFMC_CLIENT_ID"]
     client_secret = os.environ["SFMC_CLIENT_SECRET"]
 
-    # Einddatum waar alle vensters vanaf terugrekenen, exclusief. Default morgen
-    # UTC, zodat de dag van vandaag volledig meetelt.
+    # Einddatum waar alles vanaf terugrekent, exclusief. Default morgen UTC,
+    # zodat de dag van vandaag volledig meetelt.
     period_end = os.environ.get("PERIOD_END") or (
         datetime.now(timezone.utc).date() + timedelta(days=1)).strftime("%Y-%m-%d")
-    # De ene retrieve per BU: 2x de langste periode terug.
-    retrieve_days = 2 * max(PERIODS)
-    retrieve_start, _ = window_dates(period_end, retrieve_days)
+    retrieve_start, _ = window_dates(period_end, RETRIEVE_DAYS)
     cov_window_start, _ = window_dates(period_end, COVERAGE_DAYS)
 
     session = make_session()
@@ -931,6 +974,7 @@ def main():
     journeys_out = {}
     structures_out = {}
     reached_lead_ids = {}
+    first_day = None
 
     for market in MARKETS:
         raw_mid = (os.environ.get(f"SFMC_MID_{market.upper()}") or "").strip()
@@ -953,91 +997,65 @@ def main():
             for tsd, name in id_to_email_name.items():
                 if name:
                     tsd_names[tsd] = (name, raw_names.get(tsd, ""))
-            # EEN retrieve per BU over de volledige span; alle vensters worden
-            # daarna uit deze events gesneden.
-            print(f"  retrieve {retrieve_start} t/m {period_end} ({retrieve_days} dagen)")
+
+            # EEN retrieve per BU over de volledige span; de dagbuckets worden
+            # al tijdens het ophalen gevuld.
+            print(f"  retrieve {retrieve_start} t/m {period_end} ({RETRIEVE_DAYS} dagen)")
             started = time.time()
-            events = retrieve_events(
-                session, auth,
+            agg = DayAggregator(market, tsd_map, tsd_names, period_end)
+            retrieve_and_aggregate(
+                session, auth, agg,
                 f"{retrieve_start}T00:00:00", f"{period_end}T00:00:00")
-            print(f"  retrieve klaar in {time.time() - started:.0f}s: "
-                  + ", ".join(f"{obj}={len(rows)}" for obj, rows in events.items()))
+            print(f"  retrieve + aggregatie klaar in {time.time() - started:.0f}s")
+            agg.report_tiers()
 
-            # Per periode het huidige en het voorafgaande venster, elk volledig
-            # opnieuw geaggregeerd over zijn eigen ruwe events.
-            periods_out = {}
-            flow_names = set()
-            for days in PERIODS:
-                start, end = window_dates(period_end, days)
-                prev_start, _ = window_dates(start, days)
-                print(f"  periode {days} dagen")
-                flows, _, uniques = run_window(
-                    events, tsd_map, market, start, end, tsd_names)
-                prev_flows, _, prev_uniques = run_window(
-                    events, tsd_map, market, prev_start, start, tsd_names)
-                flow_names |= {f for f in flows if f not in ("all", UNASSIGNED)}
-                periods_out[str(days)] = {
-                    "range": {"start": start, "end": end},
-                    "prevRange": {"start": prev_start, "end": start},
-                    "flows": flows,
-                    "prevFlows": prev_flows,
-                    "uniqueSubscribers": uniques,
-                    "uniqueSubscribersPrev": prev_uniques,
-                }
+            days_out = agg.payload()
+            flow_names = agg.flow_names()
 
-            # Structuur (het stroomschema) van de journeys die in een van de
-            # periodes in `flows` staan, zodat het dashboard metrics aan het
-            # diagram kan koppelen.
+            # Structuur (het stroomschema) van de journeys die in de dagbuckets
+            # voorkomen, zodat het dashboard metrics aan het diagram kan koppelen.
             structures = fetch_journey_structures(
                 session, auth, journeys, flow_names)
 
-            # Coverage heeft zijn eigen, langere venster; dat zit al in de
-            # retrieve, dus we snijden het eruit in plaats van opnieuw op te halen.
-            cov_start, _ = window_dates(period_end, COVERAGE_DAYS)
-            print(f"  coverage-venster {cov_start} t/m {period_end} ({COVERAGE_DAYS} dagen)")
-            cov_rows = slice_events(events, cov_start, period_end).get("SentEvent", [])
-
-            # Per journey bijhouden wie er geraakt is, zodat de uitkomst
-            # (afspraak, conversie, omzet) per flow toe te rekenen is.
-            per_journey = {}
-            cov_leads = set()
-            for row in cov_rows:
-                key = row.get("SubscriberKey") or ""
-                if not key.startswith("00Q"):
-                    continue
-                cov_leads.add(key)
-                # tsd_map levert (journeynaam, tier); alleen de naam is hier nodig.
-                hit = tsd_map.get(row.get("TriggeredSendDefinitionObjectID") or "")
-                flow = hit[0] if hit else UNASSIGNED
-                per_journey.setdefault(flow, set()).add(key)
-
             reached_lead_ids[market] = {
-                "all": sorted(cov_leads),
-                "by_journey": {k: sorted(v) for k, v in per_journey.items()},
+                "all": sorted(agg.cov_leads),
+                "by_journey": {k: sorted(v) for k, v in agg.cov_per_journey.items()},
             }
-            print(f"  coverage: {len(cov_leads)} unieke leads over {len(per_journey)} journeys"
+            print(f"  coverage: {len(agg.cov_leads)} unieke leads over {len(agg.cov_per_journey)} journeys"
                   f" in {COVERAGE_DAYS} dagen")
 
-            # De ruwe events van deze BU zijn nu niet meer nodig; vrijgeven voor
-            # de volgende markt.
-            events = None
+            unattributed = {obj: agg.unattributed.get(obj, 0) for obj, _ in TRACKING_OBJECTS}
+            event_totals = {obj: agg.event_totals.get(obj, 0) for obj, _ in TRACKING_OBJECTS}
+            reach = agg.reach_payload()
+            markets[market] = {
+                "days": days_out,
+                # engagement waarvan de send buiten de retrieve viel; bewust
+                # geteld in plaats van weggegooid
+                "unattributed": unattributed,
+                "eventTotals": event_totals,
+                # bereik is niet optelbaar; alleen voor deze drie presets
+                "reach": reach,
+            }
+            if days_out:
+                day0 = min(days_out)
+                first_day = day0 if first_day is None else min(first_day, day0)
+            agg = None
         except Exception as exc:
             warn(f"BU {market.upper()} mislukt: {exc}")
             continue
 
         journeys_out[market] = journeys
         structures_out[market] = structures
-        # teller van Automation Coverage (unieke mensen die we gemaild hebben,
-        # uitgesplitst naar Lead en Contact) staat per periode onder
-        # `uniqueSubscribers` / `uniqueSubscribersPrev`.
-        markets[market] = {"periods": periods_out}
 
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
-        # de periodes die het dashboard aanbiedt, en de datum waar ze vanaf
-        # terugrekenen (exclusief)
-        "periods": [str(d) for d in PERIODS],
+        # de datum waar alles vanaf terugrekent (exclusief), de vroegste dag met
+        # een bucket en hoe ver de retrieve terugkeek
         "endDate": period_end,
+        "firstDay": first_day,
+        "retrieveDays": RETRIEVE_DAYS,
+        # de rollende vensters waarvoor `reach` voorberekend is
+        "reachPeriods": [str(d) for d in REACH_PERIODS],
         "markets": markets,
         "journeys": journeys_out,
         # stroomschema per journey (knopen + edges) voor de diagramweergave
@@ -1062,21 +1080,16 @@ def main():
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
           + ", ".join(f"{m}={len(v['all'])}" for m, v in reached_lead_ids.items()))
 
-    print(f"\nGeschreven naar {out_path}")
+    print(f"\nGeschreven naar {out_path} ({os.path.getsize(out_path) / 1e6:.1f} MB)")
     for market, data in sorted(markets.items()):
-        for days in PERIODS:
-            period = data["periods"].get(str(days))
-            if not period:
-                continue
-            for label, flows in (("huidig", period["flows"]), ("vorig", period["prevFlows"])):
-                if not flows:
-                    continue
-                a = flows["all"]
-                print(
-                    f"  {market} {days}d {label}: sent={a['sent']} delivered={a['delivered']} "
-                    f"open={a['open']}% ctr={a['ctr']}% ctor={a['ctor']}% "
-                    f"uniek={a['uniqueSubscribers']}"
-                )
+        days = data["days"]
+        print(f"  {market}: {len(days)} dagen, {min(days) if days else '-'} t/m "
+              f"{max(days) if days else '-'}, bereik30={data['reach']['30']['total']}")
+        for label, count in sorted(data["unattributed"].items()):
+            total = data["eventTotals"].get(label) or 0
+            if count:
+                print(f"    unattributed {label}: {count}"
+                      + (f" ({count / total * 100:.2f}%)" if total else ""))
     if WARNINGS:
         print(f"  {len(WARNINGS)} waarschuwing(en)")
 

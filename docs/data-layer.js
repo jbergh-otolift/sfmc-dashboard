@@ -808,6 +808,243 @@ let currentMarket = "nl";
 // aan. Coverage heeft bewust een eigen venster van 90 dagen, omdat de noemer
 // daar een momentopname is die niet met de periode meebeweegt.
 let currentPeriod = "30";
+// Gekozen bereik als {start, end}; end is exclusief. Wordt uit het preset of
+// uit de datumvelden afgeleid.
+let currentRange = null;
+
+/* ---------- dagbuckets optellen ---------- */
+
+const COUNTERS = ["sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs"];
+
+function addDays(iso, delta) {
+  const d = new Date(iso + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + delta);
+  return d.toISOString().slice(0, 10);
+}
+
+function daysBetween(start, end) {
+  return Math.round(
+    (new Date(end + "T00:00:00Z") - new Date(start + "T00:00:00Z")) / 86400000
+  );
+}
+
+// Zet een preset om naar een bereik. `end` is exclusief, zoals overal.
+function rangeForPreset(preset, endDate) {
+  const end = endDate;
+  if (preset === "month") {
+    return { start: end.slice(0, 8) + "01", end };
+  }
+  if (preset === "lastmonth") {
+    const firstOfThis = end.slice(0, 8) + "01";
+    const lastMonthEnd = firstOfThis;
+    const d = new Date(firstOfThis + "T00:00:00Z");
+    d.setUTCMonth(d.getUTCMonth() - 1);
+    return { start: d.toISOString().slice(0, 10), end: lastMonthEnd };
+  }
+  if (preset === "quarter") {
+    const month = parseInt(end.slice(5, 7), 10) - 1;
+    const qStart = Math.floor(month / 3) * 3;
+    return {
+      start: end.slice(0, 4) + "-" + String(qStart + 1).padStart(2, "0") + "-01",
+      end,
+    };
+  }
+  if (preset === "ytd") {
+    return { start: end.slice(0, 4) + "-01-01", end };
+  }
+  return { start: addDays(end, -parseInt(preset, 10)), end };
+}
+
+// Telt alle dagbuckets binnen [start, end) op. Alles is toegerekend aan de
+// verzenddatum, dus optellen levert exact hetzelfde als een aparte
+// aggregatie over dat bereik — ook voor unieke opens en clicks.
+function sumRange(days, start, end) {
+  const flows = {};
+  const crm = { toStatus: {}, transitions: {} };
+  const cohort = { entered: 0, mailable: 0, reached: 0, hasData: false };
+
+  Object.keys(days || {}).forEach((day) => {
+    if (day < start || day >= end) return;
+    const bucket = days[day];
+
+    Object.entries(bucket.flows || {}).forEach(([name, flow]) => {
+      const target = (flows[name] = flows[name] || {
+        label: name === "all" ? "Alle flows" : name,
+        emails: {},
+        ...Object.fromEntries(COUNTERS.map((c) => [c, 0])),
+      });
+      COUNTERS.forEach((c) => {
+        target[c] += flow[c] || 0;
+      });
+      Object.entries(flow.emails || {}).forEach(([mail, stats]) => {
+        const box = (target.emails[mail] =
+          target.emails[mail] || Object.fromEntries(COUNTERS.map((c) => [c, 0])));
+        COUNTERS.forEach((c) => {
+          box[c] += stats[c] || 0;
+        });
+      });
+    });
+
+    Object.entries((bucket.crm || {}).toStatus || {}).forEach(([status, n]) => {
+      crm.toStatus[status] = (crm.toStatus[status] || 0) + n;
+    });
+    Object.entries((bucket.crm || {}).transitions || {}).forEach(([pair, n]) => {
+      crm.transitions[pair] = (crm.transitions[pair] || 0) + n;
+    });
+
+    if (bucket.cohort) {
+      cohort.hasData = true;
+      cohort.entered += bucket.cohort.entered || 0;
+      cohort.mailable += bucket.cohort.mailable || 0;
+      cohort.reached += bucket.cohort.reached || 0;
+    }
+  });
+
+  if (cohort.mailable) cohort.coverage = round1(cohort.reached / cohort.mailable * 100);
+  return { flows, crm, cohort: cohort.hasData ? cohort : null };
+}
+
+// Her-activatie en lead funnel uit de opgetelde statusovergangen. Dezelfde
+// definities als server-side: aandelen van de instroom, en een ratio wordt
+// onderdrukt bij een te kleine noemer of boven de 100% — dat kan alleen als
+// overgangen bij een instroom van voor het bereik horen.
+const MIN_DENOM = 25;
+const BRANCH_MIN = 10;
+
+function safeRatio(num, den, minimum) {
+  if (!den || den < (minimum || MIN_DENOM)) return null;
+  const value = Math.round((num / den) * 10000) / 100;
+  return value > 100 ? null : value;
+}
+
+function crmFromSums(crm, prevCrm) {
+  const to = crm.toStatus || {};
+  const pairs = crm.transitions || {};
+  const at = (k) => to[k] || 0;
+  const via = (a, b) => pairs[a + ">" + b] || 0;
+
+  // Instroom = alle overgangen in het bereik; dat is de beste benadering van
+  // "leads met activiteit" die uit dagcijfers optelbaar is.
+  const intake = Object.values(to).reduce((a, b) => a + b, 0);
+  const notReached = at("Not reached");
+  const mailjourney = at("Mailjourney");
+  const sql = at("Re-entered");
+  const appointment = at("Appointment");
+  const phone = at("Re-entered - Phone Number Changed");
+  const mjToSql = via("Mailjourney", "Re-entered");
+
+  const delta = (a, b) => (a !== null && b) ? round1(((a - b) / b) * 100) : null;
+  const prev = prevCrm ? crmFromSums(prevCrm, null) : null;
+
+  const reactivation = {
+    leadIntake: { abs: intake, share: 100 },
+    notContact: {
+      abs: notReached,
+      share: safeRatio(notReached, intake),
+      ratio: safeRatio(notReached, intake),
+      deltaPct: prev ? delta(safeRatio(notReached, intake), prev.reactivation.notContact.ratio) : null,
+    },
+    mailjourney: {
+      abs: mailjourney,
+      share: safeRatio(mailjourney, intake),
+      ratio: safeRatio(via("Not reached", "Mailjourney") + via("Follow-up", "Mailjourney"), notReached),
+      deltaPct: null,
+    },
+    sql: {
+      abs: sql,
+      share: safeRatio(sql, intake),
+      ratio: safeRatio(mjToSql, mailjourney),
+      deltaPct: prev ? delta(safeRatio(mjToSql, mailjourney), prev.reactivation.sql.ratio) : null,
+    },
+    enrichment: {
+      fromMailjourney: via("Mailjourney", "Re-entered - Phone Number Changed"),
+      fromNotReached: via("Not reached", "Re-entered - Phone Number Changed"),
+      enrichedLeads: phone,
+      toAppointment: via("Re-entered - Phone Number Changed", "Appointment"),
+      toAppointmentDirect: via("Re-entered - Phone Number Changed", "Appointment"),
+      toAppointmentViaDetour: 0,
+      toAppointmentRatio: safeRatio(via("Re-entered - Phone Number Changed", "Appointment"), phone, BRANCH_MIN),
+      backToNotReached: via("Re-entered - Phone Number Changed", "Not reached"),
+    },
+    recovered: { count: mjToSql, cpl: null, cac: null },
+  };
+
+  const acquisition = {
+    funnel: {
+      mql: { abs: intake, share: 100, convDeltaPct: null },
+      sql: { abs: sql, share: safeRatio(sql, intake), convDeltaPct: null },
+      r1: {
+        abs: appointment,
+        share: safeRatio(appointment, intake),
+        convDeltaPct: prev ? delta(safeRatio(appointment, intake), prev.acquisition.funnel.r1.share) : null,
+      },
+      order: { abs: null, share: null, convDeltaPct: null },
+    },
+    channels: [],
+    totals: { contacts: null, avgCpa: null, avgCpql: null },
+  };
+
+  const kern = {
+    reactivationRatio: {
+      value: safeRatio(mjToSql, mailjourney),
+      deltaPct: prev ? delta(safeRatio(mjToSql, mailjourney), prev.kernKpis.reactivationRatio.value) : null,
+    },
+    mqlToSql: {
+      value: safeRatio(sql, intake),
+      deltaPct: prev ? delta(safeRatio(sql, intake), prev.kernKpis.mqlToSql.value) : null,
+    },
+  };
+
+  return { reactivation, acquisition, kernKpis: kern };
+}
+
+function round1(value) {
+  return Math.round(value * 10) / 10;
+}
+
+function pct(num, den) {
+  return den ? Math.round((num / den) * 10000) / 100 : null;
+}
+
+// Zet opgetelde tellers om naar het emailHealth-contract dat het dashboard al
+// kent, inclusief percentages en de mailopbouw per flow.
+function healthFromSums(summed, prevSummed) {
+  const out = {};
+  Object.entries(summed.flows || {}).forEach(([key, flow]) => {
+    if (key !== "all" && (flow.sent || 0) < 50) return;
+    const prev = (prevSummed && prevSummed.flows && prevSummed.flows[key]) || null;
+    const rates = (f) => ({
+      delivery: pct(f.delivered, f.sent),
+      open: pct(f.opens, f.delivered),
+      ctr: pct(f.clicks, f.delivered),
+      ctor: pct(f.clicks, f.opens),
+      unsub: pct(f.unsubs, f.delivered),
+      bounce: pct(f.bounces, f.sent),
+    });
+    const now = rates(flow);
+    const before = prev ? rates(prev) : {};
+
+    out[key] = {
+      label: flow.label,
+      ...Object.fromEntries(COUNTERS.map((c) => [c, flow[c]])),
+      ...now,
+      spam: null,
+      emails: Object.keys(flow.emails || {}).length,
+      emailBreakdown: Object.entries(flow.emails || {})
+        .map(([name, stats]) => ({ name, ...stats, ...rates(stats) }))
+        .filter((e) => e.sent > 0)
+        .sort((a, b) => b.sent - a.sent),
+      deltas: Object.fromEntries(
+        ["delivery", "ctor", "ctr", "open", "unsub", "bounce", "sent"].map((metric) => {
+          const a = metric === "sent" ? flow.sent : now[metric];
+          const b = metric === "sent" ? (prev && prev.sent) : before[metric];
+          return [metric, a !== null && b ? round1(((a - b) / b) * 100) : null];
+        })
+      ),
+    };
+  });
+  return Object.keys(out).length ? out : { all: { label: "Alle flows" } };
+}
 function applyMarket(marketKey) {
   if (!DATA) return;
   const market = DATA.markets[marketKey];
@@ -830,27 +1067,41 @@ function applyMarket(marketKey) {
   }
   if (empty) empty.hidden = true;
 
-  // Het blok van de gekozen periode over de basiswaarden heen leggen.
-  const period = (market.byPeriod || {})[currentPeriod];
-  const view = period
-    ? {
-        ...market,
-        emailHealth: period.emailHealth || market.emailHealth,
-        mailsPerPerson: period.mailsPerPerson,
-        reactivation: period.reactivation || market.reactivation,
-        acquisition: period.acquisition || market.acquisition,
-        kernKpis: {
-          ...market.kernKpis,
-          ...(period.kernKpisPeriod || {}),
-          // Coverage volgt wél de periode: het is een cohort. Van de leads
-          // die in deze periode instroomden, hoeveel hebben we gemaild. De
-          // staande voorraad blijft als context in de opbouw staan.
-          coverage: coverageForPeriod(market.kernKpis && market.kernKpis.coverage,
-                                      period && period.cohort),
-          databaseGrowth: market.kernKpis && market.kernKpis.databaseGrowth,
-        },
-      }
-    : market;
+  // Alles voor het gekozen bereik uit de dagbuckets optellen. Daardoor kan
+  // de lezer elke periode kiezen in plaats van drie vaste vensters.
+  const range = currentRange || rangeForPreset("30", DATA.endDate);
+  const span = Math.max(daysBetween(range.start, range.end), 1);
+  const prevRange = {
+    start: addDays(range.start, -span),
+    end: range.start,
+  };
+  const summed = sumRange(market.days, range.start, range.end);
+  const prevSummed = sumRange(market.days, prevRange.start, prevRange.end);
+  const derived = crmFromSums(summed.crm, prevSummed.crm);
+
+  // Bereik is niet optelbaar over dagen, dus alleen bij de vaste vensters.
+  const reachKey = String(span);
+  const reach = (market.reach || {})[reachKey] || null;
+  const sentAll = ((summed.flows || {}).all || {}).sent;
+
+  const view = {
+    ...market,
+    emailHealth: healthFromSums(summed, prevSummed),
+    mailsPerPerson:
+      reach && reach.total && sentAll ? round1(sentAll / reach.total) : null,
+    reactivation: derived.reactivation,
+    acquisition: derived.acquisition,
+    kernKpis: {
+      ...market.kernKpis,
+      ...derived.kernKpis,
+      coverage: coverageForPeriod(
+        market.kernKpis && market.kernKpis.coverage,
+        summed.cohort
+      ),
+      databaseGrowth: market.kernKpis && market.kernKpis.databaseGrowth,
+    },
+  };
+  const period = { range, prevRange, cohort: summed.cohort, comparable: true };
 
   applyBindings(document, view);
   // Coverage toont het cohort van de gekozen periode: van de instroom van
@@ -890,8 +1141,12 @@ function applyMeta(data) {
   if (stamp && data.generated_at) stamp.textContent = "Bijgewerkt: " + fmtDate(data.generated_at);
 
   // Bereik van de gekozen periode, uit de markt die nu getoond wordt.
-  const market = data.markets && data.markets[currentMarket];
-  const block = market && (market.byPeriod || {})[currentPeriod];
+  const range = currentRange || rangeForPreset("30", data.endDate);
+  const span = Math.max(daysBetween(range.start, range.end), 1);
+  const block = {
+    range,
+    prevRange: { start: addDays(range.start, -span), end: range.start },
+  };
   const showRange = (selector, value) => {
     const el = document.querySelector(selector);
     if (!el || !value) return;
@@ -902,14 +1157,15 @@ function applyMeta(data) {
   };
   showRange("[data-period-label]", (block && block.range) || data.period);
 
-  // Periodes zonder data uitschakelen in plaats van verbergen.
-  const select = document.querySelector("[data-period-select]");
-  if (select && (data.periods || []).length) {
-    [...select.options].forEach((option) => {
-      option.disabled = !data.periods.includes(option.value);
-    });
-    select.value = currentPeriod;
-  }
+  // Datumvelden begrenzen tot wat er aan data is.
+  const from = document.querySelector("[data-date-from]");
+  const to = document.querySelector("[data-date-to]");
+  const last = data.endDate ? addDays(data.endDate, -1) : null;
+  [from, to].forEach((input) => {
+    if (!input) return;
+    if (data.firstDay) input.min = data.firstDay;
+    if (last) input.max = last;
+  });
 
   const daysEl = document.querySelector("[data-outcome-days]");
   if (daysEl && data.outcome_lookback_days) daysEl.textContent = data.outcome_lookback_days;
@@ -918,13 +1174,41 @@ function applyMeta(data) {
 }
 
 function wirePeriodPicker() {
-  const select = document.querySelector("[data-period-select]");
-  if (!select) return;
-  select.addEventListener("change", () => {
-    currentPeriod = select.value;
+  const preset = document.querySelector("[data-preset]");
+  const custom = document.querySelector("[data-custom-range]");
+  const from = document.querySelector("[data-date-from]");
+  const to = document.querySelector("[data-date-to]");
+  if (!preset) return;
+
+  const refresh = () => {
     applyMeta(DATA);
     applyMarket(currentMarket);
+  };
+
+  preset.addEventListener("change", () => {
+    if (preset.value === "custom") {
+      if (custom) custom.hidden = false;
+      // Begin met het huidige bereik, zodat de velden niet leeg staan.
+      if (from && to && currentRange) {
+        from.value = currentRange.start;
+        to.value = addDays(currentRange.end, -1);
+      }
+      return;
+    }
+    if (custom) custom.hidden = true;
+    currentRange = rangeForPreset(preset.value, DATA.endDate);
+    refresh();
   });
+
+  const applyCustom = () => {
+    if (!from || !to || !from.value || !to.value) return;
+    if (from.value > to.value) return;
+    // De datumvelden zijn inclusief; intern is end exclusief.
+    currentRange = { start: from.value, end: addDays(to.value, 1) };
+    refresh();
+  };
+  if (from) from.addEventListener("change", applyCustom);
+  if (to) to.addEventListener("change", applyCustom);
 }
 
 function wireCountryToggle() {
@@ -952,6 +1236,7 @@ async function init() {
     }
     return;
   }
+  currentRange = rangeForPreset("30", DATA.endDate);
   applyMeta(DATA);
   applyMarket(currentMarket);
 }
