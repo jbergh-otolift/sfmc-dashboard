@@ -376,16 +376,20 @@ function coverageForPeriod(base, cohort) {
 function renderValueBlock(value) {
   const block = document.querySelector("[data-value-block]");
   if (!block) return;
-  if (!value || !value.orders) {
+  if (!value || !value.mailedOrders) {
     block.hidden = true;
     return;
   }
   block.hidden = false;
 
   const total = block.querySelector("[data-value-total]");
-  const all = block.querySelector("[data-value-all]");
-  if (total) total.textContent = eur(value.viaRevenue);
-  if (all) all.textContent = eur(value.revenue);
+  const sub = block.querySelector("[data-value-sub]");
+  if (total) total.textContent = eur(value.mailedRevenue);
+  if (sub) {
+    sub.textContent =
+      "waarvan " + eur(value.viaRevenue) + " met een aantoonbaar heractivatiepad · " +
+      nlNum(value.mailedOrders, 0) + " orders";
+  }
 
   const box = block.querySelector("[data-value-routes]");
   box.innerHTML = "";
@@ -394,31 +398,89 @@ function renderValueBlock(value) {
     (a, b) => b[1].revenue - a[1].revenue
   );
 
-  if (!routes.length) {
-    const empty = document.createElement("div");
-    empty.className = "vb-empty";
-    empty.textContent =
-      "Geen orders in dit bereik die aantoonbaar via her-activatie zijn binnengekomen.";
-    box.appendChild(empty);
-    return;
-  }
-
+  // Elke route uitklapbaar: welke instroomredenen zitten erachter.
   routes.forEach(([route, stats]) => {
-    const card = document.createElement("div");
+    const reasons = Object.entries((value.byRouteReason || {})[route] || {}).sort(
+      (a, b) => b[1].revenue - a[1].revenue
+    );
+
+    const card = document.createElement(reasons.length ? "details" : "div");
     card.className = "vb-route";
+
+    const head = document.createElement(reasons.length ? "summary" : "div");
+    head.className = "vb-r-head";
     const name = document.createElement("div");
     name.className = "vb-r-name";
     name.textContent = labels[route] || route;
     const val = document.createElement("div");
     val.className = "vb-r-val";
     val.textContent = eur(stats.revenue);
-    const sub = document.createElement("div");
-    sub.className = "vb-r-sub";
-    sub.textContent =
+    const note = document.createElement("div");
+    note.className = "vb-r-sub";
+    note.textContent =
       nlNum(stats.orders, 0) + (stats.orders === 1 ? " order" : " orders") +
       " · gemiddeld " + eur(Math.round(stats.revenue / stats.orders));
-    card.append(name, val, sub);
+    head.append(name, val, note);
+    card.appendChild(head);
+
+    if (reasons.length) {
+      const list = document.createElement("div");
+      list.className = "vb-reasons";
+      reasons.forEach(([reason, v]) => {
+        const row = document.createElement("div");
+        row.className = "vb-reason";
+        const label = document.createElement("span");
+        label.textContent = reason;
+        const amount = document.createElement("span");
+        amount.textContent = eur(v.revenue) + " · " + nlNum(v.orders, 0);
+        row.append(label, amount);
+        list.appendChild(row);
+      });
+      card.appendChild(list);
+    }
     box.appendChild(card);
+  });
+
+  renderDetailList(
+    "[data-value-paths]",
+    value.byPath,
+    "Geen paden in dit bereik."
+  );
+  renderDetailList(
+    "[data-value-flows]",
+    value.byFlow,
+    "Geen orders toe te rekenen aan een losse flow in dit bereik."
+  );
+}
+
+// Lijstje van pad of flow met omzet, gesorteerd op opbrengst.
+function renderDetailList(selector, data, emptyText) {
+  const host = document.querySelector(selector);
+  if (!host) return;
+  host.innerHTML = "";
+  const rows = Object.entries(data || {}).sort((a, b) => b[1].revenue - a[1].revenue);
+
+  if (!rows.length) {
+    const empty = document.createElement("div");
+    empty.className = "vb-empty";
+    empty.textContent = emptyText;
+    host.appendChild(empty);
+    return;
+  }
+
+  rows.forEach(([label, v]) => {
+    const row = document.createElement("div");
+    row.className = "vb-path";
+    const name = document.createElement("span");
+    name.className = "vb-p-name";
+    // Padnamen komen uit de data; via textContent de DOM in.
+    name.textContent = label;
+    const amount = document.createElement("span");
+    amount.className = "vb-p-val";
+    amount.textContent =
+      eur(v.revenue) + " · " + nlNum(v.orders, 0) + (v.orders === 1 ? " order" : " orders");
+    row.append(name, amount);
+    host.appendChild(row);
   });
 }
 
@@ -947,7 +1009,12 @@ function sumRange(days, start, end) {
   const cohort = { entered: 0, mailable: 0, reached: 0, hasData: false };
   // Omzet is toegerekend aan de conversiedatum en dus gewoon optelbaar.
   const value = {
-    orders: 0, revenue: 0, viaOrders: 0, viaRevenue: 0, byRoute: {}, hasData: false,
+    orders: 0, revenue: 0,
+    // Breed: gemaild door een flow uit de doelgroep en daarna geconverteerd.
+    mailedOrders: 0, mailedRevenue: 0,
+    // Streng: daarbovenop een aantoonbaar heractivatiepad.
+    viaOrders: 0, viaRevenue: 0,
+    byRoute: {}, byPath: {}, byRouteReason: {}, byFlow: {}, hasData: false,
   };
 
   Object.keys(days || {}).forEach((day) => {
@@ -985,10 +1052,22 @@ function sumRange(days, start, end) {
       value.revenue += bucket.value.revenue || 0;
       value.viaOrders += bucket.value.viaAutomationOrders || 0;
       value.viaRevenue += bucket.value.viaAutomationRevenue || 0;
-      Object.entries(bucket.value.byRoute || {}).forEach(([route, v]) => {
-        const box = (value.byRoute[route] = value.byRoute[route] || { orders: 0, revenue: 0 });
-        box.orders += v.orders || 0;
-        box.revenue += v.revenue || 0;
+      value.mailedOrders += bucket.value.mailedOrders || 0;
+      value.mailedRevenue += bucket.value.mailedRevenue || 0;
+
+      const addInto = (target, source) => {
+        Object.entries(source || {}).forEach(([key, v]) => {
+          const box = (target[key] = target[key] || { orders: 0, revenue: 0 });
+          box.orders += v.orders || 0;
+          box.revenue += v.revenue || 0;
+        });
+      };
+      addInto(value.byRoute, bucket.value.byRoute);
+      addInto(value.byPath, bucket.value.byPath);
+      addInto(value.byFlow, bucket.value.byFlow);
+      Object.entries(bucket.value.byRouteReason || {}).forEach(([route, reasons]) => {
+        value.byRouteReason[route] = value.byRouteReason[route] || {};
+        addInto(value.byRouteReason[route], reasons);
       });
     }
 
