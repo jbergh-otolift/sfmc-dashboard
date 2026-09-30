@@ -17,6 +17,12 @@
 
 const NODATA = "–";
 
+// Streefwaarde voor automation coverage, in procenten. Coverage meet of de
+// instroom van een periode ook daadwerkelijk gemaild is; 93-97% is normaal
+// functioneren, dus een doel van 95% slaat alleen aan als er iets wegzakt.
+// Eén plek wijzigen volstaat: de meter tekent zijn markering hieruit.
+const COVERAGE_TARGET = 95;
+
 /* ---------- helpers ---------- */
 
 function getPath(obj, path) {
@@ -91,6 +97,40 @@ function applyBindings(root, data) {
   root.querySelectorAll("[data-bind-delta]").forEach((el) => {
     renderBoundDelta(el, data);
   });
+
+  drawGoalMark();
+}
+
+// Zet het doelstreepje op de meter. De positie wordt uit het booglengte-pad
+// zelf afgeleid in plaats van met de hand uitgerekend, zodat het streepje
+// meteen klopt als de streefwaarde verandert.
+function drawGoalMark() {
+  const arc = document.getElementById("covArc");
+  const mark = document.querySelector("[data-goal-mark]");
+  const label = document.querySelector("[data-goal-label]");
+  const text = document.querySelector("[data-goal-text]");
+  if (text) text.textContent = COVERAGE_TARGET + "%+";
+  if (!arc || !mark || !label || !arc.getPointAtLength) return;
+
+  const length = arc.getTotalLength();
+  const at = arc.getPointAtLength((COVERAGE_TARGET / 100) * length);
+  // Richting van de boog op dat punt, om loodrecht naar buiten te wijzen.
+  const before = arc.getPointAtLength(Math.max((COVERAGE_TARGET / 100) * length - 1, 0));
+  const dx = at.x - before.x;
+  const dy = at.y - before.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = dy / len;
+  const ny = -dx / len;
+
+  mark.setAttribute("x1", (at.x + nx * 14).toFixed(1));
+  mark.setAttribute("y1", (at.y + ny * 14).toFixed(1));
+  mark.setAttribute("x2", (at.x + nx * 30).toFixed(1));
+  mark.setAttribute("y2", (at.y + ny * 30).toFixed(1));
+
+  label.setAttribute("x", (at.x + nx * 38).toFixed(1));
+  label.setAttribute("y", (at.y + ny * 38 + 4).toFixed(1));
+  label.setAttribute("text-anchor", at.x > 150 ? "start" : "end");
+  label.textContent = COVERAGE_TARGET + "%";
 }
 
 function renderBoundDelta(el, data) {
