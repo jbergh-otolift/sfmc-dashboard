@@ -526,12 +526,10 @@ function renderFlowMap(flow, structure) {
   const eBig = document.createElement("div");
   eBig.className = "n-big";
   eBig.textContent =
-    typeof flow.uniqueSubscribers === "number"
-      ? nlNum(flow.uniqueSubscribers, 0)
-      : NODATA;
+    typeof flow.firstTouch === "number" ? nlNum(flow.firstTouch, 0) : NODATA;
   const eSub = document.createElement("div");
   eSub.className = "n-recip";
-  eSub.textContent = "mensen bereikt in deze periode";
+  eSub.textContent = "mensen nieuw in deze flow";
   entryCard.append(eLbl, eBig, eSub);
   entry.appendChild(entryCard);
   map.appendChild(entry);
@@ -670,7 +668,7 @@ function renderFlowDetail(flow) {
   if (!panel) return;
 
   const emails = (flow && flow.emailBreakdown) || [];
-  const reach = flow && flow.uniqueSubscribers;
+  const reach = flow && flow.firstTouch;
   const sent = flow && flow.sent;
 
   panel.hidden = false;
@@ -687,10 +685,7 @@ function renderFlowDetail(flow) {
   );
   set("[data-fd-reach]", typeof reach === "number" ? nlNum(reach, 0) : NODATA);
   set("[data-fd-sent]", typeof sent === "number" ? nlNum(sent, 0) : NODATA);
-  set(
-    "[data-fd-per]",
-    reach && sent ? nlNum(sent / reach, 1) : NODATA
-  );
+  set("[data-fd-per]", reach && sent ? nlNum(sent / reach, 1) : NODATA);
 
   renderFlowMap(flow, (DATA && DATA.journeyStructures &&
     DATA.journeyStructures[currentMarket] || {})[flow && flow.label]);
@@ -834,7 +829,12 @@ let currentRange = null;
 
 /* ---------- dagbuckets optellen ---------- */
 
-const COUNTERS = ["sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs"];
+// firstTouch = mensen die die dag voor het eerst mail uit deze flow kregen.
+// Optelbaar over elk bereik, in tegenstelling tot 'unieke ontvangers': wie op
+// twee dagen mail kreeg zou daar dubbel tellen.
+const COUNTERS = [
+  "sent", "delivered", "opens", "clicks", "bounces", "soft_bounces", "unsubs", "firstTouch",
+];
 
 function addDays(iso, delta) {
   const d = new Date(iso + "T00:00:00Z");
@@ -1104,16 +1104,15 @@ function applyMarket(marketKey) {
   const prevSummed = sumRange(market.days, prevRange.start, prevRange.end);
   const derived = crmFromSums(summed.crm, prevSummed.crm);
 
-  // Bereik is niet optelbaar over dagen, dus alleen bij de vaste vensters.
-  const reachKey = String(span);
-  const reach = (market.reach || {})[reachKey] || null;
-  const sentAll = ((summed.flows || {}).all || {}).sent;
+  // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
+  const allFlow = (summed.flows || {}).all || {};
+  const sentAll = allFlow.sent;
+  const reachAll = allFlow.firstTouch;
 
   const view = {
     ...market,
     emailHealth: healthFromSums(summed, prevSummed),
-    mailsPerPerson:
-      reach && reach.total && sentAll ? round1(sentAll / reach.total) : null,
+    mailsPerPerson: reachAll && sentAll ? round1(sentAll / reachAll) : null,
     reactivation: derived.reactivation,
     acquisition: derived.acquisition,
     kernKpis: {

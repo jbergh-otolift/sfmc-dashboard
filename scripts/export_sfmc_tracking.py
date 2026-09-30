@@ -20,8 +20,21 @@ dagtotalen nu wel opgeteld worden.
 Per markt staat er onder `markets.<markt>`:
 
 - `days.<YYYY-MM-DD>.flows.<journeynaam>` met `sent`, `delivered`, `opens`,
-  `clicks`, `bounces` (alleen hard), `soft_bounces`, `unsubs`, `subscribers` en
-  `emails.<mailnaam>` met dezelfde tellers. `all` is het markttotaal.
+  `clicks`, `bounces` (alleen hard), `soft_bounces`, `unsubs`, `subscribers`,
+  `firstTouch` en `emails.<mailnaam>` met dezelfde tellers. `all` is het
+  markttotaal.
+- `firstTouch` is het aantal mensen van wie de VROEGSTE send uit die flow op
+  die dag viel. Iedere abonnee heeft per flow precies een vroegste dag, dus dit
+  telt wel op over een bereik terwijl `subscribers` dat niet doet. "Vroegste"
+  betekent eerlijk: vroegste BINNEN de retrieve - wie al voor het venster in de
+  flow zat en er binnen het venster nog een mail uit kreeg, telt op die latere
+  dag als eerste aanraking. Verder terugkijken doen we bewust niet. `all` wordt
+  apart geteld over alle flows samen (vroegste send uit welke flow dan ook) en
+  is dus NIET de som van de flows: iemand kan op twee dagen nieuw zijn in twee
+  verschillende flows.
+- `flowProfile.<journeynaam>`: over het HELE opgehaalde venster het aantal
+  unieke mensen, het aantal sends en `mailsPerPerson`. Beschrijft hoe een flow
+  ontworpen is, los van de gekozen periode.
 - `unattributed`: engagement waarvan de bijbehorende send BUITEN het opgehaalde
   venster viel en die dus geen dagbucket heeft. Die events worden niet stilletjes
   weggegooid maar hier per eventtype geteld (met `eventTotals` als noemer).
@@ -758,6 +771,19 @@ class DayAggregator:
         self.cov_start = window_dates(period_end, COVERAGE_DAYS)[0]
         self.cov_leads = set()
         self.cov_per_journey = {}
+        # First touch: per flow (en per e-mail binnen die flow) de VROEGSTE
+        # senddag per SubscriberKey. Omdat iedere abonnee precies een vroegste
+        # dag heeft, is het aantal eerste aanrakingen per dag wel optelbaar over
+        # een bereik - anders dan `subscribers`. `all` telt apart, over alle
+        # flows samen: iemand kan op twee verschillende dagen nieuw zijn in twee
+        # flows en telt dan bij beide flows maar een keer bij `all`.
+        self.first_seen = {}
+        self.first_seen_email = {}
+        self.first_seen_all = {}
+        # Hele-vensterprofiel per flow: sends en (via `first_seen`) unieke mensen.
+        self.flow_sent = {}
+        # dag -> flow -> {"flow": n, "emails": {naam: n}}, gevuld in `_first_touch`.
+        self.first_touch = None
 
     def bucket(self, day, flow):
         return self.days.setdefault(day, {}).setdefault(flow, flow_bucket())
@@ -792,9 +818,23 @@ class DayAggregator:
             mail["sent"] += 1
             mail["first"] = min(mail["first"], day) if mail["first"] else day
             mail["last"] = max(mail["last"], day) if mail["last"] else day
+            self.flow_sent[flow] = self.flow_sent.get(flow, 0) + 1
             if key:
                 entry["subs"].add(key)
                 mail["subs"].add(key)
+                # Vroegste senddag onthouden; pagina's komen niet op volgorde
+                # binnen, dus we vergelijken in plaats van alleen te zetten.
+                for store, store_key in (
+                    (self.first_seen.setdefault(flow, {}), key),
+                    (self.first_seen_all, key),
+                    (self.first_seen_email.setdefault(
+                        (flow, email_name(self.tsd_of(row), self.tsd_names)), {}), key),
+                    (self.first_seen_email.setdefault(
+                        ("all", email_name(self.tsd_of(row), self.tsd_names)), {}), key),
+                ):
+                    known = store.get(store_key)
+                    if known is None or day < known:
+                        store[store_key] = day
                 for days, start in self.reach_starts.items():
                     if day >= start:
                         self.reach[days].add(key)
@@ -840,7 +880,7 @@ class DayAggregator:
 
     # -- uitvoer ---------------------------------------------------------
 
-    def _counters(self, entry):
+    def _counters(self, entry, first_touch=0):
         sent = entry["sent"]
         hard = entry["hard"]
         return {
@@ -853,17 +893,62 @@ class DayAggregator:
             "unsubs": entry["unsubs"],
             # NIET optelbaar over dagen: iemand kan op twee dagen gemaild zijn.
             "subscribers": len(entry["subs"]),
+            # WEL optelbaar: mensen die op deze dag voor het eerst (binnen de
+            # retrieve) post uit deze flow kregen.
+            "firstTouch": first_touch,
         }
 
-    def _emails(self, entry):
+    def _emails(self, entry, first_touch=None):
         """Per-e-mail regels, samengevoegd op weergavenaam zodat versies niet splitsen."""
+        first_touch = first_touch or {}
         folded = fold_late_engagement(entry["per_tsd"], self.tsd_names)
         by_name = {}
         for tsd, mail in folded.items():
             merge_email_bucket(by_name.setdefault(email_name(tsd, self.tsd_names), email_bucket()), mail)
-        return {name: self._counters(mail) for name, mail in sorted(by_name.items())}
+        return {name: self._counters(mail, first_touch.get(name, 0))
+                for name, mail in sorted(by_name.items())}
+
+    def _build_first_touch(self):
+        """Zet de vroegste-senddag-maps om in tellers per dag, flow en e-mail.
+
+        Dit kan pas als de hele SentEvent-pass klaar is: bij het streamen van
+        pagina's is nog niet bekend of er verderop een vroegere send komt.
+        """
+        out = {}
+
+        def add(day, flow, email, amount=1):
+            slot = out.setdefault(day, {}).setdefault(flow, {"flow": 0, "emails": {}})
+            if email is None:
+                slot["flow"] += amount
+            else:
+                slot["emails"][email] = slot["emails"].get(email, 0) + amount
+
+        for flow, per_key in self.first_seen.items():
+            for day in per_key.values():
+                add(day, flow, None)
+        for day in self.first_seen_all.values():
+            add(day, "all", None)
+        for (flow, email), per_key in self.first_seen_email.items():
+            for day in per_key.values():
+                add(day, flow, email)
+        self.first_touch = out
+
+    def flow_profile(self):
+        """Per flow over het HELE opgehaalde venster: mensen, sends, mails per persoon."""
+        out = {}
+        for flow, per_key in list(self.first_seen.items()) + [("all", self.first_seen_all)]:
+            subs = len(per_key)
+            sent = self.flow_sent.get(flow, 0) if flow != "all" else sum(self.flow_sent.values())
+            out[flow] = {
+                "subscribers": subs,
+                "sent": sent,
+                "mailsPerPerson": round(sent / subs, 1) if subs else None,
+            }
+        return out
 
     def payload(self):
+        if self.first_touch is None:
+            self._build_first_touch()
         out_days = {}
         for day in sorted(self.days):
             flows = self.days[day]
@@ -878,10 +963,12 @@ class DayAggregator:
                 total["subs"] |= entry["subs"]
                 for tsd, mail in entry["per_tsd"].items():
                     merge_email_bucket(total["per_tsd"].setdefault(tsd, email_bucket()), mail)
+            ft_day = self.first_touch.get(day, {})
             out_flows = {}
             for flow, entry in sorted(list(flows.items()) + [("all", total)]):
-                row = self._counters(entry)
-                row["emails"] = self._emails(entry)
+                ft = ft_day.get(flow) or {"flow": 0, "emails": {}}
+                row = self._counters(entry, ft["flow"])
+                row["emails"] = self._emails(entry, ft["emails"])
                 out_flows[flow] = row
                 self._check(day, flow, row)
             out_days[day] = {"flows": out_flows}
@@ -1035,6 +1122,8 @@ def main():
                 "eventTotals": event_totals,
                 # bereik is niet optelbaar; alleen voor deze drie presets
                 "reach": reach,
+                # hoe een flow ONTWORPEN is: over het hele opgehaalde venster
+                "flowProfile": agg.flow_profile(),
             }
             if days_out:
                 day0 = min(days_out)
