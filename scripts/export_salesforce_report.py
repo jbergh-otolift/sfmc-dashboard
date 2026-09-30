@@ -24,7 +24,7 @@ HISTORY_START_DATE = (
 # funnelcijfers niet per land te splitsen. De relatie-traversal naar de
 # bovenliggende Lead werkt in Bulk API 2.0 (geverifieerd).
 SOQL_QUERY = f"""
-SELECT CreatedDate, LeadId, Lead.RecordTypeId, Field, OldValue, NewValue
+SELECT CreatedDate, LeadId, Lead.RecordTypeId, Lead.Reason_Mailjourney__c, Field, OldValue, NewValue
 FROM LeadHistory
 WHERE Field = 'Status' AND CreatedDate >= {HISTORY_START_DATE}
 ORDER BY CreatedDate DESC
@@ -39,7 +39,7 @@ MARKET_BY_RECORD_TYPE = {
     "012QD000002ylcPYAQ": "IT",
 }
 
-OUT_COLUMNS = ["Edit Date", "Lead ID", "Market", "Record Type ID", "Field / Event", "Old Value", "New Value"]
+OUT_COLUMNS = ["Edit Date", "Lead ID", "Market", "Record Type ID", "Reason", "Field / Event", "Old Value", "New Value"]
 OUT_PATH = "exports/report.csv"
 
 
@@ -118,6 +118,15 @@ def write_csv(header, rows, out_path):
     # (oudere export, of geen leesrecht), dan blijft de marktkolom leeg in
     # plaats van dat de export omvalt.
     rt_idx = next((i for i, name in enumerate(header) if name.replace("_", ".") == "Lead.RecordTypeId"), None)
+    # De reden waarom een lead in de mailflow staat; nodig om de omzet per
+    # instroomreden te kunnen splitsen. Dit is de huidige waarde op de Lead,
+    # niet de waarde ten tijde van de overgang.
+    reason_idx = next(
+        (i for i, name in enumerate(header)
+         if name.replace("_", ".").endswith("Reason.Mailjourney..c")
+         or name.endswith("Reason_Mailjourney__c")),
+        None,
+    )
     if rt_idx is None:
         print("WAARSCHUWING: Lead.RecordTypeId ontbreekt in de response; marktkolom blijft leeg.")
 
@@ -133,6 +142,7 @@ def write_csv(header, rows, out_path):
                 unmapped.add(rtid)
             writer.writerow([
                 row[idx["CreatedDate"]], row[idx["LeadId"]], market, rtid,
+                row[reason_idx] if reason_idx is not None else "",
                 row[idx["Field"]], row[idx["OldValue"]], row[idx["NewValue"]],
             ])
 

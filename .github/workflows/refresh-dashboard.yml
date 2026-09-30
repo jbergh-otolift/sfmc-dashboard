@@ -91,6 +91,13 @@ jobs:
           SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
           SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
 
+      - name: Omzet via het her-activatiepad berekenen
+        run: python scripts/export_reactivation_value.py
+        env:
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+
       - name: CRM-metrics berekenen
         run: python scripts/build_crm_metrics.py
         env:
