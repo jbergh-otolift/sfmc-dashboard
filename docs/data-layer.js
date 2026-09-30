@@ -685,7 +685,9 @@ function renderFlowDetail(flow) {
   );
   set("[data-fd-reach]", typeof reach === "number" ? nlNum(reach, 0) : NODATA);
   set("[data-fd-sent]", typeof sent === "number" ? nlNum(sent, 0) : NODATA);
-  set("[data-fd-per]", reach && sent ? nlNum(sent / reach, 1) : NODATA);
+  const profile = ((DATA.markets[currentMarket] || {}).flowProfile || {})[flow && flow.label];
+  const perPerson = profile && profile.mailsPerPerson;
+  set("[data-fd-per]", typeof perPerson === "number" ? nlNum(perPerson, 1) : NODATA);
 
   renderFlowMap(flow, (DATA && DATA.journeyStructures &&
     DATA.journeyStructures[currentMarket] || {})[flow && flow.label]);
@@ -1112,7 +1114,11 @@ function applyMarket(marketKey) {
   const view = {
     ...market,
     emailHealth: healthFromSums(summed, prevSummed),
-    mailsPerPerson: reachAll && sentAll ? round1(sentAll / reachAll) : null,
+    // Mails per persoon komt uit het hele meetvenster, niet uit het gekozen
+    // bereik. Over een kort bereik zou je alle verzendingen delen door alleen
+    // de nieuwe instroom — voor een lange flow geeft dat onmogelijke
+    // uitkomsten (26 mails per persoon bij een flow van 15 mails).
+    mailsPerPerson: ((market.flowProfile || {}).all || {}).mailsPerPerson,
     reactivation: derived.reactivation,
     acquisition: derived.acquisition,
     kernKpis: {

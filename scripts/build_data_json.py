@@ -499,6 +499,11 @@ def main():
             "marketLabel": label,
             "days": days,
             "reach": (block or {}).get("reach") or {},
+            # Mails per persoon per flow, over het hele meetvenster. Dit is
+            # een eigenschap van de flow, geen periodecijfer: over een kort
+            # bereik zou je alle verzendingen delen door alleen de nieuwe
+            # instroom, en dan krijg je onmogelijke uitkomsten.
+            "flowProfile": (block or {}).get("flowProfile") or {},
             "byPeriod": by_period,
             "available": available,
             "_sources": source_state(email_health, bool(market_crm), bool(market_outcomes)),
@@ -537,6 +542,7 @@ def main():
         "periods": (tracking or {}).get("periods") or (crm or {}).get("periods") or [],
         "firstDay": (tracking or {}).get("firstDay"),
         "reachPeriods": (tracking or {}).get("reachPeriods") or [],
+        "retrieveDays": (tracking or {}).get("retrieveDays"),
         "defaultPeriod": DEFAULT_PERIOD,
         "coveragePeriod": COVERAGE_PERIOD,
         "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),
