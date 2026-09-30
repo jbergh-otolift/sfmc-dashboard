@@ -172,6 +172,7 @@ def main():
     probe_mailable(token, instance_url)
     probe_reasons(token, instance_url)
     probe_order_counting(token, instance_url)
+    probe_quote_fields(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -484,6 +485,55 @@ def probe_order_counting(token, instance_url):
         extra = sum(r["n"] - 1 for r in dubbel)
         print(f"  Opportunities met meerdere bronleads              : {len(dubbel)}"
               f"  (dat zijn {extra} dubbeltellingen)")
+
+
+def probe_quote_fields(token, instance_url):
+    """Is er een veld met de datum waarop de offerte getekend is?
+
+    CloseDate is in Salesforce vaak een verwachte sluitdatum die bij het
+    aanmaken wordt gezet en niet wordt bijgewerkt bij het winnen. Voor de
+    offerteflow hebben we het werkelijke tekenmoment nodig.
+    """
+    print("\n--- Datumvelden op Opportunity ---")
+    resp = requests.get(
+        f"{instance_url}/services/data/{API_VERSION}/sobjects/Opportunity/describe",
+        headers={"Authorization": f"Bearer {token}"}, timeout=60)
+    if not resp.ok:
+        print(f"  geen leesrecht: {resp.status_code}")
+        return
+    fields = resp.json()["fields"]
+
+    interesting = [
+        f for f in fields
+        if f["type"] in ("date", "datetime")
+        and any(w in (f["name"] + " " + (f.get("label") or "")).lower()
+                for w in ("quote", "sign", "getekend", "offerte", "close", "won", "order"))
+    ]
+    print(f"  {'veld':44} {'type':9} label")
+    for f in interesting:
+        print(f"  {f['name'][:44]:44} {f['type']:9} {f.get('label')}")
+
+    # Klopt CloseDate als winmoment? Vergelijk met LastModifiedDate.
+    res, err = query(
+        token, instance_url,
+        "SELECT CloseDate, LastModifiedDate FROM Opportunity "
+        "WHERE IsWon = true AND CloseDate = LAST_N_DAYS:90 LIMIT 500")
+    if not err and res["records"]:
+        from datetime import date
+        vooruit = achter = gelijk = 0
+        for row in res["records"]:
+            cd = row.get("CloseDate"); lm = (row.get("LastModifiedDate") or "")[:10]
+            if not cd or not lm:
+                continue
+            if cd == lm:
+                gelijk += 1
+            elif cd < lm:
+                achter += 1
+            else:
+                vooruit += 1
+        total = gelijk + achter + vooruit
+        print(f"\n  CloseDate versus LastModifiedDate (n={total}):")
+        print(f"    zelfde dag {gelijk} · CloseDate eerder {achter} · CloseDate later {vooruit}")
 
 
 if __name__ == "__main__":
