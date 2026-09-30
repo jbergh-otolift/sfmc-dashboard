@@ -371,6 +371,62 @@ function coverageForPeriod(base, cohort) {
   };
 }
 
+// Toont wat her-activatie heeft opgeleverd in het gekozen bereik, per route.
+// Alleen orders waarvan de conversie ná het heractivatiesignaal ligt.
+function renderValueBlock(value) {
+  const block = document.querySelector("[data-value-block]");
+  if (!block) return;
+  if (!value || !value.orders) {
+    block.hidden = true;
+    return;
+  }
+  block.hidden = false;
+
+  const total = block.querySelector("[data-value-total]");
+  const all = block.querySelector("[data-value-all]");
+  if (total) total.textContent = eur(value.viaRevenue);
+  if (all) all.textContent = eur(value.revenue);
+
+  const box = block.querySelector("[data-value-routes]");
+  box.innerHTML = "";
+  const labels = (DATA && DATA.routeLabels) || {};
+  const routes = Object.entries(value.byRoute || {}).sort(
+    (a, b) => b[1].revenue - a[1].revenue
+  );
+
+  if (!routes.length) {
+    const empty = document.createElement("div");
+    empty.className = "vb-empty";
+    empty.textContent =
+      "Geen orders in dit bereik die aantoonbaar via her-activatie zijn binnengekomen.";
+    box.appendChild(empty);
+    return;
+  }
+
+  routes.forEach(([route, stats]) => {
+    const card = document.createElement("div");
+    card.className = "vb-route";
+    const name = document.createElement("div");
+    name.className = "vb-r-name";
+    name.textContent = labels[route] || route;
+    const val = document.createElement("div");
+    val.className = "vb-r-val";
+    val.textContent = eur(stats.revenue);
+    const sub = document.createElement("div");
+    sub.className = "vb-r-sub";
+    sub.textContent =
+      nlNum(stats.orders, 0) + (stats.orders === 1 ? " order" : " orders") +
+      " · gemiddeld " + eur(Math.round(stats.revenue / stats.orders));
+    card.append(name, val, sub);
+    box.appendChild(card);
+  });
+}
+
+function eur(value) {
+  if (value === null || value === undefined) return NODATA;
+  return "€" + nlNum(Math.round(value), 0);
+}
+
 function applyCoverageNote(coverage, cohort) {
   const el = document.querySelector("[data-coverage-note]");
   if (!el) return;
@@ -889,6 +945,10 @@ function sumRange(days, start, end) {
   const flows = {};
   const crm = { toStatus: {}, transitions: {} };
   const cohort = { entered: 0, mailable: 0, reached: 0, hasData: false };
+  // Omzet is toegerekend aan de conversiedatum en dus gewoon optelbaar.
+  const value = {
+    orders: 0, revenue: 0, viaOrders: 0, viaRevenue: 0, byRoute: {}, hasData: false,
+  };
 
   Object.keys(days || {}).forEach((day) => {
     if (day < start || day >= end) return;
@@ -919,6 +979,19 @@ function sumRange(days, start, end) {
       crm.transitions[pair] = (crm.transitions[pair] || 0) + n;
     });
 
+    if (bucket.value) {
+      value.hasData = true;
+      value.orders += bucket.value.orders || 0;
+      value.revenue += bucket.value.revenue || 0;
+      value.viaOrders += bucket.value.viaAutomationOrders || 0;
+      value.viaRevenue += bucket.value.viaAutomationRevenue || 0;
+      Object.entries(bucket.value.byRoute || {}).forEach(([route, v]) => {
+        const box = (value.byRoute[route] = value.byRoute[route] || { orders: 0, revenue: 0 });
+        box.orders += v.orders || 0;
+        box.revenue += v.revenue || 0;
+      });
+    }
+
     if (bucket.cohort) {
       cohort.hasData = true;
       cohort.entered += bucket.cohort.entered || 0;
@@ -928,7 +1001,12 @@ function sumRange(days, start, end) {
   });
 
   if (cohort.mailable) cohort.coverage = round1(cohort.reached / cohort.mailable * 100);
-  return { flows, crm, cohort: cohort.hasData ? cohort : null };
+  return {
+    flows,
+    crm,
+    cohort: cohort.hasData ? cohort : null,
+    value: value.hasData ? value : null,
+  };
 }
 
 // Her-activatie en lead funnel uit de opgetelde statusovergangen. Dezelfde
@@ -1138,6 +1216,7 @@ function applyMarket(marketKey) {
   // die periode, wie is er gemaild. De staande voorraad staat eronder als
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
+  renderValueBlock(summed.value);
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });

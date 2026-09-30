@@ -467,6 +467,22 @@
   .dr-custom input[type="date"]{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;color:var(--ink)}
   .dr-custom input[type="date"]:focus{outline:2px solid var(--oto-red-soft);outline-offset:1px}
   .dr-sep{font-size:12px;color:var(--ink-soft)}
+  /* Opbrengst via her-activatie */
+  .value-block{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+  .vb-head{display:flex;align-items:flex-start;justify-content:space-between;gap:26px;flex-wrap:wrap;margin-bottom:18px}
+  .vb-head h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px}
+  .vb-head p{font-size:12px;color:var(--ink-soft);line-height:1.55;max-width:620px}
+  .vb-head b{color:var(--ink)}
+  .vb-total{text-align:right;white-space:nowrap}
+  .vb-t-val{display:block;font-size:30px;font-weight:800;color:var(--oto-green);line-height:1.1}
+  .vb-t-lbl{display:block;font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .vb-routes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.vb-routes{grid-template-columns:1fr}}
+  .vb-route{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .vb-r-name{font-size:12px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.3px}
+  .vb-r-val{font-size:22px;font-weight:800;color:var(--oto-green);margin-top:7px;line-height:1.1}
+  .vb-r-sub{font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .vb-empty{font-size:12.5px;color:var(--ink-soft)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -724,6 +740,23 @@
           </div>
         </div>
 
+        <div class="value-block" data-value-block hidden>
+          <div class="vb-head">
+            <div>
+              <h3>Opbrengst via her-activatie</h3>
+              <p>Orders die in deze periode binnenkwamen van leads die eerst in de mailflow
+                 zaten en daarna zijn heropgeleefd. Alleen conversies <b>ná</b> het
+                 heractivatiesignaal tellen mee — ligt de order ervoor, dan is het toeval in
+                 dezelfde periode en geen her-activatie.</p>
+            </div>
+            <div class="vb-total">
+              <span class="vb-t-val" data-value-total>–</span>
+              <span class="vb-t-lbl">van <span data-value-all>–</span> totaal in deze periode</span>
+            </div>
+          </div>
+          <div class="vb-routes" data-value-routes></div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -931,7 +964,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20260930104926"></script>
+<script src="data-layer.js?v=20260930105204"></script>
 
 </body>
 </html>

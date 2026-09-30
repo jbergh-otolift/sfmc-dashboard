@@ -36,6 +36,7 @@ TRACKING_PATH = "exports/sfmc_tracking.json"
 CRM_PATH = "exports/crm_metrics.json"
 CONSENT_PATH = "exports/lead_consent.json"
 OUTCOMES_PATH = "exports/flow_outcomes.json"
+VALUE_PATH = "exports/reactivation_value.json"
 GOALS_PATH = "config/flow_goals.json"
 
 # Welke metric hoort bij welk doeltype, en hoe die heet op het dashboard.
@@ -382,6 +383,7 @@ def main():
     crm = load(CRM_PATH)
     consent = load(CONSENT_PATH)
     outcomes = load(OUTCOMES_PATH)
+    value = load(VALUE_PATH)
     outcome_markets = (outcomes or {}).get("markets") or {}
     goals = load(GOALS_PATH) or {}
     goal_defaults = goals.get("defaults") or {}
@@ -494,6 +496,10 @@ def main():
         for day, per_market in cohort_days.items():
             if key in per_market:
                 days.setdefault(day, {})["cohort"] = per_market[key]
+        # Omzet toegerekend aan de conversiedatum, dus optelbaar per dag.
+        for day, per_market in ((value or {}).get("days") or {}).items():
+            if key in per_market:
+                days.setdefault(day, {})["value"] = per_market[key]
 
         markets[key] = {
             "marketLabel": label,
@@ -543,6 +549,8 @@ def main():
         "firstDay": (tracking or {}).get("firstDay"),
         "reachPeriods": (tracking or {}).get("reachPeriods") or [],
         "retrieveDays": (tracking or {}).get("retrieveDays"),
+        "routeLabels": (value or {}).get("routeLabels") or {},
+        "valueAttribution": (value or {}).get("attribution"),
         "defaultPeriod": DEFAULT_PERIOD,
         "coveragePeriod": COVERAGE_PERIOD,
         "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),

@@ -54,6 +54,13 @@ OUT_PATH = "exports/reactivation_value.json"
 # Ruim terugkijken: een lead die maanden geleden instroomde kan nu pas tekenen.
 LOOKBACK_DAYS = int(os.environ.get("VALUE_LOOKBACK_DAYS", "400"))
 
+MARKET_BY_RECORD_TYPE = {
+    "0127Q000000upr9QAA": "nl",
+    "0127Q000000eERIQA2": "be",
+    "012QD000002ylXZYAY": "fr",
+    "012QD000002ylcPYAQ": "it",
+}
+
 S_MAILJOURNEY = "Mailjourney"
 S_APPOINTMENT = "Appointment"
 
@@ -99,8 +106,11 @@ def query_all(session, instance_url, soql):
 
 def conversions(session, instance_url):
     """Geconverteerde leads met de waarde van hun order."""
+    # RecordTypeId meenemen, zodat ook orders van leads zónder mailflow-historie
+    # aan een markt te koppelen zijn. Anders zou de noemer alleen uit
+    # mailflow-leads bestaan en zou elk percentage 100% worden.
     soql = (
-        "SELECT Id, ConvertedDate, ConvertedOpportunity.Amount, "
+        "SELECT Id, RecordTypeId, ConvertedDate, ConvertedOpportunity.Amount, "
         "ConvertedOpportunity.IsWon "
         "FROM Lead "
         f"WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:{LOOKBACK_DAYS}"
@@ -110,6 +120,7 @@ def conversions(session, instance_url):
         opp = row.get("ConvertedOpportunity") or {}
         out[row["Id"]] = {
             "date": (row.get("ConvertedDate") or "")[:10],
+            "market": MARKET_BY_RECORD_TYPE.get(row.get("RecordTypeId")),
             "won": bool(opp.get("IsWon")),
             "amount": opp.get("Amount") or 0,
         }
@@ -209,7 +220,10 @@ def main():
         if not conv["won"] or not conv["date"]:
             continue
         info = paths.get(lead)
-        market = (info or {}).get("market")
+        # Markt bij voorkeur uit de statushistorie, anders uit het RecordType
+        # van de Lead. Zo tellen ook orders mee van leads die nooit in de
+        # mailflow zaten — die horen in de noemer thuis.
+        market = (info or {}).get("market") or conv.get("market")
         if not market:
             continue
 
