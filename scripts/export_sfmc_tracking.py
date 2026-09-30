@@ -1107,6 +1107,19 @@ def main():
             reached_lead_ids[market] = {
                 "all": sorted(agg.cov_leads),
                 "by_journey": {k: sorted(v) for k, v in agg.cov_per_journey.items()},
+                # Eerste verzenddatum per lead over het hele venster. Nodig om
+                # een order alleen toe te rekenen als de mail ervóór kwam —
+                # zonder die volgorde is het geen toerekening maar toeval.
+                "first_send": {
+                    key: day for key, day in agg.first_seen_all.items()
+                    if key.startswith("00Q")
+                },
+                # Per journey de eerste verzenddatum, zodat ook flows zonder
+                # her-activatiepad (zoals de offerteflow) toe te rekenen zijn.
+                "first_send_by_journey": {
+                    flow: {k: d for k, d in per_key.items() if k.startswith("00Q")}
+                    for flow, per_key in agg.first_seen.items()
+                },
             }
             print(f"  coverage: {len(agg.cov_leads)} unieke leads over {len(agg.cov_per_journey)} journeys"
                   f" in {COVERAGE_DAYS} dagen")

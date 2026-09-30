@@ -132,6 +132,32 @@ def build_status_path(reason, steps, until=None):
     return path
 
 
+def first_send_dates(path):
+    """Per lead de eerste verzenddatum, en per journey hetzelfde.
+
+    Nodig voor de bredere toerekening: een order telt alleen mee als de mail
+    ervóór lag. Zonder die volgorde is het geen toerekening maar toeval.
+    """
+    if not os.path.exists(path):
+        return {}, {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    overall = {}
+    per_flow = {}
+    for market, block in (data.get("markets") or {}).items():
+        if not isinstance(block, dict):
+            continue
+        for lead, day in (block.get("first_send") or {}).items():
+            if lead not in overall or day < overall[lead]:
+                overall[lead] = day
+        for flow, per_key in (block.get("first_send_by_journey") or {}).items():
+            target = per_flow.setdefault(flow, {})
+            for lead, day in per_key.items():
+                if lead not in target or day < target[lead]:
+                    target[lead] = day
+    return overall, per_flow
+
+
 def reached_by_flow(path):
     """Lead-ID -> journeys die die lead gemaild hebben.
 
@@ -286,6 +312,7 @@ def main():
     converted = conversions(session, instance_url)
     paths = reactivation_paths(REPORT_PATH)
     flows = reached_by_flow(REACHED_PATH)
+    first_send, first_send_flow = first_send_dates(REACHED_PATH)
     print(f"Conversies in {LOOKBACK_DAYS} dagen: {len(converted)}")
     print(f"Leads met een mailflow-historie: {len(paths)}")
 
@@ -302,6 +329,11 @@ def main():
             "revenue": 0.0,
             "viaAutomationOrders": 0,
             "viaAutomationRevenue": 0.0,
+            # Breder: elke lead die door een automation-flow gemaild is en
+            # daarna converteerde. Vangt ook flows zonder her-activatiepad,
+            # zoals de offerteflow naar leads met een openstaande offerte.
+            "mailedOrders": 0,
+            "mailedRevenue": 0.0,
             "byRoute": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
             "byReason": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
             "byPath": defaultdict(lambda: {"orders": 0, "revenue": 0.0}),
@@ -344,6 +376,21 @@ def main():
         bucket["orders"] += 1
         bucket["revenue"] += conv["amount"]
 
+        # Brede toerekening: gemaild door een automation-flow, en de order
+        # kwam daarna. Dit is de noemer die het dashboard toont, want alle
+        # orders in het CRM zeggen hier niets.
+        mailed_on = first_send.get(lead)
+        if mailed_on and conv["date"] >= mailed_on:
+            bucket["mailedOrders"] += 1
+            bucket["mailedRevenue"] += conv["amount"]
+            for flow, per_lead in first_send_flow.items():
+                day = per_lead.get(lead)
+                if day and conv["date"] >= day:
+                    box = bucket["byFlow"].setdefault(
+                        flow, {"orders": 0, "revenue": 0.0})
+                    box["orders"] += 1
+                    box["revenue"] += conv["amount"]
+
         # Toerekenen aan automation vereist: eerst de mailflow in, daarna een
         # heractivatiesignaal, en de conversie ná dat signaal. Zonder die
         # volgorde is het toeval in dezelfde periode, geen heractivatie.
@@ -380,11 +427,6 @@ def main():
 
             # Meervoudig toegerekend: een lead die door drie journeys is
             # aangeraakt telt bij alle drie mee. Nooit optellen.
-            if flows is not None:
-                for journey in sorted(flows.get(lead, ())):
-                    flow = bucket["byFlow"][journey]
-                    flow["orders"] += 1
-                    flow["revenue"] += conv["amount"]
 
     def flatten(nested):
         return {
@@ -401,6 +443,8 @@ def main():
                 "revenue": round(bucket["revenue"], 2),
                 "viaAutomationOrders": bucket["viaAutomationOrders"],
                 "viaAutomationRevenue": round(bucket["viaAutomationRevenue"], 2),
+                "mailedOrders": bucket["mailedOrders"],
+                "mailedRevenue": round(bucket["mailedRevenue"], 2),
                 "byRoute": flatten(bucket["byRoute"]),
                 "byReason": flatten(bucket["byReason"]),
                 "byPath": flatten(bucket["byPath"]),
@@ -409,7 +453,7 @@ def main():
                     for route, per_reason in bucket["byRouteReason"].items()
                 },
             }
-            if flows is not None:
+            if bucket["byFlow"]:
                 out_days[day][market]["byFlow"] = flatten(bucket["byFlow"])
 
     out = {
