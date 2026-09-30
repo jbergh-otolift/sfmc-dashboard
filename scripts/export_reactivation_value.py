@@ -235,21 +235,40 @@ def query_all(session, instance_url, soql):
 
 
 def conversions(session, instance_url):
-    """Geconverteerde leads met de waarde van hun order."""
+    """Gewonnen orders met hun bronlead, op sluitdatum.
+
+    We filteren en bucketen op `Opportunity.CloseDate`, niet op
+    `Lead.ConvertedDate`. Twee redenen:
+
+      - De sluitdatum is het moment dat de order er werkelijk was. Tussen
+        conversie en sluiten zit mediaan 7 dagen en bij 10% meer dan drie
+        weken, dus met de conversiedatum staat een order al snel in de
+        verkeerde dag of week.
+      - Filteren op conversiedatum mist orders van leads die langer geleden
+        converteerden maar nu pas tekenen.
+
+    Voor de toerekening aan een flow maakt het niets uit: de sluitdatum ligt
+    altijd ná de conversiedatum, dus als de mail vóór het een lag, lag hij
+    ook vóór het ander.
+    """
     # RecordTypeId meenemen, zodat ook orders van leads zónder mailflow-historie
     # aan een markt te koppelen zijn. Anders zou de noemer alleen uit
     # mailflow-leads bestaan en zou elk percentage 100% worden.
     soql = (
         "SELECT Id, RecordTypeId, ConvertedDate, ConvertedOpportunity.Amount, "
-        "ConvertedOpportunity.IsWon "
+        "ConvertedOpportunity.IsWon, ConvertedOpportunity.CloseDate "
         "FROM Lead "
-        f"WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:{LOOKBACK_DAYS}"
+        "WHERE IsConverted = true AND ConvertedOpportunity.IsWon = true "
+        f"AND ConvertedOpportunity.CloseDate = LAST_N_DAYS:{LOOKBACK_DAYS}"
     )
     out = {}
     for row in query_all(session, instance_url, soql):
         opp = row.get("ConvertedOpportunity") or {}
         out[row["Id"]] = {
-            "date": (row.get("ConvertedDate") or "")[:10],
+            # Sluitdatum is de orderdatum; conversiedatum bewaren we alleen
+            # om te controleren dat de mail ervoor lag.
+            "date": (opp.get("CloseDate") or "")[:10],
+            "convertedDate": (row.get("ConvertedDate") or "")[:10],
             "market": MARKET_BY_RECORD_TYPE.get(row.get("RecordTypeId")),
             "won": bool(opp.get("IsWon")),
             "amount": opp.get("Amount") or 0,
@@ -428,13 +447,16 @@ def main():
         # kwam daarna. Dit is de noemer die het dashboard toont, want alle
         # orders in het CRM zeggen hier niets.
         mailed_on = first_send.get(lead)
-        in_scope = bool(mailed_on and conv["date"] >= mailed_on)
+        # Volgorde toetsen op de conversiedatum, niet op de sluitdatum: een
+        # mail die pas ná de conversie uitging heeft de order niet veroorzaakt.
+        outcome = conv.get("convertedDate") or conv["date"]
+        in_scope = bool(mailed_on and outcome >= mailed_on)
         if in_scope:
             bucket["mailedOrders"] += 1
             bucket["mailedRevenue"] += conv["amount"]
             for flow, per_lead in first_send_flow.items():
                 day = per_lead.get(lead)
-                if day and conv["date"] >= day:
+                if day and outcome >= day:
                     box = bucket["byFlow"].setdefault(
                         flow, {"orders": 0, "revenue": 0.0})
                     box["orders"] += 1
@@ -451,7 +473,7 @@ def main():
             in_scope
             and route
             and info.get("routeDate")
-            and conv["date"] >= info["routeDate"]
+            and outcome >= info["routeDate"]
         ):
             bucket["viaAutomationOrders"] += 1
             bucket["viaAutomationRevenue"] += conv["amount"]
