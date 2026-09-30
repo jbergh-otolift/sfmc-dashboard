@@ -62,6 +62,7 @@ CLIENT_SECRET = os.environ["SF_CLIENT_SECRET"]
 API_VERSION = "v60.0"
 
 REPORT_PATH = "exports/report.csv"
+GOALS_PATH = "config/flow_goals.json"
 REACHED_PATH = "exports/_reached_lead_ids.json"
 OUT_PATH = "exports/reactivation_value.json"
 
@@ -130,6 +131,26 @@ def build_status_path(reason, steps, until=None):
     if truncated:
         path += PATH_ARROW + PATH_MORE
     return path
+
+
+# De doelgroep van de toerekening is niet "alle marketingflows", maar de
+# leads die daadwerkelijk door automation bewerkt worden:
+#
+#   1. leads met een ingevulde Reason - Mailjourney (geparkeerd in de mailflow)
+#   2. leads uit de offerteflow (openstaande offerte)
+#   3. leads uit de nurture lane
+#
+# Bevestigingsmails en testjourneys vallen daarbuiten: die raken iedereen die
+# binnenkomt en zouden vrijwel alle omzet opeisen.
+FLOW_PATTERNS = ("offerte", "nurturelane", "nurture lane")
+
+
+def is_scoped_flow(name):
+    """Hoort deze journey bij de offerteflow of de nurture lane?"""
+    lowered = (name or "").lower()
+    if "test" in lowered:
+        return False
+    return any(pattern in lowered for pattern in FLOW_PATTERNS)
 
 
 def first_send_dates(path):
@@ -312,7 +333,34 @@ def main():
     converted = conversions(session, instance_url)
     paths = reactivation_paths(REPORT_PATH)
     flows = reached_by_flow(REACHED_PATH)
-    first_send, first_send_flow = first_send_dates(REACHED_PATH)
+    first_send_all, first_send_flow = first_send_dates(REACHED_PATH)
+
+    # Offerteflow en nurture lane blijven op journeynaam; die leads hebben
+    # geen Reason - Mailjourney.
+    first_send_flow = {
+        flow: per_lead for flow, per_lead in first_send_flow.items()
+        if is_scoped_flow(flow)
+    }
+    print(f"Flows op naam meegeteld: {sorted(first_send_flow)}")
+
+    # Leads met een ingevulde Reason - Mailjourney: die zitten geparkeerd in
+    # de mailflow en worden daar bewerkt.
+    parked = {
+        lead for lead, info in paths.items()
+        if (info.get("entryReason") or info.get("reason") or "").strip()
+    }
+    print(f"Leads met een Reason - Mailjourney: {len(parked)}")
+
+    # Eerste mail per lead binnen de doelgroep. Voor geparkeerde leads telt
+    # elke automation-mail; voor de offerte- en nurtureflows alleen die flows.
+    first_send = {}
+    for per_lead in first_send_flow.values():
+        for lead, day in per_lead.items():
+            if lead not in first_send or day < first_send[lead]:
+                first_send[lead] = day
+    for lead, day in first_send_all.items():
+        if lead in parked and (lead not in first_send or day < first_send[lead]):
+            first_send[lead] = day
     print(f"Conversies in {LOOKBACK_DAYS} dagen: {len(converted)}")
     print(f"Leads met een mailflow-historie: {len(paths)}")
 
