@@ -6,7 +6,7 @@
   "defaultPeriod": "30",
   "endDate": "2026-10-01",
   "firstDay": "2025-08-27",
-  "generated_at": "2026-09-30T11:45:45+00:00",
+  "generated_at": "2026-09-30T12:58:24+00:00",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -3347,7 +3347,7 @@
         "channels": [],
         "funnel": {
           "mql": {
-            "abs": 1276,
+            "abs": 1278,
             "convDeltaPct": null,
             "share": 100.0
           },
@@ -3357,14 +3357,14 @@
             "share": null
           },
           "r1": {
-            "abs": 472,
-            "convDeltaPct": 11.1,
-            "share": 36.99
+            "abs": 473,
+            "convDeltaPct": 11.2,
+            "share": 37.01
           },
           "sql": {
             "abs": 137,
-            "convDeltaPct": 14.5,
-            "share": 10.74
+            "convDeltaPct": 14.3,
+            "share": 10.72
           }
         },
         "totals": {
@@ -3380,7 +3380,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 1276,
+                "abs": 1278,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -3390,14 +3390,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 472,
-                "convDeltaPct": 11.1,
-                "share": 36.99
+                "abs": 473,
+                "convDeltaPct": 11.2,
+                "share": 37.01
               },
               "sql": {
                 "abs": 137,
-                "convDeltaPct": 14.5,
-                "share": 10.74
+                "convDeltaPct": 14.3,
+                "share": 10.72
               }
             },
             "totals": {
@@ -3430,12 +3430,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": 14.5,
-              "value": 10.74
+              "deltaPct": 14.3,
+              "value": 10.72
             },
             "reactivationRatio": {
-              "deltaPct": -3.9,
-              "value": 11.44
+              "deltaPct": -4.0,
+              "value": 11.42
             }
           },
           "mailsPerPerson": null,
@@ -3451,7 +3451,7 @@
             "enrichment": {
               "backToMailjourney": 0,
               "backToNotReached": 3,
-              "enrichRatio": 0.99,
+              "enrichRatio": 0.98,
               "enriched": 5,
               "enrichedLeads": 5,
               "fromMailjourney": 1,
@@ -3463,20 +3463,20 @@
               "toFollowUp": 1
             },
             "leadIntake": {
-              "abs": 1276,
+              "abs": 1278,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 507,
-              "deltaPct": 46.7,
-              "ratio": 99.77,
-              "share": 39.73
+              "abs": 508,
+              "deltaPct": 47.0,
+              "ratio": 100.0,
+              "share": 39.75
             },
             "notContact": {
               "abs": 427,
-              "deltaPct": -14.6,
-              "ratio": 33.46,
-              "share": 33.46
+              "deltaPct": -14.8,
+              "ratio": 33.41,
+              "share": 33.41
             },
             "recovered": {
               "cac": null,
@@ -3485,9 +3485,9 @@
             },
             "sql": {
               "abs": 137,
-              "deltaPct": -3.9,
-              "ratio": 11.44,
-              "share": 10.74
+              "deltaPct": -4.0,
+              "ratio": 11.42,
+              "share": 10.72
             }
           },
           "uniqueSubscribers": null
@@ -3497,7 +3497,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 298,
+                "abs": 300,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -3507,14 +3507,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 95,
-                "convDeltaPct": 7.1,
-                "share": 31.88
+                "abs": 96,
+                "convDeltaPct": 7.5,
+                "share": 32.0
               },
               "sql": {
                 "abs": 20,
-                "convDeltaPct": -42.2,
-                "share": 6.71
+                "convDeltaPct": -42.5,
+                "share": 6.67
               }
             },
             "totals": {
@@ -3525,7 +3525,7 @@
           },
           "cohort": {
             "coverage": 91.9,
-            "entered": 115,
+            "entered": 116,
             "mailable": 86,
             "reached": 79
           },
@@ -3547,12 +3547,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": -42.2,
-              "value": 6.71
+              "deltaPct": -42.5,
+              "value": 6.67
             },
             "reactivationRatio": {
-              "deltaPct": -25.1,
-              "value": 7.63
+              "deltaPct": -25.8,
+              "value": 7.56
             }
           },
           "mailsPerPerson": null,
@@ -3568,7 +3568,7 @@
             "enrichment": {
               "backToMailjourney": 0,
               "backToNotReached": 1,
-              "enrichRatio": 0.85,
+              "enrichRatio": 0.84,
               "enriched": 1,
               "enrichedLeads": 1,
               "fromMailjourney": 0,
@@ -3580,20 +3580,20 @@
               "toFollowUp": 1
             },
             "leadIntake": {
-              "abs": 298,
+              "abs": 300,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 118,
+              "abs": 119,
               "deltaPct": null,
               "ratio": null,
-              "share": 39.6
+              "share": 39.67
             },
             "notContact": {
               "abs": 79,
-              "deltaPct": -16.8,
-              "ratio": 26.51,
-              "share": 26.51
+              "deltaPct": -17.3,
+              "ratio": 26.33,
+              "share": 26.33
             },
             "recovered": {
               "cac": null,
@@ -3602,9 +3602,9 @@
             },
             "sql": {
               "abs": 20,
-              "deltaPct": -25.1,
-              "ratio": 7.63,
-              "share": 6.71
+              "deltaPct": -25.8,
+              "ratio": 7.56,
+              "share": 6.67
             }
           },
           "uniqueSubscribers": null
@@ -3614,7 +3614,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 3337,
+                "abs": 3339,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -3624,14 +3624,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 1281,
+                "abs": 1282,
                 "convDeltaPct": 16.7,
                 "share": 38.39
               },
               "sql": {
                 "abs": 374,
-                "convDeltaPct": 17.9,
-                "share": 11.21
+                "convDeltaPct": 17.8,
+                "share": 11.2
               }
             },
             "totals": {
@@ -3664,12 +3664,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": 17.9,
-              "value": 11.21
+              "deltaPct": 17.8,
+              "value": 11.2
             },
             "reactivationRatio": {
-              "deltaPct": 14.5,
-              "value": 12.59
+              "deltaPct": 14.4,
+              "value": 12.58
             }
           },
           "mailsPerPerson": null,
@@ -3697,20 +3697,20 @@
               "toFollowUp": 2
             },
             "leadIntake": {
-              "abs": 3337,
+              "abs": 3339,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 1303,
-              "deltaPct": 17.6,
-              "ratio": 76.63,
+              "abs": 1304,
+              "deltaPct": 17.7,
+              "ratio": 76.71,
               "share": 39.05
             },
             "notContact": {
               "abs": 1378,
               "deltaPct": -6.5,
-              "ratio": 41.29,
-              "share": 41.29
+              "ratio": 41.27,
+              "share": 41.27
             },
             "recovered": {
               "cac": null,
@@ -3719,9 +3719,9 @@
             },
             "sql": {
               "abs": 374,
-              "deltaPct": 14.5,
-              "ratio": 12.59,
-              "share": 11.21
+              "deltaPct": 14.4,
+              "ratio": 12.58,
+              "share": 11.2
             }
           },
           "uniqueSubscribers": null
@@ -3737,7 +3737,7 @@
           },
           "7": {
             "coverage": 91.9,
-            "entered": 115,
+            "entered": 116,
             "mailable": 86,
             "reached": 79
           },
@@ -3754,7 +3754,7 @@
         "growth": 909,
         "growthDeltaPct": 93.8,
         "growthPrev": 469,
-        "leadsTotal": 75595,
+        "leadsTotal": 75596,
         "mailjourneyNoConsent": 14885,
         "mailjourneyNoContactException": 71,
         "mailjourneyNoEmail": 635,
@@ -35418,7 +35418,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 7,
+                  "opens": 8,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -35426,7 +35426,7 @@
                 }
               },
               "firstTouch": 29,
-              "opens": 19,
+              "opens": 20,
               "sent": 29,
               "soft_bounces": 0,
               "subscribers": 29,
@@ -35624,7 +35624,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 7,
+                  "opens": 8,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -35654,7 +35654,7 @@
                 }
               },
               "firstTouch": 35,
-              "opens": 28,
+              "opens": 29,
               "sent": 41,
               "soft_bounces": 0,
               "subscribers": 41,
@@ -41995,12 +41995,12 @@
             "reached": 15
           },
           "crm": {
-            "activeLeads": 48,
+            "activeLeads": 52,
             "toStatus": {
-              "Appointment": 9,
-              "Follow-up": 3,
-              "Lost": 4,
-              "Mailjourney": 25,
+              "Appointment": 10,
+              "Follow-up": 4,
+              "Lost": 5,
+              "Mailjourney": 26,
               "Not Qualified": 5,
               "Not reached": 7,
               "Re-entered": 2
@@ -42008,12 +42008,12 @@
             "transitions": {
               "Converted Old SF>Re-entered": 1,
               "Follow-up>Appointment": 2,
-              "Follow-up>Lost": 2,
-              "Follow-up>Mailjourney": 15,
+              "Follow-up>Lost": 3,
+              "Follow-up>Mailjourney": 16,
               "Follow-up>Not Qualified": 1,
               "Mailjourney>Appointment": 1,
-              "New>Appointment": 5,
-              "New>Follow-up": 1,
+              "New>Appointment": 6,
+              "New>Follow-up": 2,
               "New>Lost": 1,
               "New>Not Qualified": 3,
               "New>Not reached": 6,
@@ -42245,7 +42245,7 @@
                   "clicks": 0,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
@@ -42256,7 +42256,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -42264,7 +42264,7 @@
                 }
               },
               "firstTouch": 4,
-              "opens": 2,
+              "opens": 4,
               "sent": 4,
               "soft_bounces": 0,
               "subscribers": 4,
@@ -42324,7 +42324,7 @@
                   "clicks": 0,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
@@ -42412,7 +42412,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -42442,7 +42442,7 @@
                 }
               },
               "firstTouch": 11,
-              "opens": 9,
+              "opens": 11,
               "sent": 33,
               "soft_bounces": 0,
               "subscribers": 32,
@@ -42538,12 +42538,12 @@
           "value": 909
         },
         "mqlToSql": {
-          "deltaPct": 14.5,
-          "value": 10.74
+          "deltaPct": 14.3,
+          "value": 10.72
         },
         "reactivationRatio": {
-          "deltaPct": -3.9,
-          "value": 11.44
+          "deltaPct": -4.0,
+          "value": 11.42
         }
       },
       "marketLabel": "België",
@@ -42580,7 +42580,7 @@
         "enrichment": {
           "backToMailjourney": 0,
           "backToNotReached": 3,
-          "enrichRatio": 0.99,
+          "enrichRatio": 0.98,
           "enriched": 5,
           "enrichedLeads": 5,
           "fromMailjourney": 1,
@@ -42592,20 +42592,20 @@
           "toFollowUp": 1
         },
         "leadIntake": {
-          "abs": 1276,
+          "abs": 1278,
           "share": 100.0
         },
         "mailjourney": {
-          "abs": 507,
-          "deltaPct": 46.7,
-          "ratio": 99.77,
-          "share": 39.73
+          "abs": 508,
+          "deltaPct": 47.0,
+          "ratio": 100.0,
+          "share": 39.75
         },
         "notContact": {
           "abs": 427,
-          "deltaPct": -14.6,
-          "ratio": 33.46,
-          "share": 33.46
+          "deltaPct": -14.8,
+          "ratio": 33.41,
+          "share": 33.41
         },
         "recovered": {
           "cac": null,
@@ -42614,9 +42614,9 @@
         },
         "sql": {
           "abs": 137,
-          "deltaPct": -3.9,
-          "ratio": 11.44,
-          "share": 10.74
+          "deltaPct": -4.0,
+          "ratio": 11.42,
+          "share": 10.72
         }
       }
     },
@@ -52317,7 +52317,7 @@
         "channels": [],
         "funnel": {
           "mql": {
-            "abs": 2464,
+            "abs": 2468,
             "convDeltaPct": null,
             "share": 100.0
           },
@@ -52327,14 +52327,14 @@
             "share": null
           },
           "r1": {
-            "abs": 795,
-            "convDeltaPct": -4.6,
-            "share": 32.26
+            "abs": 799,
+            "convDeltaPct": -4.3,
+            "share": 32.37
           },
           "sql": {
-            "abs": 284,
-            "convDeltaPct": 3.3,
-            "share": 11.53
+            "abs": 291,
+            "convDeltaPct": 5.6,
+            "share": 11.79
           }
         },
         "totals": {
@@ -52350,7 +52350,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 2464,
+                "abs": 2468,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -52360,14 +52360,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 795,
-                "convDeltaPct": -4.6,
-                "share": 32.26
+                "abs": 799,
+                "convDeltaPct": -4.3,
+                "share": 32.37
               },
               "sql": {
-                "abs": 284,
-                "convDeltaPct": 3.3,
-                "share": 11.53
+                "abs": 291,
+                "convDeltaPct": 5.6,
+                "share": 11.79
               }
             },
             "totals": {
@@ -52378,9 +52378,9 @@
           },
           "cohort": {
             "coverage": 97.0,
-            "entered": 923,
-            "mailable": 564,
-            "reached": 547
+            "entered": 931,
+            "mailable": 567,
+            "reached": 550
           },
           "comparable": true,
           "emailHealth": null,
@@ -52400,12 +52400,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": 3.3,
-              "value": 11.53
+              "deltaPct": 5.6,
+              "value": 11.79
             },
             "reactivationRatio": {
-              "deltaPct": -5.7,
-              "value": 17.44
+              "deltaPct": -5.0,
+              "value": 17.57
             }
           },
           "mailsPerPerson": null,
@@ -52421,7 +52421,7 @@
             "enrichment": {
               "backToMailjourney": 7,
               "backToNotReached": 13,
-              "enrichRatio": 4.55,
+              "enrichRatio": 4.5,
               "enriched": 43,
               "enrichedLeads": 42,
               "fromMailjourney": 23,
@@ -52433,31 +52433,31 @@
               "toFollowUp": 7
             },
             "leadIntake": {
-              "abs": 2464,
+              "abs": 2468,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 946,
-              "deltaPct": 15.4,
-              "ratio": 75.51,
-              "share": 38.39
+              "abs": 956,
+              "deltaPct": 16.1,
+              "ratio": 75.98,
+              "share": 38.74
             },
             "notContact": {
-              "abs": 841,
-              "deltaPct": 7.3,
-              "ratio": 34.13,
-              "share": 34.13
+              "abs": 845,
+              "deltaPct": 7.6,
+              "ratio": 34.24,
+              "share": 34.24
             },
             "recovered": {
               "cac": null,
-              "count": 165,
+              "count": 168,
               "cpl": null
             },
             "sql": {
-              "abs": 284,
-              "deltaPct": -5.7,
-              "ratio": 17.44,
-              "share": 11.53
+              "abs": 291,
+              "deltaPct": -5.0,
+              "ratio": 17.57,
+              "share": 11.79
             }
           },
           "uniqueSubscribers": null
@@ -52467,7 +52467,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 636,
+                "abs": 645,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -52477,14 +52477,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 186,
-                "convDeltaPct": 3.8,
-                "share": 29.25
+                "abs": 190,
+                "convDeltaPct": 4.6,
+                "share": 29.46
               },
               "sql": {
-                "abs": 56,
-                "convDeltaPct": -18.5,
-                "share": 8.81
+                "abs": 63,
+                "convDeltaPct": -9.6,
+                "share": 9.77
               }
             },
             "totals": {
@@ -52494,10 +52494,10 @@
             }
           },
           "cohort": {
-            "coverage": 96.7,
-            "entered": 195,
-            "mailable": 123,
-            "reached": 119
+            "coverage": 96.8,
+            "entered": 203,
+            "mailable": 126,
+            "reached": 122
           },
           "comparable": true,
           "emailHealth": null,
@@ -52517,12 +52517,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": -18.5,
-              "value": 8.81
+              "deltaPct": -9.6,
+              "value": 9.77
             },
             "reactivationRatio": {
-              "deltaPct": -15.0,
-              "value": 17.16
+              "deltaPct": -12.0,
+              "value": 17.76
             }
           },
           "mailsPerPerson": null,
@@ -52538,7 +52538,7 @@
             "enrichment": {
               "backToMailjourney": 3,
               "backToNotReached": 3,
-              "enrichRatio": 5.88,
+              "enrichRatio": 5.61,
               "enriched": 12,
               "enrichedLeads": 12,
               "fromMailjourney": 9,
@@ -52550,31 +52550,31 @@
               "toFollowUp": 2
             },
             "leadIntake": {
-              "abs": 636,
+              "abs": 645,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 204,
-              "deltaPct": -11.8,
-              "ratio": 62.77,
-              "share": 32.08
+              "abs": 214,
+              "deltaPct": -8.5,
+              "ratio": 65.1,
+              "share": 33.18
             },
             "notContact": {
-              "abs": 188,
-              "deltaPct": 7.1,
-              "ratio": 29.56,
-              "share": 29.56
+              "abs": 192,
+              "deltaPct": 7.9,
+              "ratio": 29.77,
+              "share": 29.77
             },
             "recovered": {
               "cac": null,
-              "count": 35,
+              "count": 38,
               "cpl": null
             },
             "sql": {
-              "abs": 56,
-              "deltaPct": -15.0,
-              "ratio": 17.16,
-              "share": 8.81
+              "abs": 63,
+              "deltaPct": -12.0,
+              "ratio": 17.76,
+              "share": 9.77
             }
           },
           "uniqueSubscribers": null
@@ -52584,7 +52584,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 6563,
+                "abs": 6567,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -52594,14 +52594,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 2335,
-                "convDeltaPct": 6.4,
-                "share": 35.58
+                "abs": 2339,
+                "convDeltaPct": 6.6,
+                "share": 35.62
               },
               "sql": {
-                "abs": 794,
-                "convDeltaPct": 7.6,
-                "share": 12.1
+                "abs": 801,
+                "convDeltaPct": 8.4,
+                "share": 12.2
               }
             },
             "totals": {
@@ -52611,10 +52611,10 @@
             }
           },
           "cohort": {
-            "coverage": 93.3,
-            "entered": 2282,
-            "mailable": 1412,
-            "reached": 1318
+            "coverage": 93.4,
+            "entered": 2290,
+            "mailable": 1415,
+            "reached": 1321
           },
           "comparable": true,
           "emailHealth": null,
@@ -52634,12 +52634,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": 7.6,
-              "value": 12.1
+              "deltaPct": 8.4,
+              "value": 12.2
             },
             "reactivationRatio": {
-              "deltaPct": 10.5,
-              "value": 17.73
+              "deltaPct": 10.8,
+              "value": 17.78
             }
           },
           "mailsPerPerson": null,
@@ -52655,7 +52655,7 @@
             "enrichment": {
               "backToMailjourney": 14,
               "backToNotReached": 23,
-              "enrichRatio": 3.82,
+              "enrichRatio": 3.81,
               "enriched": 91,
               "enrichedLeads": 85,
               "fromMailjourney": 50,
@@ -52667,31 +52667,31 @@
               "toFollowUp": 12
             },
             "leadIntake": {
-              "abs": 6563,
+              "abs": 6567,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 2380,
-              "deltaPct": 7.1,
-              "ratio": 68.88,
-              "share": 36.26
+              "abs": 2390,
+              "deltaPct": 7.4,
+              "ratio": 69.06,
+              "share": 36.39
             },
             "notContact": {
-              "abs": 2323,
-              "deltaPct": -3.1,
-              "ratio": 35.4,
-              "share": 35.4
+              "abs": 2327,
+              "deltaPct": -3.0,
+              "ratio": 35.43,
+              "share": 35.43
             },
             "recovered": {
               "cac": null,
-              "count": 422,
+              "count": 425,
               "cpl": null
             },
             "sql": {
-              "abs": 794,
-              "deltaPct": 10.5,
-              "ratio": 17.73,
-              "share": 12.1
+              "abs": 801,
+              "deltaPct": 10.8,
+              "ratio": 17.78,
+              "share": 12.2
             }
           },
           "uniqueSubscribers": null
@@ -52701,36 +52701,36 @@
         "cohorts": {
           "30": {
             "coverage": 97.0,
-            "entered": 923,
-            "mailable": 564,
-            "reached": 547
+            "entered": 931,
+            "mailable": 567,
+            "reached": 550
           },
           "7": {
-            "coverage": 96.7,
-            "entered": 195,
-            "mailable": 123,
-            "reached": 119
+            "coverage": 96.8,
+            "entered": 203,
+            "mailable": 126,
+            "reached": 122
           },
           "90": {
-            "coverage": 93.3,
-            "entered": 2282,
-            "mailable": 1412,
-            "reached": 1318
+            "coverage": 93.4,
+            "entered": 2290,
+            "mailable": 1415,
+            "reached": 1321
           }
         },
         "consentShare": 10.39,
-        "consentTotal": 34082,
-        "coverage": 36.0,
-        "growth": 1924,
-        "growthDeltaPct": 95.7,
+        "consentTotal": 34085,
+        "coverage": 36.1,
+        "growth": 1927,
+        "growthDeltaPct": 96.0,
         "growthPrev": 983,
-        "leadsTotal": 327964,
-        "mailjourneyNoConsent": 25688,
-        "mailjourneyNoContactException": 314,
-        "mailjourneyNoEmail": 5245,
-        "mailjourneyTotal": 42090,
-        "reachedOfShouldMail": 4022,
-        "shouldMail": 11157
+        "leadsTotal": 328095,
+        "mailjourneyNoConsent": 25691,
+        "mailjourneyNoContactException": 315,
+        "mailjourneyNoEmail": 5246,
+        "mailjourneyTotal": 42096,
+        "reachedOfShouldMail": 4025,
+        "shouldMail": 11159
       },
       "days": {
         "2025-08-26": {
@@ -203996,8 +203996,8 @@
                 "revenue": 15127.85
               }
             },
-            "orders": 10,
-            "revenue": 73018.09,
+            "orders": 11,
+            "revenue": 83886.56,
             "viaAutomationOrders": 3,
             "viaAutomationRevenue": 23020.41
           }
@@ -240030,8 +240030,8 @@
                 "revenue": 22300.05
               }
             },
-            "orders": 9,
-            "revenue": 57504.73,
+            "orders": 11,
+            "revenue": 71265.36,
             "viaAutomationOrders": 3,
             "viaAutomationRevenue": 22300.05
           }
@@ -241951,8 +241951,8 @@
         "2026-09-24": {
           "cohort": {
             "entered": 28,
-            "mailable": 15,
-            "reached": 14
+            "mailable": 14,
+            "reached": 13
           },
           "crm": {
             "activeLeads": 120,
@@ -243305,7 +243305,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -243324,7 +243324,7 @@
                 }
               },
               "firstTouch": 3,
-              "opens": 3,
+              "opens": 4,
               "sent": 8,
               "soft_bounces": 0,
               "subscribers": 8,
@@ -243647,7 +243647,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -243842,7 +243842,7 @@
                 }
               },
               "firstTouch": 231,
-              "opens": 303,
+              "opens": 304,
               "sent": 506,
               "soft_bounces": 3,
               "subscribers": 488,
@@ -243852,8 +243852,8 @@
           "value": {
             "byReason": {},
             "byRoute": {},
-            "orders": 4,
-            "revenue": 34401.8,
+            "orders": 5,
+            "revenue": 38353.74,
             "viaAutomationOrders": 0,
             "viaAutomationRevenue": 0.0
           }
@@ -245899,15 +245899,15 @@
             },
             "NL - valpreventie - Groep oude aanmeldingen": {
               "bounces": 454,
-              "clicks": 277,
+              "clicks": 278,
               "delivered": 4543,
               "emails": {
                 "NL - valpreventieweek mail 1": {
                   "bounces": 454,
-                  "clicks": 277,
+                  "clicks": 278,
                   "delivered": 4543,
                   "firstTouch": 4997,
-                  "opens": 1839,
+                  "opens": 1846,
                   "sent": 4997,
                   "soft_bounces": 46,
                   "subscribers": 4997,
@@ -245915,7 +245915,7 @@
                 }
               },
               "firstTouch": 4997,
-              "opens": 1839,
+              "opens": 1846,
               "sent": 4997,
               "soft_bounces": 46,
               "subscribers": 4997,
@@ -245982,7 +245982,7 @@
             },
             "all": {
               "bounces": 462,
-              "clicks": 326,
+              "clicks": 327,
               "delivered": 5240,
               "emails": {
                 "(niet toegewezen)": {
@@ -246339,10 +246339,10 @@
                 },
                 "NL - valpreventieweek mail 1": {
                   "bounces": 457,
-                  "clicks": 295,
+                  "clicks": 296,
                   "delivered": 4736,
                   "firstTouch": 5184,
-                  "opens": 1931,
+                  "opens": 1938,
                   "sent": 5193,
                   "soft_bounces": 46,
                   "subscribers": 5184,
@@ -246372,7 +246372,7 @@
                 }
               },
               "firstTouch": 5278,
-              "opens": 2196,
+              "opens": 2203,
               "sent": 5702,
               "soft_bounces": 47,
               "subscribers": 5669,
@@ -246382,8 +246382,8 @@
           "value": {
             "byReason": {},
             "byRoute": {},
-            "orders": 3,
-            "revenue": 9143.02,
+            "orders": 4,
+            "revenue": 16788.18,
             "viaAutomationOrders": 0,
             "viaAutomationRevenue": 0.0
           }
@@ -246395,7 +246395,7 @@
             "reached": 35
           },
           "crm": {
-            "activeLeads": 201,
+            "activeLeads": 200,
             "toStatus": {
               "Appointment": 52,
               "Brochure": 6,
@@ -246403,7 +246403,7 @@
               "Lost": 15,
               "Mailjourney": 61,
               "Not Qualified": 19,
-              "Not reached": 44,
+              "Not reached": 43,
               "Re-entered": 12,
               "Re-entered - Phone Number Changed": 4
             },
@@ -246428,7 +246428,7 @@
               "New>Lost": 1,
               "New>Mailjourney": 17,
               "New>Not Qualified": 9,
-              "New>Not reached": 34,
+              "New>Not reached": 33,
               "Not Qualified>Re-entered": 1,
               "Not reached>Appointment": 10,
               "Not reached>Brochure": 4,
@@ -246474,15 +246474,15 @@
             },
             "NL - Afspraakherinnering adviseur 2025": {
               "bounces": 1,
-              "clicks": 7,
+              "clicks": 8,
               "delivered": 29,
               "emails": {
                 "NL - Afspraakherinnering Adviseur": {
                   "bounces": 1,
-                  "clicks": 7,
+                  "clicks": 8,
                   "delivered": 29,
                   "firstTouch": 29,
-                  "opens": 17,
+                  "opens": 18,
                   "sent": 30,
                   "soft_bounces": 0,
                   "subscribers": 30,
@@ -246490,7 +246490,7 @@
                 }
               },
               "firstTouch": 29,
-              "opens": 17,
+              "opens": 18,
               "sent": 30,
               "soft_bounces": 0,
               "subscribers": 30,
@@ -246620,7 +246620,7 @@
                   "clicks": 0,
                   "delivered": 6,
                   "firstTouch": 6,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 6,
                   "soft_bounces": 0,
                   "subscribers": 6,
@@ -246686,7 +246686,7 @@
                   "clicks": 1,
                   "delivered": 40,
                   "firstTouch": 40,
-                  "opens": 14,
+                  "opens": 16,
                   "sent": 40,
                   "soft_bounces": 0,
                   "subscribers": 40,
@@ -246697,7 +246697,7 @@
                   "clicks": 0,
                   "delivered": 17,
                   "firstTouch": 17,
-                  "opens": 8,
+                  "opens": 10,
                   "sent": 17,
                   "soft_bounces": 0,
                   "subscribers": 17,
@@ -246730,7 +246730,7 @@
                   "clicks": 0,
                   "delivered": 20,
                   "firstTouch": 20,
-                  "opens": 10,
+                  "opens": 11,
                   "sent": 20,
                   "soft_bounces": 0,
                   "subscribers": 20,
@@ -246749,7 +246749,7 @@
                 }
               },
               "firstTouch": 3,
-              "opens": 100,
+              "opens": 106,
               "sent": 223,
               "soft_bounces": 0,
               "subscribers": 223,
@@ -246956,7 +246956,7 @@
             },
             "all": {
               "bounces": 4,
-              "clicks": 39,
+              "clicks": 40,
               "delivered": 543,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -246983,10 +246983,10 @@
                 },
                 "NL - Afspraakherinnering Adviseur": {
                   "bounces": 1,
-                  "clicks": 7,
+                  "clicks": 8,
                   "delivered": 29,
                   "firstTouch": 29,
-                  "opens": 17,
+                  "opens": 18,
                   "sent": 30,
                   "soft_bounces": 0,
                   "subscribers": 30,
@@ -247096,7 +247096,7 @@
                   "clicks": 0,
                   "delivered": 6,
                   "firstTouch": 6,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 6,
                   "soft_bounces": 0,
                   "subscribers": 6,
@@ -247250,7 +247250,7 @@
                   "clicks": 1,
                   "delivered": 40,
                   "firstTouch": 40,
-                  "opens": 14,
+                  "opens": 16,
                   "sent": 40,
                   "soft_bounces": 0,
                   "subscribers": 40,
@@ -247261,7 +247261,7 @@
                   "clicks": 0,
                   "delivered": 17,
                   "firstTouch": 17,
-                  "opens": 8,
+                  "opens": 10,
                   "sent": 17,
                   "soft_bounces": 0,
                   "subscribers": 17,
@@ -247305,7 +247305,7 @@
                   "clicks": 0,
                   "delivered": 20,
                   "firstTouch": 20,
-                  "opens": 10,
+                  "opens": 11,
                   "sent": 20,
                   "soft_bounces": 0,
                   "subscribers": 20,
@@ -247324,7 +247324,7 @@
                 }
               },
               "firstTouch": 189,
-              "opens": 279,
+              "opens": 286,
               "sent": 547,
               "soft_bounces": 0,
               "subscribers": 516,
@@ -247334,77 +247334,84 @@
           "value": {
             "byReason": {},
             "byRoute": {},
-            "orders": 1,
-            "revenue": 2369.33,
+            "orders": 2,
+            "revenue": 11608.12,
             "viaAutomationOrders": 0,
             "viaAutomationRevenue": 0.0
           }
         },
         "2026-09-30": {
           "cohort": {
-            "entered": 22,
-            "mailable": 11,
-            "reached": 10
+            "entered": 30,
+            "mailable": 15,
+            "reached": 14
           },
           "crm": {
-            "activeLeads": 94,
+            "activeLeads": 119,
             "toStatus": {
-              "Appointment": 19,
+              "Appointment": 23,
               "Brochure": 4,
-              "Follow-up": 15,
-              "Lost": 2,
-              "Mailjourney": 27,
-              "Not Qualified": 9,
-              "Not reached": 24,
-              "Re-entered": 4
+              "Follow-up": 22,
+              "Lost": 7,
+              "Mailjourney": 37,
+              "Not Qualified": 12,
+              "Not reached": 29,
+              "Re-entered": 11
             },
             "transitions": {
               "Brochure>Follow-up": 4,
               "Converted Old SF>Follow-up": 1,
-              "Follow-up>Appointment": 1,
-              "Follow-up>Mailjourney": 9,
+              "Follow-up>Appointment": 3,
+              "Follow-up>Mailjourney": 14,
+              "Follow-up>Not Qualified": 1,
+              "Follow-up>Re-entered": 3,
+              "Lost>Re-entered": 1,
               "Mailjourney>Appointment": 1,
               "Mailjourney>Brochure": 1,
+              "Mailjourney>Lost": 1,
               "Mailjourney>Not Qualified": 1,
-              "Mailjourney>Re-entered": 4,
-              "New>Appointment": 12,
+              "Mailjourney>Re-entered": 7,
+              "New>Appointment": 13,
               "New>Brochure": 3,
               "New>Follow-up": 4,
-              "New>Lost": 2,
+              "New>Lost": 3,
               "New>Mailjourney": 10,
               "New>Not Qualified": 7,
-              "New>Not reached": 23,
+              "New>Not reached": 25,
               "Not reached>Appointment": 5,
-              "Not reached>Follow-up": 6,
-              "Not reached>Mailjourney": 6,
-              "Not reached>Not Qualified": 1,
-              "Re-entered>Mailjourney": 2,
-              "Re-entered>Not reached": 1
+              "Not reached>Follow-up": 13,
+              "Not reached>Lost": 2,
+              "Not reached>Mailjourney": 8,
+              "Not reached>Not Qualified": 3,
+              "Re-entered>Appointment": 1,
+              "Re-entered>Lost": 1,
+              "Re-entered>Mailjourney": 5,
+              "Re-entered>Not reached": 4
             }
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 19,
+              "delivered": 23,
               "emails": {
                 "NL - 1 x Geen gehoor V2": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 19,
-                  "firstTouch": 19,
-                  "opens": 5,
-                  "sent": 19,
+                  "delivered": 23,
+                  "firstTouch": 23,
+                  "opens": 8,
+                  "sent": 23,
                   "soft_bounces": 0,
-                  "subscribers": 19,
+                  "subscribers": 23,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 19,
-              "opens": 5,
-              "sent": 19,
+              "firstTouch": 23,
+              "opens": 8,
+              "sent": 23,
               "soft_bounces": 0,
-              "subscribers": 19,
+              "subscribers": 23,
               "unsubs": 0
             },
             "NL - Afspraakherinnering adviseur 2025": {
@@ -247417,7 +247424,7 @@
                   "clicks": 1,
                   "delivered": 33,
                   "firstTouch": 30,
-                  "opens": 10,
+                  "opens": 13,
                   "sent": 33,
                   "soft_bounces": 0,
                   "subscribers": 33,
@@ -247425,7 +247432,7 @@
                 }
               },
               "firstTouch": 30,
-              "opens": 10,
+              "opens": 13,
               "sent": 33,
               "soft_bounces": 0,
               "subscribers": 33,
@@ -247433,34 +247440,58 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 0,
-              "clicks": 2,
-              "delivered": 28,
+              "clicks": 3,
+              "delivered": 30,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 0,
-                  "clicks": 2,
-                  "delivered": 28,
-                  "firstTouch": 25,
-                  "opens": 7,
-                  "sent": 28,
+                  "clicks": 3,
+                  "delivered": 30,
+                  "firstTouch": 26,
+                  "opens": 10,
+                  "sent": 30,
                   "soft_bounces": 0,
-                  "subscribers": 28,
+                  "subscribers": 30,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 25,
-              "opens": 7,
-              "sent": 28,
+              "firstTouch": 26,
+              "opens": 10,
+              "sent": 30,
               "soft_bounces": 0,
-              "subscribers": 28,
+              "subscribers": 30,
               "unsubs": 0
             },
             "NL - Financieel niet haalbaar": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 1,
+              "delivered": 2,
               "emails": {
                 "NL - Financieel niet haalbaar - mail 3": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 0,
+              "opens": 1,
+              "sent": 2,
+              "soft_bounces": 0,
+              "subscribers": 2,
+              "unsubs": 0
+            },
+            "NL - New Lead Journey V2": {
+              "bounces": 0,
+              "clicks": 0,
+              "delivered": 34,
+              "emails": {
+                "NL - Bamboo Aanvraag new": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 1,
@@ -247470,29 +247501,16 @@
                   "soft_bounces": 0,
                   "subscribers": 1,
                   "unsubs": 0
-                }
-              },
-              "firstTouch": 0,
-              "opens": 1,
-              "sent": 1,
-              "soft_bounces": 0,
-              "subscribers": 1,
-              "unsubs": 0
-            },
-            "NL - New Lead Journey V2": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 28,
-              "emails": {
+                },
                 "NL - New Lead Brochure,infopakket": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
+                  "delivered": 7,
+                  "firstTouch": 7,
                   "opens": 3,
-                  "sent": 6,
+                  "sent": 7,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 7,
                   "unsubs": 0
                 },
                 "NL - New Lead Entry": {
@@ -247509,36 +247527,47 @@
                 "NL - New lead Prijs": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 21,
-                  "firstTouch": 21,
-                  "opens": 11,
-                  "sent": 21,
+                  "delivered": 25,
+                  "firstTouch": 25,
+                  "opens": 12,
+                  "sent": 25,
                   "soft_bounces": 0,
-                  "subscribers": 21,
+                  "subscribers": 25,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 28,
-              "opens": 14,
-              "sent": 28,
+              "firstTouch": 34,
+              "opens": 16,
+              "sent": 34,
               "soft_bounces": 0,
-              "subscribers": 28,
+              "subscribers": 34,
               "unsubs": 0
             },
             "NL - Nurturelane Stairlift Q2 2026": {
               "bounces": 0,
-              "clicks": 2,
-              "delivered": 105,
+              "clicks": 3,
+              "delivered": 118,
               "emails": {
-                "NL - Nurturemail 2": {
+                "NL - Bevestigingsmail valpreventie": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
-                  "opens": 4,
-                  "sent": 6,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - Nurturemail 2": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 7,
+                  "firstTouch": 7,
+                  "opens": 4,
+                  "sent": 7,
+                  "soft_bounces": 0,
+                  "subscribers": 7,
                   "unsubs": 0
                 },
                 "NL - Nurturemail 3 test": {
@@ -247588,34 +247617,34 @@
                 "NL - Trapliftlane-thuisadvies-8": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 14,
-                  "firstTouch": 14,
+                  "delivered": 17,
+                  "firstTouch": 17,
                   "opens": 4,
-                  "sent": 14,
+                  "sent": 17,
                   "soft_bounces": 0,
-                  "subscribers": 14,
+                  "subscribers": 17,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-trapcheck-5": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 24,
-                  "firstTouch": 24,
+                  "delivered": 26,
+                  "firstTouch": 26,
                   "opens": 6,
-                  "sent": 24,
+                  "sent": 26,
                   "soft_bounces": 0,
-                  "subscribers": 24,
+                  "subscribers": 26,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-uitleg-2": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 4,
-                  "sent": 9,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-verbouwenverhuizen-3": {
@@ -247623,7 +247652,7 @@
                   "clicks": 0,
                   "delivered": 8,
                   "firstTouch": 8,
-                  "opens": 3,
+                  "opens": 4,
                   "sent": 8,
                   "soft_bounces": 0,
                   "subscribers": 8,
@@ -247632,34 +247661,34 @@
                 "NL - nurturemail 1": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - nurturemail 4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
+                  "delivered": 3,
+                  "firstTouch": 3,
                   "opens": 1,
-                  "sent": 1,
+                  "sent": 3,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 3,
                   "unsubs": 0
                 },
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 11,
+                  "firstTouch": 11,
                   "opens": 4,
-                  "sent": 9,
+                  "sent": 11,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 11,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
@@ -247674,11 +247703,11 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 0,
-              "opens": 33,
-              "sent": 105,
+              "firstTouch": 1,
+              "opens": 36,
+              "sent": 118,
               "soft_bounces": 0,
-              "subscribers": 105,
+              "subscribers": 118,
               "unsubs": 0
             },
             "NL - Offerte journey": {
@@ -247719,31 +247748,31 @@
             "NL - Reentered Lead": {
               "bounces": 1,
               "clicks": 0,
-              "delivered": 3,
+              "delivered": 11,
               "emails": {
                 "NL - Reentered Lead Bamboo": {
                   "bounces": 1,
                   "clicks": 0,
-                  "delivered": 0,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
-                  "soft_bounces": 0,
-                  "subscribers": 1,
-                  "unsubs": 0
-                },
-                "NL - Reentered lead Brochure,infopakket": {
-                  "bounces": 0,
-                  "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
                   "opens": 1,
-                  "sent": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 1,
                   "unsubs": 0
                 },
-                "NL - Reentered lead Prijs": {
+                "NL - Reentered Lead algemeen": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Brochure,infopakket": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
@@ -247753,13 +247782,24 @@
                   "soft_bounces": 0,
                   "subscribers": 2,
                   "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 5,
+                  "opens": 2,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
+                  "unsubs": 0
                 }
               },
-              "firstTouch": 4,
-              "opens": 2,
-              "sent": 4,
+              "firstTouch": 10,
+              "opens": 4,
+              "sent": 12,
               "soft_bounces": 0,
-              "subscribers": 4,
+              "subscribers": 11,
               "unsubs": 0
             },
             "NL - Reviews ": {
@@ -247797,114 +247837,138 @@
               "subscribers": 8,
               "unsubs": 0
             },
-            "NL - valpreventie - Groep oude aanmeldingen": {
-              "bounces": 122,
-              "clicks": 5,
-              "delivered": 1541,
+            "NL - Valpreventieweek campagne - groep aanmeldingen week 1": {
+              "bounces": 2,
+              "clicks": 1,
+              "delivered": 184,
               "emails": {
                 "NL - valpreventie mail 2": {
-                  "bounces": 122,
-                  "clicks": 5,
-                  "delivered": 1541,
-                  "firstTouch": 1663,
-                  "opens": 109,
-                  "sent": 1663,
-                  "soft_bounces": 9,
-                  "subscribers": 1663,
-                  "unsubs": 2
+                  "bounces": 2,
+                  "clicks": 1,
+                  "delivered": 184,
+                  "firstTouch": 186,
+                  "opens": 21,
+                  "sent": 186,
+                  "soft_bounces": 0,
+                  "subscribers": 186,
+                  "unsubs": 0
                 }
               },
               "firstTouch": 0,
-              "opens": 109,
-              "sent": 1663,
-              "soft_bounces": 9,
-              "subscribers": 1663,
-              "unsubs": 2
+              "opens": 21,
+              "sent": 186,
+              "soft_bounces": 0,
+              "subscribers": 186,
+              "unsubs": 0
+            },
+            "NL - valpreventie - Groep oude aanmeldingen": {
+              "bounces": 259,
+              "clicks": 17,
+              "delivered": 2952,
+              "emails": {
+                "NL - valpreventie mail 2": {
+                  "bounces": 259,
+                  "clicks": 17,
+                  "delivered": 2952,
+                  "firstTouch": 3211,
+                  "opens": 319,
+                  "sent": 3211,
+                  "soft_bounces": 19,
+                  "subscribers": 3211,
+                  "unsubs": 7
+                }
+              },
+              "firstTouch": 0,
+              "opens": 319,
+              "sent": 3211,
+              "soft_bounces": 19,
+              "subscribers": 3211,
+              "unsubs": 7
             },
             "NL-Nurture - no contact possible V3": {
               "bounces": 0,
-              "clicks": 1,
-              "delivered": 10,
+              "clicks": 2,
+              "delivered": 15,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 2,
-                  "sent": 6,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - No contact possible Situatie uitvraag": {
                   "bounces": 0,
-                  "clicks": 1,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "clicks": 2,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 6,
-              "opens": 4,
-              "sent": 10,
+              "firstTouch": 10,
+              "opens": 6,
+              "sent": 15,
               "soft_bounces": 0,
-              "subscribers": 10,
+              "subscribers": 15,
               "unsubs": 0
             },
             "Orderbevestiging ": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 9,
+              "delivered": 13,
               "emails": {
                 "NL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
-                  "opens": 3,
-                  "sent": 9,
+                  "delivered": 13,
+                  "firstTouch": 13,
+                  "opens": 6,
+                  "sent": 13,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 13,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 9,
-              "opens": 3,
-              "sent": 9,
+              "firstTouch": 13,
+              "opens": 6,
+              "sent": 13,
               "soft_bounces": 0,
-              "subscribers": 9,
+              "subscribers": 13,
               "unsubs": 0
             },
             "all": {
-              "bounces": 123,
-              "clicks": 12,
-              "delivered": 1789,
+              "bounces": 262,
+              "clicks": 28,
+              "delivered": 3427,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 2,
-                  "sent": 6,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - 1 x Geen gehoor V2": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 19,
-                  "firstTouch": 19,
-                  "opens": 5,
-                  "sent": 19,
+                  "delivered": 23,
+                  "firstTouch": 23,
+                  "opens": 8,
+                  "sent": 23,
                   "soft_bounces": 0,
-                  "subscribers": 19,
+                  "subscribers": 23,
                   "unsubs": 0
                 },
                 "NL - Afspraakherinnering Adviseur": {
@@ -247912,24 +247976,13 @@
                   "clicks": 1,
                   "delivered": 33,
                   "firstTouch": 30,
-                  "opens": 10,
+                  "opens": 13,
                   "sent": 33,
                   "soft_bounces": 0,
                   "subscribers": 33,
                   "unsubs": 0
                 },
-                "NL - Bevestiging service afspraak - Instant": {
-                  "bounces": 0,
-                  "clicks": 2,
-                  "delivered": 28,
-                  "firstTouch": 25,
-                  "opens": 7,
-                  "sent": 28,
-                  "soft_bounces": 0,
-                  "subscribers": 28,
-                  "unsubs": 0
-                },
-                "NL - Financieel niet haalbaar - mail 3": {
+                "NL - Bamboo Aanvraag new": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 1,
@@ -247940,15 +247993,48 @@
                   "subscribers": 1,
                   "unsubs": 0
                 },
+                "NL - Bevestiging service afspraak - Instant": {
+                  "bounces": 0,
+                  "clicks": 3,
+                  "delivered": 30,
+                  "firstTouch": 26,
+                  "opens": 10,
+                  "sent": 30,
+                  "soft_bounces": 0,
+                  "subscribers": 30,
+                  "unsubs": 0
+                },
+                "NL - Bevestigingsmail valpreventie": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - Financieel niet haalbaar - mail 3": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
                 "NL - New Lead Brochure,infopakket": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
+                  "delivered": 7,
+                  "firstTouch": 7,
                   "opens": 3,
-                  "sent": 6,
+                  "sent": 7,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 7,
                   "unsubs": 0
                 },
                 "NL - New Lead Entry": {
@@ -247965,34 +248051,34 @@
                 "NL - New lead Prijs": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 21,
-                  "firstTouch": 21,
-                  "opens": 11,
-                  "sent": 21,
+                  "delivered": 25,
+                  "firstTouch": 25,
+                  "opens": 12,
+                  "sent": 25,
                   "soft_bounces": 0,
-                  "subscribers": 21,
+                  "subscribers": 25,
                   "unsubs": 0
                 },
                 "NL - No contact possible Situatie uitvraag": {
                   "bounces": 0,
-                  "clicks": 1,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "clicks": 2,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "NL - Nurturemail 2": {
                   "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 6,
+                  "clicks": 1,
+                  "delivered": 7,
+                  "firstTouch": 7,
                   "opens": 4,
-                  "sent": 6,
+                  "sent": 7,
                   "soft_bounces": 0,
-                  "subscribers": 6,
+                  "subscribers": 7,
                   "unsubs": 0
                 },
                 "NL - Nurturemail 3 test": {
@@ -248042,37 +248128,37 @@
                 "NL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
-                  "opens": 3,
-                  "sent": 9,
+                  "delivered": 13,
+                  "firstTouch": 13,
+                  "opens": 6,
+                  "sent": 13,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 13,
                   "unsubs": 0
                 },
                 "NL - Reentered Lead Bamboo": {
                   "bounces": 1,
                   "clicks": 0,
-                  "delivered": 0,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
-                  "soft_bounces": 0,
-                  "subscribers": 1,
-                  "unsubs": 0
-                },
-                "NL - Reentered lead Brochure,infopakket": {
-                  "bounces": 0,
-                  "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 1,
                   "opens": 1,
-                  "sent": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 1,
                   "unsubs": 0
                 },
-                "NL - Reentered lead Prijs": {
+                "NL - Reentered Lead algemeen": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Brochure,infopakket": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
@@ -248081,6 +248167,17 @@
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 5,
+                  "opens": 2,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
                   "unsubs": 0
                 },
                 "NL - Review - Google": {
@@ -248130,34 +248227,34 @@
                 "NL - Trapliftlane-thuisadvies-8": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 14,
-                  "firstTouch": 14,
+                  "delivered": 17,
+                  "firstTouch": 17,
                   "opens": 4,
-                  "sent": 14,
+                  "sent": 17,
                   "soft_bounces": 0,
-                  "subscribers": 14,
+                  "subscribers": 17,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-trapcheck-5": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 24,
-                  "firstTouch": 24,
+                  "delivered": 26,
+                  "firstTouch": 26,
                   "opens": 6,
-                  "sent": 24,
+                  "sent": 26,
                   "soft_bounces": 0,
-                  "subscribers": 24,
+                  "subscribers": 26,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-uitleg-2": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 4,
-                  "sent": 9,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-verbouwenverhuizen-3": {
@@ -248165,7 +248262,7 @@
                   "clicks": 0,
                   "delivered": 8,
                   "firstTouch": 8,
-                  "opens": 3,
+                  "opens": 4,
                   "sent": 8,
                   "soft_bounces": 0,
                   "subscribers": 8,
@@ -248174,45 +248271,45 @@
                 "NL - nurturemail 1": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - nurturemail 4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
+                  "delivered": 3,
+                  "firstTouch": 3,
                   "opens": 1,
-                  "sent": 1,
+                  "sent": 3,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 3,
                   "unsubs": 0
                 },
                 "NL - valpreventie mail 2": {
-                  "bounces": 122,
-                  "clicks": 5,
-                  "delivered": 1541,
-                  "firstTouch": 1663,
-                  "opens": 109,
-                  "sent": 1663,
-                  "soft_bounces": 9,
-                  "subscribers": 1663,
-                  "unsubs": 2
+                  "bounces": 261,
+                  "clicks": 18,
+                  "delivered": 3136,
+                  "firstTouch": 3391,
+                  "opens": 340,
+                  "sent": 3397,
+                  "soft_bounces": 19,
+                  "subscribers": 3391,
+                  "unsubs": 7
                 },
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 11,
+                  "firstTouch": 11,
                   "opens": 4,
-                  "sent": 9,
+                  "sent": 11,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 11,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
@@ -248227,12 +248324,12 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 87,
-              "opens": 194,
-              "sent": 1912,
-              "soft_bounces": 9,
-              "subscribers": 1904,
-              "unsubs": 2
+              "firstTouch": 97,
+              "opens": 446,
+              "sent": 3689,
+              "soft_bounces": 19,
+              "subscribers": 3666,
+              "unsubs": 7
             }
           }
         }
@@ -248250,8 +248347,8 @@
         },
         "NL - 1x Geen gehoor ": {
           "mailsPerPerson": 1.0,
-          "sent": 2775,
-          "subscribers": 2775
+          "sent": 2779,
+          "subscribers": 2779
         },
         "NL - Afspraak annulering First + follow up (Copy)": {
           "mailsPerPerson": 1.0,
@@ -248275,12 +248372,12 @@
         },
         "NL - Confirmation Service Appointment": {
           "mailsPerPerson": 1.3,
-          "sent": 9454,
-          "subscribers": 7456
+          "sent": 9456,
+          "subscribers": 7457
         },
         "NL - Financieel niet haalbaar": {
-          "mailsPerPerson": 2.2,
-          "sent": 11,
+          "mailsPerPerson": 2.4,
+          "sent": 12,
           "subscribers": 5
         },
         "NL - New Lead Journey ": {
@@ -248290,13 +248387,13 @@
         },
         "NL - New Lead Journey V2": {
           "mailsPerPerson": 1.0,
-          "sent": 7547,
-          "subscribers": 7547
+          "sent": 7553,
+          "subscribers": 7553
         },
         "NL - Nurturelane Stairlift Q2 2026": {
           "mailsPerPerson": 8.6,
-          "sent": 27603,
-          "subscribers": 3211
+          "sent": 27616,
+          "subscribers": 3212
         },
         "NL - Offerte journey": {
           "mailsPerPerson": 1.8,
@@ -248305,8 +248402,8 @@
         },
         "NL - Reentered Lead": {
           "mailsPerPerson": 1.1,
-          "sent": 3136,
-          "subscribers": 2736
+          "sent": 3144,
+          "subscribers": 2742
         },
         "NL - Reviews ": {
           "mailsPerPerson": 1.0,
@@ -248319,8 +248416,8 @@
           "subscribers": 800
         },
         "NL - Valpreventieweek campagne - groep aanmeldingen week 1": {
-          "mailsPerPerson": 1.0,
-          "sent": 196,
+          "mailsPerPerson": 1.9,
+          "sent": 382,
           "subscribers": 196
         },
         "NL - event - Conformation appointment - salesman": {
@@ -248329,8 +248426,8 @@
           "subscribers": 1
         },
         "NL - valpreventie - Groep oude aanmeldingen": {
-          "mailsPerPerson": 1.3,
-          "sent": 6660,
+          "mailsPerPerson": 1.6,
+          "sent": 8208,
           "subscribers": 4997
         },
         "NL- eenmalige campagne zorgzekerpakket actie": {
@@ -248355,8 +248452,8 @@
         },
         "NL-Nurture - no contact possible V3": {
           "mailsPerPerson": 2.4,
-          "sent": 5838,
-          "subscribers": 2480
+          "sent": 5843,
+          "subscribers": 2484
         },
         "NL-Nurture - no contact possible statische lijst": {
           "mailsPerPerson": 2.5,
@@ -248385,8 +248482,8 @@
         },
         "Orderbevestiging ": {
           "mailsPerPerson": 1.0,
-          "sent": 749,
-          "subscribers": 749
+          "sent": 753,
+          "subscribers": 753
         },
         "TEST NL - 1x Geen gehoor  ": {
           "mailsPerPerson": 1.0,
@@ -248405,80 +248502,80 @@
         },
         "all": {
           "mailsPerPerson": 2.0,
-          "sent": 102697,
-          "subscribers": 52635
+          "sent": 104474,
+          "subscribers": 52645
         }
       },
       "kernKpis": {
         "coverage": {
-          "consentTotal": 34082,
+          "consentTotal": 34085,
           "deltaPct": null,
           "funnel": {
-            "mailjourneyTotal": 42090,
-            "noConsent": 25688,
-            "noContactException": 314,
-            "noEmail": 5245
+            "mailjourneyTotal": 42096,
+            "noConsent": 25691,
+            "noContactException": 315,
+            "noEmail": 5246
           },
           "measurable": true,
-          "reached": 4022,
+          "reached": 4025,
           "reason": null,
-          "shouldMail": 11157,
-          "toActivate": 7135,
-          "value": 36.0
+          "shouldMail": 11159,
+          "toActivate": 7134,
+          "value": 36.1
         },
         "cpql": {
           "deltaPct": null,
           "value": null
         },
         "databaseGrowth": {
-          "deltaAbs": 941,
-          "deltaPct": 95.7,
-          "value": 1924
+          "deltaAbs": 944,
+          "deltaPct": 96.0,
+          "value": 1927
         },
         "mqlToSql": {
-          "deltaPct": 3.3,
-          "value": 11.53
+          "deltaPct": 5.6,
+          "value": 11.79
         },
         "reactivationRatio": {
-          "deltaPct": -5.7,
-          "value": 17.44
+          "deltaPct": -5.0,
+          "value": 17.57
         }
       },
       "marketLabel": "Nederland",
       "outcomeTotal": {
         "appointmentRate": 21.7,
         "conversionRate": 21.7,
-        "converted": 1697,
-        "toAppointment": 1698,
-        "toSql": 743,
-        "touched": 7838,
-        "won": 531
+        "converted": 1700,
+        "toAppointment": 1702,
+        "toSql": 749,
+        "touched": 7846,
+        "won": 535
       },
       "reach": {
         "30": {
-          "contacts": 2809,
-          "leads": 4387,
+          "contacts": 2811,
+          "leads": 4395,
           "other": 5184,
-          "total": 12380
+          "total": 12390
         },
         "7": {
-          "contacts": 863,
-          "leads": 1920,
+          "contacts": 866,
+          "leads": 1940,
           "other": 5184,
-          "total": 7967
+          "total": 7990
         },
         "90": {
-          "contacts": 5942,
-          "leads": 7838,
+          "contacts": 5944,
+          "leads": 7846,
           "other": 5184,
-          "total": 18964
+          "total": 18974
         }
       },
       "reactivation": {
         "enrichment": {
           "backToMailjourney": 7,
           "backToNotReached": 13,
-          "enrichRatio": 4.55,
+          "enrichRatio": 4.5,
           "enriched": 43,
           "enrichedLeads": 42,
           "fromMailjourney": 23,
@@ -248490,31 +248587,31 @@
           "toFollowUp": 7
         },
         "leadIntake": {
-          "abs": 2464,
+          "abs": 2468,
           "share": 100.0
         },
         "mailjourney": {
-          "abs": 946,
-          "deltaPct": 15.4,
-          "ratio": 75.51,
-          "share": 38.39
+          "abs": 956,
+          "deltaPct": 16.1,
+          "ratio": 75.98,
+          "share": 38.74
         },
         "notContact": {
-          "abs": 841,
-          "deltaPct": 7.3,
-          "ratio": 34.13,
-          "share": 34.13
+          "abs": 845,
+          "deltaPct": 7.6,
+          "ratio": 34.24,
+          "share": 34.24
         },
         "recovered": {
           "cac": null,
-          "count": 165,
+          "count": 168,
           "cpl": null
         },
         "sql": {
-          "abs": 284,
-          "deltaPct": -5.7,
-          "ratio": 17.44,
-          "share": 11.53
+          "abs": 291,
+          "deltaPct": -5.0,
+          "ratio": 17.57,
+          "share": 11.79
         }
       }
     }
