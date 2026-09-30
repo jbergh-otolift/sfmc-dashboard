@@ -384,24 +384,26 @@ function renderValueBlock(value) {
 
   const total = block.querySelector("[data-value-total]");
   const sub = block.querySelector("[data-value-sub]");
-  if (total) total.textContent = eur(value.mailedRevenue);
+  // Orders in plaats van euro's: de gemiddelde orderwaarde varieert sterk,
+  // waardoor een bedrag meer over de mix zegt dan over de prestatie.
+  if (total) total.textContent = nlNum(value.mailedOrders, 0);
   if (sub) {
     sub.textContent =
-      "waarvan " + eur(value.viaRevenue) + " met een aantoonbaar heractivatiepad · " +
-      nlNum(value.mailedOrders, 0) + " orders";
+      "orders · waarvan " + nlNum(value.viaOrders, 0) +
+      " met een aantoonbaar heractivatiepad";
   }
 
   const box = block.querySelector("[data-value-routes]");
   box.innerHTML = "";
   const labels = (DATA && DATA.routeLabels) || {};
   const routes = Object.entries(value.byRoute || {}).sort(
-    (a, b) => b[1].revenue - a[1].revenue
+    (a, b) => b[1].orders - a[1].orders
   );
 
   // Elke route uitklapbaar: welke instroomredenen zitten erachter.
   routes.forEach(([route, stats]) => {
     const reasons = Object.entries((value.byRouteReason || {})[route] || {}).sort(
-      (a, b) => b[1].revenue - a[1].revenue
+      (a, b) => b[1].orders - a[1].orders
     );
 
     const card = document.createElement(reasons.length ? "details" : "div");
@@ -414,12 +416,10 @@ function renderValueBlock(value) {
     name.textContent = labels[route] || route;
     const val = document.createElement("div");
     val.className = "vb-r-val";
-    val.textContent = eur(stats.revenue);
+    val.textContent = nlNum(stats.orders, 0);
     const note = document.createElement("div");
     note.className = "vb-r-sub";
-    note.textContent =
-      nlNum(stats.orders, 0) + (stats.orders === 1 ? " order" : " orders") +
-      " · gemiddeld " + eur(Math.round(stats.revenue / stats.orders));
+    note.textContent = stats.orders === 1 ? "order" : "orders";
     head.append(name, val, note);
     card.appendChild(head);
 
@@ -432,7 +432,8 @@ function renderValueBlock(value) {
         const label = document.createElement("span");
         label.textContent = reason;
         const amount = document.createElement("span");
-        amount.textContent = eur(v.revenue) + " · " + nlNum(v.orders, 0);
+        amount.textContent =
+          nlNum(v.orders, 0) + (v.orders === 1 ? " order" : " orders");
         row.append(label, amount);
         list.appendChild(row);
       });
@@ -458,7 +459,7 @@ function renderDetailList(selector, data, emptyText) {
   const host = document.querySelector(selector);
   if (!host) return;
   host.innerHTML = "";
-  const rows = Object.entries(data || {}).sort((a, b) => b[1].revenue - a[1].revenue);
+  const rows = Object.entries(data || {}).sort((a, b) => b[1].orders - a[1].orders);
 
   if (!rows.length) {
     const empty = document.createElement("div");
@@ -478,7 +479,7 @@ function renderDetailList(selector, data, emptyText) {
     const amount = document.createElement("span");
     amount.className = "vb-p-val";
     amount.textContent =
-      eur(v.revenue) + " · " + nlNum(v.orders, 0) + (v.orders === 1 ? " order" : " orders");
+      nlNum(v.orders, 0) + (v.orders === 1 ? " order" : " orders");
     row.append(name, amount);
     host.appendChild(row);
   });

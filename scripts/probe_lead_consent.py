@@ -171,6 +171,7 @@ def main():
     probe_opportunity(token, instance_url)
     probe_mailable(token, instance_url)
     probe_reasons(token, instance_url)
+    probe_order_counting(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -399,6 +400,90 @@ def probe_reasons(token, instance_url):
         print(f"\n  Verdeling van {name} binnen Mailjourney:")
         for row in res["records"][:15]:
             print(f"      {str(row['r'])[:52]:54} {row['total']:7}")
+
+
+def probe_order_counting(token, instance_url):
+    """Klopt de ordertelling van het dashboard?
+
+    Het dashboard telt orders als: Lead.IsConverted met een gewonnen
+    Opportunity, toegerekend aan Lead.ConvertedDate. Drie dingen kunnen daar
+    misgaan, en die controleren we hier:
+
+      1. Orders die niet uit een leadconversie komen worden helemaal gemist.
+      2. ConvertedDate is niet de orderdatum; de Opportunity kan veel later
+         gewonnen zijn. Dan staat de order in de verkeerde periode.
+      3. Meerdere leads kunnen naar dezelfde Opportunity converteren
+         (samengevoegde leads), en dan tellen we dubbel.
+    """
+    print("\n--- Klopt de ordertelling? ---")
+
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Opportunity "
+        "WHERE IsWon = true AND CloseDate = LAST_N_DAYS:90")
+    won_total = res["records"][0]["n"] if not err else None
+    print(f"  Gewonnen opportunities, CloseDate laatste 90 dagen : {won_total}")
+
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Lead WHERE IsConverted = true "
+        "AND ConvertedDate = LAST_N_DAYS:90 AND ConvertedOpportunity.IsWon = true")
+    via_lead = res["records"][0]["n"] if not err else None
+    print(f"  Daarvan via een leadconversie (ConvertedDate)      : {via_lead}")
+
+    # Hoeveel gewonnen opportunities in dit venster hebben helemaal geen
+    # bronlead? Die mist het dashboard per definitie.
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Opportunity WHERE IsWon = true "
+        "AND CloseDate = LAST_N_DAYS:90 "
+        "AND Id NOT IN (SELECT ConvertedOpportunityId FROM Lead WHERE IsConverted = true)")
+    if err:
+        print(f"  Zonder bronlead: query mislukt ({err[:80]})")
+    else:
+        zonder = res["records"][0]["n"]
+        aandeel = f"{zonder / won_total * 100:.0f}%" if won_total else "?"
+        print(f"  Zonder bronlead (mist het dashboard)              : {zonder}  ({aandeel})")
+
+    # Verschil tussen conversiedatum en sluitdatum: hoe scheef is de
+    # toerekening aan ConvertedDate?
+    res, err = query(
+        token, instance_url,
+        "SELECT Id, ConvertedDate, ConvertedOpportunity.CloseDate FROM Lead "
+        "WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:90 "
+        "AND ConvertedOpportunity.IsWon = true LIMIT 2000")
+    if not err:
+        from datetime import date
+        gaps = []
+        for row in res["records"]:
+            opp = row.get("ConvertedOpportunity") or {}
+            cd, close = row.get("ConvertedDate"), opp.get("CloseDate")
+            if not cd or not close:
+                continue
+            a = date(*map(int, cd[:10].split("-")))
+            b = date(*map(int, close[:10].split("-")))
+            gaps.append((b - a).days)
+        if gaps:
+            gaps.sort()
+            same = sum(1 for g in gaps if g == 0)
+            print(f"  Dagen tussen conversie en sluiten (n={len(gaps)}):")
+            print(f"    zelfde dag {same} ({same / len(gaps) * 100:.0f}%) · "
+                  f"mediaan {gaps[len(gaps) // 2]} · "
+                  f"90e percentiel {gaps[int(len(gaps) * 0.9)]} · max {gaps[-1]}")
+
+    # Dubbeltelling: meer dan een lead naar dezelfde Opportunity?
+    res, err = query(
+        token, instance_url,
+        "SELECT ConvertedOpportunityId oid, COUNT(Id) n FROM Lead "
+        "WHERE IsConverted = true AND ConvertedDate = LAST_N_DAYS:90 "
+        "GROUP BY ConvertedOpportunityId HAVING COUNT(Id) > 1")
+    if err:
+        print(f"  Dubbeltelling: query mislukt ({err[:80]})")
+    else:
+        dubbel = res["records"]
+        extra = sum(r["n"] - 1 for r in dubbel)
+        print(f"  Opportunities met meerdere bronleads              : {len(dubbel)}"
+              f"  (dat zijn {extra} dubbeltellingen)")
 
 
 if __name__ == "__main__":
