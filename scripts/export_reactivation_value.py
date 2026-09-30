@@ -234,7 +234,8 @@ def main():
         # Toerekenen aan automation vereist: eerst de mailflow in, daarna een
         # heractivatiesignaal, en de conversie ná dat signaal. Zonder die
         # volgorde is het toeval in dezelfde periode, geen heractivatie.
-        route = info.get("route")
+        # Leads zonder mailflow-historie tellen alleen in de noemer mee.
+        route = (info or {}).get("route")
         if route and info.get("routeDate") and conv["date"] >= info["routeDate"]:
             bucket["viaAutomationOrders"] += 1
             bucket["viaAutomationRevenue"] += conv["amount"]
