@@ -48,6 +48,8 @@ function format(value, fmt) {
       return nlNum(value, 1) + "%";
     case "eur0":
       return "€" + nlNum(Math.round(value), 0);
+    case "dec1":
+      return nlNum(value, 1);
     case "mult1":
       return nlNum(value, 1) + "×";
     default:
@@ -275,18 +277,13 @@ function buildFlowChips(emailHealth) {
 function renderCoverageBuild(coverage, cohort) {
   const box = document.querySelector("[data-coverage-build]");
   if (!box) return;
-  const f = coverage && coverage.funnel;
-  if (!f || !f.mailjourneyTotal) {
-    box.hidden = true;
+  const wrap = document.querySelector("[data-coverage-details]");
+  if (!cohort || !cohort.mailable) {
+    if (wrap) wrap.hidden = true;
     return;
   }
-  box.hidden = false;
+  if (wrap) wrap.hidden = false;
   box.innerHTML = "";
-
-  const title = document.createElement("div");
-  title.className = "cb-title";
-  title.textContent = "Hoe de noemer is opgebouwd";
-  box.appendChild(title);
 
   const row = (label, value, cls) => {
     const el = document.createElement("div");
@@ -301,36 +298,15 @@ function renderCoverageBuild(coverage, cohort) {
     box.appendChild(el);
   };
 
-  if (cohort && cohort.mailable) {
-    row("Instroom in de mailflow deze periode", nlNum(cohort.entered, 0));
-    row("Daarvan mailbaar", nlNum(cohort.mailable, 0), "result");
-    row("Daarvan gemaild", nlNum(cohort.reached, 0), "result");
-
-    const gap = document.createElement("div");
-    gap.className = "cb-title";
-    gap.style.marginTop = "16px";
-    gap.textContent = "Staande voorraad, los van deze periode";
-    box.appendChild(gap);
-  }
-
-  row("In de mailflow (status Mailjourney)", nlNum(f.mailjourneyTotal, 0));
-  row("Zonder e-mailadres", "− " + nlNum(f.noEmail || 0, 0), "minus");
-  row("Geen consent of afgemeld", "− " + nlNum(f.noConsent || 0, 0), "minus");
-  // Deze groep mailen we sowieso: zonder consent, maar met een
-  // no-contact-possible-reden is mail de enige manier om ze te bereiken.
-  if (f.noContactException) {
-    row(
-      "Terug: no contact possible (sowieso mailen)",
-      "+ " + nlNum(f.noContactException, 0),
-      "plus"
-    );
-  }
-  row("Kunnen we mailen", nlNum(coverage.shouldMail, 0), "result");
-  row("Daarvan bereikt in 90 dagen", nlNum(coverage.reached, 0), "result");
+  const notMailable = (cohort.entered || 0) - (cohort.mailable || 0);
+  row("Kwamen in de mailflow", nlNum(cohort.entered, 0));
+  row("Geen adres, geen consent of afgemeld", "− " + nlNum(notMailable, 0), "minus");
+  row("Mochten we mailen", nlNum(cohort.mailable, 0), "result");
+  row("Hebben we gemaild", nlNum(cohort.reached, 0), "result");
 }
 
 // Bouwt de coverage-waarden voor de gekozen periode. Het getoonde percentage
-// is dat van het cohort; de voorraadcijfers blijven eronder als context.
+// is dat van het cohort: van de instroom van deze periode, wie is er gemaild.
 function coverageForPeriod(base, cohort) {
   if (!cohort || !cohort.mailable) return base;
   return {
@@ -378,8 +354,7 @@ function applyCoverageNote(coverage, cohort) {
   el.innerHTML =
     "Nog <b>" + nlNum(coverage.toActivate, 0) + " leads</b> te bereiken" +
     '<span style="display:block;font-size:11.5px;margin-top:6px">Van de leads die ' +
-    "<b>in deze periode</b> in de mailflow kwamen en die we mochten mailen. " +
-    "De staande voorraad staat hieronder apart.</span>";
+    "<b>in deze periode</b> in de mailflow kwamen en die we mochten mailen.</span>";
 }
 
 /* ---------- detail per flow: welke mails zitten erin ---------- */
@@ -765,115 +740,6 @@ function closeFlowDetail() {
   hideTip();
 }
 
-/* ---------- opbrengst per flow ---------- */
-
-function eur(value) {
-  if (value === null || value === undefined) return NODATA;
-  return "€" + nlNum(Math.round(value), 0);
-}
-
-// Tabel met wat elke journey opleverde. Gesorteerd op omzet, want dat is waar
-// de vraag "welke flow doet ertoe" mee beantwoord wordt. Een flow die veel
-// mensen raakt maar niets oplevert valt zo meteen op.
-function applyOutcomes(market) {
-  const table = document.querySelector("[data-outcome-table] tbody");
-  if (!table) return;
-  table.innerHTML = "";
-
-  const health = market.emailHealth || {};
-  const all = Object.keys(health)
-    .filter((key) => key !== "all" && health[key].outcome)
-    .map((key) => ({ label: health[key].label || key, o: health[key].outcome, g: health[key].goal }));
-
-  // Transactionele flows (bevestigingen, herinneringen) horen te werken, niet
-  // te presteren. Ze staan onderaan, zonder doel, puur als volumecontext.
-  const marketing = all
-    .filter((r) => !r.g || r.g.type !== "transactional")
-    .sort((a, b) => (a.g?.attainment ?? 1e9) - (b.g?.attainment ?? 1e9));
-  const transactional = all
-    .filter((r) => r.g && r.g.type === "transactional")
-    .sort((a, b) => (b.o.touched || 0) - (a.o.touched || 0));
-
-  const cell = (text, cls) =>
-    "<td" + (cls ? ' class="' + cls + '"' : "") + ">" + text + "</td>";
-
-  const addGroup = (title, sub) => {
-    const tr = document.createElement("tr");
-    tr.className = "group";
-    tr.innerHTML =
-      '<td class="l" colspan="6">' + title +
-      (sub ? "<small>" + sub + "</small>" : "") + "</td>";
-    table.appendChild(tr);
-  };
-
-  const addRow = (row, withGoal) => {
-    const o = row.o;
-    const g = row.g;
-    const tr = document.createElement("tr");
-
-    let goalCell = '<span class="nodata">geen doel</span>';
-    let actual = NODATA;
-    let target = '<span class="nodata">niet vastgesteld</span>';
-    let attain = NODATA;
-
-    if (withGoal && g && g.label) {
-      goalCell = (g.configured ? "" : '<span class="goal-default">standaard · </span>') + g.label;
-      actual =
-        nlNum(g.actual || 0, 0) +
-        (g.rate !== null ? "<small>" + nlNum(g.rate, 1) + "%</small>" : "");
-      if (g.target !== null && g.target !== undefined) {
-        target = nlNum(Math.round(g.target), 0);
-      }
-      if (g.attainment !== null && g.attainment !== undefined) {
-        const level = g.attainment >= 90 ? "ok" : g.attainment >= 50 ? "warn" : "bad";
-        attain = '<span class="attain ' + level + '">' + nlNum(g.attainment, 0) + "%</span>";
-        if (level === "bad") tr.className = "weak";
-      }
-    } else if (!withGoal) {
-      // Transactioneel: alleen deliverability is relevant, geen doelkolom.
-      goalCell = '<span class="nodata">transactioneel</span>';
-      actual = "";
-      target = "";
-      attain = "";
-    }
-
-    tr.innerHTML =
-      cell(row.label + (g && g.note ? "<small>" + g.note + "</small>" : ""), "l") +
-      cell(goalCell, "l") +
-      cell(nlNum(o.touched, 0)) +
-      cell(actual) +
-      cell(target) +
-      cell(attain);
-    table.appendChild(tr);
-  };
-
-  if (marketing.length) {
-    addGroup("Marketingflows", "sturen op resultaat");
-    marketing.forEach((r) => addRow(r, true));
-  }
-  if (transactional.length) {
-    addGroup("Transactioneel", "bevestigingen en herinneringen — horen te werken, niet te presteren");
-    transactional.forEach((r) => addRow(r, false));
-  }
-
-  const total = market.outcomeTotal;
-  if (total) {
-    const tr = document.createElement("tr");
-    tr.className = "total";
-    tr.innerHTML =
-      cell("Totaal · ontdubbeld", "l") + cell("", "l") +
-      cell(nlNum(total.touched, 0)) +
-      cell(nlNum(total.toAppointment, 0) + "<small>afspraken</small>") +
-      cell(nlNum(total.toSql, 0) + "<small>SQL</small>") + cell("");
-    table.appendChild(tr);
-  }
-
-  if (!all.length && !total) {
-    table.innerHTML =
-      '<tr><td class="l nodata" colspan="6">Geen resultaatcijfers voor deze markt.</td></tr>';
-  }
-}
-
 /* ---------- bronnen-badges ---------- */
 
 // Zet per sectie zichtbaar of de data live is of nog niet aangesloten, zodat
@@ -919,7 +785,6 @@ function applyMarket(marketKey) {
     const bar = document.querySelector("[data-flow-chips]");
     if (bar) bar.innerHTML = "";
     applyFlow({ all: {} }, "all");
-    applyOutcomes({});
     applySourceBadges({});
     return;
   }
@@ -931,6 +796,7 @@ function applyMarket(marketKey) {
     ? {
         ...market,
         emailHealth: period.emailHealth || market.emailHealth,
+        mailsPerPerson: period.mailsPerPerson,
         reactivation: period.reactivation || market.reactivation,
         acquisition: period.acquisition || market.acquisition,
         kernKpis: {
@@ -951,7 +817,6 @@ function applyMarket(marketKey) {
   // die periode, wie is er gemaild. De staande voorraad staat eronder als
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
-  applyOutcomes(view);
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
@@ -998,10 +863,12 @@ function applyMeta(data) {
   showRange("[data-period-label]", (block && block.range) || data.period);
 
   // Periodes zonder data uitschakelen in plaats van verbergen.
-  if ((data.periods || []).length) {
-    document.querySelectorAll(".per-btn").forEach((btn) => {
-      btn.disabled = !data.periods.includes(btn.dataset.period);
+  const select = document.querySelector("[data-period-select]");
+  if (select && (data.periods || []).length) {
+    [...select.options].forEach((option) => {
+      option.disabled = !data.periods.includes(option.value);
     });
+    select.value = currentPeriod;
   }
 
   const daysEl = document.querySelector("[data-outcome-days]");
@@ -1011,15 +878,12 @@ function applyMeta(data) {
 }
 
 function wirePeriodPicker() {
-  document.querySelectorAll(".per-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (btn.disabled) return;
-      document.querySelectorAll(".per-btn").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentPeriod = btn.dataset.period;
-      applyMeta(DATA);
-      applyMarket(currentMarket);
-    });
+  const select = document.querySelector("[data-period-select]");
+  if (!select) return;
+  select.addEventListener("change", () => {
+    currentPeriod = select.value;
+    applyMeta(DATA);
+    applyMarket(currentMarket);
   });
 }
 

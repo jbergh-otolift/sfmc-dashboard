@@ -210,6 +210,16 @@ def merge_emails_by_name(breakdown):
     return out
 
 
+def mails_per_person(period_block):
+    """Hoeveel mails kreeg een bereikt persoon gemiddeld in deze periode?"""
+    flows = (period_block or {}).get("flows") or {}
+    sent = (flows.get("all") or {}).get("sent")
+    reach = ((period_block or {}).get("uniqueSubscribers") or {}).get("total")
+    if not sent or not reach:
+        return None
+    return round(sent / reach, 1)
+
+
 def build_goal(outcome, goal_config, defaults):
     """Rekent een flow af op zijn eigen doel.
 
@@ -461,6 +471,9 @@ def main():
                     market_outcomes, goals.get(key) or {}, goal_defaults,
                 ) if tp.get("flows") else None,
                 "uniqueSubscribers": tp.get("uniqueSubscribers"),
+                # Gemiddeld aantal mails per bereikt persoon. Zegt iets over
+                # verzendfrequentie: 1,0 is eenmalig, 5,0 is een lange flow.
+                "mailsPerPerson": mails_per_person(tp),
                 "reactivation": cm.get("reactivation"),
                 "acquisition": cm.get("acquisition"),
                 "kernKpisPeriod": cm.get("kernKpis"),

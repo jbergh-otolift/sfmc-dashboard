@@ -460,6 +460,10 @@
   .cov-build .cb-row.result{border-top:1px solid var(--line);margin-top:3px;padding-top:9px}
   .cov-build .cb-row.result .cb-lbl{color:var(--ink);font-weight:700}
   .cov-build .cb-row.result .cb-num{color:var(--oto-red)}
+  .cov-details{width:100%;margin-top:14px;border-top:1px solid var(--line)}
+  .cov-details summary{font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:11px 0 3px;list-style:revert;text-align:left}
+  .cov-details summary:hover{color:var(--oto-red)}
+  .cov-details .cov-build{margin-top:2px;border-top:none;padding-top:4px}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -484,11 +488,11 @@
         <button class="flag-btn" data-country="fr"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#002395"/><rect x="3" width="3" height="6" fill="#fff"/><rect x="6" width="3" height="6" fill="#ED2939"/></svg><span class="cc">FR</span></button>
         <button class="flag-btn" data-country="it"><svg class="flag" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="6" fill="#008C45"/><rect x="3" width="3" height="6" fill="#F4F5F0"/><rect x="6" width="3" height="6" fill="#CD212A"/></svg><span class="cc">IT</span></button>
       </div>
-      <div class="period-pick" role="group" aria-label="Periode kiezen">
-        <button class="per-btn" data-period="7">7 dagen</button>
-        <button class="per-btn active" data-period="30">30 dagen</button>
-        <button class="per-btn" data-period="90">90 dagen</button>
-      </div>
+      <select class="period" data-period-select aria-label="Periode kiezen">
+        <option value="7">Laatste 7 dagen</option>
+        <option value="30" selected>Laatste 30 dagen</option>
+        <option value="90">Laatste 90 dagen</option>
+      </select>
       <div class="period-static"><span class="ps-lbl">Periode</span><span data-period-label>–</span></div>
       <div class="stamp" data-stamp>Bijgewerkt: –</div>
     </div>
@@ -540,7 +544,10 @@
             </div>
           </div>
           <div class="ch-goalline" data-coverage-note>–</div>
-          <div class="cov-build" data-coverage-build hidden></div>
+          <details class="cov-details" data-coverage-details hidden>
+            <summary>Hoe is dit berekend?</summary>
+            <div class="cov-build" data-coverage-build></div>
+          </details>
           <div class="ch-growth">
             <div class="cg-lbl">Groei actieve database</div>
             <div class="cg-valrow">
@@ -571,11 +578,6 @@
               <span class="kf-num" data-bind="reactivation.recovered.count" data-fmt="int">223</span>
               <span class="kf-lbl">teruggewonnen leads</span>
             </div>
-            <div class="kf-sep"></div>
-            <div class="kf-item">
-              <span class="kf-num" data-bind="reactivation.recovered.cac" data-fmt="eur0">€178.400</span>
-              <span class="kf-lbl">teruggewonnen CAC · <span data-bind="reactivation.recovered.count" data-fmt="int">223</span> × <span data-bind="reactivation.recovered.cpl" data-fmt="eur0">€800</span> CPL</span>
-            </div>
           </div>
         </div>
 
@@ -596,15 +598,14 @@
         <div class="kpihero good">
           <div class="kh-top">
             <div>
-              <div class="kh-name">CPQL</div>
-              <div class="kh-sub">Cost per qualified lead · automation</div>
+              <div class="kh-name">Mails per persoon</div>
+              <div class="kh-sub">Gemiddeld in deze periode</div>
             </div>
           </div>
           <div class="kh-valrow">
-            <div class="kh-val" data-bind="kernKpis.cpql.value" data-fmt="eur0">€152</div>
-            <div class="kh-delta"><span class="delta lg up" data-bind-delta="kernKpis.cpql.deltaPct" data-delta-dir="down-good"><span class="d-arw">▼</span><span class="bindval">-9,0%</span><span class="d-vs">vs vorige periode</span></span></div>
+            <div class="kh-val" data-bind="mailsPerPerson" data-fmt="dec1">–</div>
           </div>
-          <div class="kh-note">Lager = beter</div>
+          <div class="kh-note">Verzonden mails gedeeld door het aantal unieke mensen dat ze kreeg</div>
         </div>
       </div>
 
@@ -848,53 +849,7 @@
 
   
 
-<!-- ============ OPBRENGST PER FLOW ============ -->
-  <section>
-    <div class="sec-head">
-      <h2>Resultaat per flow</h2>
-      <span class="desc">Marketingflows afgerekend op hun eigen opdracht, over de laatste <span data-outcome-days>90</span> dagen. Transactionele flows staan apart.</span>
-      <span class="srcbadge" data-source-for="outcomes">–</span>
-    </div>
-
-    <div class="card">
-      <div class="card-pad">
-        <div style="overflow-x:auto">
-          <table class="outcome-table" data-outcome-table>
-            <thead>
-              <tr>
-                <th class="l">Journey</th>
-                <th class="l">Doelstelling</th>
-                <th>Geraakte leads</th>
-                <th>Resultaat</th>
-                <th>Doel</th>
-                <th>Behaald</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="notice warn" style="margin-top:18px">
-          <b>De doelkolom is nog leeg, en dat is bewust.</b> Eerdere waarden waren afgeleid van
-          de actuele prestatie, waardoor elke flow automatisch rond de 100% uitkwam — dat meet
-          niets. Vul de afgesproken doelen in <code>config/flow_goals.json</code> in; tot die
-          tijd staat er het werkelijke percentage zonder oordeel erover.
-          <br><br>
-          <b>Dit is touch-attributie, geen bewezen oorzaak.</b> Een lead die mail kreeg én
-          converteerde, kan net zo goed door het telefoongesprek zijn overtuigd — er is geen
-          controlegroep. Lees het als "geraakt door deze flow en daarna geconverteerd".
-          Het markttotaal is ontdubbeld: een lead kan door meerdere journeys geraakt zijn,
-          dus de rijen optellen geeft een hoger getal dan het totaal.
-          <br><br>
-          <b>De doelen zijn een voorstel, geen afspraak.</b> Ze staan in
-          <code>config/flow_goals.json</code> en horen door marketing en sales te worden
-          vastgesteld. Een flow met een grijs doel heeft nog geen eigen doelstelling en
-          valt terug op de standaard.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ACQUISITIE ============ -->
+<!-- ============ ACQUISITIE ============ -->
   <section>
     <div class="sec-head">
       <h2>Acquisitie</h2>
@@ -906,8 +861,8 @@
       <!-- Funnel -->
       <div class="card funnel-card">
         <div class="card-pad">
-          <div class="card-title" style="margin-bottom:18px">Lead funnel · MQL → SQL → R1 → Order</div>
-          <div style="font-size:11.5px;color:var(--ink-soft);margin:-14px 0 16px">MQL = leads met statusactiviteit · SQL = <code>Re-entered</code> · R1 = <code>Appointment</code> · Order staat op Opportunity en is nog niet ontsloten.<br>Elke fase is een <b>aandeel van MQL</b>, geen opeenvolgende conversie: <code>Appointment</code> komt in de praktijk vooral direct uit <code>New</code> en <code>Not reached</code>, niet via <code>Re-entered</code>.</div>
+          <div class="card-title" style="margin-bottom:18px">Lead funnel · MQL → R1 → Order</div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin:-14px 0 16px">MQL = leads met statusactiviteit · R1 = <code>Appointment</code> · Order staat op Opportunity en is nog niet ontsloten.<br><code>Re-entered</code> stond hier eerder als tussenstap, maar dat is geen schakel in deze keten — een afspraak komt in de praktijk direct uit <code>New</code> of <code>Not reached</code>. Die doorstroom staat bij Her-activatie.</div>
           <div class="funnel">
             <div class="fstep">
               <div class="fbar-wrap">
@@ -915,21 +870,14 @@
                 <div class="fbar" style="width:100%"></div>
               </div>
             </div>
-            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.sql.share" data-fmt="pct1nosign">41,8%</span><span class="pct-lbl">SQL · van MQL</span><span class="delta up" style="margin-top:2px" data-bind-delta="acquisition.funnel.sql.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▲</span><span class="bindval">+5,3%</span></span></div>
-            <div class="fstep">
-              <div class="fbar-wrap">
-                <div class="fbar-top"><span class="fbar-name">SQL <small>Re-entered · Sales Qualified</small></span><span class="fbar-count"><span data-bind="acquisition.funnel.sql.share" data-fmt="pct1nosign" style="font-weight:700;color:var(--ink-soft);font-size:12px">–</span>&nbsp; <span data-bind="acquisition.funnel.sql.abs" data-fmt="int">–</span></span></div>
-                <div class="fbar" data-bind-width="acquisition.funnel.sql.share"></div>
-              </div>
-            </div>
-            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.r1.share" data-fmt="pct1nosign">54,5%</span><span class="pct-lbl">R1 · van MQL</span><span class="delta up" style="margin-top:2px" data-bind-delta="acquisition.funnel.r1.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▲</span><span class="bindval">+2,6%</span></span></div>
+            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.r1.share" data-fmt="pct1nosign">54,5%</span><span class="pct-lbl">naar afspraak</span><span class="delta up" style="margin-top:2px" data-bind-delta="acquisition.funnel.r1.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▲</span><span class="bindval">+2,6%</span></span></div>
             <div class="fstep">
               <div class="fbar-wrap">
                 <div class="fbar-top"><span class="fbar-name">R1 <small>Eerste afspraak / thuisadvies</small></span><span class="fbar-count"><span data-bind="acquisition.funnel.r1.share" data-fmt="pct1nosign" style="font-weight:700;color:var(--ink-soft);font-size:12px">–</span>&nbsp; <span data-bind="acquisition.funnel.r1.abs" data-fmt="int">–</span></span></div>
                 <div class="fbar" data-bind-width="acquisition.funnel.r1.share"></div>
               </div>
             </div>
-            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.order.share" data-fmt="pct1nosign">37,2%</span><span class="pct-lbl">Order · van MQL</span><span class="delta down" style="margin-top:2px" data-bind-delta="acquisition.funnel.order.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▼</span><span class="bindval">-2,4%</span></span></div>
+            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.order.share" data-fmt="pct1nosign">37,2%</span><span class="pct-lbl">naar order</span><span class="delta down" style="margin-top:2px" data-bind-delta="acquisition.funnel.order.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▼</span><span class="bindval">-2,4%</span></span></div>
             <div class="fstep">
               <div class="fbar-wrap">
                 <div class="fbar-top"><span class="fbar-name">Order <small>Getekende opdracht</small></span><span class="fbar-count" style="color:var(--oto-green)"><span data-bind="acquisition.funnel.order.share" data-fmt="pct1nosign" style="font-weight:700;color:var(--ink-soft);font-size:12px">–</span>&nbsp; <span data-bind="acquisition.funnel.order.abs" data-fmt="int">–</span></span></div>
@@ -984,7 +932,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20260929091743"></script>
+<script src="data-layer.js?v=20260930083523"></script>
 
 </body>
 </html>
