@@ -84,6 +84,27 @@ def clean_label(label):
     return cleaned or label
 
 
+def controleer_stylesheet(path="docs/index.html"):
+    """Sluit elke CSS-regel? Een regel die niet sluit slikt alles wat erna komt
+    op, en dan verdwijnt de helft van de opmaak zonder foutmelding."""
+    if not os.path.exists(path):
+        return
+    with open(path, encoding="utf-8") as f:
+        html = f.read()
+    start = html.find("<style")
+    if start < 0:
+        return
+    css = html[html.index(">", start) + 1:html.index("</style>")]
+    diepte = css.count("{") - css.count("}")
+    if diepte:
+        raise SystemExit(
+            f"FOUT: de stylesheet in {path} sluit niet "
+            f"({css.count('{')} openend, {css.count('}')} sluitend). "
+            "Een niet-gesloten regel maakt alles wat erna staat onzichtbaar."
+        )
+    print(f"stylesheet ok: {css.count('{')} regels, alles gesloten")
+
+
 def load(path):
     if not os.path.exists(path):
         print(f"WAARSCHUWING: {path} ontbreekt — die sectie blijft leeg.")
@@ -379,6 +400,7 @@ def stamp_asset_version(generated_at):
 
 
 def main():
+    controleer_stylesheet()
     tracking = load(TRACKING_PATH)
     crm = load(CRM_PATH)
     consent = load(CONSENT_PATH)
