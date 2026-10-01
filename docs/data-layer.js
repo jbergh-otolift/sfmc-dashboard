@@ -1006,7 +1006,11 @@ function rangeForPreset(preset, endDate) {
 // aggregatie over dat bereik — ook voor unieke opens en clicks.
 function sumRange(days, start, end) {
   const flows = {};
-  const crm = { toStatus: {}, transitions: {} };
+  const crm = {
+    toStatus: {}, transitions: {},
+    // Alleen leads met een reden waar een actieve flow op zit.
+    toStatusActive: {}, transitionsActive: {},
+  };
   const cohort = { entered: 0, mailable: 0, reached: 0, hasData: false };
   // Omzet is toegerekend aan de conversiedatum en dus gewoon optelbaar.
   const value = {
@@ -1040,11 +1044,10 @@ function sumRange(days, start, end) {
       });
     });
 
-    Object.entries((bucket.crm || {}).toStatus || {}).forEach(([status, n]) => {
-      crm.toStatus[status] = (crm.toStatus[status] || 0) + n;
-    });
-    Object.entries((bucket.crm || {}).transitions || {}).forEach(([pair, n]) => {
-      crm.transitions[pair] = (crm.transitions[pair] || 0) + n;
+    ["toStatus", "transitions", "toStatusActive", "transitionsActive"].forEach((field) => {
+      Object.entries((bucket.crm || {})[field] || {}).forEach(([key, n]) => {
+        crm[field][key] = (crm[field][key] || 0) + n;
+      });
     });
 
     if (bucket.value) {
@@ -1108,15 +1111,28 @@ function crmFromSums(crm, prevCrm, value) {
   const at = (k) => to[k] || 0;
   const via = (a, b) => pairs[a + ">" + b] || 0;
 
-  // Instroom = alle overgangen in het bereik; dat is de beste benadering van
-  // "leads met activiteit" die uit dagcijfers optelbaar is.
-  const intake = Object.values(to).reduce((a, b) => a + b, 0);
+  // Vanaf de mailflow tellen alleen leads met een actieve reden mee: wie geen
+  // journey achter zijn status heeft, is niet door automation bewerkt.
+  const toA = crm.toStatusActive || {};
+  const pairsA = crm.transitionsActive || {};
+  const atA = (k) => toA[k] || 0;
+  const viaA = (a, b) => pairsA[a + ">" + b] || 0;
+
+  // Instroom = leads die vanuit New de molen in gaan. Eerder telde dit álle
+  // statusovergangen bij elkaar, waardoor een lead met drie wijzigingen drie
+  // keer meetelde en het label "leads" niet klopte.
+  const intake = Object.entries(pairs)
+    .filter(([pair]) => pair.startsWith("New>"))
+    .reduce((sum, [, n]) => sum + n, 0);
   const notReached = at("Not reached");
-  const mailjourney = at("Mailjourney");
-  const sql = at("Re-entered");
+  const mailjourney = atA("Mailjourney");
+  const sql = atA("Re-entered");
   const appointment = at("Appointment");
-  const phone = at("Re-entered - Phone Number Changed");
-  const mjToSql = via("Mailjourney", "Re-entered");
+  const phone = atA("Re-entered - Phone Number Changed");
+  const mjToSql = viaA("Mailjourney", "Re-entered");
+  const sqlToAppointment =
+    viaA("Re-entered", "Appointment") +
+    viaA("Re-entered - Phone Number Changed", "Appointment");
 
   const delta = (a, b) => (a !== null && b) ? round1(((a - b) / b) * 100) : null;
   const prev = prevCrm ? crmFromSums(prevCrm, null, null) : null;
@@ -1132,7 +1148,7 @@ function crmFromSums(crm, prevCrm, value) {
     mailjourney: {
       abs: mailjourney,
       share: safeRatio(mailjourney, intake),
-      ratio: safeRatio(via("Not reached", "Mailjourney") + via("Follow-up", "Mailjourney"), notReached),
+      ratio: safeRatio(viaA("Not reached", "Mailjourney") + viaA("Follow-up", "Mailjourney"), notReached),
       deltaPct: null,
     },
     sql: {
@@ -1142,14 +1158,21 @@ function crmFromSums(crm, prevCrm, value) {
       deltaPct: prev ? delta(safeRatio(mjToSql, mailjourney), prev.reactivation.sql.ratio) : null,
     },
     enrichment: {
-      fromMailjourney: via("Mailjourney", "Re-entered - Phone Number Changed"),
-      fromNotReached: via("Not reached", "Re-entered - Phone Number Changed"),
+      fromMailjourney: viaA("Mailjourney", "Re-entered - Phone Number Changed"),
+      fromNotReached: viaA("Not reached", "Re-entered - Phone Number Changed"),
       enrichedLeads: phone,
-      toAppointment: via("Re-entered - Phone Number Changed", "Appointment"),
-      toAppointmentDirect: via("Re-entered - Phone Number Changed", "Appointment"),
+      toAppointment: viaA("Re-entered - Phone Number Changed", "Appointment"),
+      toAppointmentDirect: viaA("Re-entered - Phone Number Changed", "Appointment"),
       toAppointmentViaDetour: 0,
-      toAppointmentRatio: safeRatio(via("Re-entered - Phone Number Changed", "Appointment"), phone, BRANCH_MIN),
-      backToNotReached: via("Re-entered - Phone Number Changed", "Not reached"),
+      toAppointmentRatio: safeRatio(viaA("Re-entered - Phone Number Changed", "Appointment"), phone, BRANCH_MIN),
+      backToNotReached: viaA("Re-entered - Phone Number Changed", "Not reached"),
+    },
+    // Worden die heropgeleefde leads ook echt afspraken?
+    appointment: {
+      abs: sqlToAppointment,
+      share: safeRatio(sqlToAppointment, intake),
+      ratio: safeRatio(sqlToAppointment, sql, BRANCH_MIN),
+      deltaPct: null,
     },
     recovered: { count: mjToSql, cpl: null, cac: null },
   };
@@ -1200,10 +1223,20 @@ function pct(num, den) {
 
 // Zet opgetelde tellers om naar het emailHealth-contract dat het dashboard al
 // kent, inclusief percentages en de mailopbouw per flow.
+// Flows die geen echte journey zijn: testopzetten en sends waarvan de
+// herkomst niet te bepalen was.
+function isNoiseFlow(name) {
+  const lowered = (name || "").toLowerCase();
+  return lowered.includes("test") || lowered.includes("niet toegewezen");
+}
+
 function healthFromSums(summed, prevSummed) {
   const out = {};
   Object.entries(summed.flows || {}).forEach(([key, flow]) => {
     if (key !== "all" && (flow.sent || 0) < 50) return;
+    // Testjourneys en sends die niet aan een journey te koppelen zijn horen
+    // niet in een overzicht waarop gestuurd wordt.
+    if (key !== "all" && isNoiseFlow(key)) return;
     const prev = (prevSummed && prevSummed.flows && prevSummed.flows[key]) || null;
     const rates = (f) => ({
       delivery: pct(f.delivered, f.sent),
@@ -1272,9 +1305,13 @@ function applyMarket(marketKey) {
   const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value);
 
   // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
-  const allFlow = (summed.flows || {}).all || {};
-  const sentAll = allFlow.sent;
-  const reachAll = allFlow.firstTouch;
+  // 'all' uit de export bevat ook test- en niet-toegewezen sends; daarom
+  // hier opnieuw optellen over de flows die het dashboard wél toont.
+  const shown = Object.entries(summed.flows || {}).filter(
+    ([key]) => key !== "all" && !isNoiseFlow(key)
+  );
+  const sentAll = shown.reduce((sum, [, f]) => sum + (f.sent || 0), 0);
+  const reachAll = ((summed.flows || {}).all || {}).firstTouch;
 
   const view = {
     ...market,
@@ -1441,7 +1478,17 @@ async function init() {
   applyMarket(currentMarket);
 }
 
+// Compacte header zodra je scrolt, zodat de filterbalk weinig ruimte kost.
+function wireStickyHeader() {
+  const header = document.querySelector("header");
+  if (!header) return;
+  const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 120);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  wireStickyHeader();
   const close = document.querySelector("[data-fd-close]");
   if (close) close.addEventListener("click", closeFlowDetail);
   init();

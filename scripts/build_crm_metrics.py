@@ -331,6 +331,25 @@ def fill_deltas(cur, prev):
         a[key]["convDeltaPct"] = delta_pct(a[key]["share"], pa[key]["share"])
 
 
+GOALS_PATH = "config/flow_goals.json"
+
+
+def active_reasons():
+    """Instroomredenen waar een actieve mailflow op zit.
+
+    De funnel moet alleen leads tellen die werkelijk door automation bewerkt
+    worden. Een lead met reden 'Customer contacts himself' belandt wel in de
+    mailflow-status, maar er staat geen journey op — die hoort niet in de
+    doorstroom naar afspraak.
+    """
+    if not os.path.exists(GOALS_PATH):
+        return None
+    with open(GOALS_PATH, encoding="utf-8") as f:
+        config = json.load(f)
+    reasons = config.get("mailjourneyReasons") or {}
+    return {reason for reason, on in reasons.items() if on}
+
+
 def daily_buckets(rows):
     """Statusovergangen per dag per markt.
 
@@ -338,10 +357,19 @@ def daily_buckets(rows):
     opgeteld worden over elk gewenst bereik. Daarmee kan het dashboard een
     vrije periode laten kiezen zonder dat er vooraf vensters vastliggen.
     """
+    active = active_reasons()
+    if active is None:
+        active = set()
+
     days = defaultdict(lambda: defaultdict(lambda: {
         "leads": set(),
         "toStatus": Counter(),
         "pairs": Counter(),
+        # Dezelfde tellingen, maar alleen voor leads met een reden waar een
+        # actieve flow op zit. Een lead met reden 'Customer contacts himself'
+        # belandt wel in de mailflow-status, maar er staat geen journey op.
+        "toStatusActive": Counter(),
+        "pairsActive": Counter(),
     }))
 
     for row in rows:
@@ -357,6 +385,9 @@ def daily_buckets(rows):
         bucket["leads"].add(row["Lead ID"])
         bucket["toStatus"][new_value] += 1
         bucket["pairs"][f"{old}>{new_value}"] += 1
+        if (row.get("Reason") or "").strip() in active:
+            bucket["toStatusActive"][new_value] += 1
+            bucket["pairsActive"][f"{old}>{new_value}"] += 1
 
     out = {}
     for day, markets in days.items():
@@ -369,6 +400,8 @@ def daily_buckets(rows):
                 "activeLeads": len(bucket["leads"]),
                 "toStatus": dict(bucket["toStatus"]),
                 "transitions": dict(bucket["pairs"]),
+                "toStatusActive": dict(bucket["toStatusActive"]),
+                "transitionsActive": dict(bucket["pairsActive"]),
             }
     return out
 
