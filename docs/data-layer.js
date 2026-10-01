@@ -381,9 +381,9 @@ function renderMailjourneyOrigin(stage) {
   if (!el) return;
   // De bronnen staan nu als zijtakken bóven het blok; hier alleen nog wat
   // het blok zelf zegt, anders staat hetzelfde rijtje er twee keer.
-  el.textContent = stage && stage.share !== null && stage.share !== undefined
-    ? nlNum(stage.share, 1) + "% van de instroom"
-    : "van instroom";
+  // Het percentage staat al op de verbinding ernaast; hier alleen waar het
+  // getal over gaat.
+  el.textContent = "in een actieve flow";
 }
 
 // De instroom heeft twee bronnen: nieuwe leads, en aanvragen van mensen die
@@ -1367,9 +1367,10 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       abs: notReached,
       share: safeRatio(notReached, intake),
       ratio: safeRatio(notReached, intake),
-      // Wat hier stopt: verreweg de meeste leads uit Not reached komen nooit
-      // in de mailflow. Zonder dit getal leest de lijn als een vaste route.
-      uit: Math.max(notReached - viaA("Not reached", "Mailjourney"), 0),
+      // Geen uitstroomgetal meer. Not reached is een wachtstand van maximaal
+      // vier belpogingen, geen eindstation: wie hier staat gaat daarna naar
+      // een andere status, vaak alsnog de mailflow in. Het verschil tussen
+      // deze stap en de volgende als "afval" tellen was dus onjuist.
       deltaPct: prev ? delta(safeRatio(notReached, intake), prev.reactivation.notContact.ratio) : null,
     },
     mailjourney: {
@@ -1378,10 +1379,10 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       // Niet iedereen komt via Not reached binnen: de grootste groep komt uit
       // Follow-up en een kwart gaat rechtstreeks vanuit New. De pijl toont
       // daarom de instroom in de mailflow als aandeel van de leadinstroom.
-      // De pijl staat tussen Not reached en Mailjourney, dus hij hoort ook
-      // díé stap te tonen. Eerder deelde hij door de instroom, waardoor het
-      // leek alsof de hele instroom via Not reached liep.
-      ratio: safeRatio(viaA("Not reached", "Mailjourney"), notReached),
+      // De mailflow hangt niet onder Not reached maar onder de instroom: hij
+      // wordt uit vier richtingen gevoed. Dit is dus het aandeel van de
+      // instroom dat in een actieve flow terechtkomt.
+      ratio: safeRatio(mailjourney, intake),
       viaNotReached: viaA("Not reached", "Mailjourney"),
       uit: Math.max(mailjourney - sql, 0),
       deltaPct: null,

@@ -306,6 +306,11 @@
   .fm-node.side{border-style:dashed;background:#FBFCFD;text-align:left;padding:9px 11px}
   /* Doodlopend: hier houdt het op voor deze leads. */
   .fm-node.dead{background:#FAFBFC;border-style:dashed}
+  /* Wachtstand: geen trechterstap maar een tussenstation. */
+  .fm-node.wait{background:#FAFBFC;border-style:dotted;text-align:left;padding:9px 11px}
+  .fm-node.wait .fn-name{text-transform:none;letter-spacing:0;font-size:9.5px;
+                         color:var(--ink-soft);font-weight:600}
+  .fm-node.wait .fn-abs{font-size:17px;color:var(--ink-soft);margin-top:2px}
   .fn-name{font-size:10.5px;font-weight:700;color:var(--ink);text-transform:uppercase;
            letter-spacing:.3px;line-height:1.25}
   .fm-node.side .fn-name,.fm-node.dead .fn-name{text-transform:none;letter-spacing:0;
@@ -642,38 +647,28 @@
                 <div class="fn-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">–</div>
                 <div class="fn-sub" data-intake-split>startpunt</div>
               </div>
-            </div>
-
-            <div class="fm-link">
-              <span class="fl-lbl">naar Not reached</span>
-              <span class="fl-pct" data-bind="reactivation.notContact.ratio" data-fmt="pct1nosign">–</span>
-              <span class="fl-bar"><i data-bind-width="reactivation.notContact.ratio"></i></span>
-            </div>
-
-            <div class="fm-col">
-              <div class="fm-node">
-                <div class="fn-name">Not reached</div>
+              <div class="fm-node wait">
+                <div class="fn-name">Onderweg: Not reached</div>
                 <div class="fn-abs" data-bind="reactivation.notContact.abs" data-fmt="int">–</div>
-              </div>
-              <div class="fm-node dead">
-                <div class="fn-name">Blijft buiten de mailflow</div>
-                <div class="fn-abs" data-bind="reactivation.notContact.uit" data-fmt="int">–</div>
+                <div class="fn-sub">wachtstand van maximaal vier belpogingen ·
+                   daarna een andere status, vaak alsnog de mailflow</div>
               </div>
             </div>
 
             <div class="fm-link">
-              <span class="fl-lbl">door naar de mailflow</span>
+              <span class="fl-lbl">in de mailflow</span>
               <span class="fl-pct" data-bind="reactivation.mailjourney.ratio" data-fmt="pct1nosign">–</span>
               <span class="fl-bar"><i data-bind-width="reactivation.mailjourney.ratio"></i></span>
-              <span class="fl-abs"><span data-bind="reactivation.mailjourney.viaNotReached" data-fmt="int">–</span> leads</span>
+              <span class="fl-abs"><span data-bind="reactivation.mailjourney.abs" data-fmt="int">–</span> leads</span>
             </div>
 
             <div class="fm-col">
               <div class="fm-node side">
-                <div class="fn-name">Ook de mailflow in</div>
+                <div class="fn-name">Waar ze vandaan komen</div>
                 <div class="fn-rows">
                   <span><b data-bind="reactivation.mailjourney.herkomst.vanFollowUp" data-fmt="int">–</b> via Follow-up</span>
                   <span><b data-bind="reactivation.mailjourney.herkomst.direct" data-fmt="int">–</b> direct vanuit New</span>
+                  <span><b data-bind="reactivation.mailjourney.herkomst.vanNotReached" data-fmt="int">–</b> via Not reached</span>
                   <span><b data-bind="reactivation.mailjourney.herkomst.overig" data-fmt="int">–</b> overig</span>
                 </div>
               </div>
@@ -1118,7 +1113,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001145146"></script>
+<script src="data-layer.js?v=20261001145516"></script>
 
 </body>
 </html>
