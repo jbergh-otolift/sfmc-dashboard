@@ -437,14 +437,12 @@ function renderPathFunnels(paths, split) {
   host.prepend(pathTotalBar(split || {}));
 
   PATH_LAYOUT.forEach((layout) => {
-    const raw = (paths || {})[layout.key] || {};
-    // De verrijkte leads gaan van de hoofdlijn af; ze krijgen hun eigen
-    // aftakking. Nooit onder nul, voor het geval een stap over de rand van
-    // het datumbereik valt.
-    const data = Object.assign({}, raw, {
-      reentered: Math.max((raw.reentered || 0) - (raw.reenteredEnriched || 0), 0),
-      appointment: Math.max((raw.appointment || 0) - (raw.appointmentEnriched || 0), 0),
-    });
+    // De hoofdlijn toont het volledige routetotaal, gelijk aan de chip in de
+    // balk erboven. De aftakking eronder is een deelverzameling daarvan - de
+    // leads die pas terugkwamen na nummerverrijking - en mag er dus niet bij
+    // opgeteld worden.
+    const data = (paths || {})[layout.key] || {};
+    const raw = data;
     const row = document.createElement("div");
     row.className = "pf-row";
 
@@ -593,16 +591,16 @@ function pathTotalBar(split) {
   return bar;
 }
 
-// De aftakking onder één route: leads die pas terugkwamen nadat hun nummer
-// verrijkt was, met de afspraken die daaruit volgden. Zelfde blokvorm als de
-// lijn erboven, een maat kleiner, zodat de optelling leesbaar blijft.
+// De aftakking onder één route: het deel van de lijn erboven dat pas
+// terugkwam nadat het telefoonnummer verrijkt was. Zelfde blokvorm, een maat
+// kleiner, en nadrukkelijk een "waarvan" - niet iets om bij op te tellen.
 function pathBranch(reentered, appointment) {
   const wrap = document.createElement("div");
   wrap.className = "pf-branch";
 
   const tag = document.createElement("span");
   tag.className = "pfb-tag";
-  tag.textContent = "waarvan na\nnummerverrijking";
+  tag.textContent = "waarvan uit\nphone number changed";
 
   const box = (name, value, extra) => {
     const el = document.createElement("span");
