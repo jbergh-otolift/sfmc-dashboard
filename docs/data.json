@@ -6,7 +6,7 @@
   "defaultPeriod": "30",
   "endDate": "2026-10-02",
   "firstDay": "2025-08-28",
-  "generated_at": "2026-10-01T13:40:02+00:00",
+  "generated_at": "2026-10-01T13:49:10+00:00",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -21036,12 +21036,12 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -27705,19 +27705,19 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number incorrect": {
               "→ Re-entered → Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             },
             "Orientation for later moment": {
               "→ Follow-up → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
             "No Contact Possible - number incorrect": 1,
+            "Not reached · zonder reden": 1,
             "Orientation for later moment": 1
           },
           "apptRouteReason": {
@@ -36825,16 +36825,16 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "No Contact Possible - number incorrect": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             },
-            "No Contact Possible - number incorrect": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
-            "No Contact Possible - number incorrect": 1
+            "No Contact Possible - number incorrect": 1,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -37789,16 +37789,16 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number correct": {
               "→ Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
-            "No Contact Possible - number correct": 1
+            "No Contact Possible - number correct": 1,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
@@ -204046,21 +204046,21 @@
             "Mailjourney → Re-entered - Phone Number Changed → Follow-up → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 2,
-              "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1
-            },
             "Never had contact with the customer": {
               "→ Re-entered → Not reached → Appointment": 1
             },
             "No contact possible": {
               "→ Re-entered → Not reached → Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 2,
+              "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 3,
             "Never had contact with the customer": 1,
-            "No contact possible": 1
+            "No contact possible": 1,
+            "Not reached · zonder reden": 3
           },
           "apptRouteReason": {
             "Direct afspraak": {
@@ -217799,16 +217799,16 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number incorrect": {
               "→ Re-entered - Phone Number Changed → Appointment": 2
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
-            "No Contact Possible - number incorrect": 2
+            "No Contact Possible - number incorrect": 2,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -224053,21 +224053,21 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number correct": {
               "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1,
               "→ Re-entered → Appointment": 1
             },
             "No Contact Possible - number incorrect": {
               "→ Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
             "No Contact Possible - number correct": 2,
-            "No Contact Possible - number incorrect": 1
+            "No Contact Possible - number incorrect": 1,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
@@ -241370,16 +241370,16 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number correct": {
               "→ Follow-up → Re-entered → Not reached → Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
-            "No Contact Possible - number correct": 1
+            "No Contact Possible - number correct": 1,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
@@ -243362,16 +243362,16 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
-              "→ Re-entered - Phone Number Changed → Appointment": 1
-            },
             "No Contact Possible - number incorrect": {
               "→ Re-entered → Appointment": 1
+            },
+            "Not reached · zonder reden": {
+              "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
-            "No Contact Possible - number incorrect": 1
+            "No Contact Possible - number incorrect": 1,
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -251160,12 +251160,12 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -252269,7 +252269,7 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             },
             "Wmo application is in progress": {
@@ -252277,7 +252277,7 @@
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
+            "Not reached · zonder reden": 1,
             "Wmo application is in progress": 1
           },
           "apptRouteReason": {
@@ -266021,12 +266021,12 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             }
           },
           "apptReasons": {
-            "(geen reden)": 1
+            "Not reached · zonder reden": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
@@ -271970,7 +271970,7 @@
             "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptReasonPaths": {
-            "(geen reden)": {
+            "Not reached · zonder reden": {
               "→ Re-entered - Phone Number Changed → Appointment": 1
             },
             "Orientation for later moment": {
@@ -271978,7 +271978,7 @@
             }
           },
           "apptReasons": {
-            "(geen reden)": 1,
+            "Not reached · zonder reden": 1,
             "Orientation for later moment": 1
           },
           "apptRouteReason": {

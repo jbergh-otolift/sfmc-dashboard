@@ -1505,15 +1505,15 @@
         }
       },
       "nl": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 2,
-          "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1
-        },
         "Never had contact with the customer": {
           "→ Re-entered → Not reached → Appointment": 1
         },
         "No contact possible": {
           "→ Re-entered → Not reached → Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 2,
+          "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1
         }
       }
     },
@@ -1526,7 +1526,7 @@
     },
     "2026-07-22": {
       "be": {
-        "(geen reden)": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
@@ -1611,11 +1611,11 @@
     },
     "2026-08-05": {
       "nl": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number incorrect": {
           "→ Re-entered - Phone Number Changed → Appointment": 2
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
     },
@@ -1653,11 +1653,11 @@
     },
     "2026-08-10": {
       "be": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number incorrect": {
           "→ Re-entered → Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         },
         "Orientation for later moment": {
           "→ Follow-up → Appointment": 1
@@ -1678,15 +1678,15 @@
     },
     "2026-08-12": {
       "nl": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number correct": {
           "→ Re-entered - Phone Number Changed → Follow-up → Appointment": 1,
           "→ Re-entered → Appointment": 1
         },
         "No Contact Possible - number incorrect": {
           "→ Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
     },
@@ -1820,20 +1820,20 @@
         }
       },
       "nl": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number correct": {
           "→ Follow-up → Re-entered → Not reached → Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
     },
     "2026-09-01": {
       "be": {
-        "(geen reden)": {
+        "No Contact Possible - number incorrect": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         },
-        "No Contact Possible - number incorrect": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       },
@@ -1853,21 +1853,21 @@
         }
       },
       "nl": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number incorrect": {
           "→ Re-entered → Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
     },
     "2026-09-03": {
       "be": {
-        "(geen reden)": {
-          "→ Re-entered - Phone Number Changed → Appointment": 1
-        },
         "No Contact Possible - number correct": {
           "→ Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       },
       "nl": {
@@ -1922,7 +1922,7 @@
     },
     "2026-09-10": {
       "nl": {
-        "(geen reden)": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
@@ -1934,7 +1934,7 @@
         }
       },
       "nl": {
-        "(geen reden)": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         },
         "Wmo application is in progress": {
@@ -2063,7 +2063,7 @@
         }
       },
       "nl": {
-        "(geen reden)": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         }
       }
@@ -2112,7 +2112,7 @@
     },
     "2026-10-01": {
       "nl": {
-        "(geen reden)": {
+        "Not reached · zonder reden": {
           "→ Re-entered - Phone Number Changed → Appointment": 1
         },
         "Orientation for later moment": {
@@ -2551,9 +2551,9 @@
         "Orientation for later moment": 1
       },
       "nl": {
-        "(geen reden)": 3,
         "Never had contact with the customer": 1,
-        "No contact possible": 1
+        "No contact possible": 1,
+        "Not reached · zonder reden": 3
       }
     },
     "2026-07-21": {
@@ -2563,7 +2563,7 @@
     },
     "2026-07-22": {
       "be": {
-        "(geen reden)": 1
+        "Not reached · zonder reden": 1
       }
     },
     "2026-07-23": {
@@ -2619,8 +2619,8 @@
     },
     "2026-08-05": {
       "nl": {
-        "(geen reden)": 1,
-        "No Contact Possible - number incorrect": 2
+        "No Contact Possible - number incorrect": 2,
+        "Not reached · zonder reden": 1
       }
     },
     "2026-08-06": {
@@ -2643,8 +2643,8 @@
     },
     "2026-08-10": {
       "be": {
-        "(geen reden)": 1,
         "No Contact Possible - number incorrect": 1,
+        "Not reached · zonder reden": 1,
         "Orientation for later moment": 1
       }
     },
@@ -2656,9 +2656,9 @@
     },
     "2026-08-12": {
       "nl": {
-        "(geen reden)": 1,
         "No Contact Possible - number correct": 2,
-        "No Contact Possible - number incorrect": 1
+        "No Contact Possible - number incorrect": 1,
+        "Not reached · zonder reden": 1
       }
     },
     "2026-08-13": {
@@ -2741,14 +2741,14 @@
         "No Contact Possible - number incorrect": 1
       },
       "nl": {
-        "(geen reden)": 1,
-        "No Contact Possible - number correct": 1
+        "No Contact Possible - number correct": 1,
+        "Not reached · zonder reden": 1
       }
     },
     "2026-09-01": {
       "be": {
-        "(geen reden)": 1,
-        "No Contact Possible - number incorrect": 1
+        "No Contact Possible - number incorrect": 1,
+        "Not reached · zonder reden": 1
       },
       "nl": {
         "Orientation for later moment": 1
@@ -2760,14 +2760,14 @@
         "No Contact Possible - number incorrect": 1
       },
       "nl": {
-        "(geen reden)": 1,
-        "No Contact Possible - number incorrect": 1
+        "No Contact Possible - number incorrect": 1,
+        "Not reached · zonder reden": 1
       }
     },
     "2026-09-03": {
       "be": {
-        "(geen reden)": 1,
-        "No Contact Possible - number correct": 1
+        "No Contact Possible - number correct": 1,
+        "Not reached · zonder reden": 1
       },
       "nl": {
         "No Contact Possible - number incorrect": 2
@@ -2801,7 +2801,7 @@
     },
     "2026-09-10": {
       "nl": {
-        "(geen reden)": 1
+        "Not reached · zonder reden": 1
       }
     },
     "2026-09-11": {
@@ -2809,7 +2809,7 @@
         "No Contact Possible - number correct": 1
       },
       "nl": {
-        "(geen reden)": 1,
+        "Not reached · zonder reden": 1,
         "Wmo application is in progress": 1
       }
     },
@@ -2884,7 +2884,7 @@
         "No Contact Possible - number correct": 1
       },
       "nl": {
-        "(geen reden)": 1
+        "Not reached · zonder reden": 1
       }
     },
     "2026-09-28": {
@@ -2913,7 +2913,7 @@
     },
     "2026-10-01": {
       "nl": {
-        "(geen reden)": 1,
+        "Not reached · zonder reden": 1,
         "Orientation for later moment": 1
       }
     }

@@ -459,9 +459,9 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
       // De reden is de kop; zonder reden is het een lead die alleen via de
       // nummerwijziging in beeld kwam.
       // Alleen de reden. Dat het om een mailjourney gaat staat al in de kop
-      // van het blok; het er bij elke kaart voor zetten is ruis.
-      name.textContent =
-        reason === "(geen reden)" ? "Zonder instroomreden" : reason;
+      // van het blok; het er bij elke kaart voor zetten is ruis. Leads zonder
+      // reden krijgen de status waarmee ze instroomden als naam.
+      name.textContent = reason;
       const amount = document.createElement("div");
       amount.className = "vb-r-val";
       amount.textContent = nlNum(n, 0);

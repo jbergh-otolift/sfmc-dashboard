@@ -551,13 +551,19 @@ def appointment_split(by_lead, active):
 
         # Gegroepeerd op instroomreden, met daaronder het statuspad zonder die
         # reden ervoor: die staat al in de kop van de groep.
-        entry_reason, steps = _appointment_steps(rows, day, fallback_reason)
+        entry_reason, steps, entry_status = _appointment_steps(
+            rows, day, fallback_reason)
         path = build_status_path(entry_reason, steps, until=day)
         paths[day][market][path] += 1
         path_totals[market][path] += 1
         route_reason[day][market][route][entry_reason or "(geen reden)"] += 1
 
-        groep = entry_reason or "(geen reden)"
+        # Zonder reden valt er niets te groeperen op flow, maar de status
+        # waarmee de lead instroomde zegt nog wel iets: die bepaalt welke
+        # mails hij kreeg. Beter dan alles op één hoop met "geen reden".
+        groep = entry_reason or (
+            entry_status + " · zonder reden" if entry_status else "Zonder instroomstatus"
+        )
         staart = status_tail(steps, until=day)
         reasons[day][market][groep] += 1
         reason_totals[market][groep] += 1
@@ -598,13 +604,15 @@ def status_tail(steps, until=None):
 
 
 def _appointment_steps(rows, until, fallback_reason):
-    """De instroomreden en de statusstappen tot aan de afspraak.
+    """De instroomreden, de statusstappen tot aan de afspraak, en de status
+    waarmee de lead de mailflow in kwam.
 
     Geeft hetzelfde soort pad terug als bij de orders: de mailflow-instroom
     met zijn reden als kop, daarna elke relevante status tot en met de
     afspraak. Stappen ná de afspraakdag blijven buiten beeld.
     """
     entry_reason = None
+    entry_status = None
     steps = []
     started = False
     for row in rows:
@@ -614,13 +622,14 @@ def _appointment_steps(rows, until, fallback_reason):
             continue
         if new in FUNNEL_ENTRY and not started:
             entry_reason = (row.get("Reason") or "").strip() or fallback_reason
+            entry_status = new
             started = True
             continue
         if started and new in PATH_STATUSES:
             steps.append((day, new))
         if started and new == S_APPOINTMENT and day == until:
             break
-    return entry_reason, steps
+    return entry_reason, steps, entry_status
 
 
 def enrichment_flow(by_lead, active=None):
