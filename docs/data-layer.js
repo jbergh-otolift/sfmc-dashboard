@@ -573,23 +573,23 @@ function pathTotalBar(split) {
     '<span class="pft-abs">' + nlNum(total, 0) + "</span>";
   bar.appendChild(head);
 
-  const split = document.createElement("div");
-  split.className = "pft-split";
+  const chips = document.createElement("div");
+  chips.className = "pft-chips";
   parts.forEach((part, i) => {
     if (i > 0) {
       const plus = document.createElement("span");
       plus.className = "pft-op";
       plus.textContent = "+";
-      split.appendChild(plus);
+      chips.appendChild(plus);
     }
     const chip = document.createElement("span");
     chip.className = "pft-chip";
     chip.innerHTML =
       '<span class="pftc-name">' + part.label + "</span>" +
       '<span class="pftc-abs">' + nlNum(part.n, 0) + "</span>";
-    split.appendChild(chip);
+    chips.appendChild(chip);
   });
-  bar.appendChild(split);
+  bar.appendChild(chips);
   return bar;
 }
 
@@ -1376,7 +1376,7 @@ function safeRatio(num, den, minimum) {
   return value > 100 ? null : value;
 }
 
-function crmFromSums(crm, prevCrm, value) {
+function crmFromSums(crm, prevCrm, value, apptSplit) {
   const to = crm.toStatus || {};
   const pairs = crm.transitions || {};
   const at = (k) => to[k] || 0;
@@ -1404,12 +1404,18 @@ function crmFromSums(crm, prevCrm, value) {
   const appointment = at("Appointment");
   const phone = atA("Re-entered - Phone Number Changed");
   const mjToSql = viaA("Mailjourney", "Re-entered");
+  // Som van de vier bakken uit appointment_split: elke afspraak van een lead
+  // die met een actieve reden in de mailflow stond, elk precies een keer.
+  const allAppointments = apptSplit
+    ? ["notReached", "mailjourney", "direct", "other"]
+        .reduce((sum, key) => sum + (apptSplit[key] || 0), 0)
+    : null;
   const sqlToAppointment =
     viaA("Re-entered", "Appointment") +
     viaA("Re-entered - Phone Number Changed", "Appointment");
 
   const delta = (a, b) => (a !== null && b) ? round1(((a - b) / b) * 100) : null;
-  const prev = prevCrm ? crmFromSums(prevCrm, null, null) : null;
+  const prev = prevCrm ? crmFromSums(prevCrm, null, null, null) : null;
 
   const reactivation = {
     leadIntake: { abs: intake, share: 100 },
@@ -1457,8 +1463,14 @@ function crmFromSums(crm, prevCrm, value) {
     },
     // Worden die heropgeleefde leads ook echt afspraken?
     appointment: {
-      abs: sqlToAppointment,
-      share: safeRatio(sqlToAppointment, intake),
+      // Alle afspraken uit de mailflow, niet alleen de directe stap vanuit
+      // een heractivatiestatus. De routes eronder verklaren dit getal; als
+      // de splitsing nog ontbreekt valt hij terug op de directe stap.
+      abs: allAppointments !== null ? allAppointments : sqlToAppointment,
+      share: safeRatio(allAppointments !== null ? allAppointments : sqlToAppointment, intake),
+      // De pijl ernaast blijft wél de directe stap tonen: die hoort bij de
+      // twee blokken waar hij tussen staat.
+      direct: sqlToAppointment,
       ratio: safeRatio(sqlToAppointment, sql, BRANCH_MIN),
       deltaPct: null,
     },
@@ -1590,7 +1602,7 @@ function applyMarket(marketKey) {
   };
   const summed = sumRange(market.days, range.start, range.end);
   const prevSummed = sumRange(market.days, prevRange.start, prevRange.end);
-  const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value);
+  const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value, summed.apptSplit);
 
   // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
   // 'all' uit de export bevat ook test- en niet-toegewezen sends; daarom

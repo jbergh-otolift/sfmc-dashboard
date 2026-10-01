@@ -649,21 +649,21 @@
               <span class="mfa-lbl">SQL → Afspraak</span>
               <span class="mfa-ratio" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
               <span class="mfa-track"><i data-bind-width="reactivation.appointment.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.appointment.abs" data-fmt="int">–</span> leads</span>
+              <span class="mfa-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> direct</span>
             </div>
             <div class="mf-stage end">
               <div class="mf-name">Afspraak</div>
               <div class="mf-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-              <div class="mf-sub">direct vanuit heractivatie</div>
+              <div class="mf-sub">uit alle routes</div>
             </div>
           </div>
 
           <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
           <div class="path-funnels" data-path-funnels hidden>
-            <p class="pf-cap">De balk telt elke afspraak van een lead die eerder in de
-               mailflow stond. De vier groepen eronder sluiten elkaar uit en tellen op tot
-               dat getal; binnen een route splitst het nog een keer tussen leads die
-               vanzelf terugkwamen en leads die pas terugkwamen na nummerverrijking.</p>
+            <p class="pf-cap">Dit is het afspraakcijfer uit de lijn hierboven, uit elkaar
+               gelegd. De vier groepen sluiten elkaar uit en tellen op tot dat getal;
+               binnen een route splitst het nog een keer tussen leads die vanzelf
+               terugkwamen en leads die pas terugkwamen na nummerverrijking.</p>
           </div>
         </div>
 
@@ -1005,7 +1005,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001100628"></script>
+<script src="data-layer.js?v=20261001121018"></script>
 
 </body>
 </html>
