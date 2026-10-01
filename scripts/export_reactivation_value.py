@@ -78,6 +78,7 @@ MARKET_BY_RECORD_TYPE = {
 
 S_MAILJOURNEY = "Mailjourney"
 S_APPOINTMENT = "Appointment"
+S_PHONE_CHANGED = "Re-entered - Phone Number Changed"
 
 # De routes waarlangs een lead vanuit de mailflow terugkomt. De volgorde
 # bepaalt welke route wint als een lead er meerdere raakt: de eerste telt.
@@ -117,6 +118,12 @@ PATH_FUNNELS = {
 FUNNEL_REENTRY = ("Re-entered", "Re-entered - Phone Number Changed")
 
 FUNNEL_STAGES = ("new", "stage2", "reentered", "appointment", "order")
+
+# Dezelfde twee stappen, maar alleen voor de leads die pas terugkwamen nadat
+# hun telefoonnummer verrijkt was. Die staan op het dashboard als aftakking
+# onder hun eigen route, en worden van de hoofdlijn afgetrokken: zo telt elke
+# afspraak één keer en zie je meteen wat nummerverrijking oplevert.
+FUNNEL_ENRICHED = ("reenteredEnriched", "appointmentEnriched")
 
 # Hoeveel stappen ná de Mailjourney-instroom maximaal getoond worden.
 PATH_MAX_STEPS = 4
@@ -473,14 +480,14 @@ def path_funnels(by_lead, converted, active):
     days = defaultdict(
         lambda: defaultdict(
             lambda: {
-                funnel: {stage: 0 for stage in FUNNEL_STAGES}
+                funnel: {stage: 0 for stage in FUNNEL_STAGES + FUNNEL_ENRICHED}
                 for funnel in PATH_FUNNELS
             }
         )
     )
     totals = defaultdict(
         lambda: {
-            funnel: {stage: 0 for stage in FUNNEL_STAGES}
+            funnel: {stage: 0 for stage in FUNNEL_STAGES + FUNNEL_ENRICHED}
             for funnel in PATH_FUNNELS
         }
     )
@@ -509,7 +516,7 @@ def path_funnels(by_lead, converted, active):
             ):
                 stages["order"] = conv["date"]
 
-            for stage in FUNNEL_STAGES:
+            for stage in FUNNEL_STAGES + FUNNEL_ENRICHED:
                 day = stages.get(stage)
                 if not day:
                     continue
@@ -549,11 +556,17 @@ def _walk_funnel(rows, second, fallback_reason, active):
         if "reentered" not in stages:
             if new in FUNNEL_REENTRY:
                 stages["reentered"] = day
+                # Kwam deze lead pas terug ná nummerverrijking? Dan loopt hij
+                # verderop als aftakking mee in plaats van op de hoofdlijn.
+                if new == S_PHONE_CHANGED:
+                    stages["reenteredEnriched"] = day
             continue
 
         if "appointment" not in stages:
             if new == S_APPOINTMENT:
                 stages["appointment"] = day
+                if "reenteredEnriched" in stages:
+                    stages["appointmentEnriched"] = day
             continue
 
         break

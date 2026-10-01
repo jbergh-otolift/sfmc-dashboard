@@ -404,6 +404,11 @@ function renderSqlOrigin(stage) {
 
 // Tekent de twee vaste routes met dezelfde opbouw als de funnel erboven:
 // blokken met het aantal, pijlen met de doorstroom ertussen.
+//
+// Leads die pas terugkwamen na nummerverrijking staan niet op de hoofdlijn
+// maar in een aftakking eronder, en zijn van de hoofdlijn afgetrokken. Zo
+// telt elke afspraak precies één keer en is in één oogopslag te zien hoeveel
+// van de heractivatie aan verrijking te danken is.
 const PATH_LAYOUT = [
   {
     key: "notReached",
@@ -431,7 +436,14 @@ function renderPathFunnels(paths) {
   host.querySelectorAll(".pf-row").forEach((el) => el.remove());
 
   PATH_LAYOUT.forEach((layout) => {
-    const data = (paths || {})[layout.key] || {};
+    const raw = (paths || {})[layout.key] || {};
+    // De verrijkte leads gaan van de hoofdlijn af; ze krijgen hun eigen
+    // aftakking. Nooit onder nul, voor het geval een stap over de rand van
+    // het datumbereik valt.
+    const data = Object.assign({}, raw, {
+      reentered: Math.max((raw.reentered || 0) - (raw.reenteredEnriched || 0), 0),
+      appointment: Math.max((raw.appointment || 0) - (raw.appointmentEnriched || 0), 0),
+    });
     const row = document.createElement("div");
     row.className = "pf-row";
 
@@ -477,8 +489,49 @@ function renderPathFunnels(paths) {
     });
 
     row.appendChild(line);
+
+    const enrichedBack = raw.reenteredEnriched || 0;
+    if (enrichedBack) {
+      row.appendChild(
+        pathBranch(enrichedBack, raw.appointmentEnriched || 0)
+      );
+    }
+
     host.appendChild(row);
   });
+}
+
+// De aftakking onder één route: leads die pas terugkwamen nadat hun nummer
+// verrijkt was, met de afspraken die daaruit volgden.
+function pathBranch(reentered, appointment) {
+  const wrap = document.createElement("div");
+  wrap.className = "pf-branch";
+
+  const tag = document.createElement("span");
+  tag.className = "pfb-tag";
+  tag.textContent = "waarvan na nummerverrijking";
+
+  const back = document.createElement("span");
+  back.className = "pfb-item";
+  back.innerHTML =
+    '<b>' + nlNum(reentered, 0) + "</b> opnieuw binnengekomen";
+
+  const arrow = document.createElement("span");
+  arrow.className = "pfb-arrow";
+  arrow.textContent = "→";
+
+  const appt = document.createElement("span");
+  appt.className = "pfb-item appt";
+  appt.innerHTML = "<b>" + nlNum(appointment, 0) + "</b> afspraak";
+
+  const share = document.createElement("span");
+  share.className = "pfb-share";
+  share.textContent = reentered
+    ? nlNum(Math.round((appointment / reentered) * 1000) / 10, 1) + "%"
+    : NODATA;
+
+  wrap.append(tag, back, arrow, appt, share);
+  return wrap;
 }
 
 function renderValueBlock(value) {

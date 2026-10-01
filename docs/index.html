@@ -296,19 +296,6 @@
 
   /* Enrichment branch (Not reachable → phone number enriched → back to stream) */
   .mf-wrap{position:relative}
-  .mf-branch{margin-top:14px;display:flex;justify-content:center}
-  .mf-branch-inner{display:flex;align-items:center;gap:0;background:#FBFCFD;border:1px dashed var(--line);border-radius:12px;padding:12px 18px;flex-wrap:nowrap;overflow-x:auto}
-  .mf-branch-tag{font-size:9.5px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-right:16px;white-space:nowrap;display:flex;flex-direction:column;gap:2px}
-  .mf-branch-tag span{font-size:9px;color:var(--ink-soft);font-weight:600;text-transform:none;letter-spacing:0}
-  .mf-bstage{text-align:center;padding:8px 14px;background:#fff;border:1px solid var(--line);border-radius:9px;min-width:120px}
-  .mf-bstage .mfb-name{font-size:10.5px;font-weight:700;color:var(--ink);line-height:1.2}
-  .mf-bstage .mfb-abs{font-size:19px;font-weight:800;color:var(--oto-red);margin-top:3px}
-  .mf-barrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px;min-width:78px;gap:2px}
-  .mf-barrow .mfba-ratio{font-size:13px;font-weight:800;color:var(--oto-red)}
-  .mf-barrow .mfba-lbl{font-size:8.5px;color:var(--ink-soft);white-space:nowrap;font-weight:600}
-  .mf-barrow.rejoin .mfba-ratio{color:var(--oto-green)}
-  .mf-bstage.rejoin{border-color:var(--oto-green);background:#EEF7F0}
-  .mf-bstage.rejoin .mfb-abs{color:var(--oto-green)}
 
   /* Recovered-leads outcome banner (subtle) */
   .recovered{display:flex;align-items:center;gap:26px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px 22px;margin-top:18px;flex-wrap:wrap}
@@ -506,6 +493,7 @@
   .vb-p-val{font-weight:700;color:var(--oto-green);white-space:nowrap}
   .vb-t-val{font-variant-numeric:tabular-nums}
   .path-funnels{margin-top:14px}
+  .pf-cap{font-size:11px;color:var(--ink-soft);line-height:1.5;max-width:720px;margin-bottom:12px}
   .pf-row{margin-bottom:10px}
   /* Compacter dan de hoofdfunnel: vijf stappen moeten op een rij passen. */
   .pf-line{flex-wrap:nowrap}
@@ -515,6 +503,16 @@
   .pf-line .mf-arrow{min-width:62px;padding:0 5px}
   .pf-line .mfa-ratio{font-size:13px}
   .pf-label{font-size:11px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+  /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen. */
+  .pf-branch{display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+             margin:5px 0 0 26px;padding:6px 11px;border-left:2px solid var(--line);
+             font-size:11.5px;color:var(--ink-soft)}
+  .pfb-tag{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+           color:var(--ink-soft)}
+  .pfb-item b{color:var(--ink);font-size:13px}
+  .pfb-item.appt b{color:var(--oto-green,#2e7d32)}
+  .pfb-arrow{color:var(--ink-soft)}
+  .pfb-share{font-weight:700;color:var(--oto-red)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -639,47 +637,16 @@
             <div class="mf-stage end">
               <div class="mf-name">Afspraak</div>
               <div class="mf-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-              <div class="mf-sub">van instroom</div>
-            </div>
-          </div>
-
-          <!-- Enrichment branch off No contact possible -->
-          <div class="mf-branch">
-            <div class="mf-branch-inner">
-              <div class="mf-branch-tag">Aftakking<span>nummerverrijking · unieke leads</span></div>
-              <div class="mf-bstage">
-                <div class="mfb-name">Uit Mailjourney</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.fromMailjourney" data-fmt="int">–</div>
-              </div>
-              <div class="mf-bstage">
-                <div class="mfb-name">Uit Not reached</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.fromNotReached" data-fmt="int">–</div>
-              </div>
-              <div class="mf-barrow">
-                <span class="mfba-ratio">→</span>
-                <span class="mfba-lbl">nummer verrijkt</span>
-              </div>
-              <div class="mf-bstage">
-                <div class="mfb-name">Re-entered ·<br>Phone Number Changed</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.enrichedLeads" data-fmt="int">–</div>
-              </div>
-              <div class="mf-barrow rejoin">
-                <span class="mfba-ratio" data-bind="reactivation.enrichment.toAppointmentRatio" data-fmt="pct1nosign">–</span>
-                <span class="mfba-lbl">naar afspraak</span>
-              </div>
-              <div class="mf-bstage rejoin">
-                <div class="mfb-name">Appointment</div>
-                <div class="mfb-abs" data-bind="reactivation.enrichment.toAppointment" data-fmt="int">–</div>
-                <div style="font-size:9px;color:var(--ink-soft);margin-top:3px;line-height:1.3">
-                  <span data-bind="reactivation.enrichment.toAppointmentDirect" data-fmt="int">–</span> direct ·
-                  <span data-bind="reactivation.enrichment.toAppointmentViaDetour" data-fmt="int">–</span> via omweg
-                </div>
-              </div>
+              <div class="mf-sub">direct vanuit heractivatie</div>
             </div>
           </div>
 
           <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
-          <div class="path-funnels" data-path-funnels hidden></div>
+          <div class="path-funnels" data-path-funnels hidden>
+            <p class="pf-cap">De routes volgen de hele weg van een lead, ook als er een
+               tussenstap tussen heractivatie en afspraak zat. Daardoor tellen ze niet op
+               tot de afspraken op de lijn hierboven, die alleen de directe stap telt.</p>
+          </div>
         </div>
 
         <div class="value-block" data-value-block hidden>
@@ -1020,7 +987,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001113406"></script>
+<script src="data-layer.js?v=20261001115129"></script>
 
 </body>
 </html>
