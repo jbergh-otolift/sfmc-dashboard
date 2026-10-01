@@ -1765,3 +1765,45 @@ document.addEventListener("DOMContentLoaded", () => {
   if (close) close.addEventListener("click", closeFlowDetail);
   init();
 });
+
+
+// Het sectiemenu: de link van de sectie die je leest licht op, en de menubalk
+// plakt onder de kop in plaats van eroverheen. De hoogte van de kop wordt
+// gemeten in plaats van vastgezet, want die verschilt per schermbreedte.
+function wireSectionNav() {
+  const nav = document.querySelector(".secnav");
+  const header = document.querySelector("header");
+  if (!nav) return;
+
+  const place = () => {
+    const h = header ? header.getBoundingClientRect().height : 0;
+    // Zonder opmaak meet de browser nul. Dan niets overschrijven, anders komt
+    // de sectie onder de kop terecht; de CSS-waarde is dan de terugval.
+    if (!h) return;
+    document.documentElement.style.setProperty("--hdr", Math.round(h) + "px");
+    document.querySelectorAll("section[id]").forEach((el) => {
+      el.style.scrollMarginTop = Math.round(h + nav.offsetHeight + 12) + "px";
+    });
+  };
+  place();
+  window.addEventListener("resize", place);
+
+  const links = [...nav.querySelectorAll("a")];
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  const mark = () => {
+    const line = (header ? header.offsetHeight : 0) + nav.offsetHeight + 24;
+    let current = 0;
+    sections.forEach((el, i) => {
+      if (el.getBoundingClientRect().top <= line) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle("here", i === current));
+  };
+  mark();
+  window.addEventListener("scroll", mark, { passive: true });
+}
+
+wireSectionNav();

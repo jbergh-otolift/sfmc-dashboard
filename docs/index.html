@@ -53,6 +53,14 @@
   .period{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
   .period option{color:#1D2733}
   .stamp{font-size:12px;color:var(--ink-soft)}
+  .secnav{position:sticky;top:var(--hdr,0px);z-index:38;background:#fff;border-bottom:1px solid var(--line)}
+  .secnav .wrap{display:flex;gap:4px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+  .secnav a{font-size:11.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;
+            padding:5px 11px;border-radius:7px;white-space:nowrap}
+  .secnav a:hover{background:#F2F4F7;color:var(--ink)}
+  .secnav a.here{background:#FCEEEF;color:var(--oto-red)}
+  /* Zodat een sectie niet onder de sticky kop verdwijnt bij het aanklikken. */
+  section[id]{scroll-margin-top:210px}
   .subhead{background:var(--oto-red);padding:11px 0}
   .subhead .wrap{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.95);font-size:13px}
   .dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
@@ -283,20 +291,43 @@
   .mf-stage .mf-abs{font-size:28px;font-weight:800;color:var(--oto-red);margin-top:7px;line-height:1}
   .mf-stage.start .mf-abs{color:var(--ink)}
   .mf-stage.end .mf-abs{color:var(--oto-green)}
-  /* Zijtakken: wat er van buiten bijkomt staat boven het blok, wat er stopt
-     eronder. Zo blijft de hoofdlijn leesbaar maar is zichtbaar dat leads ook
-     langs andere wegen in- en uitstromen. */
-  .mini-funnel{padding-top:52px;padding-bottom:30px}
-  .mf-in,.mf-out{position:absolute;left:0;right:0;display:flex;flex-direction:column;
-                 gap:1px;font-size:9px;line-height:1.35;color:var(--ink-soft);
-                 text-align:center;pointer-events:none}
-  .mf-in{bottom:calc(100% + 7px)}
-  .mf-in::after{content:"↓";display:block;font-size:10px;color:var(--oto-red-soft);margin-top:1px}
-  .mf-out{top:calc(100% + 7px)}
-  .mf-out::before{content:"↓";display:block;font-size:10px;color:var(--line);margin-bottom:1px}
-  .mf-in b{color:var(--ink);font-weight:700}
-  .mf-out{color:#9AA4B2}
-  .mf-arrow{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 7px;gap:3px;min-width:84px}
+  /* Vertakte stroom. Elke kolom is een stap; binnen een kolom staan de
+     knooppunten die daar bij elkaar horen: wat van buiten binnenkomt boven de
+     hoofdlijn, wat afvalt eronder. De hoofdlijn blijft op dezelfde hoogte
+     doordat elke kolom om zijn middelste knooppunt uitlijnt. */
+  .flowmap{display:flex;align-items:center;gap:0;padding:4px 0 10px;overflow-x:auto}
+  .fm-col{flex:1 1 150px;min-width:132px;display:flex;flex-direction:column;
+          align-items:stretch;justify-content:center;gap:7px}
+  .fm-node{text-align:center;padding:11px 10px;background:var(--bg);
+           border:1px solid var(--line);border-radius:11px}
+  .fm-node.start{border-color:var(--oto-red-soft);background:#FCEEEF}
+  .fm-node.end{border:2px solid var(--oto-green);background:#EEF7F0}
+  /* Zijtak die binnenkomt: gestippeld, want hij hoort niet bij de hoofdlijn. */
+  .fm-node.side{border-style:dashed;background:#FBFCFD;text-align:left;padding:9px 11px}
+  /* Doodlopend: hier houdt het op voor deze leads. */
+  .fm-node.dead{background:#FAFBFC;border-style:dashed}
+  .fn-name{font-size:10.5px;font-weight:700;color:var(--ink);text-transform:uppercase;
+           letter-spacing:.3px;line-height:1.25}
+  .fm-node.side .fn-name,.fm-node.dead .fn-name{text-transform:none;letter-spacing:0;
+           font-size:9.5px;color:var(--ink-soft);font-weight:600}
+  .fn-abs{font-size:25px;font-weight:800;color:var(--oto-red);margin-top:5px;line-height:1}
+  .fm-node.start .fn-abs{color:var(--ink)}
+  .fm-node.end .fn-abs{color:var(--oto-green)}
+  .fm-node.dead .fn-abs,.fm-node.side .fn-abs{font-size:17px;color:var(--ink-soft);margin-top:2px}
+  .fn-sub{font-size:9.5px;color:var(--ink-soft);margin-top:3px;line-height:1.3}
+  .fn-rows{display:flex;flex-direction:column;gap:1px;margin-top:4px;font-size:9.5px;
+           color:var(--ink-soft);line-height:1.35}
+  .fn-rows b{color:var(--ink);font-weight:700}
+  /* De verbinding tussen twee kolommen: label, percentage, balkje, aantal. */
+  .fm-link{flex:0 0 auto;min-width:86px;padding:0 8px;display:flex;flex-direction:column;
+           align-items:center;justify-content:center;gap:3px}
+  .fl-lbl{font-size:8.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.3px;
+          font-weight:600;text-align:center;line-height:1.25}
+  .fl-pct{font-size:15px;font-weight:800;color:var(--oto-red);line-height:1}
+  .fl-bar{width:100%;height:5px;border-radius:3px;background:#E4E9F0;overflow:hidden}
+  .fl-bar i{display:block;height:100%;border-radius:3px;background:var(--oto-red)}
+  .fl-abs{font-size:9.5px;font-weight:700;color:var(--ink-soft)}
+  .mf-arrow{flex:0 0 auto;  .mf-arrow{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 7px;gap:3px;min-width:84px}
   .mf-arrow .mfa-lbl{font-size:9px;color:var(--ink-soft);white-space:nowrap;text-transform:uppercase;letter-spacing:.3px;font-weight:600}
   .mf-arrow .mfa-ratio{font-size:16px;font-weight:800;color:var(--oto-red);line-height:1}
   .mf-arrow .mfa-track{width:100%;height:5px;border-radius:3px;background:#E4E9F0;overflow:hidden;margin:1px 0}
@@ -566,6 +597,15 @@
   </div>
 </header>
 
+  <nav class="secnav" aria-label="Secties">
+    <div class="wrap">
+      <a href="#heractivatie">Her-activatie</a>
+      <a href="#kern">Kern KPI's</a>
+      <a href="#health">Email Health</a>
+      <a href="#acquisitie">Acquisitie</a>
+    </div>
+  </nav>
+
   <div class="subhead">
     <div class="wrap"><span class="dot"></span> Databron: Salesforce Marketing Cloud (tracking events) + Salesforce CRM (LeadHistory) · Markt: <b data-country-label style="margin-left:2px">Nederland</b> · vergelijking t.o.v. <span data-prev-period-label>vorige periode</span></div>
   </div>
@@ -580,7 +620,7 @@
 <div class="wrap">
 
   <!-- ============ HER-ACTIVATIE ============ -->
-  <section>
+  <section id="heractivatie">
     <div class="sec-head">
       <h2>Her-activatie</h2>
             <span class="desc">Instroom = leads die vanuit <code>New</code> in behandeling komen. Elke stap telt de statusovergangen daarnaartoe; de pijlen tonen de doorstroom van de ene stap naar de volgende.</span>
@@ -592,73 +632,105 @@
 
         <div class="mf-wrap">
           <!-- Ratio-led funnel with period-over-period deltas + absolute counts -->
-          <div class="mini-funnel">
-            <div class="mf-stage start">
-              <div class="mf-name">Lead<br>instroom</div>
-              <div class="mf-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">2.140</div>
-              <div class="mf-sub" data-intake-split>startpunt</div>
-            </div>
-            <div class="mf-arrow">
-              <span class="mfa-lbl">Lead → Not reached</span>
-              <span class="mfa-ratio" data-bind="reactivation.notContact.ratio" data-fmt="pct1nosign">62,1%</span>
-              <span class="mfa-track"><i style="width:62.1%" data-bind-width="reactivation.notContact.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.notContact.abs" data-fmt="int">1.329</span> leads</span>
-              <span class="mfa-delta up" data-bind-delta="reactivation.notContact.deltaPct" data-delta-dir="down-good"><span class="a">▼</span><span class="bindval">-2,8%</span> vs vorige</span>
-            </div>
-            <div class="mf-stage">
-              <div class="mf-out"><span data-bind="reactivation.notContact.uit" data-fmt="int">–</span> blijft buiten de mailflow</div>
-              <div class="mf-name">Not<br>reached</div>
-              <div class="mf-abs" data-bind="reactivation.notContact.abs" data-fmt="int">1.329</div>
-              <div class="mf-sub">van instroom</div>
-            </div>
-            <div class="mf-arrow">
-              <span class="mfa-lbl">Not reached → Mailjourney</span>
-              <span class="mfa-ratio" data-bind="reactivation.mailjourney.ratio" data-fmt="pct1nosign">88,0%</span>
-              <span class="mfa-track"><i style="width:88%" data-bind-width="reactivation.mailjourney.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.mailjourney.viaNotReached" data-fmt="int">–</span> leads</span>
-              <span class="mfa-delta up" data-bind-delta="reactivation.mailjourney.deltaPct" data-delta-dir="up-good"><span class="a">▲</span><span class="bindval">+2,8%</span> vs vorige</span>
-            </div>
-            <div class="mf-stage">
-              <div class="mf-in">
-                <span><b data-bind="reactivation.mailjourney.herkomst.vanFollowUp" data-fmt="int">–</b> via Follow-up</span>
-                <span><b data-bind="reactivation.mailjourney.herkomst.direct" data-fmt="int">–</b> direct vanuit New</span>
-                <span><b data-bind="reactivation.mailjourney.herkomst.overig" data-fmt="int">–</b> overig</span>
+          <!-- Vertakte stroom: één startpunt, daarna splitst het. Wat afvalt
+               en wat van buiten bijkomt zijn eigen knooppunten, geen bijschrift. -->
+          <div class="flowmap">
+
+            <div class="fm-col">
+              <div class="fm-node start">
+                <div class="fn-name">Lead instroom</div>
+                <div class="fn-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">–</div>
+                <div class="fn-sub" data-intake-split>startpunt</div>
               </div>
-              <div class="mf-out"><span data-bind="reactivation.mailjourney.uit" data-fmt="int">–</span> nog geen heractivatie</div>
-              <div class="mf-name">Mailjourney</div>
-              <div class="mf-abs" data-bind="reactivation.mailjourney.abs" data-fmt="int">–</div>
-              <div class="mf-sub" data-mj-herkomst>van instroom</div>
             </div>
-            <div class="mf-arrow">
-              <span class="mfa-lbl">Mailjourney → SQL</span>
-              <span class="mfa-ratio" data-bind="reactivation.sql.ratio" data-fmt="pct1nosign">19,1%</span>
-              <span class="mfa-track"><i style="width:19.1%" data-bind-width="reactivation.sql.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.sql.abs" data-fmt="int">223</span> leads</span>
-              <span class="mfa-delta up" data-bind-delta="reactivation.sql.deltaPct" data-delta-dir="up-good"><span class="a">▲</span><span class="bindval">+20,1%</span> vs vorige</span>
+
+            <div class="fm-link">
+              <span class="fl-lbl">naar Not reached</span>
+              <span class="fl-pct" data-bind="reactivation.notContact.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.notContact.ratio"></i></span>
             </div>
-            <div class="mf-stage">
-              <div class="mf-in">
-                <span><b data-bind="reactivation.sql.herkomst.buitenMailflow" data-fmt="int">–</b> buiten de mailflow · niet geteld</span>
+
+            <div class="fm-col">
+              <div class="fm-node">
+                <div class="fn-name">Not reached</div>
+                <div class="fn-abs" data-bind="reactivation.notContact.abs" data-fmt="int">–</div>
               </div>
-              <div class="mf-out"><span data-bind="reactivation.sql.uit" data-fmt="int">–</span> nog geen afspraak</div>
-              <div class="mf-name">Re-entered<br>(SQL)</div>
-              <div class="mf-abs" data-bind="reactivation.sql.abs" data-fmt="int">–</div>
-              <div class="mf-sub" data-sql-herkomst>uit de mailflow</div>
-            </div>
-            <div class="mf-arrow">
-              <span class="mfa-lbl">SQL → Afspraak</span>
-              <span class="mfa-ratio" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
-              <span class="mfa-track"><i data-bind-width="reactivation.appointment.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> direct</span>
-            </div>
-            <div class="mf-stage end">
-              <div class="mf-in">
-                <span><b data-bind="reactivation.appointment.zonderSql" data-fmt="int">–</b> zonder de stap Re-entered</span>
+              <div class="fm-node dead">
+                <div class="fn-name">Blijft buiten de mailflow</div>
+                <div class="fn-abs" data-bind="reactivation.notContact.uit" data-fmt="int">–</div>
               </div>
-              <div class="mf-name">Afspraak</div>
-              <div class="mf-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-              <div class="mf-sub">uit de mailflow</div>
             </div>
+
+            <div class="fm-link">
+              <span class="fl-lbl">door naar de mailflow</span>
+              <span class="fl-pct" data-bind="reactivation.mailjourney.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.mailjourney.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.mailjourney.viaNotReached" data-fmt="int">–</span> leads</span>
+            </div>
+
+            <div class="fm-col">
+              <div class="fm-node side">
+                <div class="fn-name">Ook de mailflow in</div>
+                <div class="fn-rows">
+                  <span><b data-bind="reactivation.mailjourney.herkomst.vanFollowUp" data-fmt="int">–</b> via Follow-up</span>
+                  <span><b data-bind="reactivation.mailjourney.herkomst.direct" data-fmt="int">–</b> direct vanuit New</span>
+                  <span><b data-bind="reactivation.mailjourney.herkomst.overig" data-fmt="int">–</b> overig</span>
+                </div>
+              </div>
+              <div class="fm-node">
+                <div class="fn-name">Mailjourney</div>
+                <div class="fn-abs" data-bind="reactivation.mailjourney.abs" data-fmt="int">–</div>
+                <div class="fn-sub" data-mj-herkomst>van instroom</div>
+              </div>
+              <div class="fm-node dead">
+                <div class="fn-name">Nog geen heractivatie</div>
+                <div class="fn-abs" data-bind="reactivation.mailjourney.uit" data-fmt="int">–</div>
+              </div>
+            </div>
+
+            <div class="fm-link">
+              <span class="fl-lbl">heractivatie</span>
+              <span class="fl-pct" data-bind="reactivation.sql.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.sql.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.sql.abs" data-fmt="int">–</span> leads</span>
+            </div>
+
+            <div class="fm-col">
+              <div class="fm-node side">
+                <div class="fn-name">Buiten de mailflow gezet</div>
+                <div class="fn-abs" data-bind="reactivation.sql.herkomst.buitenMailflow" data-fmt="int">–</div>
+                <div class="fn-sub">niet geteld</div>
+              </div>
+              <div class="fm-node">
+                <div class="fn-name">Re-entered (SQL)</div>
+                <div class="fn-abs" data-bind="reactivation.sql.abs" data-fmt="int">–</div>
+              </div>
+              <div class="fm-node dead">
+                <div class="fn-name">Nog geen afspraak</div>
+                <div class="fn-abs" data-bind="reactivation.sql.uit" data-fmt="int">–</div>
+              </div>
+            </div>
+
+            <div class="fm-link">
+              <span class="fl-lbl">naar afspraak</span>
+              <span class="fl-pct" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.appointment.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> leads</span>
+            </div>
+
+            <div class="fm-col">
+              <div class="fm-node side">
+                <div class="fn-name">Zonder de stap Re-entered</div>
+                <div class="fn-abs" data-bind="reactivation.appointment.zonderSql" data-fmt="int">–</div>
+                <div class="fn-sub">rechtstreeks uit de mailflow</div>
+              </div>
+              <div class="fm-node end">
+                <div class="fn-name">Afspraak</div>
+                <div class="fn-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
+                <div class="fn-sub">uit de mailflow</div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Aftakking: nummerverrijking is een eigen niche, geen stap in de lijn -->
@@ -743,7 +815,7 @@
   </section>
 
 <!-- ============ KERN KPI'S ============ -->
-  <section>
+  <section id="kern">
     <div class="sec-head">
       <h2>Kern KPI's</h2>
             <span class="desc">De sturende marketing automation metrics, met verandering t.o.v. de vorige periode.</span>
@@ -844,7 +916,7 @@
   </section>
 
   <!-- ============ EMAIL HEALTH ============ -->
-  <section>
+  <section id="health">
     <div class="sec-head">
       <h2>Email Health</h2>
             <span class="desc">Gemeten op de tracking events per journey. Filter voor een specifieke flow.</span>
@@ -980,7 +1052,7 @@
   
 
 <!-- ============ ACQUISITIE ============ -->
-  <section>
+  <section id="acquisitie">
     <div class="sec-head">
       <h2>Acquisitie</h2>
             <span class="desc">Doorstroom door de CLC fases plus werving van nieuwe contacten.</span>
@@ -1046,7 +1118,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001143749"></script>
+<script src="data-layer.js?v=20261001145146"></script>
 
 </body>
 </html>
