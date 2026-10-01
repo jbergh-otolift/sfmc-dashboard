@@ -482,6 +482,11 @@ def appointment_split(by_lead, active):
     route_reason = defaultdict(
         lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     )
+    reasons = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    reason_totals = defaultdict(lambda: defaultdict(int))
+    reason_paths = defaultdict(
+        lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    )
 
     for lead, rows in by_lead.items():
         rows.sort(key=lambda r: r.get("Edit Date") or "")
@@ -544,12 +549,19 @@ def appointment_split(by_lead, active):
         routes[day][market][route] += 1
         route_totals[market][route] += 1
 
-        # En het volledige statuspad erheen, voor de uitklaplijst.
+        # Gegroepeerd op instroomreden, met daaronder het statuspad zonder die
+        # reden ervoor: die staat al in de kop van de groep.
         entry_reason, steps = _appointment_steps(rows, day, fallback_reason)
         path = build_status_path(entry_reason, steps, until=day)
         paths[day][market][path] += 1
         path_totals[market][path] += 1
         route_reason[day][market][route][entry_reason or "(geen reden)"] += 1
+
+        groep = entry_reason or "(geen reden)"
+        staart = status_tail(steps, until=day)
+        reasons[day][market][groep] += 1
+        reason_totals[market][groep] += 1
+        reason_paths[day][market][groep][staart] += 1
 
     return {
         "days": days,
@@ -559,7 +571,30 @@ def appointment_split(by_lead, active):
         "paths": paths,
         "pathTotals": path_totals,
         "routeReason": route_reason,
+        "reasons": reasons,
+        "reasonTotals": reason_totals,
+        "reasonPaths": reason_paths,
     }
+
+
+def status_tail(steps, until=None):
+    """Het statuspad zonder de instroomreden ervoor.
+
+    De reden staat al als kop boven de groep; hem bij elk pad herhalen maakt
+    de lijst onleesbaar breed en verbergt juist het verschil tussen de paden.
+    """
+    kept = []
+    for day, status in steps:
+        if until and day > until:
+            continue
+        if kept and kept[-1] == status:
+            continue
+        kept.append(status)
+    truncated = len(kept) > PATH_MAX_STEPS
+    tail = PATH_ARROW.join(kept[:PATH_MAX_STEPS])
+    if truncated:
+        tail += PATH_ARROW + PATH_MORE
+    return PATH_ARROW.strip() + " " + tail if tail else "rechtstreeks"
 
 
 def _appointment_steps(rows, until, fallback_reason):
@@ -1094,6 +1129,18 @@ def main():
         },
         "enrichmentTotals": {
             market: dict(b) for market, b in enrich_totals.items()
+        },
+        # Gegroepeerd op instroomreden: het blok onder de funnel bouwt hierop.
+        "appointmentReasons": {
+            day: {market: dict(r) for market, r in per_market.items()}
+            for day, per_market in split["reasons"].items()
+        },
+        "appointmentReasonPaths": {
+            day: {
+                market: {reason: dict(p) for reason, p in per_reason.items()}
+                for market, per_reason in per_market.items()
+            }
+            for day, per_market in split["reasonPaths"].items()
         },
         "appointmentRoutes": {
             day: {market: dict(r) for market, r in per_market.items()}

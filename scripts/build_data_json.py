@@ -534,6 +534,8 @@ def main():
                 days.setdefault(day, {})["apptSplit"] = per_market[key]
         # Route en statuspad per afspraak, voor het uitklapblok onder de funnel.
         for field, target in (("enrichment", "enrich"),
+                              ("appointmentReasons", "apptReasons"),
+                              ("appointmentReasonPaths", "apptReasonPaths"),
                               ("appointmentRoutes", "apptRoutes"),
                               ("appointmentPaths", "apptPaths"),
                               ("appointmentRouteReason", "apptRouteReason")):

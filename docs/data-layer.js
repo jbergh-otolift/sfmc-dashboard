@@ -411,12 +411,10 @@ function renderSqlOrigin(stage) {
     : "uit de mailflow";
 }
 
-// De afspraken uitgelegd, in dezelfde vorm als het ordersblok: een totaal,
-// kaarten per route en een uitklaplijst met de statuspaden erachter.
-//
-// De route is de laatste stap vóór de afspraak. Dat is dezelfde indeling als
-// bij de orders, zodat beide blokken hetzelfde lezen.
-function renderApptBlock(split, routes, paths, routeReason) {
+// De afspraken uitgelegd. Gegroepeerd op instroomreden, want dat is waar een
+// flow aan hangt: elke reden is een eigen journey. De statuspaden staan
+// uitklapbaar in de kaart van hun eigen reden, zonder die reden te herhalen.
+function renderApptBlock(split, reasons, reasonPaths, routes) {
   const block = document.querySelector("[data-appt-block]");
   if (!block) return;
 
@@ -435,8 +433,6 @@ function renderApptBlock(split, routes, paths, routeReason) {
   const sub = block.querySelector("[data-appt-sub]");
   if (val) val.textContent = nlNum(total, 0);
   if (sub) {
-    // Zelfde indeling als de kaarten eronder: de laatste stap vóór de
-    // afspraak. Anders staan er twee verschillende tellingen in één blok.
     const viaFlow =
       ((routes || {})["Re-entered"] || 0) + ((routes || {})["Nummer gewijzigd"] || 0);
     sub.textContent =
@@ -446,20 +442,26 @@ function renderApptBlock(split, routes, paths, routeReason) {
 
   const box = block.querySelector("[data-appt-routes]");
   box.innerHTML = "";
-  Object.entries(routes || {})
+  Object.entries(reasons || {})
     .sort((a, b) => b[1] - a[1])
-    .forEach(([route, n]) => {
-      const reasons = Object.entries((routeReason || {})[route] || {}).sort(
+    .forEach(([reason, n]) => {
+      const paden = Object.entries((reasonPaths || {})[reason] || {}).sort(
         (a, b) => b[1] - a[1]
       );
-      const card = document.createElement(reasons.length ? "details" : "div");
+
+      const card = document.createElement(paden.length ? "details" : "div");
       card.className = "vb-route";
 
-      const head = document.createElement(reasons.length ? "summary" : "div");
+      const head = document.createElement(paden.length ? "summary" : "div");
       head.className = "vb-r-head";
       const name = document.createElement("div");
       name.className = "vb-r-name";
-      name.textContent = route;
+      // De reden is de kop; zonder reden is het een lead die alleen via de
+      // nummerwijziging in beeld kwam.
+      name.textContent =
+        reason === "(geen reden)"
+          ? "Zonder instroomreden"
+          : "Mailjourney (" + reason + ")";
       const amount = document.createElement("div");
       amount.className = "vb-r-val";
       amount.textContent = nlNum(n, 0);
@@ -469,41 +471,22 @@ function renderApptBlock(split, routes, paths, routeReason) {
       head.append(name, amount, note);
       card.appendChild(head);
 
-      if (reasons.length) {
+      if (paden.length) {
         const list = document.createElement("div");
         list.className = "vb-reasons";
-        reasons.forEach(([reason, count]) => {
+        paden.forEach(([pad, count]) => {
           const line = document.createElement("div");
           line.className = "vb-reason";
           const label = document.createElement("span");
-          label.textContent = reason;
+          label.textContent = pad;
           const amt = document.createElement("span");
-          amt.textContent =
-            nlNum(count, 0) + (count === 1 ? " afspraak" : " afspraken");
+          amt.textContent = nlNum(count, 0);
           line.append(label, amt);
           list.appendChild(line);
         });
         card.appendChild(list);
       }
       box.appendChild(card);
-    });
-
-  const list = block.querySelector("[data-appt-paths]");
-  list.innerHTML = "";
-  Object.entries(paths || {})
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 25)
-    .forEach(([path, n]) => {
-      const row = document.createElement("div");
-      row.className = "vb-path";
-      const label = document.createElement("span");
-      label.className = "vb-p-name";
-      label.textContent = path;
-      const amount = document.createElement("span");
-      amount.className = "vb-p-val";
-      amount.textContent = nlNum(n, 0) + (n === 1 ? " afspraak" : " afspraken");
-      row.append(label, amount);
-      list.appendChild(row);
     });
 }
 
@@ -1170,7 +1153,8 @@ function sumRange(days, start, end) {
   const apptSplit = {};
   const enrich = {};
   const apptRoutes = {};
-  const apptPaths = {};
+  const apptReasons = {};
+  const apptReasonPaths = {};
   const apptRouteReason = {};
   const value = {
     orders: 0, revenue: 0,
@@ -1225,8 +1209,14 @@ function sumRange(days, start, end) {
     Object.entries(bucket.apptRoutes || {}).forEach(([route, n]) => {
       apptRoutes[route] = (apptRoutes[route] || 0) + (n || 0);
     });
-    Object.entries(bucket.apptPaths || {}).forEach(([path, n]) => {
-      apptPaths[path] = (apptPaths[path] || 0) + (n || 0);
+    Object.entries(bucket.apptReasons || {}).forEach(([reason, n]) => {
+      apptReasons[reason] = (apptReasons[reason] || 0) + (n || 0);
+    });
+    Object.entries(bucket.apptReasonPaths || {}).forEach(([reason, paden]) => {
+      const target = (apptReasonPaths[reason] = apptReasonPaths[reason] || {});
+      Object.entries(paden).forEach(([pad, n]) => {
+        target[pad] = (target[pad] || 0) + (n || 0);
+      });
     });
     Object.entries(bucket.apptRouteReason || {}).forEach(([route, reasons]) => {
       const target = (apptRouteReason[route] = apptRouteReason[route] || {});
@@ -1278,7 +1268,8 @@ function sumRange(days, start, end) {
     apptSplit,
     enrich,
     apptRoutes,
-    apptPaths,
+    apptReasons,
+    apptReasonPaths,
     apptRouteReason,
   };
 }
@@ -1607,8 +1598,8 @@ function applyMarket(marketKey) {
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
-  renderApptBlock(summed.apptSplit, summed.apptRoutes, summed.apptPaths,
-                  summed.apptRouteReason);
+  renderApptBlock(summed.apptSplit, summed.apptReasons, summed.apptReasonPaths,
+                  summed.apptRoutes);
   renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
