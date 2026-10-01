@@ -379,16 +379,11 @@ function coverageForPeriod(base, cohort) {
 function renderMailjourneyOrigin(stage) {
   const el = document.querySelector("[data-mj-herkomst]");
   if (!el) return;
-  const h = stage && stage.herkomst;
-  if (!h) {
-    el.textContent = "van instroom";
-    return;
-  }
-  const parts = [];
-  if (h.vanFollowUp) parts.push(nlNum(h.vanFollowUp, 0) + " via Follow-up");
-  if (h.vanNotReached) parts.push(nlNum(h.vanNotReached, 0) + " via Not reached");
-  if (h.direct) parts.push(nlNum(h.direct, 0) + " direct");
-  el.textContent = parts.length ? parts.join(" · ") : "van instroom";
+  // De bronnen staan nu als zijtakken bóven het blok; hier alleen nog wat
+  // het blok zelf zegt, anders staat hetzelfde rijtje er twee keer.
+  el.textContent = stage && stage.share !== null && stage.share !== undefined
+    ? nlNum(stage.share, 1) + "% van de instroom"
+    : "van instroom";
 }
 
 // De instroom heeft twee bronnen: nieuwe leads, en aanvragen van mensen die
@@ -1372,6 +1367,9 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       abs: notReached,
       share: safeRatio(notReached, intake),
       ratio: safeRatio(notReached, intake),
+      // Wat hier stopt: verreweg de meeste leads uit Not reached komen nooit
+      // in de mailflow. Zonder dit getal leest de lijn als een vaste route.
+      uit: Math.max(notReached - viaA("Not reached", "Mailjourney"), 0),
       deltaPct: prev ? delta(safeRatio(notReached, intake), prev.reactivation.notContact.ratio) : null,
     },
     mailjourney: {
@@ -1380,7 +1378,12 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       // Niet iedereen komt via Not reached binnen: de grootste groep komt uit
       // Follow-up en een kwart gaat rechtstreeks vanuit New. De pijl toont
       // daarom de instroom in de mailflow als aandeel van de leadinstroom.
-      ratio: safeRatio(mailjourney, intake),
+      // De pijl staat tussen Not reached en Mailjourney, dus hij hoort ook
+      // díé stap te tonen. Eerder deelde hij door de instroom, waardoor het
+      // leek alsof de hele instroom via Not reached liep.
+      ratio: safeRatio(viaA("Not reached", "Mailjourney"), notReached),
+      viaNotReached: viaA("Not reached", "Mailjourney"),
+      uit: Math.max(mailjourney - sql, 0),
       deltaPct: null,
       herkomst: {
         vanNotReached: viaA("Not reached", "Mailjourney"),
@@ -1398,6 +1401,7 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       share: safeRatio(sql, intake),
       ratio: safeRatio(mjToSql, mailjourney),
       deltaPct: prev ? delta(safeRatio(mjToSql, mailjourney), prev.reactivation.sql.ratio) : null,
+      uit: Math.max(sql - viaA("Re-entered", "Appointment"), 0),
       herkomst: { buitenMailflow: atA("Re-entered") - sql },
     },
     enrichment: {
@@ -1422,8 +1426,13 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
         allAppointments !== null ? allAppointments : sqlToAppointment, intake),
       // De pijl ernaast gaat wél over de ene stap waar hij tussen staat:
       // van een heractivatiestatus rechtstreeks naar een afspraak.
-      direct: sqlToAppointment,
-      ratio: safeRatio(sqlToAppointment, sql, BRANCH_MIN),
+      direct: viaA("Re-entered", "Appointment"),
+      // Afspraken die de stap Re-entered oversloegen. Dat is het grootste
+      // deel, en precies wat een rechte lijn verzwijgt.
+      zonderSql: Math.max(
+        (allAppointments !== null ? allAppointments : sqlToAppointment) -
+          viaA("Re-entered", "Appointment"), 0),
+      ratio: safeRatio(viaA("Re-entered", "Appointment"), sql, BRANCH_MIN),
       deltaPct: null,
     },
     recovered: { count: mjToSql, cpl: null, cac: null },
