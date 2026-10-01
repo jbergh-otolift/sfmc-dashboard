@@ -6,7 +6,7 @@
   "defaultPeriod": "30",
   "endDate": "2026-10-02",
   "firstDay": "2025-08-28",
-  "generated_at": "2026-10-01T12:02:54+00:00",
+  "generated_at": "2026-10-01T12:25:38+00:00",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -23144,6 +23144,9 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "BE - New Lead - VL - WA": {
               "bounces": 0,
@@ -26606,6 +26609,11 @@
               "Not reached>Follow-up": 2,
               "Re-entered - Phone Number Changed>Appointment": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -30996,6 +31004,9 @@
               "Re-entered>Mailjourney": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "BE - New Lead - VL - WA": {
               "bounces": 0,
@@ -32898,6 +32909,9 @@
               "Re-entered>Not Qualified": 1,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -35984,6 +35998,9 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "BE - New Lead - VL - WA": {
               "bounces": 1,
@@ -36477,6 +36494,10 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not Qualified": 3
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -37931,6 +37952,9 @@
               "Re-entered>Not Qualified": 2,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -46124,6 +46148,9 @@
               "Not reached>Re-entered - Phone Number Changed": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -198082,6 +198109,9 @@
               "Re-entered>Not reached": 4
             }
           },
+          "enrich": {
+            "enriched": 2
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -200804,6 +200834,9 @@
               "Re-entered - Phone Number Changed>Mailjourney": 1,
               "Re-entered>Mailjourney": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -206558,6 +206591,9 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "enriched": 2
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 1,
@@ -209683,6 +209719,11 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 2
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -210533,6 +210574,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "appointment": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -211438,6 +211482,9 @@
               "Re-entered - Phone Number Changed>Mailjourney": 1,
               "Re-entered - Phone Number Changed>Re-entered": 1
             }
+          },
+          "enrich": {
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -212400,6 +212447,9 @@
               "Re-entered>Appointment": 1
             }
           },
+          "enrich": {
+            "appointment": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -213280,6 +213330,9 @@
               "Mailjourney>Re-entered": 4,
               "Mailjourney>Re-entered - Phone Number Changed": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - Confirmation Service Appointment": {
@@ -214736,6 +214789,10 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 2,
@@ -215696,6 +215753,9 @@
               "Re-entered>Not reached": 5
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -216558,6 +216618,11 @@
               "Re-entered>Mailjourney": 2,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 2,
+            "direct": 2,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -217499,6 +217564,11 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 2
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -220724,6 +220794,9 @@
               "Re-entered>Not reached": 5
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -221708,6 +221781,11 @@
               "Re-entered - Phone Number Changed>Mailjourney": 1,
               "Re-entered>Not reached": 4
             }
+          },
+          "enrich": {
+            "appointment": 2,
+            "direct": 1,
+            "enriched": 4
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -222754,6 +222832,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 1
           },
           "flows": {
             "(niet toegewezen)": {
@@ -227000,6 +227081,9 @@
               "Re-entered>Not reached": 8
             }
           },
+          "enrich": {
+            "enriched": 2
+          },
           "flows": {
             "(niet toegewezen)": {
               "bounces": 0,
@@ -228049,6 +228133,9 @@
               "Re-entered>Not reached": 2
             }
           },
+          "enrich": {
+            "appointment": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -229046,6 +229133,11 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -230011,6 +230103,9 @@
               "Re-entered>Lost": 1,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -231038,6 +231133,9 @@
               "Re-entered>Not reached": 2
             }
           },
+          "enrich": {
+            "appointment": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 1,
@@ -231969,6 +232067,9 @@
               "Mailjourney>Re-entered": 2,
               "Mailjourney>Re-entered - Phone Number Changed": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - Confirmation Service Appointment": {
@@ -233449,6 +233550,10 @@
               "Re-entered>Not reached": 5
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -234365,6 +234470,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -235390,6 +235498,11 @@
               "Re-entered>Not reached": 4
             }
           },
+          "enrich": {
+            "appointment": 2,
+            "direct": 2,
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -236383,6 +236496,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 4
             }
+          },
+          "enrich": {
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -237424,6 +237540,10 @@
               "Re-entered - Phone Number Changed>Appointment": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -239911,6 +240031,9 @@
               "Re-entered>Not reached": 3
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 3,
@@ -241850,6 +241973,9 @@
               "Re-entered>Not reached": 2
             }
           },
+          "enrich": {
+            "enriched": 2
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -242899,6 +243025,10 @@
               "Re-entered>Follow-up": 1,
               "Re-entered>Not reached": 5
             }
+          },
+          "enrich": {
+            "appointment": 2,
+            "enriched": 3
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -247477,6 +247607,9 @@
               "Re-entered>Not reached": 5
             }
           },
+          "enrich": {
+            "appointment": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -248480,6 +248613,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -252370,6 +252506,9 @@
               "Mailjourney>Re-entered - Phone Number Changed": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - Afspraakherinnering adviseur 2025": {
               "bounces": 0,
@@ -253295,6 +253434,11 @@
               "Re-entered>Not Qualified": 3,
               "Re-entered>Not reached": 4
             }
+          },
+          "enrich": {
+            "appointment": 2,
+            "direct": 2,
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -254355,6 +254499,9 @@
               "Re-entered>Appointment": 2
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -255394,6 +255541,10 @@
               "Re-entered - Phone Number Changed>Mailjourney": 2,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -256443,6 +256594,11 @@
               "Re-entered>Mailjourney": 3,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -257570,6 +257726,9 @@
               "Re-entered>Lost": 1,
               "Re-entered>Mailjourney": 3
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -260124,6 +260283,10 @@
               "Re-entered>Not reached": 4
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "enriched": 3
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 2,
@@ -262197,6 +262360,10 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -263185,6 +263352,10 @@
               "Re-entered>Brochure": 1,
               "Re-entered>Mailjourney": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -264240,6 +264411,9 @@
               "Re-entered - Phone Number Changed>Not Qualified": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 2
           },
           "flows": {
             "(niet toegewezen)": {
@@ -266781,6 +266955,10 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "appointment": 1,
+            "enriched": 3
+          },
           "flows": {
             "(niet toegewezen)": {
               "bounces": 0,
@@ -267894,6 +268072,9 @@
               "Re-entered>Mailjourney": 3,
               "Re-entered>Not reached": 4
             }
+          },
+          "enrich": {
+            "enriched": 3
           },
           "flows": {
             "NL - 1x Geen gehoor ": {

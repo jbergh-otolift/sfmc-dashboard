@@ -511,7 +511,8 @@ def main():
             if key in per_market:
                 days.setdefault(day, {})["apptSplit"] = per_market[key]
         # Route en statuspad per afspraak, voor het uitklapblok onder de funnel.
-        for field, target in (("appointmentRoutes", "apptRoutes"),
+        for field, target in (("enrichment", "enrich"),
+                              ("appointmentRoutes", "apptRoutes"),
                               ("appointmentPaths", "apptPaths"),
                               ("appointmentRouteReason", "apptRouteReason")):
             for day, per_market in ((value or {}).get(field) or {}).items():

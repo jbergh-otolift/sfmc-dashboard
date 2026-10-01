@@ -1173,6 +1173,7 @@ function sumRange(days, start, end) {
   // Twee vaste routes door de funnel; per stap optelbaar over het bereik.
   const paths = {};
   const apptSplit = {};
+  const enrich = {};
   const apptRoutes = {};
   const apptPaths = {};
   const apptRouteReason = {};
@@ -1220,6 +1221,9 @@ function sumRange(days, start, end) {
       });
     });
 
+    Object.entries(bucket.enrich || {}).forEach(([k, n]) => {
+      enrich[k] = (enrich[k] || 0) + (n || 0);
+    });
     Object.entries(bucket.apptSplit || {}).forEach(([bak, n]) => {
       apptSplit[bak] = (apptSplit[bak] || 0) + (n || 0);
     });
@@ -1277,6 +1281,7 @@ function sumRange(days, start, end) {
     value: value.hasData ? value : null,
     paths,
     apptSplit,
+    enrich,
     apptRoutes,
     apptPaths,
     apptRouteReason,
@@ -1302,7 +1307,8 @@ function safeRatio(num, den, minimum) {
 const REOPEN_FROM = ["Lost", "Not Qualified", "Converted Old SF", "Follow-up"];
 const S_PHONE = "Re-entered - Phone Number Changed";
 
-function crmFromSums(crm, prevCrm, value, apptSplit) {
+function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
+  enrich = enrich || {};
   const to = crm.toStatus || {};
   const pairs = crm.transitions || {};
   const at = (k) => to[k] || 0;
@@ -1353,7 +1359,7 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
     viaA("Re-entered - Phone Number Changed", "Appointment");
 
   const delta = (a, b) => (a !== null && b) ? round1(((a - b) / b) * 100) : null;
-  const prev = prevCrm ? crmFromSums(prevCrm, null, null, null) : null;
+  const prev = prevCrm ? crmFromSums(prevCrm, null, null, null, null) : null;
 
   const reactivation = {
     leadIntake: {
@@ -1395,14 +1401,17 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
       herkomst: { buitenMailflow: atA("Re-entered") - sql },
     },
     enrichment: {
-      fromMailjourney: viaA("Mailjourney", "Re-entered - Phone Number Changed"),
-      fromNotReached: viaA("Not reached", "Re-entered - Phone Number Changed"),
-      enrichedLeads: phone,
-      toAppointment: viaA("Re-entered - Phone Number Changed", "Appointment"),
-      toAppointmentDirect: viaA("Re-entered - Phone Number Changed", "Appointment"),
-      toAppointmentViaDetour: 0,
-      toAppointmentRatio: safeRatio(viaA("Re-entered - Phone Number Changed", "Appointment"), phone, BRANCH_MIN),
-      backToNotReached: viaA("Re-entered - Phone Number Changed", "Not reached"),
+      fromMailjourney: viaA("Mailjourney", S_PHONE),
+      fromNotReached: viaA("Not reached", S_PHONE),
+      // Uit de export: de afspraak telt ook als er nog een belpoging of een
+      // follow-up tussen zat. Alleen de directe stap tellen laat ruim een
+      // derde van het resultaat vallen.
+      enrichedLeads: enrich.enriched || 0,
+      toAppointment: enrich.appointment || 0,
+      toAppointmentDirect: enrich.direct || 0,
+      toAppointmentViaDetour: (enrich.appointment || 0) - (enrich.direct || 0),
+      toAppointmentRatio: safeRatio(enrich.appointment, enrich.enriched, BRANCH_MIN),
+      backToNotReached: viaA(S_PHONE, "Not reached"),
     },
     // Worden die heropgeleefde leads ook echt afspraken?
     appointment: {
@@ -1548,7 +1557,8 @@ function applyMarket(marketKey) {
   };
   const summed = sumRange(market.days, range.start, range.end);
   const prevSummed = sumRange(market.days, prevRange.start, prevRange.end);
-  const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value, summed.apptSplit);
+  const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value, summed.apptSplit,
+                              summed.enrich);
 
   // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
   // 'all' uit de export bevat ook test- en niet-toegewezen sends; daarom

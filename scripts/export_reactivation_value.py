@@ -584,6 +584,72 @@ def _appointment_steps(rows, until, fallback_reason):
     return entry_reason, steps
 
 
+def enrichment_flow(by_lead, active):
+    """De aftakking nummerverrijking, per dag geteld en dus optelbaar.
+
+    Een verrijkte lead gaat lang niet altijd rechtstreeks naar een afspraak.
+    Vaak komt er eerst nog een belpoging of een follow-up tussen, en die
+    afspraak volgt wel degelijk op de verrijking. Alleen de directe stap
+    tellen laat ruim een derde van het resultaat vallen.
+
+    Per dag wordt geteld:
+
+        enriched      op de dag van de verrijking
+        appointment   op de dag van de eerste afspraak daarná, ongeacht
+                      hoeveel stappen ertussen zaten
+        direct        dezelfde afspraak, maar alleen als de verrijking de
+                      stap er direct voor was
+
+    De reden bij de verrijking bepaalt of de lead meetelt, net als in de rest
+    van de funnel: zonder actieve flow geen toerekening.
+    """
+    days = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    totals = defaultdict(lambda: defaultdict(int))
+
+    for lead, rows in by_lead.items():
+        rows.sort(key=lambda r: r.get("Edit Date") or "")
+        market = (rows[-1].get("Market") or "").strip().lower()
+        if not market:
+            continue
+        fallback_reason = (rows[-1].get("Reason") or "").strip()
+
+        index = next(
+            (i for i, row in enumerate(rows)
+             if (row.get("New Value") or "").strip() == S_PHONE_CHANGED),
+            None,
+        )
+        if index is None:
+            continue
+        reason = (rows[index].get("Reason") or "").strip() or fallback_reason
+        if reason not in active:
+            continue
+
+        day = (rows[index].get("Edit Date") or "")[:10]
+        if not day:
+            continue
+        days[day][market]["enriched"] += 1
+        totals[market]["enriched"] += 1
+
+        after = rows[index + 1:]
+        hit = next(
+            (i for i, row in enumerate(after)
+             if (row.get("New Value") or "").strip() == S_APPOINTMENT),
+            None,
+        )
+        if hit is None:
+            continue
+        when = (after[hit].get("Edit Date") or "")[:10]
+        if not when:
+            continue
+        days[when][market]["appointment"] += 1
+        totals[market]["appointment"] += 1
+        if hit == 0:
+            days[when][market]["direct"] += 1
+            totals[market]["direct"] += 1
+
+    return days, totals
+
+
 def path_funnels(by_lead, converted, active):
     """Dagtellingen per markt, per trechter en per trechterstap.
 
@@ -777,6 +843,11 @@ def main():
 
     # Alle afspraken uit de mailflow, verdeeld over elkaar uitsluitende bakken
     # die optellen tot het totaal.
+    enrich_days, enrich_totals = enrichment_flow(transitions, active)
+    for market, b in sorted(enrich_totals.items()):
+        print(f"  {market}: {b['enriched']} verrijkt, {b['appointment']} afspraak "
+              f"(waarvan {b['direct']} direct)")
+
     split = appointment_split(transitions, active)
     split_days, split_totals = split["days"], split["totals"]
     for market, buckets in sorted(split_totals.items()):
@@ -1008,6 +1079,14 @@ def main():
         },
         # Dezelfde afspraken, nu langs de route waarlangs ze binnenkwamen en
         # langs het volledige statuspad. Voedt het uitklapblok onder de funnel.
+        # De aftakking nummerverrijking, per dag en dus optelbaar.
+        "enrichment": {
+            day: {market: dict(b) for market, b in per_market.items()}
+            for day, per_market in enrich_days.items()
+        },
+        "enrichmentTotals": {
+            market: dict(b) for market, b in enrich_totals.items()
+        },
         "appointmentRoutes": {
             day: {market: dict(r) for market, r in per_market.items()}
             for day, per_market in split["routes"].items()
