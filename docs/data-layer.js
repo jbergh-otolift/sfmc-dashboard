@@ -433,7 +433,8 @@ function renderPathFunnels(paths) {
     return;
   }
   host.hidden = false;
-  host.querySelectorAll(".pf-row").forEach((el) => el.remove());
+  host.querySelectorAll(".pf-row, .pf-total").forEach((el) => el.remove());
+  host.prepend(pathTotalBar(paths));
 
   PATH_LAYOUT.forEach((layout) => {
     const raw = (paths || {})[layout.key] || {};
@@ -501,36 +502,78 @@ function renderPathFunnels(paths) {
   });
 }
 
+// De balk boven de routes: alle afspraken uit de routes bij elkaar, met
+// daarnaast uit welke route ze komen. Die deelgetallen tellen op tot het
+// totaal, zodat meteen te zien is waar het grote getal vandaan komt.
+function pathTotalBar(paths) {
+  const bar = document.createElement("div");
+  bar.className = "pf-total";
+
+  const parts = PATH_LAYOUT.map((layout) => {
+    const raw = (paths || {})[layout.key] || {};
+    return { label: layout.label.replace(/^Via /, ""), n: raw.appointment || 0 };
+  });
+  const total = parts.reduce((sum, p) => sum + p.n, 0);
+
+  const head = document.createElement("div");
+  head.className = "pft-head";
+  head.innerHTML =
+    '<span class="pft-lbl">Afspraken via deze routes</span>' +
+    '<span class="pft-abs">' + nlNum(total, 0) + "</span>";
+  bar.appendChild(head);
+
+  const split = document.createElement("div");
+  split.className = "pft-split";
+  parts.forEach((part, i) => {
+    if (i > 0) {
+      const plus = document.createElement("span");
+      plus.className = "pft-op";
+      plus.textContent = "+";
+      split.appendChild(plus);
+    }
+    const chip = document.createElement("span");
+    chip.className = "pft-chip";
+    chip.innerHTML =
+      '<span class="pftc-name">' + part.label + "</span>" +
+      '<span class="pftc-abs">' + nlNum(part.n, 0) + "</span>";
+    split.appendChild(chip);
+  });
+  bar.appendChild(split);
+  return bar;
+}
+
 // De aftakking onder één route: leads die pas terugkwamen nadat hun nummer
-// verrijkt was, met de afspraken die daaruit volgden.
+// verrijkt was, met de afspraken die daaruit volgden. Zelfde blokvorm als de
+// lijn erboven, een maat kleiner, zodat de optelling leesbaar blijft.
 function pathBranch(reentered, appointment) {
   const wrap = document.createElement("div");
   wrap.className = "pf-branch";
 
   const tag = document.createElement("span");
   tag.className = "pfb-tag";
-  tag.textContent = "waarvan na nummerverrijking";
+  tag.textContent = "waarvan na\nnummerverrijking";
 
-  const back = document.createElement("span");
-  back.className = "pfb-item";
-  back.innerHTML =
-    '<b>' + nlNum(reentered, 0) + "</b> opnieuw binnengekomen";
+  const box = (name, value, extra) => {
+    const el = document.createElement("span");
+    el.className = "pfb-box" + (extra ? " " + extra : "");
+    el.innerHTML =
+      '<span class="pfb-name">' + name + "</span>" +
+      '<span class="pfb-abs">' + nlNum(value, 0) + "</span>";
+    return el;
+  };
 
   const arrow = document.createElement("span");
   arrow.className = "pfb-arrow";
-  arrow.textContent = "→";
-
-  const appt = document.createElement("span");
-  appt.className = "pfb-item appt";
-  appt.innerHTML = "<b>" + nlNum(appointment, 0) + "</b> afspraak";
-
-  const share = document.createElement("span");
-  share.className = "pfb-share";
-  share.textContent = reentered
+  arrow.textContent = reentered
     ? nlNum(Math.round((appointment / reentered) * 1000) / 10, 1) + "%"
     : NODATA;
 
-  wrap.append(tag, back, arrow, appt, share);
+  wrap.append(
+    tag,
+    box("Opnieuw binnengekomen", reentered),
+    arrow,
+    box("Afspraak", appointment, "appt")
+  );
   return wrap;
 }
 

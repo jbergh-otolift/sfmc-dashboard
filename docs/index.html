@@ -503,16 +503,33 @@
   .pf-line .mf-arrow{min-width:62px;padding:0 5px}
   .pf-line .mfa-ratio{font-size:13px}
   .pf-label{font-size:11px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+  /* Balk boven de routes: alle afspraken, met de optelling eronder. */
+  .pf-total{display:flex;align-items:center;justify-content:space-between;gap:16px;
+            flex-wrap:wrap;background:#F4F8F4;border:1px solid var(--oto-green-soft);
+            border-radius:12px;padding:11px 18px;margin-bottom:14px}
+  .pft-head{display:flex;align-items:baseline;gap:12px}
+  .pft-lbl{font-size:10.5px;font-weight:700;color:var(--ink);text-transform:uppercase;
+           letter-spacing:.4px}
+  .pft-abs{font-size:27px;font-weight:800;color:var(--oto-green);line-height:1}
+  .pft-split{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .pft-op{font-size:13px;font-weight:700;color:var(--ink-soft)}
+  .pft-chip{display:flex;align-items:center;gap:8px;background:#fff;
+            border:1px solid var(--line);border-radius:8px;padding:5px 11px}
+  .pftc-name{font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+  .pftc-abs{font-size:16px;font-weight:800;color:var(--ink)}
+
   /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen. */
-  .pf-branch{display:flex;align-items:center;gap:9px;flex-wrap:wrap;
-             margin:5px 0 0 26px;padding:6px 11px;border-left:2px solid var(--line);
-             font-size:11.5px;color:var(--ink-soft)}
-  .pfb-tag{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
-           color:var(--ink-soft)}
-  .pfb-item b{color:var(--ink);font-size:13px}
-  .pfb-item.appt b{color:var(--oto-green,#2e7d32)}
-  .pfb-arrow{color:var(--ink-soft)}
-  .pfb-share{font-weight:700;color:var(--oto-red)}
+  .pf-branch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+             margin:6px 0 0 30px;padding-left:14px;border-left:2px solid var(--line)}
+  .pfb-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+           color:var(--ink-soft);line-height:1.3;white-space:pre-line}
+  .pfb-box{display:flex;flex-direction:column;gap:2px;background:#fff;
+           border:1px solid var(--line);border-radius:8px;padding:5px 11px;min-width:92px}
+  .pfb-name{font-size:9px;font-weight:600;color:var(--ink-soft);line-height:1.2}
+  .pfb-abs{font-size:16px;font-weight:800;color:var(--ink);line-height:1}
+  .pfb-box.appt{border-color:var(--oto-green-soft);background:#F4F8F4}
+  .pfb-box.appt .pfb-abs{color:var(--oto-green)}
+  .pfb-arrow{font-size:11px;font-weight:700;color:var(--oto-red)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -643,9 +660,12 @@
 
           <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
           <div class="path-funnels" data-path-funnels hidden>
-            <p class="pf-cap">De routes volgen de hele weg van een lead, ook als er een
-               tussenstap tussen heractivatie en afspraak zat. Daardoor tellen ze niet op
-               tot de afspraken op de lijn hierboven, die alleen de directe stap telt.</p>
+            <p class="pf-cap">Elke route splitst nog een keer: de leads die vanzelf
+               terugkwamen staan op de hoofdlijn, de leads die pas terugkwamen nadat hun
+               nummer verrijkt was in de aftakking eronder. Samen zijn ze het routetotaal.
+               Dat totaal wijkt af van de afspraken op de lijn bovenaan, want die telt
+               alleen de directe stap van heractivatie naar afspraak — hier telt ook de
+               weg met een tussenstap mee.</p>
           </div>
         </div>
 
@@ -987,7 +1007,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001115129"></script>
+<script src="data-layer.js?v=20261001115747"></script>
 
 </body>
 </html>
