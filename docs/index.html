@@ -505,9 +505,7 @@
   .vb-p-name{color:var(--ink)}
   .vb-p-val{font-weight:700;color:var(--oto-green);white-space:nowrap}
   .vb-t-val{font-variant-numeric:tabular-nums}
-  .path-funnels{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
-  .pf-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px}
-  .pf-note{font-size:12px;color:var(--ink-soft);line-height:1.5;max-width:700px;margin-bottom:18px}
+  .path-funnels{margin-top:14px}
   .pf-row{margin-bottom:10px}
   /* Compacter dan de hoofdfunnel: vijf stappen moeten op een rij passen. */
   .pf-line{flex-wrap:nowrap}
@@ -679,14 +677,9 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
-        <div class="path-funnels" data-path-funnels hidden>
-          <h3 class="pf-title">De twee routes naar een order</h3>
-          <p class="pf-note">Leads die de stappen in deze volgorde doorliepen. Elke stap telt op
-             de dag dat die stap gebeurde, dus over een periode hoort stap 4 niet per se bij
-             dezelfde leads als stap 1.</p>
+          <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
+          <div class="path-funnels" data-path-funnels hidden></div>
         </div>
 
         <div class="value-block" data-value-block hidden>
@@ -1027,7 +1020,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001082835"></script>
+<script src="data-layer.js?v=20261001112336"></script>
 
 </body>
 </html>

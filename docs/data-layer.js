@@ -408,14 +408,14 @@ const PATH_LAYOUT = [
   {
     key: "notReached",
     label: "Via Not reached",
-    stages: ["new", "stage2", "reentered", "appointment", "order"],
-    names: ["New", "Not reached", "Opnieuw binnengekomen", "Afspraak", "Order"],
+    stages: ["new", "stage2", "reentered", "appointment"],
+    names: ["New", "Not reached", "Opnieuw binnengekomen", "Afspraak"],
   },
   {
     key: "mailjourney",
     label: "Via Mailjourney",
-    stages: ["new", "stage2", "reentered", "appointment", "order"],
-    names: ["New", "Mailjourney", "Opnieuw binnengekomen", "Afspraak", "Order"],
+    stages: ["new", "stage2", "reentered", "appointment"],
+    names: ["New", "Mailjourney", "Opnieuw binnengekomen", "Afspraak"],
   },
 ];
 
