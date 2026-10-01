@@ -31,9 +31,9 @@
   /* Header */
   header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;box-shadow:0 1px 0 rgba(21,46,85,.04)}
   /* Compacter zodra je scrolt, anders eet de balk te veel ruimte */
-  header.scrolled .brand-logo{height:34px;transition:height .15s}
-  header.scrolled .topbar{padding-top:10px;padding-bottom:10px;transition:padding .15s}
-  header.scrolled .subhead{display:none}
+  /* Geen hoogteverandering bij het scrollen: de header is sticky, dus
+     krimpen verschuift de pagina, waardoor de drempel opnieuw omslaat en de
+     balk gaat flikkeren. Vaste hoogte lost dat op. */
   .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1400px;margin:0 auto;flex-wrap:wrap;gap:16px}
   .brand{display:flex;align-items:center;gap:16px}
   .brand-logo{height:52px;width:auto;display:block}
@@ -531,7 +531,7 @@
       <div class="brand-divider"></div>
       <div class="brand-txt">
         <h1>Marketing Automation Dashboard</h1>
-        <div class="subtitle">Performance tracking · opgesteld door Brandfirm</div>
+        <div class="subtitle">Performance tracking</div>
       </div>
     </div>
     <div class="head-meta">
@@ -562,10 +562,11 @@
       <div class="stamp" data-stamp>Bijgewerkt: –</div>
     </div>
   </div>
+</header>
+
   <div class="subhead">
     <div class="wrap"><span class="dot"></span> Databron: Salesforce Marketing Cloud (tracking events) + Salesforce CRM (LeadHistory) · Markt: <b data-country-label style="margin-left:2px">Nederland</b> · vergelijking t.o.v. <span data-prev-period-label>vorige periode</span></div>
   </div>
-</header>
 
 <div class="wrap">
   <div class="notice err" data-load-error hidden></div>
@@ -1020,7 +1021,7 @@
 
 
   <div class="footer">
-    <div>Otolift · Marketing Automation Performance · opgesteld door Brandfirm</div>
+    <div>Otolift · Marketing Automation Performance</div>
     <div>Databronnen: Salesforce Marketing Cloud (SOAP tracking + Journey REST) · Salesforce CRM (LeadHistory, Bulk API 2.0)</div>
   </div>
 

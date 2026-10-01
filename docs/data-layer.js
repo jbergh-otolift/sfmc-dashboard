@@ -1616,17 +1616,7 @@ async function init() {
   applyMarket(currentMarket);
 }
 
-// Compacte header zodra je scrolt, zodat de filterbalk weinig ruimte kost.
-function wireStickyHeader() {
-  const header = document.querySelector("header");
-  if (!header) return;
-  const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 120);
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  wireStickyHeader();
   const close = document.querySelector("[data-fd-close]");
   if (close) close.addEventListener("click", closeFlowDetail);
   init();
