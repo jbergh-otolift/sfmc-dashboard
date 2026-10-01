@@ -1424,6 +1424,12 @@ function crmFromSums(crm, prevCrm, value, apptSplit, enrich) {
       zonderSql: Math.max(
         (allAppointments !== null ? allAppointments : sqlToAppointment) -
           viaA("Re-entered", "Appointment"), 0),
+      // Het tweede pad uit de mailflow: rechtstreeks een afspraak, zonder dat
+      // de lead ooit op Re-entered stond. Afgezet tegen de mailflow, want dat
+      // is waar dit pad uit vertrekt.
+      zonderSqlRatio: safeRatio(
+        Math.max((allAppointments !== null ? allAppointments : sqlToAppointment) -
+          viaA("Re-entered", "Appointment"), 0), mailjourney),
       ratio: safeRatio(viaA("Re-entered", "Appointment"), sql, BRANCH_MIN),
       deltaPct: null,
     },

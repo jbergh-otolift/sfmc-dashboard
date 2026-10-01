@@ -306,7 +306,10 @@
                                  minmax(132px,1.15fr) minmax(84px,.5fr)
                                  minmax(132px,1.15fr) minmax(84px,.5fr)
                                  minmax(132px,1.15fr);
-           grid-template-rows:auto auto auto;row-gap:7px;column-gap:6px}
+           grid-template-rows:auto auto auto auto;row-gap:7px;column-gap:6px}
+  /* Het tweede pad loopt over drie kolommen, dus het balkje mag breder. */
+  .fm-link.wide{border-top:1px dashed var(--line);padding-top:7px}
+  .fm-link.wide .fl-bar{max-width:220px}
   .fm-node{text-align:center;padding:11px 10px;background:var(--bg);
            border:1px solid var(--line);border-radius:11px}
   .fm-node.start{border-color:var(--oto-red-soft);background:#FCEEEF}
@@ -648,81 +651,91 @@
           <!-- Ratio-led funnel with period-over-period deltas + absolute counts -->
           <!-- Vertakte stroom: één startpunt, daarna splitst het. Wat afvalt
                en wat van buiten bijkomt zijn eigen knooppunten, geen bijschrift. -->
-          <!-- Vertakte stroom in een raster van drie rijen: wat van buiten
-               bijkomt bovenaan, de hoofdlijn in het midden, wat afvalt onderaan.
-               Door de vaste rijen ligt de hoofdlijn altijd op dezelfde hoogte,
-               ook als een kolom maar twee knooppunten heeft. -->
+          <!-- Vertakte stroom. Vier rijen: wat van buiten bijkomt bovenaan,
+               daaronder de twee paden naar een afspraak, en onderaan wat
+               afvalt. Na Mailjourney splitst het: via Re-entered, of
+               rechtstreeks. Beide komen uit bij hetzelfde eindblok. -->
           <div class="flowmap">
-              <div style="grid-column:1;grid-row:2" class="fm-node start">
-                <div class="fn-name">Lead instroom</div>
-                <div class="fn-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">–</div>
-                <div class="fn-sub" data-intake-split>startpunt</div>
+
+            <div style="grid-column:1;grid-row:2/4" class="fm-node start">
+              <div class="fn-name">Lead instroom</div>
+              <div class="fn-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">–</div>
+              <div class="fn-sub" data-intake-split>startpunt</div>
+            </div>
+            <div style="grid-column:1;grid-row:4" class="fm-node wait">
+              <div class="fn-name">Onderweg: Not reached</div>
+              <div class="fn-abs" data-bind="reactivation.notContact.abs" data-fmt="int">–</div>
+              <div class="fn-sub">wachtstand · max vier belpogingen, daarna een
+                 andere status en vaak alsnog de mailflow</div>
+            </div>
+
+            <div style="grid-column:2;grid-row:2/4" class="fm-link">
+              <span class="fl-lbl">in de mailflow</span>
+              <span class="fl-pct" data-bind="reactivation.mailjourney.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.mailjourney.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.mailjourney.abs" data-fmt="int">–</span> leads</span>
+            </div>
+
+            <div style="grid-column:3;grid-row:1" class="fm-node side">
+              <div class="fn-name">Waar ze vandaan komen</div>
+              <div class="fn-rows">
+                <span><b data-bind="reactivation.mailjourney.herkomst.vanFollowUp" data-fmt="int">–</b> via Follow-up</span>
+                <span><b data-bind="reactivation.mailjourney.herkomst.direct" data-fmt="int">–</b> direct vanuit New</span>
+                <span><b data-bind="reactivation.mailjourney.herkomst.vanNotReached" data-fmt="int">–</b> via Not reached</span>
+                <span><b data-bind="reactivation.mailjourney.herkomst.overig" data-fmt="int">–</b> overig</span>
               </div>
-              <div style="grid-column:1;grid-row:3" class="fm-node wait">
-                <div class="fn-name">Onderweg: Not reached</div>
-                <div class="fn-abs" data-bind="reactivation.notContact.abs" data-fmt="int">–</div>
-                <div class="fn-sub">wachtstand · max vier belpogingen, daarna een
-                   andere status en vaak alsnog de mailflow</div>
-              </div>
-              <div style="grid-column:3;grid-row:1" class="fm-node side">
-                <div class="fn-name">Waar ze vandaan komen</div>
-                <div class="fn-rows">
-                  <span><b data-bind="reactivation.mailjourney.herkomst.vanFollowUp" data-fmt="int">–</b> via Follow-up</span>
-                  <span><b data-bind="reactivation.mailjourney.herkomst.direct" data-fmt="int">–</b> direct vanuit New</span>
-                  <span><b data-bind="reactivation.mailjourney.herkomst.vanNotReached" data-fmt="int">–</b> via Not reached</span>
-                  <span><b data-bind="reactivation.mailjourney.herkomst.overig" data-fmt="int">–</b> overig</span>
-                </div>
-              </div>
-              <div style="grid-column:3;grid-row:2" class="fm-node">
-                <div class="fn-name">Mailjourney</div>
-                <div class="fn-abs" data-bind="reactivation.mailjourney.abs" data-fmt="int">–</div>
-                <div class="fn-sub" data-mj-herkomst>in een actieve flow</div>
-              </div>
-              <div style="grid-column:3;grid-row:3" class="fm-node dead">
-                <div class="fn-name">Nog geen heractivatie</div>
-                <div class="fn-abs" data-bind="reactivation.mailjourney.uit" data-fmt="int">–</div>
-              </div>
-              <div style="grid-column:5;grid-row:1" class="fm-node side">
-                <div class="fn-name">Buiten de mailflow gezet</div>
-                <div class="fn-abs" data-bind="reactivation.sql.herkomst.buitenMailflow" data-fmt="int">–</div>
-                <div class="fn-sub">niet geteld</div>
-              </div>
-              <div style="grid-column:5;grid-row:2" class="fm-node">
-                <div class="fn-name">Re-entered (SQL)</div>
-                <div class="fn-abs" data-bind="reactivation.sql.abs" data-fmt="int">–</div>
-              </div>
-              <div style="grid-column:5;grid-row:3" class="fm-node dead">
-                <div class="fn-name">Nog geen afspraak</div>
-                <div class="fn-abs" data-bind="reactivation.sql.uit" data-fmt="int">–</div>
-              </div>
-              <div style="grid-column:7;grid-row:1" class="fm-node side">
-                <div class="fn-name">Rechtstreeks uit de mailflow</div>
-                <div class="fn-abs" data-bind="reactivation.appointment.zonderSql" data-fmt="int">–</div>
-                <div class="fn-sub">zonder de stap Re-entered</div>
-              </div>
-              <div style="grid-column:7;grid-row:2" class="fm-node end">
-                <div class="fn-name">Afspraak</div>
-                <div class="fn-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-                <div class="fn-sub">uit de mailflow</div>
-              </div>
-              <div style="grid-column:2;grid-row:2" class="fm-link">
-                <span class="fl-lbl">in de mailflow</span>
-                <span class="fl-pct" data-bind="reactivation.mailjourney.ratio" data-fmt="pct1nosign">–</span>
-                <span class="fl-bar"><i data-bind-width="reactivation.mailjourney.ratio"></i></span>
-                <span class="fl-abs"><span data-bind="reactivation.mailjourney.abs" data-fmt="int">–</span> leads</span>
-              </div>
-              <div style="grid-column:4;grid-row:2" class="fm-link">
-                <span class="fl-lbl">heractivatie</span>
-                <span class="fl-pct" data-bind="reactivation.sql.ratio" data-fmt="pct1nosign">–</span>
-                <span class="fl-bar"><i data-bind-width="reactivation.sql.ratio"></i></span>
-                <span class="fl-abs"><span data-bind="reactivation.sql.abs" data-fmt="int">–</span> leads</span>
-              </div>
-              <div style="grid-column:6;grid-row:2" class="fm-link">
-                <span class="fl-lbl">via Re-entered</span>
-                <span class="fl-pct" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
-                <span class="fl-bar"><i data-bind-width="reactivation.appointment.ratio"></i></span>
-                <span class="fl-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> van de <span data-bind="reactivation.appointment.abs" data-fmt="int">–</span></span>
-              </div>
+            </div>
+            <div style="grid-column:3;grid-row:2/4" class="fm-node">
+              <div class="fn-name">Mailjourney</div>
+              <div class="fn-abs" data-bind="reactivation.mailjourney.abs" data-fmt="int">–</div>
+              <div class="fn-sub" data-mj-herkomst>in een actieve flow</div>
+            </div>
+            <div style="grid-column:3;grid-row:4" class="fm-node dead">
+              <div class="fn-name">Nog geen heractivatie</div>
+              <div class="fn-abs" data-bind="reactivation.mailjourney.uit" data-fmt="int">–</div>
+            </div>
+
+            <!-- Pad 1: via een heractivatiestatus -->
+            <div style="grid-column:4;grid-row:2" class="fm-link">
+              <span class="fl-lbl">heractivatie</span>
+              <span class="fl-pct" data-bind="reactivation.sql.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.sql.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.sql.abs" data-fmt="int">–</span> leads</span>
+            </div>
+            <div style="grid-column:5;grid-row:1" class="fm-node side">
+              <div class="fn-name">Buiten de mailflow gezet</div>
+              <div class="fn-abs" data-bind="reactivation.sql.herkomst.buitenMailflow" data-fmt="int">–</div>
+              <div class="fn-sub">niet geteld</div>
+            </div>
+            <div style="grid-column:5;grid-row:2" class="fm-node">
+              <div class="fn-name">Re-entered (SQL)</div>
+              <div class="fn-abs" data-bind="reactivation.sql.abs" data-fmt="int">–</div>
+            </div>
+            <div style="grid-column:5;grid-row:4" class="fm-node dead">
+              <div class="fn-name">Nog geen afspraak</div>
+              <div class="fn-abs" data-bind="reactivation.sql.uit" data-fmt="int">–</div>
+            </div>
+            <div style="grid-column:6;grid-row:2" class="fm-link">
+              <span class="fl-lbl">via Re-entered</span>
+              <span class="fl-pct" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.appointment.ratio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> afspraken</span>
+            </div>
+
+            <!-- Pad 2: rechtstreeks vanuit de mailflow, zonder tussenstatus -->
+            <div style="grid-column:4/7;grid-row:3" class="fm-link wide">
+              <span class="fl-lbl">direct naar afspraak · zonder de stap Re-entered</span>
+              <span class="fl-pct" data-bind="reactivation.appointment.zonderSqlRatio" data-fmt="pct1nosign">–</span>
+              <span class="fl-bar"><i data-bind-width="reactivation.appointment.zonderSqlRatio"></i></span>
+              <span class="fl-abs"><span data-bind="reactivation.appointment.zonderSql" data-fmt="int">–</span> afspraken</span>
+            </div>
+
+            <div style="grid-column:7;grid-row:2/4" class="fm-node end">
+              <div class="fn-name">Afspraak</div>
+              <div class="fn-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
+              <div class="fn-sub">beide paden samen</div>
+            </div>
+
           </div>
 
           <!-- Aftakking: nummerverrijking is een eigen niche, geen stap in de lijn -->
@@ -1105,7 +1118,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001152902"></script>
+<script src="data-layer.js?v=20261001153554"></script>
 
 </body>
 </html>
