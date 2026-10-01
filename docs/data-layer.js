@@ -458,26 +458,31 @@ function renderPathFunnels(paths, split) {
   rows.push({
     label: "Direct uit de mailflow",
     boxes: [
-      { name: "In de mailflow", value: bak.entry || 0 },
-      NO_STEP,
-      { name: "Afspraak", value: bak.direct || 0 },
+      { name: "Uit Mailjourney", value: bak.directMailjourney || 0 },
+      { name: "Uit Not reached", value: bak.directNotReached || 0, join: "+" },
+      { name: "Afspraak", value: bak.direct || 0, join: "→" },
     ],
-    note:
-      nlNum(bak.directMailjourney || 0, 0) + " uit Mailjourney · " +
-      nlNum(bak.directNotReached || 0, 0) + " uit Not reached",
+    note: "rechtstreeks vanuit de mailflow, zonder heractivatiestatus",
   });
 
   rows.push({
     label: "Overig",
     boxes: [
-      { name: "In de mailflow", value: bak.entry || 0 },
-      NO_STEP,
-      { name: "Afspraak", value: bak.other || 0 },
+      { name: "Andere instroom", value: null, muted: true },
+      { name: "Geen vaste route", value: null, muted: true, join: "·" },
+      { name: "Afspraak", value: bak.other || 0, join: "→" },
     ],
     note: "niet vanuit New de mailflow in gekomen",
   });
 
-  rows.forEach((row) => host.appendChild(pathRow(row)));
+  // Het enige dat over alle vier te vergelijken is: hoeveel van de 39 komt
+  // uit deze route. De percentages tussen de blokken gaan over de stap
+  // ernaast en hebben per route een andere noemer.
+  rows.forEach((row) => {
+    const last = row.boxes[row.boxes.length - 1].value || 0;
+    row.share = total ? Math.round((last / total) * 1000) / 10 : null;
+    host.appendChild(pathRow(row));
+  });
 }
 
 // Eén route: label, de blokkenlijn, en eronder de aftakking of een toelichting.
@@ -488,13 +493,25 @@ function pathRow(spec) {
   const label = document.createElement("div");
   label.className = "pf-label";
   label.textContent = spec.label;
+  if (spec.share !== null && spec.share !== undefined) {
+    const share = document.createElement("span");
+    share.className = "pfl-share";
+    share.textContent = nlNum(spec.share, 1) + "% van alle afspraken";
+    label.appendChild(share);
+  }
   row.appendChild(label);
 
   const line = document.createElement("div");
   line.className = "mini-funnel pf-line";
 
   spec.boxes.forEach((box, i) => {
-    if (i > 0) {
+    if (i > 0 && box.join) {
+      // Deze route telt op of wijst door; er valt geen doorstroom te berekenen.
+      const fixed = document.createElement("div");
+      fixed.className = "mf-arrow";
+      fixed.innerHTML = '<span class="mfa-ratio">' + box.join + "</span>";
+      line.appendChild(fixed);
+    } else if (i > 0) {
       // De pijl toont de doorstroom vanaf het laatste blok met een getal, zodat
       // een overgeslagen tussenstap het percentage niet op nul zet.
       let prev = null;
