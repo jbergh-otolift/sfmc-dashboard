@@ -2,20 +2,6 @@
   "attribution": "Statuspad: instroom in Mailjourney, daarna een heractivatiesignaal (Re-entered, Nummer gewijzigd of direct Appointment), en de conversie ná dat signaal. Toegerekend aan de conversiedatum.",
   "byFlowNote": "meervoudig toegerekend",
   "days": {
-    "2025-08-26": {
-      "nl": {
-        "byPath": {},
-        "byReason": {},
-        "byRoute": {},
-        "byRouteReason": {},
-        "mailedOrders": 0,
-        "mailedRevenue": 0.0,
-        "orders": 18,
-        "revenue": 103724.0,
-        "viaAutomationOrders": 0,
-        "viaAutomationRevenue": 0.0
-      }
-    },
     "2025-08-27": {
       "nl": {
         "byPath": {},
@@ -7150,16 +7136,38 @@
     },
     "2026-09-30": {
       "be": {
-        "byPath": {},
-        "byReason": {},
-        "byRoute": {},
-        "byRouteReason": {},
-        "mailedOrders": 0,
-        "mailedRevenue": 0.0,
-        "orders": 8,
-        "revenue": 73924.76,
-        "viaAutomationOrders": 0,
-        "viaAutomationRevenue": 0.0
+        "byPath": {
+          "Mailjourney (No Contact Possible - number correct) → Appointment": {
+            "orders": 1,
+            "revenue": 4610.4
+          }
+        },
+        "byReason": {
+          "No Contact Possible - number correct": {
+            "orders": 1,
+            "revenue": 4610.4
+          }
+        },
+        "byRoute": {
+          "Appointment": {
+            "orders": 1,
+            "revenue": 4610.4
+          }
+        },
+        "byRouteReason": {
+          "Appointment": {
+            "No Contact Possible - number correct": {
+              "orders": 1,
+              "revenue": 4610.4
+            }
+          }
+        },
+        "mailedOrders": 1,
+        "mailedRevenue": 4610.4,
+        "orders": 14,
+        "revenue": 128306.72,
+        "viaAutomationOrders": 1,
+        "viaAutomationRevenue": 4610.4
       },
       "nl": {
         "byPath": {
@@ -7190,15 +7198,6642 @@
         },
         "mailedOrders": 1,
         "mailedRevenue": 10879.5,
-        "orders": 16,
-        "revenue": 109549.83,
+        "orders": 19,
+        "revenue": 129440.84,
         "viaAutomationOrders": 1,
         "viaAutomationRevenue": 10879.5
       }
     }
   },
-  "generated_at": "2026-09-30T21:12:08+00:00",
+  "generated_at": "2026-10-01T09:10:24+00:00",
   "lookback_days": 400,
+  "pathFunnelNote": "Per stap geteld op de dag van die stap, niet op de instroomdag: optelbaar over elk bereik, maar géén cohort. Een lead met beide routes in zijn historie telt in beide trechters.",
+  "pathFunnelTotals": {
+    "be": {
+      "mailjourney": {
+        "appointment": 10,
+        "new": 207,
+        "order": 7,
+        "reentered": 18,
+        "stage2": 207
+      },
+      "notReached": {
+        "appointment": 17,
+        "new": 743,
+        "order": 9,
+        "reentered": 39,
+        "stage2": 743
+      }
+    },
+    "fr": {
+      "mailjourney": {
+        "appointment": 0,
+        "new": 117,
+        "order": 0,
+        "reentered": 5,
+        "stage2": 117
+      },
+      "notReached": {
+        "appointment": 0,
+        "new": 748,
+        "order": 0,
+        "reentered": 25,
+        "stage2": 748
+      }
+    },
+    "nl": {
+      "mailjourney": {
+        "appointment": 27,
+        "new": 805,
+        "order": 11,
+        "reentered": 68,
+        "stage2": 805
+      },
+      "notReached": {
+        "appointment": 35,
+        "new": 1590,
+        "order": 12,
+        "reentered": 127,
+        "stage2": 1590
+      }
+    }
+  },
+  "pathFunnels": {
+    "2026-03-16": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 18,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 18
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 15,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 15
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 28,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 28
+        }
+      }
+    },
+    "2026-03-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 14
+        }
+      }
+    },
+    "2026-03-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-03-19": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 13
+        }
+      }
+    },
+    "2026-03-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-03-23": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 36,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 36
+        }
+      }
+    },
+    "2026-03-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-03-25": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 14,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 14
+        }
+      }
+    },
+    "2026-03-26": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 14
+        }
+      }
+    },
+    "2026-03-27": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-03-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 9
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 13
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 22,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 22
+        }
+      }
+    },
+    "2026-03-31": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-04-01": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-04-02": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-04-03": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-04-06": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-04-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 14,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 14
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 52,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 52
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 24,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 24
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 33,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 33
+        }
+      }
+    },
+    "2026-04-08": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-04-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-04-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      }
+    },
+    "2026-04-11": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-04-13": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 20,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 20
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 37,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 37
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 20,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 20
+        }
+      }
+    },
+    "2026-04-14": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 17,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 17
+        }
+      }
+    },
+    "2026-04-15": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-04-16": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-04-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-04-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-04-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 13
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 55,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 55
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 14
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 20,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 20
+        }
+      }
+    },
+    "2026-04-21": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-04-22": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-04-23": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-04-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-04-26": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-04-27": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 33,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 33
+        }
+      }
+    },
+    "2026-04-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 46,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 46
+        }
+      }
+    },
+    "2026-04-29": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-04-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-05-01": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-05-02": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-03": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-04": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 14
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 24,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 24
+        }
+      }
+    },
+    "2026-05-05": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 11,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-05-06": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 41,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 41
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-05-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-05-08": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      }
+    },
+    "2026-05-09": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-11": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 11
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 65,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 65
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 33,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 33
+        }
+      }
+    },
+    "2026-05-12": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-05-13": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 16,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 16
+        }
+      }
+    },
+    "2026-05-14": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-05-15": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 15,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 15
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 23,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 23
+        }
+      }
+    },
+    "2026-05-16": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-17": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 13
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 45,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 45
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 28,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 28
+        }
+      }
+    },
+    "2026-05-19": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 8,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-05-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-05-21": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-05-22": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-05-23": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-25": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-05-26": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 16,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 16
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 15,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 15
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 43,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 43
+        }
+      }
+    },
+    "2026-05-27": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 49,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 49
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 16,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 16
+        }
+      }
+    },
+    "2026-05-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 14
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-05-29": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-05-31": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-01": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 34,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 34
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 24,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 24
+        }
+      }
+    },
+    "2026-06-02": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 15,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 15
+        }
+      }
+    },
+    "2026-06-03": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 2,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-06-04": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-06-05": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-06-06": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-08": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 9
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 30,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 30
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        },
+        "notReached": {
+          "appointment": 3,
+          "new": 17,
+          "order": 1,
+          "reentered": 2,
+          "stage2": 17
+        }
+      }
+    },
+    "2026-06-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 13,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 13
+        }
+      }
+    },
+    "2026-06-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-06-11": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-06-12": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-06-13": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-14": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-15": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 41,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 41
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 11
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 25,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 25
+        }
+      }
+    },
+    "2026-06-16": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 13
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-06-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-06-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-06-19": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-06-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-21": {
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-22": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 40,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 40
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 27,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 27
+        }
+      }
+    },
+    "2026-06-23": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-06-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-06-25": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      }
+    },
+    "2026-06-26": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      }
+    },
+    "2026-06-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-06-29": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 37,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 37
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 30,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 30
+        }
+      }
+    },
+    "2026-06-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-07-01": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-07-02": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-07-03": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-07-04": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-07-06": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 24,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 24
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 13,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 13
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 17,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 17
+        }
+      }
+    },
+    "2026-07-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-07-08": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-07-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        }
+      }
+    },
+    "2026-07-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 4,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-07-13": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 2,
+          "new": 21,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 21
+        }
+      }
+    },
+    "2026-07-14": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-07-15": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-07-16": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 3
+        }
+      }
+    },
+    "2026-07-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-07-18": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-07-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 2,
+          "new": 6,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 21,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 21
+        }
+      }
+    },
+    "2026-07-21": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-07-22": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-07-23": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-07-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-07-27": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 13
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 21,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 21
+        }
+      }
+    },
+    "2026-07-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 11,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-07-29": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-07-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-07-31": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-01": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-03": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 2,
+          "new": 13,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 13
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 20,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 20
+        }
+      }
+    },
+    "2026-08-04": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-08-05": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 10,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-08-06": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 9,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-08-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-08-08": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 16,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 16
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-08-11": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 1,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-08-12": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-08-13": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-08-14": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 9
+        }
+      }
+    },
+    "2026-08-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 14,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 14
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 22,
+          "order": 1,
+          "reentered": 10,
+          "stage2": 22
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 21,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 21
+        }
+      }
+    },
+    "2026-08-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 2,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-08-19": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-08-20": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-21": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-22": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-23": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 10,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 10
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-08-25": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-26": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-08-27": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-08-29": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-08-31": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 5,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 15,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 15
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 13,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 13
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 30,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 30
+        }
+      }
+    },
+    "2026-09-01": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 23,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 23
+        }
+      }
+    },
+    "2026-09-02": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 1,
+          "reentered": 2,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-09-03": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 1,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-09-04": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 1,
+          "reentered": 1,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 12,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-09-07": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 18,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 18
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 34,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 34
+        }
+      }
+    },
+    "2026-09-08": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 2,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 10,
+          "order": 1,
+          "reentered": 2,
+          "stage2": 10
+        }
+      }
+    },
+    "2026-09-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 8,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-09-10": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-09-11": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      },
+      "fr": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 11,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 11
+        }
+      }
+    },
+    "2026-09-13": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-09-14": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 16,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 16
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 2,
+          "new": 14,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 14
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 22,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 22
+        }
+      }
+    },
+    "2026-09-15": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 1,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 8
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-09-16": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 5
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-09-17": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        }
+      }
+    },
+    "2026-09-18": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 6,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 6
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-09-19": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-09-21": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 17,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 17
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        },
+        "notReached": {
+          "appointment": 2,
+          "new": 19,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 19
+        }
+      }
+    },
+    "2026-09-22": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 12
+        }
+      }
+    },
+    "2026-09-23": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 8
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 6,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 6
+        }
+      }
+    },
+    "2026-09-24": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 2,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        }
+      }
+    },
+    "2026-09-25": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 5,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 5
+        }
+      }
+    },
+    "2026-09-26": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-09-27": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 0
+        }
+      }
+    },
+    "2026-09-28": {
+      "be": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 7
+        },
+        "notReached": {
+          "appointment": 1,
+          "new": 7,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 7
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 17,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 17
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 8,
+          "order": 0,
+          "reentered": 2,
+          "stage2": 8
+        }
+      }
+    },
+    "2026-09-29": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 1
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 9,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 9
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 4,
+          "stage2": 3
+        }
+      }
+    },
+    "2026-09-30": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 1,
+          "reentered": 0,
+          "stage2": 2
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 1,
+          "new": 11,
+          "order": 0,
+          "reentered": 3,
+          "stage2": 11
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 4,
+          "stage2": 2
+        }
+      }
+    },
+    "2026-10-01": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 2,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 2
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 0
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "new": 4,
+          "order": 0,
+          "reentered": 0,
+          "stage2": 4
+        },
+        "notReached": {
+          "appointment": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 1,
+          "stage2": 1
+        }
+      }
+    }
+  },
   "paths": {
     "be": {
       "Mailjourney (Never had contact with the customer) → Appointment": {
@@ -7212,9 +13847,9 @@
         "revenue": 30220.21
       },
       "Mailjourney (No Contact Possible - number correct) → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 4610.4
+        "leads": 2,
+        "orders": 2,
+        "revenue": 9220.8
       },
       "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": {
         "leads": 1,
@@ -7368,9 +14003,9 @@
   "routes": {
     "be": {
       "Appointment": {
-        "orders": 7,
+        "orders": 8,
         "reached": 106,
-        "revenue": 63298.0,
+        "revenue": 67908.4,
         "withAppointment": 106
       },
       "Re-entered": {
@@ -7389,7 +14024,7 @@
     "fr": {
       "Re-entered": {
         "orders": 0,
-        "reached": 90,
+        "reached": 86,
         "revenue": 0.0,
         "withAppointment": 0
       }
@@ -7397,7 +14032,7 @@
     "it": {
       "Re-entered": {
         "orders": 0,
-        "reached": 20,
+        "reached": 19,
         "revenue": 0.0,
         "withAppointment": 0
       }
@@ -7405,13 +14040,13 @@
     "nl": {
       "Appointment": {
         "orders": 40,
-        "reached": 232,
+        "reached": 233,
         "revenue": 275770.36,
-        "withAppointment": 232
+        "withAppointment": 233
       },
       "Re-entered": {
         "orders": 16,
-        "reached": 275,
+        "reached": 276,
         "revenue": 96039.37,
         "withAppointment": 86
       },
