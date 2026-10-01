@@ -120,6 +120,15 @@ FUNNEL_REENTRY = ("Re-entered", "Re-entered - Phone Number Changed")
 # De twee statussen waarmee een lead in de mailflow terechtkomt.
 FUNNEL_ENTRY = tuple(PATH_FUNNELS.values())
 
+# De laatste stap vóór de afspraak bepaalt de route. Dezelfde indeling als bij
+# de orders, zodat het afsprakenblok en het ordersblok dezelfde taal spreken.
+APPOINTMENT_ROUTES = {
+    S_PHONE_CHANGED: "Nummer gewijzigd",
+    "Re-entered": "Re-entered",
+    S_MAILJOURNEY: "Direct afspraak",
+    "Not reached": "Direct afspraak",
+}
+
 FUNNEL_STAGES = ("new", "stage2", "reentered", "appointment", "order")
 
 # Dezelfde twee stappen, maar alleen voor de leads die pas terugkwamen nadat
@@ -466,6 +475,13 @@ def appointment_split(by_lead, active):
     """
     days = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     totals = defaultdict(lambda: defaultdict(int))
+    routes = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    route_totals = defaultdict(lambda: defaultdict(int))
+    paths = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    path_totals = defaultdict(lambda: defaultdict(int))
+    route_reason = defaultdict(
+        lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    )
 
     for lead, rows in by_lead.items():
         rows.sort(key=lambda r: r.get("Edit Date") or "")
@@ -518,7 +534,54 @@ def appointment_split(by_lead, active):
             days[day][market][key] += 1
             totals[market][key] += 1
 
-    return days, totals
+        # Langs welke laatste stap kwam de afspraak binnen? Dezelfde indeling
+        # als bij de orders, zodat beide blokken dezelfde taal spreken.
+        route = APPOINTMENT_ROUTES.get(previous, "Overig")
+        routes[day][market][route] += 1
+        route_totals[market][route] += 1
+
+        # En het volledige statuspad erheen, voor de uitklaplijst.
+        entry_reason, steps = _appointment_steps(rows, day, fallback_reason)
+        path = build_status_path(entry_reason, steps, until=day)
+        paths[day][market][path] += 1
+        path_totals[market][path] += 1
+        route_reason[day][market][route][entry_reason or "(geen reden)"] += 1
+
+    return {
+        "days": days,
+        "totals": totals,
+        "routes": routes,
+        "routeTotals": route_totals,
+        "paths": paths,
+        "pathTotals": path_totals,
+        "routeReason": route_reason,
+    }
+
+
+def _appointment_steps(rows, until, fallback_reason):
+    """De instroomreden en de statusstappen tot aan de afspraak.
+
+    Geeft hetzelfde soort pad terug als bij de orders: de mailflow-instroom
+    met zijn reden als kop, daarna elke relevante status tot en met de
+    afspraak. Stappen ná de afspraakdag blijven buiten beeld.
+    """
+    entry_reason = None
+    steps = []
+    started = False
+    for row in rows:
+        new = (row.get("New Value") or "").strip()
+        day = (row.get("Edit Date") or "")[:10]
+        if not day or day > until:
+            continue
+        if new in FUNNEL_ENTRY and not started:
+            entry_reason = (row.get("Reason") or "").strip() or fallback_reason
+            started = True
+            continue
+        if started and new in PATH_STATUSES:
+            steps.append((day, new))
+        if started and new == S_APPOINTMENT and day == until:
+            break
+    return entry_reason, steps
 
 
 def path_funnels(by_lead, converted, active):
@@ -714,7 +777,8 @@ def main():
 
     # Alle afspraken uit de mailflow, verdeeld over elkaar uitsluitende bakken
     # die optellen tot het totaal.
-    split_days, split_totals = appointment_split(transitions, active)
+    split = appointment_split(transitions, active)
+    split_days, split_totals = split["days"], split["totals"]
     for market, buckets in sorted(split_totals.items()):
         total = sum(buckets[k] for k in ("notReached", "mailjourney", "direct", "other"))
         print(f"  {market}: {total} afspraken uit de mailflow = "
@@ -941,6 +1005,23 @@ def main():
         },
         "appointmentSplitTotals": {
             market: dict(buckets) for market, buckets in split_totals.items()
+        },
+        # Dezelfde afspraken, nu langs de route waarlangs ze binnenkwamen en
+        # langs het volledige statuspad. Voedt het uitklapblok onder de funnel.
+        "appointmentRoutes": {
+            day: {market: dict(r) for market, r in per_market.items()}
+            for day, per_market in split["routes"].items()
+        },
+        "appointmentPaths": {
+            day: {market: dict(p) for market, p in per_market.items()}
+            for day, per_market in split["paths"].items()
+        },
+        "appointmentRouteReason": {
+            day: {
+                market: {route: dict(reasons) for route, reasons in per_route.items()}
+                for market, per_route in per_market.items()
+            }
+            for day, per_market in split["routeReason"].items()
         },
         "pathFunnelTotals": {
             market: {funnel: dict(stages) for funnel, stages in per_funnel.items()}

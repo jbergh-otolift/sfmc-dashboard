@@ -492,57 +492,20 @@
   .vb-p-name{color:var(--ink)}
   .vb-p-val{font-weight:700;color:var(--oto-green);white-space:nowrap}
   .vb-t-val{font-variant-numeric:tabular-nums}
-  .path-funnels{margin-top:14px}
-  .pf-cap{font-size:11px;color:var(--ink-soft);line-height:1.5;max-width:720px;margin-bottom:12px}
-  .pf-row{padding:10px 14px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);
-          margin-bottom:8px}
-  /* Om de beurt een andere ondergrond: dat scheidt de routes zonder extra lijnen. */
-  .pf-row:nth-child(even){background:#F7F8FA}
-  /* Compacter dan de hoofdfunnel: vijf stappen moeten op een rij passen. */
-  /* Drie blokken op een rij worden zonder maximum veel te breed; met deze
-     maat houden ze dezelfde verhouding als de blokken in de lijn erboven. */
-  .pf-line{flex-wrap:nowrap;padding:2px 0 0;justify-content:flex-start}
-  .pf-line .mf-stage{flex:0 1 176px;max-width:176px}
-  .pf-line .mf-arrow{flex:1 1 auto}
-  /* Restgroep zonder eigen lijn: alleen een regel zodat de optelling klopt. */
-  .pf-rest{font-size:11.5px;color:var(--ink-soft);padding:9px 14px}
-  .pf-rest b{color:var(--ink)}
-  .pf-label{font-size:11px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px;
-            display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .pfl-share{font-size:9.5px;font-weight:600;color:var(--ink-soft);text-transform:none;letter-spacing:0}
-  /* Klein totaalblokje rechtsboven, net als bij de orders. */
-  .pf-stat{margin-left:auto;display:flex;align-items:baseline;gap:10px;
-           background:#F4F8F4;border:1px solid var(--oto-green-soft);border-radius:10px;
-           padding:6px 14px;align-self:center}
-  .pfs-lbl{font-size:9.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;
-           letter-spacing:.4px}
-  .pfs-abs{font-size:24px;font-weight:800;color:var(--oto-green);line-height:1.05}
-  /* Blok voor een stap die deze route niet kent. */
-  .pf-line .mf-stage.muted{background:#FAFBFC;border-style:dashed}
-  .pf-line .mf-stage.muted .mf-abs{color:var(--ink-soft)}
-  .pf-note{font-size:10.5px;color:var(--ink-soft);margin:5px 0 0 30px}
-
-  /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen.
-     Dichtgeklapt is het één regel; open staan dezelfde blokken als erboven. */
-  .pf-fold{margin-top:4px}
-  .pf-fold>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
-                   font-size:10.5px;color:var(--ink-soft);padding:3px 2px;border-radius:6px}
-  .pf-fold>summary::-webkit-details-marker{display:none}
-  .pf-fold>summary::before{content:"▸";font-size:9px;color:var(--oto-red)}
-  .pf-fold[open]>summary::before{content:"▾"}
-  .pf-fold>summary:hover{color:var(--ink)}
-  .pf-fold>summary b{color:var(--ink);font-weight:700}
-  .pf-branch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-             margin:4px 0 2px 16px;padding-left:14px;border-left:2px solid var(--line)}
-  .pfb-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
-           color:var(--ink-soft);line-height:1.3;white-space:pre-line}
-  .pfb-box{display:flex;flex-direction:column;gap:2px;background:#fff;
-           border:1px solid var(--line);border-radius:8px;padding:5px 11px;min-width:92px}
-  .pfb-name{font-size:9px;font-weight:600;color:var(--ink-soft);line-height:1.2}
-  .pfb-abs{font-size:16px;font-weight:800;color:var(--ink);line-height:1}
-  .pfb-box.appt{border-color:var(--oto-green-soft);background:#F4F8F4}
-  .pfb-box.appt .pfb-abs{color:var(--oto-green)}
-  .pfb-arrow{font-size:11px;font-weight:700;color:var(--oto-red)}
+  /* Aftakking onder de funnel: nummerverrijking is een eigen niche. */
+  .mf-branch{margin-top:14px;display:flex;justify-content:center}
+  .mf-branch-inner{display:flex;align-items:center;gap:0;background:#FBFCFD;border:1px dashed var(--line);border-radius:12px;padding:12px 18px;flex-wrap:wrap}
+  .mf-branch-tag{font-size:9.5px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-right:16px;white-space:nowrap;display:flex;flex-direction:column;gap:2px}
+  .mf-branch-tag span{font-size:9px;color:var(--ink-soft);font-weight:600;text-transform:none;letter-spacing:0}
+  .mf-bstage{text-align:center;padding:8px 14px;background:#fff;border:1px solid var(--line);border-radius:9px;min-width:120px}
+  .mf-bstage .mfb-name{font-size:10.5px;font-weight:700;color:var(--ink);line-height:1.2}
+  .mf-bstage .mfb-abs{font-size:19px;font-weight:800;color:var(--oto-red);margin-top:3px}
+  .mf-barrow{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px;min-width:78px;gap:2px}
+  .mf-barrow .mfba-ratio{font-size:13px;font-weight:800;color:var(--oto-red)}
+  .mf-barrow .mfba-lbl{font-size:8.5px;color:var(--ink-soft);white-space:nowrap;font-weight:600}
+  .mf-barrow.rejoin .mfba-ratio{color:var(--oto-green)}
+  .mf-bstage.rejoin{border-color:var(--oto-green);background:#EEF7F0}
+  .mf-bstage.rejoin .mfb-abs{color:var(--oto-green)}
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
@@ -609,10 +572,6 @@
       <h2>Her-activatie</h2>
             <span class="desc">Instroom = leads die vanuit <code>New</code> in behandeling komen. Elke stap telt de statusovergangen daarnaartoe; de pijlen tonen de doorstroom van de ene stap naar de volgende.</span>
             <span class="srcbadge" data-source-for="reactivation">–</span>
-            <div class="pf-stat">
-              <span class="pfs-lbl">Alle afspraken uit de mailflow</span>
-              <span class="pfs-abs" data-appt-total>–</span>
-            </div>
     </div>
 
     <div class="card">
@@ -624,7 +583,7 @@
             <div class="mf-stage start">
               <div class="mf-name">Lead<br>instroom</div>
               <div class="mf-abs" data-bind="reactivation.leadIntake.abs" data-fmt="int">2.140</div>
-              <div class="mf-sub">startpunt</div>
+              <div class="mf-sub" data-intake-split>startpunt</div>
             </div>
             <div class="mf-arrow">
               <span class="mfa-lbl">Lead → Not reached</span>
@@ -666,20 +625,56 @@
               <span class="mfa-lbl">SQL → Afspraak</span>
               <span class="mfa-ratio" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
               <span class="mfa-track"><i data-bind-width="reactivation.appointment.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.appointment.abs" data-fmt="int">–</span> leads</span>
+              <span class="mfa-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> direct</span>
             </div>
             <div class="mf-stage end">
               <div class="mf-name">Afspraak</div>
               <div class="mf-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-              <div class="mf-sub">direct vanuit heractivatie</div>
+              <div class="mf-sub">uit de mailflow</div>
             </div>
           </div>
 
-          <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
-          <div class="path-funnels" data-path-funnels hidden>
-            <p class="pf-cap">De vier routes hieronder sluiten elkaar uit en tellen op tot
-               dat getal. Een aftakking is een deel van zijn route, geen extra groep.</p>
+          <!-- Aftakking: nummerverrijking is een eigen niche, geen stap in de lijn -->
+          <div class="mf-branch" data-enrich-branch hidden>
+            <div class="mf-branch-inner">
+              <div class="mf-branch-tag">Aftakking<span>nummerverrijking</span></div>
+              <div class="mf-bstage">
+                <div class="mfb-name">Nummer verrijkt</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.enrichedLeads" data-fmt="int">–</div>
+              </div>
+              <div class="mf-barrow rejoin">
+                <span class="mfba-ratio" data-bind="reactivation.enrichment.toAppointmentRatio" data-fmt="pct1nosign">–</span>
+                <span class="mfba-lbl">naar afspraak</span>
+              </div>
+              <div class="mf-bstage rejoin">
+                <div class="mfb-name">Afspraak</div>
+                <div class="mfb-abs" data-bind="reactivation.enrichment.toAppointment" data-fmt="int">–</div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- De afspraken uitgelegd, in dezelfde vorm als het ordersblok -->
+        <div class="value-block" data-appt-block hidden>
+          <div class="vb-head">
+            <div>
+              <h3>Afspraken via automation</h3>
+              <p>Elke afspraak van een lead die eerder met een actieve reden in
+                 <code>Not reached</code> of <code>Mailjourney</code> stond. De route is de
+                 laatste stap vóór de afspraak; wie geen heractivatiestatus passeerde valt
+                 onder <b>direct afspraak</b>.</p>
+            </div>
+            <div class="vb-total">
+              <span class="vb-t-val" data-appt-total>–</span>
+              <span class="vb-t-lbl" data-appt-sub>–</span>
+            </div>
+          </div>
+          <div class="vb-routes" data-appt-routes></div>
+
+          <details class="vb-details">
+            <summary>Welke statussen deze leads doorliepen</summary>
+            <div class="vb-list" data-appt-paths></div>
+          </details>
         </div>
 
         <div class="value-block" data-value-block hidden>
@@ -1020,7 +1015,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001132325"></script>
+<script src="data-layer.js?v=20261001140425"></script>
 
 </body>
 </html>

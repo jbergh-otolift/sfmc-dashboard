@@ -391,6 +391,20 @@ function renderMailjourneyOrigin(stage) {
   el.textContent = parts.length ? parts.join(" · ") : "van instroom";
 }
 
+// De instroom heeft twee bronnen: nieuwe leads, en aanvragen van mensen die
+// al in het systeem staan. Die laatste krijgen geen New maar Re-entered, en
+// zouden zonder deze regel onzichtbaar blijven.
+function renderIntakeSplit(stage) {
+  const el = document.querySelector("[data-intake-split]");
+  if (!el) return;
+  if (!stage || !stage.opnieuw) {
+    el.textContent = "startpunt";
+    return;
+  }
+  el.textContent =
+    nlNum(stage.nieuw, 0) + " nieuw · " + nlNum(stage.opnieuw, 0) + " opnieuw";
+}
+
 // Niet elke Re-entered komt uit de mailflow: sales zet die status ook met de
 // hand vanuit Lost of Not Qualified. Alleen de mailflow-route telt hier.
 function renderSqlOrigin(stage) {
@@ -402,268 +416,99 @@ function renderSqlOrigin(stage) {
     : "uit de mailflow";
 }
 
-// Tekent de vier routes naar een afspraak, elk in dezelfde vorm als de lijn
-// bovenaan de sectie: blokken met het aantal, pijlen met de doorstroom
-// ertussen. Ze sluiten elkaar uit en tellen op tot het totaal in de kop.
+// De afspraken uitgelegd, in dezelfde vorm als het ordersblok: een totaal,
+// kaarten per route en een uitklaplijst met de statuspaden erachter.
 //
-// De eerste twee routes lopen via een heractivatiestatus. De derde slaat die
-// stap over - de lead kreeg rechtstreeks een afspraak - en de vierde is de
-// rest: leads die niet vanuit New de mailflow in kwamen. Bij die laatste twee
-// is er geen tussenstap om een percentage op te hangen, dus staat daar een
-// streepje in plaats van een verzonnen getal.
-const PATH_LAYOUT = [
-  { key: "notReached", label: "Via Not reached", entry: "Not reached" },
-  { key: "mailjourney", label: "Via Mailjourney", entry: "Mailjourney" },
-];
-
-const NO_STEP = { name: "Geen tussenstap", value: null, muted: true };
-
-function renderPathFunnels(paths, split) {
-  const host = document.querySelector("[data-path-funnels]");
-  if (!host) return;
-  const any = PATH_LAYOUT.some((p) => (paths || {})[p.key] && paths[p.key].new);
-  if (!any) {
-    host.hidden = true;
-    return;
-  }
-  host.hidden = false;
-  host.querySelectorAll(".pf-row").forEach((el) => el.remove());
+// De route is de laatste stap vóór de afspraak. Dat is dezelfde indeling als
+// bij de orders, zodat beide blokken hetzelfde lezen.
+function renderApptBlock(split, routes, paths, routeReason) {
+  const block = document.querySelector("[data-appt-block]");
+  if (!block) return;
 
   const bak = split || {};
   const total = ["notReached", "mailjourney", "direct", "other"].reduce(
     (sum, key) => sum + (bak[key] || 0),
     0
   );
-  // Staat in de sectiekop, buiten dit blok.
-  const stat = document.querySelector("[data-appt-total]");
-  if (stat) stat.textContent = nlNum(total, 0);
+  if (!total) {
+    block.hidden = true;
+    return;
+  }
+  block.hidden = false;
 
-  const rows = [];
+  const val = block.querySelector("[data-appt-total]");
+  const sub = block.querySelector("[data-appt-sub]");
+  if (val) val.textContent = nlNum(total, 0);
+  if (sub) {
+    // Zelfde indeling als de kaarten eronder: de laatste stap vóór de
+    // afspraak. Anders staan er twee verschillende tellingen in één blok.
+    const viaFlow =
+      ((routes || {})["Re-entered"] || 0) + ((routes || {})["Nummer gewijzigd"] || 0);
+    sub.textContent =
+      "afspraken · waarvan " + nlNum(viaFlow, 0) +
+      " via een heractivatiestatus";
+  }
 
-  PATH_LAYOUT.forEach((layout) => {
-    const data = (paths || {})[layout.key] || {};
-    rows.push({
-      label: layout.label,
-      boxes: [
-        { name: layout.entry, value: data.stage2 || 0, sub: "instroom" },
-        {
-          name: "Re-entered (SQL)",
-          value: data.reentered || 0,
-          sub: "van instroom",
-          lbl: layout.entry + " → SQL",
-        },
-        {
-          name: "Afspraak",
-          value: data.appointment || 0,
-          sub: "via deze route",
-          lbl: "SQL → afspraak",
-        },
-      ],
-      // De aftakking is een deel van deze route, geen extra groep.
-      branch: data.reenteredEnriched
-        ? [data.reenteredEnriched, data.appointmentEnriched || 0]
-        : null,
+  const box = block.querySelector("[data-appt-routes]");
+  box.innerHTML = "";
+  Object.entries(routes || {})
+    .sort((a, b) => b[1] - a[1])
+    .forEach(([route, n]) => {
+      const reasons = Object.entries((routeReason || {})[route] || {}).sort(
+        (a, b) => b[1] - a[1]
+      );
+      const card = document.createElement(reasons.length ? "details" : "div");
+      card.className = "vb-route";
+
+      const head = document.createElement(reasons.length ? "summary" : "div");
+      head.className = "vb-r-head";
+      const name = document.createElement("div");
+      name.className = "vb-r-name";
+      name.textContent = route;
+      const amount = document.createElement("div");
+      amount.className = "vb-r-val";
+      amount.textContent = nlNum(n, 0);
+      const note = document.createElement("div");
+      note.className = "vb-r-sub";
+      note.textContent = n === 1 ? "afspraak" : "afspraken";
+      head.append(name, amount, note);
+      card.appendChild(head);
+
+      if (reasons.length) {
+        const list = document.createElement("div");
+        list.className = "vb-reasons";
+        reasons.forEach(([reason, count]) => {
+          const line = document.createElement("div");
+          line.className = "vb-reason";
+          const label = document.createElement("span");
+          label.textContent = reason;
+          const amt = document.createElement("span");
+          amt.textContent =
+            nlNum(count, 0) + (count === 1 ? " afspraak" : " afspraken");
+          line.append(label, amt);
+          list.appendChild(line);
+        });
+        card.appendChild(list);
+      }
+      box.appendChild(card);
     });
-  });
 
-  rows.push({
-    label: "Direct uit de mailflow",
-    boxes: [
-      {
-        name: "Uit Mailjourney",
-        value: bak.directMailjourney || 0,
-        sub: "zonder tussenstap",
-      },
-      {
-        name: "Uit Not reached",
-        value: bak.directNotReached || 0,
-        sub: "zonder tussenstap",
-        join: "+",
-        lbl: "samen",
-      },
-      {
-        name: "Afspraak",
-        value: bak.direct || 0,
-        sub: "via deze route",
-        join: "→",
-        lbl: "mailflow → afspraak",
-      },
-    ],
-    note: "rechtstreeks vanuit de mailflow, zonder heractivatiestatus",
-  });
-
-  // Het enige dat over alle routes te vergelijken is: hoeveel van het totaal
-  // komt er uit deze route. De percentages tussen de blokken gaan over de
-  // stap ernaast en hebben per route een andere noemer.
-  rows.forEach((row) => {
-    const last = row.boxes[row.boxes.length - 1].value || 0;
-    row.share = total ? Math.round((last / total) * 1000) / 10 : null;
-    host.appendChild(pathRow(row));
-  });
-
-  // De restgroep heeft geen eigen lijn meer, maar verdwijnt niet uit de
-  // optelling: zonder deze regel zou het totaal in de kop niet kloppen.
-  const rest = bak.other || 0;
-  if (rest) {
-    const foot = document.createElement("div");
-    foot.className = "pf-row pf-rest";
-    foot.innerHTML =
-      "<b>" + nlNum(rest, 0) + "</b> afspraken vallen buiten deze routes: " +
-      "leads die niet vanuit New de mailflow in kwamen.";
-    host.appendChild(foot);
-  }
-}
-
-// Eén route: label, de blokkenlijn, en eronder de aftakking of een toelichting.
-function pathRow(spec) {
-  const row = document.createElement("div");
-  row.className = "pf-row";
-
-  const label = document.createElement("div");
-  label.className = "pf-label";
-  label.textContent = spec.label;
-  if (spec.share !== null && spec.share !== undefined) {
-    const share = document.createElement("span");
-    share.className = "pfl-share";
-    share.textContent = nlNum(spec.share, 1) + "% van alle afspraken";
-    label.appendChild(share);
-  }
-  row.appendChild(label);
-
-  const line = document.createElement("div");
-  line.className = "mini-funnel pf-line";
-
-  spec.boxes.forEach((box, i) => {
-    if (i > 0 && box.join) {
-      // Deze route telt op of wijst door; er valt geen doorstroom te berekenen.
-      const fixed = document.createElement("div");
-      fixed.className = "mf-arrow";
-      fixed.innerHTML =
-        (box.lbl ? '<span class="mfa-lbl">' + box.lbl + "</span>" : "") +
-        '<span class="mfa-ratio">' + box.join + "</span>" +
-        // Alleen bij een doorverwijspijl zegt het aantal iets; bij "+" of "·"
-        // zou het het getal van het blok ernaast herhalen.
-        (box.join === "\u2192" && box.value !== null
-          ? '<span class="mfa-abs">' + nlNum(box.value, 0) + " leads</span>"
-          : "");
-      line.appendChild(fixed);
-    } else if (i > 0) {
-      // De pijl toont de doorstroom vanaf het laatste blok met een getal, zodat
-      // een overgeslagen tussenstap het percentage niet op nul zet.
-      let prev = null;
-      for (let j = i - 1; j >= 0; j--) {
-        if (spec.boxes[j].value !== null) {
-          prev = spec.boxes[j].value;
-          break;
-        }
-      }
-      const now = box.value;
-      const arrow = document.createElement("div");
-      arrow.className = "mf-arrow";
-      const ratio = document.createElement("span");
-      ratio.className = "mfa-ratio";
-      const known = prev && now !== null;
-      ratio.textContent = known
-        ? nlNum(Math.round((now / prev) * 1000) / 10, 1) + "%"
-        : NODATA;
-      const track = document.createElement("span");
-      track.className = "mfa-track";
-      const fill = document.createElement("i");
-      fill.style.width = known ? Math.min((now / prev) * 100, 100) + "%" : "0%";
-      track.appendChild(fill);
-      if (box.lbl) {
-        const lbl = document.createElement("span");
-        lbl.className = "mfa-lbl";
-        lbl.textContent = box.lbl;
-        arrow.appendChild(lbl);
-      }
-      arrow.append(ratio, track);
-      if (now !== null) {
-        const abs = document.createElement("span");
-        abs.className = "mfa-abs";
-        abs.textContent = nlNum(now, 0) + " leads";
-        arrow.appendChild(abs);
-      }
-      line.appendChild(arrow);
-    }
-
-    const el = document.createElement("div");
-    el.className =
-      "mf-stage" + (i === 0 ? " start" : "") +
-      (i === spec.boxes.length - 1 ? " end" : "") +
-      (box.muted ? " muted" : "");
-    const name = document.createElement("div");
-    name.className = "mf-name";
-    name.textContent = box.name;
-    const abs = document.createElement("div");
-    abs.className = "mf-abs";
-    abs.textContent = box.value === null ? NODATA : nlNum(box.value, 0);
-    el.append(name, abs);
-    if (box.sub) {
-      const sub = document.createElement("div");
-      sub.className = "mf-sub";
-      sub.textContent = box.sub;
-      el.appendChild(sub);
-    }
-    line.appendChild(el);
-  });
-
-  row.appendChild(line);
-
-  if (spec.branch) {
-    // Dichtgeklapt staat er één regel met de kern; opengeklapt de blokken.
-    const fold = document.createElement("details");
-    fold.className = "pf-fold";
-    const sum = document.createElement("summary");
-    sum.innerHTML =
-      "waarvan uit phone number changed: <b>" + nlNum(spec.branch[0], 0) +
-      "</b> re-entered, <b>" + nlNum(spec.branch[1], 0) + "</b> afspraak";
-    fold.appendChild(sum);
-    fold.appendChild(pathBranch(spec.branch[0], spec.branch[1]));
-    row.appendChild(fold);
-  }
-  if (spec.note) {
-    const note = document.createElement("div");
-    note.className = "pf-note";
-    note.textContent = spec.note;
-    row.appendChild(note);
-  }
-  return row;
-}
-
-// De aftakking onder een route: het deel van de lijn erboven dat pas
-// terugkwam nadat het telefoonnummer verrijkt was. Zelfde blokvorm, een maat
-// kleiner, en nadrukkelijk een "waarvan" - niet iets om bij op te tellen.
-function pathBranch(reentered, appointment) {
-  const wrap = document.createElement("div");
-  wrap.className = "pf-branch";
-
-  const tag = document.createElement("span");
-  tag.className = "pfb-tag";
-  tag.textContent = "waarvan uit\nphone number changed";
-
-  const box = (name, value, extra) => {
-    const el = document.createElement("span");
-    el.className = "pfb-box" + (extra ? " " + extra : "");
-    el.innerHTML =
-      '<span class="pfb-name">' + name + "</span>" +
-      '<span class="pfb-abs">' + nlNum(value, 0) + "</span>";
-    return el;
-  };
-
-  const arrow = document.createElement("span");
-  arrow.className = "pfb-arrow";
-  arrow.textContent = reentered
-    ? nlNum(Math.round((appointment / reentered) * 1000) / 10, 1) + "%"
-    : NODATA;
-
-  wrap.append(
-    tag,
-    box("Re-entered (SQL)", reentered),
-    arrow,
-    box("Afspraak", appointment, "appt")
-  );
-  return wrap;
+  const list = block.querySelector("[data-appt-paths]");
+  list.innerHTML = "";
+  Object.entries(paths || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 25)
+    .forEach(([path, n]) => {
+      const row = document.createElement("div");
+      row.className = "vb-item";
+      const label = document.createElement("span");
+      label.textContent = path;
+      const amount = document.createElement("span");
+      amount.className = "vb-i-val";
+      amount.textContent = nlNum(n, 0) + (n === 1 ? " afspraak" : " afspraken");
+      row.append(label, amount);
+      list.appendChild(row);
+    });
 }
 
 function renderValueBlock(value) {
@@ -1309,6 +1154,9 @@ function sumRange(days, start, end) {
   // Twee vaste routes door de funnel; per stap optelbaar over het bereik.
   const paths = {};
   const apptSplit = {};
+  const apptRoutes = {};
+  const apptPaths = {};
+  const apptRouteReason = {};
   const value = {
     orders: 0, revenue: 0,
     // Breed: gemaild door een flow uit de doelgroep en daarna geconverteerd.
@@ -1356,6 +1204,18 @@ function sumRange(days, start, end) {
     Object.entries(bucket.apptSplit || {}).forEach(([bak, n]) => {
       apptSplit[bak] = (apptSplit[bak] || 0) + (n || 0);
     });
+    Object.entries(bucket.apptRoutes || {}).forEach(([route, n]) => {
+      apptRoutes[route] = (apptRoutes[route] || 0) + (n || 0);
+    });
+    Object.entries(bucket.apptPaths || {}).forEach(([path, n]) => {
+      apptPaths[path] = (apptPaths[path] || 0) + (n || 0);
+    });
+    Object.entries(bucket.apptRouteReason || {}).forEach(([route, reasons]) => {
+      const target = (apptRouteReason[route] = apptRouteReason[route] || {});
+      Object.entries(reasons).forEach(([reason, n]) => {
+        target[reason] = (target[reason] || 0) + (n || 0);
+      });
+    });
 
     if (bucket.value) {
       value.hasData = true;
@@ -1398,6 +1258,9 @@ function sumRange(days, start, end) {
     value: value.hasData ? value : null,
     paths,
     apptSplit,
+    apptRoutes,
+    apptPaths,
+    apptRouteReason,
   };
 }
 
@@ -1413,6 +1276,12 @@ function safeRatio(num, den, minimum) {
   const value = Math.round((num / den) * 10000) / 100;
   return value > 100 ? null : value;
 }
+
+// Statussen waarvandaan een Re-entered een nieuwe aanvraag is en geen
+// heractivatie uit de mailflow. Mailjourney en Not reached staan er bewust
+// niet bij: die lead zat in de flow en wordt daardoor teruggehaald.
+const REOPEN_FROM = ["Lost", "Not Qualified", "Converted Old SF", "Follow-up"];
+const S_PHONE = "Re-entered - Phone Number Changed";
 
 function crmFromSums(crm, prevCrm, value, apptSplit) {
   const to = crm.toStatus || {};
@@ -1430,9 +1299,18 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
   // Instroom = leads die vanuit New de molen in gaan. Eerder telde dit álle
   // statusovergangen bij elkaar, waardoor een lead met drie wijzigingen drie
   // keer meetelde en het label "leads" niet klopte.
-  const intake = Object.entries(pairs)
+  const newIntake = Object.entries(pairs)
     .filter(([pair]) => pair.startsWith("New>"))
     .reduce((sum, [, n]) => sum + n, 0);
+  // Tweede startpunt: een aanvraag van iemand die al in het systeem staat
+  // krijgt geen New maar Re-entered. Dat is instroom, geen heractivatie, dus
+  // het telt bij de bovenkant van de funnel. Welke vorige statussen daarvoor
+  // gelden staat in REOPEN_FROM: afgesloten of slapende dossiers.
+  const reopened = REOPEN_FROM.reduce(
+    (sum, from) => sum + via(from, "Re-entered") + via(from, S_PHONE),
+    0
+  );
+  const intake = newIntake + reopened;
   const notReached = at("Not reached");
   const mailjourney = atA("Mailjourney");
   // Alleen heropleving vanuit de mailflow telt als SQL. Van alle overgangen
@@ -1456,7 +1334,12 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
   const prev = prevCrm ? crmFromSums(prevCrm, null, null, null) : null;
 
   const reactivation = {
-    leadIntake: { abs: intake, share: 100 },
+    leadIntake: {
+      abs: intake,
+      share: 100,
+      nieuw: newIntake,
+      opnieuw: reopened,
+    },
     notContact: {
       abs: notReached,
       share: safeRatio(notReached, intake),
@@ -1501,15 +1384,14 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
     },
     // Worden die heropgeleefde leads ook echt afspraken?
     appointment: {
-      // Alle afspraken uit de mailflow, niet alleen de directe stap vanuit
-      // een heractivatiestatus. De routes eronder verklaren dit getal; als
-      // de splitsing nog ontbreekt valt hij terug op de directe stap.
-      abs: sqlToAppointment,
-      share: safeRatio(sqlToAppointment, intake),
-      // Alle afspraken uit de mailflow, dus ook die zonder tussenstap. Staat
-      // apart in de kop boven de routes, niet in deze lijn: die telt de
-      // directe stap van heractivatie naar afspraak.
-      all: allAppointments,
+      // Alle afspraken uit de mailflow, ook die zonder tussenstap. Het
+      // uitklapblok eronder legt uit langs welke route ze binnenkwamen.
+      abs: allAppointments !== null ? allAppointments : sqlToAppointment,
+      share: safeRatio(
+        allAppointments !== null ? allAppointments : sqlToAppointment, intake),
+      // De pijl ernaast gaat wél over de ene stap waar hij tussen staat:
+      // van een heractivatiestatus rechtstreeks naar een afspraak.
+      direct: sqlToAppointment,
       ratio: safeRatio(sqlToAppointment, sql, BRANCH_MIN),
       deltaPct: null,
     },
@@ -1680,9 +1562,17 @@ function applyMarket(marketKey) {
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
-  renderPathFunnels(summed.paths, summed.apptSplit);
+  renderApptBlock(summed.apptSplit, summed.apptRoutes, summed.apptPaths,
+                  summed.apptRouteReason);
+  renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
+  // De aftakking alleen tonen als er in dit bereik iets verrijkt is.
+  const branch = document.querySelector("[data-enrich-branch]");
+  if (branch) {
+    const e = (view.reactivation || {}).enrichment || {};
+    branch.hidden = !e.enrichedLeads;
+  }
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
