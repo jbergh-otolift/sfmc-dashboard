@@ -447,16 +447,16 @@ function renderPathFunnels(paths, split) {
       boxes: [
         { name: layout.entry, value: data.stage2 || 0, sub: "instroom" },
         {
-          name: "Opnieuw binnengekomen",
+          name: "Re-entered (SQL)",
           value: data.reentered || 0,
           sub: "van instroom",
-          lbl: layout.entry + " → opnieuw",
+          lbl: layout.entry + " → SQL",
         },
         {
           name: "Afspraak",
           value: data.appointment || 0,
           sub: "via deze route",
-          lbl: "Opnieuw → afspraak",
+          lbl: "SQL → afspraak",
         },
       ],
       // De aftakking is een deel van deze route, geen extra groep.
@@ -492,36 +492,26 @@ function renderPathFunnels(paths, split) {
     note: "rechtstreeks vanuit de mailflow, zonder heractivatiestatus",
   });
 
-  rows.push({
-    label: "Overig",
-    boxes: [
-      { name: "Andere instroom", value: null, muted: true, sub: "geen noemer" },
-      {
-        name: "Geen vaste route",
-        value: null,
-        muted: true,
-        join: "·",
-        lbl: "geen stap",
-      },
-      {
-        name: "Afspraak",
-        value: bak.other || 0,
-        sub: "via deze route",
-        join: "→",
-        lbl: "restgroep",
-      },
-    ],
-    note: "niet vanuit New de mailflow in gekomen",
-  });
-
-  // Het enige dat over alle vier te vergelijken is: hoeveel van de 39 komt
-  // uit deze route. De percentages tussen de blokken gaan over de stap
-  // ernaast en hebben per route een andere noemer.
+  // Het enige dat over alle routes te vergelijken is: hoeveel van het totaal
+  // komt er uit deze route. De percentages tussen de blokken gaan over de
+  // stap ernaast en hebben per route een andere noemer.
   rows.forEach((row) => {
     const last = row.boxes[row.boxes.length - 1].value || 0;
     row.share = total ? Math.round((last / total) * 1000) / 10 : null;
     host.appendChild(pathRow(row));
   });
+
+  // De restgroep heeft geen eigen lijn meer, maar verdwijnt niet uit de
+  // optelling: zonder deze regel zou het totaal in de kop niet kloppen.
+  const rest = bak.other || 0;
+  if (rest) {
+    const foot = document.createElement("div");
+    foot.className = "pf-row pf-rest";
+    foot.innerHTML =
+      "<b>" + nlNum(rest, 0) + "</b> afspraken vallen buiten deze routes: " +
+      "leads die niet vanuit New de mailflow in kwamen.";
+    host.appendChild(foot);
+  }
 }
 
 // Eén route: label, de blokkenlijn, en eronder de aftakking of een toelichting.
@@ -627,7 +617,7 @@ function pathRow(spec) {
     const sum = document.createElement("summary");
     sum.innerHTML =
       "waarvan uit phone number changed: <b>" + nlNum(spec.branch[0], 0) +
-      "</b> opnieuw binnengekomen, <b>" + nlNum(spec.branch[1], 0) + "</b> afspraak";
+      "</b> re-entered, <b>" + nlNum(spec.branch[1], 0) + "</b> afspraak";
     fold.appendChild(sum);
     fold.appendChild(pathBranch(spec.branch[0], spec.branch[1]));
     row.appendChild(fold);
@@ -669,7 +659,7 @@ function pathBranch(reentered, appointment) {
 
   wrap.append(
     tag,
-    box("Opnieuw binnengekomen", reentered),
+    box("Re-entered (SQL)", reentered),
     arrow,
     box("Afspraak", appointment, "appt")
   );
