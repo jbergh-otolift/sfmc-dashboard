@@ -503,20 +503,17 @@
   .pf-line .mf-arrow{min-width:62px;padding:0 5px}
   .pf-line .mfa-ratio{font-size:13px}
   .pf-label{font-size:11px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
-  /* Balk boven de routes: alle afspraken, met de optelling eronder. */
-  .pf-total{display:flex;align-items:center;justify-content:space-between;gap:16px;
-            flex-wrap:wrap;background:#F4F8F4;border:1px solid var(--oto-green-soft);
-            border-radius:12px;padding:11px 18px;margin-bottom:14px}
-  .pft-head{display:flex;align-items:baseline;gap:12px}
-  .pft-lbl{font-size:10.5px;font-weight:700;color:var(--ink);text-transform:uppercase;
+  /* Klein totaalblokje rechtsboven, net als bij de orders. */
+  .pf-stat{float:right;display:flex;flex-direction:column;align-items:flex-end;gap:1px;
+           background:#F4F8F4;border:1px solid var(--oto-green-soft);border-radius:10px;
+           padding:7px 14px;margin:-2px 0 10px 16px}
+  .pfs-lbl{font-size:9.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;
            letter-spacing:.4px}
-  .pft-abs{font-size:27px;font-weight:800;color:var(--oto-green);line-height:1}
-  .pft-split{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .pft-op{font-size:13px;font-weight:700;color:var(--ink-soft)}
-  .pft-chip{display:flex;align-items:center;gap:8px;background:#fff;
-            border:1px solid var(--line);border-radius:8px;padding:5px 11px}
-  .pftc-name{font-size:10.5px;font-weight:600;color:var(--ink-soft)}
-  .pftc-abs{font-size:16px;font-weight:800;color:var(--ink)}
+  .pfs-abs{font-size:24px;font-weight:800;color:var(--oto-green);line-height:1.05}
+  /* Blok voor een stap die deze route niet kent. */
+  .pf-line .mf-stage.muted{background:#FAFBFC;border-style:dashed}
+  .pf-line .mf-stage.muted .mf-abs{color:var(--ink-soft)}
+  .pf-note{font-size:10.5px;color:var(--ink-soft);margin:5px 0 0 30px}
 
   /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen. */
   .pf-branch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
@@ -649,20 +646,23 @@
               <span class="mfa-lbl">SQL → Afspraak</span>
               <span class="mfa-ratio" data-bind="reactivation.appointment.ratio" data-fmt="pct1nosign">–</span>
               <span class="mfa-track"><i data-bind-width="reactivation.appointment.ratio"></i></span>
-              <span class="mfa-abs"><span data-bind="reactivation.appointment.direct" data-fmt="int">–</span> direct</span>
+              <span class="mfa-abs"><span data-bind="reactivation.appointment.abs" data-fmt="int">–</span> leads</span>
             </div>
             <div class="mf-stage end">
               <div class="mf-name">Afspraak</div>
               <div class="mf-abs" data-bind="reactivation.appointment.abs" data-fmt="int">–</div>
-              <div class="mf-sub">uit alle routes</div>
+              <div class="mf-sub">direct vanuit heractivatie</div>
             </div>
           </div>
 
           <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
           <div class="path-funnels" data-path-funnels hidden>
-            <p class="pf-cap">Dit is het afspraakcijfer uit de lijn hierboven, uit elkaar
-               gelegd. De vier groepen sluiten elkaar uit en tellen op tot dat getal. De
-               aftakking onder een route is een deel van die route, geen extra groep.</p>
+            <div class="pf-stat">
+              <span class="pfs-lbl">Alle afspraken uit de mailflow</span>
+              <span class="pfs-abs" data-appt-total>–</span>
+            </div>
+            <p class="pf-cap">De vier routes hieronder sluiten elkaar uit en tellen op tot
+               dat getal. Een aftakking is een deel van zijn route, geen extra groep.</p>
           </div>
         </div>
 
@@ -1004,7 +1004,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001121459"></script>
+<script src="data-layer.js?v=20261001122439"></script>
 
 </body>
 </html>

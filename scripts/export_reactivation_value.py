@@ -489,6 +489,12 @@ def appointment_split(by_lead, active):
             if new in FUNNEL_ENTRY:
                 reason = (row.get("Reason") or "").strip() or fallback_reason
                 in_flow = reason in active
+                if in_flow:
+                    # Noemer voor de groepen die buiten de twee vaste routes
+                    # vallen: elke instroom in de mailflow, ongeacht of de
+                    # lead daarvoor op New stond.
+                    days[when][market]["entry"] += 1
+                    totals[market]["entry"] += 1
             if new == S_APPOINTMENT and in_flow:
                 day, previous = when, (row.get("Old Value") or "").strip()
                 break

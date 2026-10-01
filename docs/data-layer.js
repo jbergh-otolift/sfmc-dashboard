@@ -402,27 +402,21 @@ function renderSqlOrigin(stage) {
     : "uit de mailflow";
 }
 
-// Tekent de twee vaste routes met dezelfde opbouw als de funnel erboven:
-// blokken met het aantal, pijlen met de doorstroom ertussen.
+// Tekent de vier routes naar een afspraak, elk in dezelfde vorm als de lijn
+// bovenaan de sectie: blokken met het aantal, pijlen met de doorstroom
+// ertussen. Ze sluiten elkaar uit en tellen op tot het totaal in de kop.
 //
-// Leads die pas terugkwamen na nummerverrijking staan niet op de hoofdlijn
-// maar in een aftakking eronder, en zijn van de hoofdlijn afgetrokken. Zo
-// telt elke afspraak precies één keer en is in één oogopslag te zien hoeveel
-// van de heractivatie aan verrijking te danken is.
+// De eerste twee routes lopen via een heractivatiestatus. De derde slaat die
+// stap over - de lead kreeg rechtstreeks een afspraak - en de vierde is de
+// rest: leads die niet vanuit New de mailflow in kwamen. Bij die laatste twee
+// is er geen tussenstap om een percentage op te hangen, dus staat daar een
+// streepje in plaats van een verzonnen getal.
 const PATH_LAYOUT = [
-  {
-    key: "notReached",
-    label: "Via Not reached",
-    stages: ["stage2", "reentered", "appointment"],
-    names: ["Not reached", "Opnieuw binnengekomen", "Afspraak"],
-  },
-  {
-    key: "mailjourney",
-    label: "Via Mailjourney",
-    stages: ["stage2", "reentered", "appointment"],
-    names: ["Mailjourney", "Opnieuw binnengekomen", "Afspraak"],
-  },
+  { key: "notReached", label: "Via Not reached", entry: "Not reached" },
+  { key: "mailjourney", label: "Via Mailjourney", entry: "Mailjourney" },
 ];
+
+const NO_STEP = { name: "Geen tussenstap", value: null, muted: true };
 
 function renderPathFunnels(paths, split) {
   const host = document.querySelector("[data-path-funnels]");
@@ -433,165 +427,129 @@ function renderPathFunnels(paths, split) {
     return;
   }
   host.hidden = false;
-  host.querySelectorAll(".pf-row, .pf-total, .pf-direct").forEach((el) => el.remove());
-  host.prepend(pathTotalBar(split || {}));
+  host.querySelectorAll(".pf-row").forEach((el) => el.remove());
+
+  const bak = split || {};
+  const total = ["notReached", "mailjourney", "direct", "other"].reduce(
+    (sum, key) => sum + (bak[key] || 0),
+    0
+  );
+  const stat = host.querySelector("[data-appt-total]");
+  if (stat) stat.textContent = nlNum(total, 0);
+
+  const rows = [];
 
   PATH_LAYOUT.forEach((layout) => {
-    // De hoofdlijn toont het volledige routetotaal, gelijk aan de chip in de
-    // balk erboven. De aftakking eronder is een deelverzameling daarvan - de
-    // leads die pas terugkwamen na nummerverrijking - en mag er dus niet bij
-    // opgeteld worden.
     const data = (paths || {})[layout.key] || {};
-    const raw = data;
-    const row = document.createElement("div");
-    row.className = "pf-row";
-
-    const label = document.createElement("div");
-    label.className = "pf-label";
-    label.textContent = layout.label;
-    row.appendChild(label);
-
-    const line = document.createElement("div");
-    line.className = "mini-funnel pf-line";
-
-    layout.stages.forEach((stage, i) => {
-      if (i > 0) {
-        // De pijl toont de doorstroom van de vorige stap naar deze.
-        const prev = data[layout.stages[i - 1]] || 0;
-        const now = data[stage] || 0;
-        const arrow = document.createElement("div");
-        arrow.className = "mf-arrow";
-        const ratio = document.createElement("span");
-        ratio.className = "mfa-ratio";
-        ratio.textContent = prev ? nlNum(Math.round((now / prev) * 1000) / 10, 1) + "%" : NODATA;
-        const track = document.createElement("span");
-        track.className = "mfa-track";
-        const fill = document.createElement("i");
-        fill.style.width = prev ? Math.min((now / prev) * 100, 100) + "%" : "0%";
-        track.appendChild(fill);
-        arrow.append(ratio, track);
-        line.appendChild(arrow);
-      }
-
-      const box = document.createElement("div");
-      box.className =
-        "mf-stage" + (i === 0 ? " start" : "") +
-        (i === layout.stages.length - 1 ? " end" : "");
-      const name = document.createElement("div");
-      name.className = "mf-name";
-      name.textContent = layout.names[i];
-      const abs = document.createElement("div");
-      abs.className = "mf-abs";
-      abs.textContent = nlNum(data[stage] || 0, 0);
-      box.append(name, abs);
-      line.appendChild(box);
+    rows.push({
+      label: layout.label,
+      boxes: [
+        { name: layout.entry, value: data.stage2 || 0 },
+        { name: "Opnieuw binnengekomen", value: data.reentered || 0 },
+        { name: "Afspraak", value: data.appointment || 0 },
+      ],
+      // De aftakking is een deel van deze route, geen extra groep.
+      branch: data.reenteredEnriched
+        ? [data.reenteredEnriched, data.appointmentEnriched || 0]
+        : null,
     });
-
-    row.appendChild(line);
-
-    const enrichedBack = raw.reenteredEnriched || 0;
-    if (enrichedBack) {
-      row.appendChild(
-        pathBranch(enrichedBack, raw.appointmentEnriched || 0)
-      );
-    }
-
-    host.appendChild(row);
   });
 
-  if ((split || {}).direct) host.appendChild(directRow(split));
+  rows.push({
+    label: "Direct uit de mailflow",
+    boxes: [
+      { name: "In de mailflow", value: bak.entry || 0 },
+      NO_STEP,
+      { name: "Afspraak", value: bak.direct || 0 },
+    ],
+    note:
+      nlNum(bak.directMailjourney || 0, 0) + " uit Mailjourney · " +
+      nlNum(bak.directNotReached || 0, 0) + " uit Not reached",
+  });
+
+  rows.push({
+    label: "Overig",
+    boxes: [
+      { name: "In de mailflow", value: bak.entry || 0 },
+      NO_STEP,
+      { name: "Afspraak", value: bak.other || 0 },
+    ],
+    note: "niet vanuit New de mailflow in gekomen",
+  });
+
+  rows.forEach((row) => host.appendChild(pathRow(row)));
 }
 
-// De derde split: leads die vanuit de mailflow rechtstreeks een afspraak
-// kregen, zonder dat er een heractivatiestatus tussen zat. Dat is veruit de
-// grootste groep, en hij viel buiten de twee routes omdat die een
-// heractivatiestap eisen.
-function directRow(split) {
+// Eén route: label, de blokkenlijn, en eronder de aftakking of een toelichting.
+function pathRow(spec) {
   const row = document.createElement("div");
-  row.className = "pf-row pf-direct";
+  row.className = "pf-row";
 
   const label = document.createElement("div");
   label.className = "pf-label";
-  label.textContent = "Direct uit de mailflow";
+  label.textContent = spec.label;
   row.appendChild(label);
 
   const line = document.createElement("div");
   line.className = "mini-funnel pf-line";
 
-  const stage = (name, value, extra) => {
-    const box = document.createElement("div");
-    box.className = "mf-stage" + (extra ? " " + extra : "");
-    box.innerHTML =
-      '<div class="mf-name">' + name + "</div>" +
-      '<div class="mf-abs">' + nlNum(value, 0) + "</div>";
-    return box;
-  };
-  const arrow = (text) => {
-    const el = document.createElement("div");
-    el.className = "mf-arrow";
-    el.innerHTML = '<span class="mfa-ratio">' + text + "</span>";
-    return el;
-  };
+  spec.boxes.forEach((box, i) => {
+    if (i > 0) {
+      // De pijl toont de doorstroom vanaf het laatste blok met een getal, zodat
+      // een overgeslagen tussenstap het percentage niet op nul zet.
+      let prev = null;
+      for (let j = i - 1; j >= 0; j--) {
+        if (spec.boxes[j].value !== null) {
+          prev = spec.boxes[j].value;
+          break;
+        }
+      }
+      const now = box.value;
+      const arrow = document.createElement("div");
+      arrow.className = "mf-arrow";
+      const ratio = document.createElement("span");
+      ratio.className = "mfa-ratio";
+      const known = prev && now !== null;
+      ratio.textContent = known
+        ? nlNum(Math.round((now / prev) * 1000) / 10, 1) + "%"
+        : NODATA;
+      const track = document.createElement("span");
+      track.className = "mfa-track";
+      const fill = document.createElement("i");
+      fill.style.width = known ? Math.min((now / prev) * 100, 100) + "%" : "0%";
+      track.appendChild(fill);
+      arrow.append(ratio, track);
+      line.appendChild(arrow);
+    }
 
-  line.append(
-    stage("Uit Mailjourney", split.directMailjourney || 0, "start"),
-    arrow("+"),
-    stage("Uit Not reached", split.directNotReached || 0, "start"),
-    arrow("→"),
-    stage("Afspraak zonder tussenstap", split.direct || 0, "end")
-  );
+    const el = document.createElement("div");
+    el.className =
+      "mf-stage" + (i === 0 ? " start" : "") +
+      (i === spec.boxes.length - 1 ? " end" : "") +
+      (box.muted ? " muted" : "");
+    const name = document.createElement("div");
+    name.className = "mf-name";
+    name.textContent = box.name;
+    const abs = document.createElement("div");
+    abs.className = "mf-abs";
+    abs.textContent = box.value === null ? NODATA : nlNum(box.value, 0);
+    el.append(name, abs);
+    line.appendChild(el);
+  });
+
   row.appendChild(line);
+
+  if (spec.branch) row.appendChild(pathBranch(spec.branch[0], spec.branch[1]));
+  if (spec.note) {
+    const note = document.createElement("div");
+    note.className = "pf-note";
+    note.textContent = spec.note;
+    row.appendChild(note);
+  }
   return row;
 }
 
-// De balk boven de routes: élke afspraak van een lead uit de mailflow, met
-// daaronder de bakken waar ze vandaan komen. Die bakken sluiten elkaar uit en
-// tellen op tot het totaal, zodat elk deelgetal naar de balk te herleiden is.
-const SPLIT_CHIPS = [
-  { key: "notReached", label: "Via Not reached" },
-  { key: "mailjourney", label: "Via Mailjourney" },
-  { key: "direct", label: "Direct uit de mailflow" },
-  { key: "other", label: "Overig" },
-];
-
-function pathTotalBar(split) {
-  const bar = document.createElement("div");
-  bar.className = "pf-total";
-
-  const parts = SPLIT_CHIPS.map((chip) => ({
-    label: chip.label,
-    n: (split || {})[chip.key] || 0,
-  }));
-  const total = parts.reduce((sum, p) => sum + p.n, 0);
-
-  const head = document.createElement("div");
-  head.className = "pft-head";
-  head.innerHTML =
-    '<span class="pft-lbl">Afspraken uit de mailflow</span>' +
-    '<span class="pft-abs">' + nlNum(total, 0) + "</span>";
-  bar.appendChild(head);
-
-  const chips = document.createElement("div");
-  chips.className = "pft-chips";
-  parts.forEach((part, i) => {
-    if (i > 0) {
-      const plus = document.createElement("span");
-      plus.className = "pft-op";
-      plus.textContent = "+";
-      chips.appendChild(plus);
-    }
-    const chip = document.createElement("span");
-    chip.className = "pft-chip";
-    chip.innerHTML =
-      '<span class="pftc-name">' + part.label + "</span>" +
-      '<span class="pftc-abs">' + nlNum(part.n, 0) + "</span>";
-    chips.appendChild(chip);
-  });
-  bar.appendChild(chips);
-  return bar;
-}
-
-// De aftakking onder één route: het deel van de lijn erboven dat pas
+// De aftakking onder een route: het deel van de lijn erboven dat pas
 // terugkwam nadat het telefoonnummer verrijkt was. Zelfde blokvorm, een maat
 // kleiner, en nadrukkelijk een "waarvan" - niet iets om bij op te tellen.
 function pathBranch(reentered, appointment) {
@@ -1464,11 +1422,12 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
       // Alle afspraken uit de mailflow, niet alleen de directe stap vanuit
       // een heractivatiestatus. De routes eronder verklaren dit getal; als
       // de splitsing nog ontbreekt valt hij terug op de directe stap.
-      abs: allAppointments !== null ? allAppointments : sqlToAppointment,
-      share: safeRatio(allAppointments !== null ? allAppointments : sqlToAppointment, intake),
-      // De pijl ernaast blijft wél de directe stap tonen: die hoort bij de
-      // twee blokken waar hij tussen staat.
-      direct: sqlToAppointment,
+      abs: sqlToAppointment,
+      share: safeRatio(sqlToAppointment, intake),
+      // Alle afspraken uit de mailflow, dus ook die zonder tussenstap. Staat
+      // apart in de kop boven de routes, niet in deze lijn: die telt de
+      // directe stap van heractivatie naar afspraak.
+      all: allAppointments,
       ratio: safeRatio(sqlToAppointment, sql, BRANCH_MIN),
       deltaPct: null,
     },
