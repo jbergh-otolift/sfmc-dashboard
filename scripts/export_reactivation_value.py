@@ -474,6 +474,11 @@ def appointment_split(by_lead, active):
             continue
         fallback_reason = (rows[-1].get("Reason") or "").strip()
 
+        # De reden van de láátste instroom telt, niet van de eerste. Een lead
+        # die eerst onder een actieve reden geparkeerd stond en daarna onder
+        # een reden zonder flow opnieuw, krijgt geen mail meer; zijn afspraak
+        # hoort hier dan niet bij. Andersom ook: wie later alsnog in een
+        # actieve flow komt, telt wel.
         in_flow = False
         day = previous = None
         for row in rows:
@@ -483,8 +488,7 @@ def appointment_split(by_lead, active):
                 continue
             if new in FUNNEL_ENTRY:
                 reason = (row.get("Reason") or "").strip() or fallback_reason
-                if reason in active:
-                    in_flow = True
+                in_flow = reason in active
             if new == S_APPOINTMENT and in_flow:
                 day, previous = when, (row.get("Old Value") or "").strip()
                 break
@@ -624,6 +628,16 @@ def _walk_funnel(rows, second, fallback_reason, active):
                 stages["new"] = day
                 stages["stage2"] = day
             continue
+
+        # Onderweg opnieuw geparkeerd onder een reden zonder actieve flow?
+        # Dan stopt de route hier: vanaf dat moment krijgt de lead geen mail
+        # meer, dus wat daarna gebeurt is niet aan de flow toe te rekenen.
+        if new in FUNNEL_ENTRY:
+            reason = (row.get("Reason") or "").strip() or fallback_reason
+            if reason not in active:
+                # De stappen die hij wél zette blijven staan; alleen wat erna
+                # komt telt niet meer mee.
+                return stages
 
         if "reentered" not in stages:
             if new in FUNNEL_REENTRY:
