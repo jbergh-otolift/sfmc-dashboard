@@ -441,7 +441,7 @@ function renderPathFunnels(paths) {
     row.appendChild(label);
 
     const line = document.createElement("div");
-    line.className = "mini-funnel";
+    line.className = "mini-funnel pf-line";
 
     layout.stages.forEach((stage, i) => {
       if (i > 0) {
@@ -450,9 +450,6 @@ function renderPathFunnels(paths) {
         const now = data[stage] || 0;
         const arrow = document.createElement("div");
         arrow.className = "mf-arrow";
-        const lbl = document.createElement("span");
-        lbl.className = "mfa-lbl";
-        lbl.textContent = layout.names[i - 1] + " → " + layout.names[i];
         const ratio = document.createElement("span");
         ratio.className = "mfa-ratio";
         ratio.textContent = prev ? nlNum(Math.round((now / prev) * 1000) / 10, 1) + "%" : NODATA;
@@ -461,7 +458,7 @@ function renderPathFunnels(paths) {
         const fill = document.createElement("i");
         fill.style.width = prev ? Math.min((now / prev) * 100, 100) + "%" : "0%";
         track.appendChild(fill);
-        arrow.append(lbl, ratio, track);
+        arrow.append(ratio, track);
         line.appendChild(arrow);
       }
 
