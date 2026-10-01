@@ -424,7 +424,7 @@ const PATH_LAYOUT = [
   },
 ];
 
-function renderPathFunnels(paths) {
+function renderPathFunnels(paths, split) {
   const host = document.querySelector("[data-path-funnels]");
   if (!host) return;
   const any = PATH_LAYOUT.some((p) => (paths || {})[p.key] && paths[p.key].new);
@@ -433,8 +433,8 @@ function renderPathFunnels(paths) {
     return;
   }
   host.hidden = false;
-  host.querySelectorAll(".pf-row, .pf-total").forEach((el) => el.remove());
-  host.prepend(pathTotalBar(paths));
+  host.querySelectorAll(".pf-row, .pf-total, .pf-direct").forEach((el) => el.remove());
+  host.prepend(pathTotalBar(split || {}));
 
   PATH_LAYOUT.forEach((layout) => {
     const raw = (paths || {})[layout.key] || {};
@@ -500,25 +500,76 @@ function renderPathFunnels(paths) {
 
     host.appendChild(row);
   });
+
+  if ((split || {}).direct) host.appendChild(directRow(split));
 }
 
-// De balk boven de routes: alle afspraken uit de routes bij elkaar, met
-// daarnaast uit welke route ze komen. Die deelgetallen tellen op tot het
-// totaal, zodat meteen te zien is waar het grote getal vandaan komt.
-function pathTotalBar(paths) {
+// De derde split: leads die vanuit de mailflow rechtstreeks een afspraak
+// kregen, zonder dat er een heractivatiestatus tussen zat. Dat is veruit de
+// grootste groep, en hij viel buiten de twee routes omdat die een
+// heractivatiestap eisen.
+function directRow(split) {
+  const row = document.createElement("div");
+  row.className = "pf-row pf-direct";
+
+  const label = document.createElement("div");
+  label.className = "pf-label";
+  label.textContent = "Direct uit de mailflow";
+  row.appendChild(label);
+
+  const line = document.createElement("div");
+  line.className = "mini-funnel pf-line";
+
+  const stage = (name, value, extra) => {
+    const box = document.createElement("div");
+    box.className = "mf-stage" + (extra ? " " + extra : "");
+    box.innerHTML =
+      '<div class="mf-name">' + name + "</div>" +
+      '<div class="mf-abs">' + nlNum(value, 0) + "</div>";
+    return box;
+  };
+  const arrow = (text) => {
+    const el = document.createElement("div");
+    el.className = "mf-arrow";
+    el.innerHTML = '<span class="mfa-ratio">' + text + "</span>";
+    return el;
+  };
+
+  line.append(
+    stage("Uit Mailjourney", split.directMailjourney || 0, "start"),
+    arrow("+"),
+    stage("Uit Not reached", split.directNotReached || 0, "start"),
+    arrow("→"),
+    stage("Afspraak zonder tussenstap", split.direct || 0, "end")
+  );
+  row.appendChild(line);
+  return row;
+}
+
+// De balk boven de routes: élke afspraak van een lead uit de mailflow, met
+// daaronder de bakken waar ze vandaan komen. Die bakken sluiten elkaar uit en
+// tellen op tot het totaal, zodat elk deelgetal naar de balk te herleiden is.
+const SPLIT_CHIPS = [
+  { key: "notReached", label: "Via Not reached" },
+  { key: "mailjourney", label: "Via Mailjourney" },
+  { key: "direct", label: "Direct uit de mailflow" },
+  { key: "other", label: "Overig" },
+];
+
+function pathTotalBar(split) {
   const bar = document.createElement("div");
   bar.className = "pf-total";
 
-  const parts = PATH_LAYOUT.map((layout) => {
-    const raw = (paths || {})[layout.key] || {};
-    return { label: layout.label.replace(/^Via /, ""), n: raw.appointment || 0 };
-  });
+  const parts = SPLIT_CHIPS.map((chip) => ({
+    label: chip.label,
+    n: (split || {})[chip.key] || 0,
+  }));
   const total = parts.reduce((sum, p) => sum + p.n, 0);
 
   const head = document.createElement("div");
   head.className = "pft-head";
   head.innerHTML =
-    '<span class="pft-lbl">Afspraken via deze routes</span>' +
+    '<span class="pft-lbl">Afspraken uit de mailflow</span>' +
     '<span class="pft-abs">' + nlNum(total, 0) + "</span>";
   bar.appendChild(head);
 
@@ -1219,6 +1270,7 @@ function sumRange(days, start, end) {
   // Omzet is toegerekend aan de conversiedatum en dus gewoon optelbaar.
   // Twee vaste routes door de funnel; per stap optelbaar over het bereik.
   const paths = {};
+  const apptSplit = {};
   const value = {
     orders: 0, revenue: 0,
     // Breed: gemaild door een flow uit de doelgroep en daarna geconverteerd.
@@ -1263,6 +1315,10 @@ function sumRange(days, start, end) {
       });
     });
 
+    Object.entries(bucket.apptSplit || {}).forEach(([bak, n]) => {
+      apptSplit[bak] = (apptSplit[bak] || 0) + (n || 0);
+    });
+
     if (bucket.value) {
       value.hasData = true;
       value.orders += bucket.value.orders || 0;
@@ -1303,6 +1359,7 @@ function sumRange(days, start, end) {
     cohort: cohort.hasData ? cohort : null,
     value: value.hasData ? value : null,
     paths,
+    apptSplit,
   };
 }
 
@@ -1572,7 +1629,7 @@ function applyMarket(marketKey) {
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
-  renderPathFunnels(summed.paths);
+  renderPathFunnels(summed.paths, summed.apptSplit);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
   applySourceBadges(market._sources);

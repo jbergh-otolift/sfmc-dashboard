@@ -117,6 +117,9 @@ PATH_FUNNELS = {
 # pas bereikbaar werd na nummerverrijking. Allebei tellen als heractivatie.
 FUNNEL_REENTRY = ("Re-entered", "Re-entered - Phone Number Changed")
 
+# De twee statussen waarmee een lead in de mailflow terechtkomt.
+FUNNEL_ENTRY = tuple(PATH_FUNNELS.values())
+
 FUNNEL_STAGES = ("new", "stage2", "reentered", "appointment", "order")
 
 # Dezelfde twee stappen, maar alleen voor de leads die pas terugkwamen nadat
@@ -439,6 +442,75 @@ def reactivation_paths(path, by_lead=None):
     return paths
 
 
+def appointment_split(by_lead, active):
+    """Elke afspraak uit de mailflow, verdeeld over elkaar uitsluitende groepen.
+
+    De twee trechters hierboven vertellen niet het hele verhaal: samen dekken
+    ze maar een deel van de afspraken die uit de mailflow komen. De rest valt
+    buiten hun strikte volgorde en bleef daardoor onzichtbaar, waardoor de
+    deelgetallen nooit optelden tot een herkenbaar totaal.
+
+    Deze functie telt daarom élke afspraak van een lead die eerder met een
+    actieve reden in `Not reached` of `Mailjourney` stond, en legt hem in
+    precies één bak:
+
+        notReached   volgde de volledige route via Not reached
+        mailjourney  volgde de volledige route via Mailjourney
+        direct       ging rechtstreeks van de mailflow naar de afspraak,
+                     zonder tussenliggende heractivatiestatus
+        other        kwam er langs een andere weg, bijvoorbeeld een lead die
+                     niet vanuit New de flow in kwam
+
+    De vier bakken tellen op tot het totaal, en de eerste twee zijn precies de
+    trechters hierboven. Alleen de eerste afspraak van een lead telt mee.
+    """
+    days = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    totals = defaultdict(lambda: defaultdict(int))
+
+    for lead, rows in by_lead.items():
+        rows.sort(key=lambda r: r.get("Edit Date") or "")
+        market = (rows[-1].get("Market") or "").strip().lower()
+        if not market:
+            continue
+        fallback_reason = (rows[-1].get("Reason") or "").strip()
+
+        in_flow = False
+        day = previous = None
+        for row in rows:
+            new = (row.get("New Value") or "").strip()
+            when = (row.get("Edit Date") or "")[:10]
+            if not when:
+                continue
+            if new in FUNNEL_ENTRY:
+                reason = (row.get("Reason") or "").strip() or fallback_reason
+                if reason in active:
+                    in_flow = True
+            if new == S_APPOINTMENT and in_flow:
+                day, previous = when, (row.get("Old Value") or "").strip()
+                break
+        if not day:
+            continue
+
+        bucket = None
+        for funnel, second in PATH_FUNNELS.items():
+            stages = _walk_funnel(rows, second, fallback_reason, active)
+            if stages and stages.get("appointment") == day:
+                bucket = funnel
+                break
+        if bucket is None:
+            bucket = "direct" if previous in FUNNEL_ENTRY else "other"
+
+        days[day][market][bucket] += 1
+        totals[market][bucket] += 1
+        if bucket == "direct":
+            # Uit welke van de twee statussen kwam de directe afspraak?
+            key = "directNotReached" if previous == "Not reached" else "directMailjourney"
+            days[day][market][key] += 1
+            totals[market][key] += 1
+
+    return days, totals
+
+
 def path_funnels(by_lead, converted, active):
     """Dagtellingen per markt, per trechter en per trechterstap.
 
@@ -619,6 +691,15 @@ def main():
     funnel_days, funnel_totals, funnel_both = path_funnels(
         transitions, converted, active)
     print(f"Leads in beide trechters tegelijk: {funnel_both}")
+
+    # Alle afspraken uit de mailflow, verdeeld over elkaar uitsluitende bakken
+    # die optellen tot het totaal.
+    split_days, split_totals = appointment_split(transitions, active)
+    for market, buckets in sorted(split_totals.items()):
+        total = sum(buckets[k] for k in ("notReached", "mailjourney", "direct", "other"))
+        print(f"  {market}: {total} afspraken uit de mailflow = "
+              + " + ".join(f"{buckets[k]} {k}"
+                           for k in ("notReached", "mailjourney", "direct", "other")))
 
     # Eerste mail per lead binnen de doelgroep. Voor geparkeerde leads telt
     # elke automation-mail; voor de offerte- en nurtureflows alleen die flows.
@@ -831,6 +912,15 @@ def main():
                 for market, per_funnel in per_market.items()
             }
             for day, per_market in funnel_days.items()
+        },
+        # Alle afspraken uit de mailflow, in elkaar uitsluitende bakken die
+        # optellen tot het totaal. Zie appointment_split().
+        "appointmentSplit": {
+            day: {market: dict(buckets) for market, buckets in per_market.items()}
+            for day, per_market in split_days.items()
+        },
+        "appointmentSplitTotals": {
+            market: dict(buckets) for market, buckets in split_totals.items()
         },
         "pathFunnelTotals": {
             market: {funnel: dict(stages) for funnel, stages in per_funnel.items()}

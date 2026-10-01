@@ -505,6 +505,11 @@ def main():
         for day, per_market in ((value or {}).get("pathFunnels") or {}).items():
             if key in per_market:
                 days.setdefault(day, {})["paths"] = per_market[key]
+        # Alle afspraken uit de mailflow, verdeeld over bakken die optellen
+        # tot het totaal. Ook per dag, dus ook optelbaar.
+        for day, per_market in ((value or {}).get("appointmentSplit") or {}).items():
+            if key in per_market:
+                days.setdefault(day, {})["apptSplit"] = per_market[key]
 
         markets[key] = {
             "marketLabel": label,
