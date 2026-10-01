@@ -500,11 +500,12 @@ function renderApptBlock(split, routes, paths, routeReason) {
     .slice(0, 25)
     .forEach(([path, n]) => {
       const row = document.createElement("div");
-      row.className = "vb-item";
+      row.className = "vb-path";
       const label = document.createElement("span");
+      label.className = "vb-p-name";
       label.textContent = path;
       const amount = document.createElement("span");
-      amount.className = "vb-i-val";
+      amount.className = "vb-p-val";
       amount.textContent = nlNum(n, 0) + (n === 1 ? " afspraak" : " afspraken");
       row.append(label, amount);
       list.appendChild(row);
@@ -1316,10 +1317,13 @@ function crmFromSums(crm, prevCrm, value, apptSplit) {
   // Alleen heropleving vanuit de mailflow telt als SQL. Van alle overgangen
   // naar Re-entered komt maar iets meer dan de helft daarvandaan; de rest
   // wordt vanuit Lost, Not Qualified of Follow-up gezet, meestal met de hand.
-  const sql = viaA("Mailjourney", "Re-entered");
+  // Heropleving vanuit de mailflow: dat is Mailjourney én Not reached. Alleen
+  // Mailjourney tellen liet de leads uit Not reached vallen. Nummerverrijking
+  // blijft erbuiten; die staat als eigen aftakking onder de funnel.
+  const sql = viaA("Mailjourney", "Re-entered") + viaA("Not reached", "Re-entered");
   const appointment = at("Appointment");
   const phone = atA("Re-entered - Phone Number Changed");
-  const mjToSql = viaA("Mailjourney", "Re-entered");
+  const mjToSql = sql;
   // Som van de vier bakken uit appointment_split: elke afspraak van een lead
   // die met een actieve reden in de mailflow stond, elk precies een keer.
   const allAppointments = apptSplit
