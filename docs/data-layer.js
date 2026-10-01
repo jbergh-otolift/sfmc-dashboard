@@ -391,6 +391,17 @@ function renderMailjourneyOrigin(stage) {
   el.textContent = parts.length ? parts.join(" · ") : "van instroom";
 }
 
+// Niet elke Re-entered komt uit de mailflow: sales zet die status ook met de
+// hand vanuit Lost of Not Qualified. Alleen de mailflow-route telt hier.
+function renderSqlOrigin(stage) {
+  const el = document.querySelector("[data-sql-herkomst]");
+  if (!el) return;
+  const buiten = stage && stage.herkomst && stage.herkomst.buitenMailflow;
+  el.textContent = buiten
+    ? nlNum(buiten, 0) + " buiten de mailflow niet geteld"
+    : "uit de mailflow";
+}
+
 function renderValueBlock(value) {
   const block = document.querySelector("[data-value-block]");
   if (!block) return;
@@ -1144,7 +1155,10 @@ function crmFromSums(crm, prevCrm, value) {
     .reduce((sum, [, n]) => sum + n, 0);
   const notReached = at("Not reached");
   const mailjourney = atA("Mailjourney");
-  const sql = atA("Re-entered");
+  // Alleen heropleving vanuit de mailflow telt als SQL. Van alle overgangen
+  // naar Re-entered komt maar iets meer dan de helft daarvandaan; de rest
+  // wordt vanuit Lost, Not Qualified of Follow-up gezet, meestal met de hand.
+  const sql = viaA("Mailjourney", "Re-entered");
   const appointment = at("Appointment");
   const phone = atA("Re-entered - Phone Number Changed");
   const mjToSql = viaA("Mailjourney", "Re-entered");
@@ -1187,6 +1201,7 @@ function crmFromSums(crm, prevCrm, value) {
       share: safeRatio(sql, intake),
       ratio: safeRatio(mjToSql, mailjourney),
       deltaPct: prev ? delta(safeRatio(mjToSql, mailjourney), prev.reactivation.sql.ratio) : null,
+      herkomst: { buitenMailflow: atA("Re-entered") - sql },
     },
     enrichment: {
       fromMailjourney: viaA("Mailjourney", "Re-entered - Phone Number Changed"),
@@ -1373,6 +1388,7 @@ function applyMarket(marketKey) {
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
+  renderSqlOrigin(view.reactivation && view.reactivation.sql);
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
