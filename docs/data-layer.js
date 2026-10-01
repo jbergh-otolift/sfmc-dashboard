@@ -1113,6 +1113,24 @@ function daysBetween(start, end) {
 // De kalenderpresets rekenen vanaf de laatste dag mét data, niet vanaf de
 // kalenderdatum. Op 1 oktober is "deze maand" anders een leeg bereik, terwijl
 // de lezer september bedoelt: de maand waar de cijfers over gaan.
+// De vroegste dag waarvoor deze markt CRM-data heeft. De LeadHistory-export
+// gaat minder ver terug dan de mailtracking, en de funnel hangt helemaal aan
+// die eerste bron. Een bereik dat verder terugloopt doet alsof er maanden
+// meetellen die niet bestaan, en telt stilzwijgend nul.
+function firstDayWithData(market) {
+  const days = Object.entries((market && market.days) || {})
+    .filter(([, bucket]) => bucket && bucket.crm)
+    .map(([day]) => day);
+  return days.length ? days.sort()[0] : null;
+}
+
+function clampRange(range, firstDay) {
+  if (!firstDay || !range || range.start >= firstDay) {
+    return { start: range.start, end: range.end, clamped: false };
+  }
+  return { start: firstDay, end: range.end, clamped: true };
+}
+
 function rangeForPreset(preset, endDate) {
   const end = endDate;
   const lastDay = addDays(end, -1);
@@ -1519,7 +1537,10 @@ function applyMarket(marketKey) {
 
   // Alles voor het gekozen bereik uit de dagbuckets optellen. Daardoor kan
   // de lezer elke periode kiezen in plaats van drie vaste vensters.
-  const range = currentRange || rangeForPreset("30", DATA.endDate);
+  const range = clampRange(
+    currentRange || rangeForPreset("30", DATA.endDate),
+    firstDayWithData(market)
+  );
   const span = Math.max(daysBetween(range.start, range.end), 1);
   const prevRange = {
     start: addDays(range.start, -span),
@@ -1610,7 +1631,10 @@ function applyMeta(data) {
   if (stamp && data.generated_at) stamp.textContent = "Bijgewerkt: " + fmtDate(data.generated_at);
 
   // Bereik van de gekozen periode, uit de markt die nu getoond wordt.
-  const range = currentRange || rangeForPreset("30", data.endDate);
+  const range = clampRange(
+    currentRange || rangeForPreset("30", data.endDate),
+    firstDayWithData((data.markets || {})[currentMarket])
+  );
   const span = Math.max(daysBetween(range.start, range.end), 1);
   const block = {
     range,
@@ -1626,7 +1650,10 @@ function applyMeta(data) {
     // end is exclusief; toon de laatste dag die er wél in zit.
     const end = new Date(value.end);
     end.setDate(end.getDate() - 1);
-    el.textContent = fmtDate(value.start) + " t/m " + fmtDate(end.toISOString());
+    el.textContent =
+      fmtDate(value.start) + " t/m " + fmtDate(end.toISOString()) +
+      // Zeg het als het bereik is ingekort, anders lijkt een half jaar een heel jaar.
+      (value.clamped ? " · data begint " + fmtDate(value.start) : "");
   };
   showRange("[data-period-label]", (block && block.range) || data.period);
 
