@@ -500,6 +500,11 @@ def main():
         for day, per_market in ((value or {}).get("days") or {}).items():
             if key in per_market:
                 days.setdefault(day, {})["value"] = per_market[key]
+        # Twee vaste routes door de funnel, per stap op de dag dat die stap
+        # plaatsvond. Optelbaar over elk bereik.
+        for day, per_market in ((value or {}).get("pathFunnels") or {}).items():
+            if key in per_market:
+                days.setdefault(day, {})["paths"] = per_market[key]
 
         markets[key] = {
             "marketLabel": label,
@@ -551,6 +556,7 @@ def main():
         "retrieveDays": (tracking or {}).get("retrieveDays"),
         "routeLabels": (value or {}).get("routeLabels") or {},
         "valueAttribution": (value or {}).get("attribution"),
+        "pathFunnelNote": (value or {}).get("pathFunnelNote"),
         "defaultPeriod": DEFAULT_PERIOD,
         "coveragePeriod": COVERAGE_PERIOD,
         "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),

@@ -402,6 +402,88 @@ function renderSqlOrigin(stage) {
     : "uit de mailflow";
 }
 
+// Tekent de twee vaste routes met dezelfde opbouw als de funnel erboven:
+// blokken met het aantal, pijlen met de doorstroom ertussen.
+const PATH_LAYOUT = [
+  {
+    key: "notReached",
+    label: "Via Not reached",
+    stages: ["new", "stage2", "reentered", "appointment", "order"],
+    names: ["New", "Not reached", "Opnieuw binnengekomen", "Afspraak", "Order"],
+  },
+  {
+    key: "mailjourney",
+    label: "Via Mailjourney",
+    stages: ["new", "stage2", "reentered", "appointment", "order"],
+    names: ["New", "Mailjourney", "Opnieuw binnengekomen", "Afspraak", "Order"],
+  },
+];
+
+function renderPathFunnels(paths) {
+  const host = document.querySelector("[data-path-funnels]");
+  if (!host) return;
+  const any = PATH_LAYOUT.some((p) => (paths || {})[p.key] && paths[p.key].new);
+  if (!any) {
+    host.hidden = true;
+    return;
+  }
+  host.hidden = false;
+  host.querySelectorAll(".pf-row").forEach((el) => el.remove());
+
+  PATH_LAYOUT.forEach((layout) => {
+    const data = (paths || {})[layout.key] || {};
+    const row = document.createElement("div");
+    row.className = "pf-row";
+
+    const label = document.createElement("div");
+    label.className = "pf-label";
+    label.textContent = layout.label;
+    row.appendChild(label);
+
+    const line = document.createElement("div");
+    line.className = "mini-funnel";
+
+    layout.stages.forEach((stage, i) => {
+      if (i > 0) {
+        // De pijl toont de doorstroom van de vorige stap naar deze.
+        const prev = data[layout.stages[i - 1]] || 0;
+        const now = data[stage] || 0;
+        const arrow = document.createElement("div");
+        arrow.className = "mf-arrow";
+        const lbl = document.createElement("span");
+        lbl.className = "mfa-lbl";
+        lbl.textContent = layout.names[i - 1] + " → " + layout.names[i];
+        const ratio = document.createElement("span");
+        ratio.className = "mfa-ratio";
+        ratio.textContent = prev ? nlNum(Math.round((now / prev) * 1000) / 10, 1) + "%" : NODATA;
+        const track = document.createElement("span");
+        track.className = "mfa-track";
+        const fill = document.createElement("i");
+        fill.style.width = prev ? Math.min((now / prev) * 100, 100) + "%" : "0%";
+        track.appendChild(fill);
+        arrow.append(lbl, ratio, track);
+        line.appendChild(arrow);
+      }
+
+      const box = document.createElement("div");
+      box.className =
+        "mf-stage" + (i === 0 ? " start" : "") +
+        (i === layout.stages.length - 1 ? " end" : "");
+      const name = document.createElement("div");
+      name.className = "mf-name";
+      name.textContent = layout.names[i];
+      const abs = document.createElement("div");
+      abs.className = "mf-abs";
+      abs.textContent = nlNum(data[stage] || 0, 0);
+      box.append(name, abs);
+      line.appendChild(box);
+    });
+
+    row.appendChild(line);
+    host.appendChild(row);
+  });
+}
+
 function renderValueBlock(value) {
   const block = document.querySelector("[data-value-block]");
   if (!block) return;
@@ -1042,6 +1124,8 @@ function sumRange(days, start, end) {
   };
   const cohort = { entered: 0, mailable: 0, reached: 0, hasData: false };
   // Omzet is toegerekend aan de conversiedatum en dus gewoon optelbaar.
+  // Twee vaste routes door de funnel; per stap optelbaar over het bereik.
+  const paths = {};
   const value = {
     orders: 0, revenue: 0,
     // Breed: gemaild door een flow uit de doelgroep en daarna geconverteerd.
@@ -1076,6 +1160,13 @@ function sumRange(days, start, end) {
     ["toStatus", "transitions", "toStatusActive", "transitionsActive"].forEach((field) => {
       Object.entries((bucket.crm || {})[field] || {}).forEach(([key, n]) => {
         crm[field][key] = (crm[field][key] || 0) + n;
+      });
+    });
+
+    Object.entries(bucket.paths || {}).forEach(([funnel, stages]) => {
+      const target = (paths[funnel] = paths[funnel] || {});
+      Object.entries(stages).forEach(([stage, n]) => {
+        target[stage] = (target[stage] || 0) + (n || 0);
       });
     });
 
@@ -1118,6 +1209,7 @@ function sumRange(days, start, end) {
     crm,
     cohort: cohort.hasData ? cohort : null,
     value: value.hasData ? value : null,
+    paths,
   };
 }
 
@@ -1387,6 +1479,7 @@ function applyMarket(marketKey) {
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
+  renderPathFunnels(summed.paths);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
   applySourceBadges(market._sources);

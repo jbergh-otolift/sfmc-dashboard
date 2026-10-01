@@ -99,6 +99,25 @@ PATH_STATUSES = {
     "Not reached",
 }
 
+# De twee vaste statuspaden die als trechter op het dashboard komen. Elke
+# trechter is een strikte volgorde: een lead moet de stappen in deze volgorde
+# zetten, anders telt hij vanaf de eerste misser niet verder mee.
+#
+#   notReached   New -> Not reached -> Re-entered -> Appointment -> Order
+#   mailjourney  New -> Mailjourney -> Re-entered -> Appointment -> Order
+#
+# De tweede status bepaalt welke trechter het is; de rest is voor beide gelijk.
+PATH_FUNNELS = {
+    "notReached": "Not reached",
+    "mailjourney": S_MAILJOURNEY,
+}
+
+# Stap 3 kent twee smaken: een lead die zich gewoon weer meldt en een lead die
+# pas bereikbaar werd na nummerverrijking. Allebei tellen als heractivatie.
+FUNNEL_REENTRY = ("Re-entered", "Re-entered - Phone Number Changed")
+
+FUNNEL_STAGES = ("new", "stage2", "reentered", "appointment", "order")
+
 # Hoeveel stappen ná de Mailjourney-instroom maximaal getoond worden.
 PATH_MAX_STEPS = 4
 PATH_ARROW = " → "
@@ -328,12 +347,12 @@ def signed_quotes(session, instance_url):
     return out
 
 
-def reactivation_paths(path):
-    """Per lead: kwam die via de mailflow terug, en langs welke route?
+def load_transitions(path):
+    """Alle statusovergangen uit het rapport, gegroepeerd per lead.
 
-    De statusovergangen worden op datum doorlopen. Pas ná een instroom in
-    Mailjourney telt een heractivatiesignaal mee — dat is precies wat deze
-    toerekening onderscheidt van 'heeft toevallig ook een mail gehad'.
+    Eén keer inlezen, twee keer gebruiken: zowel de routetelling als de
+    trechters lopen over dezelfde per-lead lijstjes. Het rapport telt tienduizenden
+    regels en groeit nog, dus we houden niets méér vast dan die lijstjes.
     """
     if not os.path.exists(path):
         print(f"WAARSCHUWING: {path} ontbreekt.")
@@ -343,6 +362,23 @@ def reactivation_paths(path):
     with open(path, newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             by_lead[row["Lead ID"]].append(row)
+    return by_lead
+
+
+def reactivation_paths(path, by_lead=None):
+    """Per lead: kwam die via de mailflow terug, en langs welke route?
+
+    De statusovergangen worden op datum doorlopen. Pas ná een instroom in
+    Mailjourney telt een heractivatiesignaal mee — dat is precies wat deze
+    toerekening onderscheidt van 'heeft toevallig ook een mail gehad'.
+
+    `by_lead` mag een al ingelezen rapport zijn (zie `load_transitions`), zodat
+    het bestand niet twee keer over de schijf hoeft.
+    """
+    if by_lead is None:
+        by_lead = load_transitions(path)
+    if not by_lead:
+        return {}
 
     paths = {}
     for lead, rows in by_lead.items():
@@ -396,6 +432,135 @@ def reactivation_paths(path):
     return paths
 
 
+def path_funnels(by_lead, converted, active):
+    """Dagtellingen per markt, per trechter en per trechterstap.
+
+    Twee vaste paden (zie PATH_FUNNELS) worden als strikte volgorde door de
+    statushistorie van elke lead gelopen:
+
+        new -> stage2 -> reentered -> appointment -> order
+
+    Regels:
+
+      - Stap 1 en 2 zijn dezelfde overgang: Old Value `New` naar de tweede
+        status van de trechter (`Not reached` of `Mailjourney`). Die telt dus
+        op dezelfde dag voor `new` én `stage2`. De eerste zo'n overgang telt;
+        een lead die later nog eens op New wordt gezet begint geen tweede keer.
+      - Stap 3 is de eerstvolgende overgang náár `Re-entered` of
+        `Re-entered - Phone Number Changed`.
+      - Stap 4 is de eerstvolgende overgang náár `Appointment`.
+      - Stap 5 is een gewonnen Opportunity uit `converted`, geteld op de
+        sluitdatum (`date`), en alleen als die op of ná de afspraakdag ligt.
+      - Bij de eerste stap die niet lukt stopt de lead: wie wel heractiveert
+        maar nooit een afspraak krijgt, telt in stap 1 t/m 3 en verder niet.
+
+    Alleen leads met een actieve instroomreden tellen mee (`active`, uit
+    `config/flow_goals.json`). De reden wordt van de instroomovergang zelf
+    gelezen; die is vaak leeg, dan valt hij terug op de laatst bekende reden
+    van de lead.
+
+    LET OP 1: een lead kan in béide trechters zitten als zijn historie allebei
+    de routes bevat (bijvoorbeeld eerst New -> Not reached en later, na een
+    nieuwe New, New -> Mailjourney). Zo'n lead telt in allebei mee; de twee
+    trechters zijn dus niet exclusief en mogen niet bij elkaar opgeteld worden.
+
+    LET OP 2: elke stap wordt geteld op de dag waaróp die stap gebeurde, niet
+    op de instroomdag. Daardoor is elk datumbereik optelbaar, maar beschrijft
+    een bereik géén cohort: stap 4 in september kan bij een lead horen die in
+    juni zijn stap 1 zette. De trechter leest dus als 'wat gebeurde er deze
+    periode per stap', niet als 'van deze instroom haalde zoveel procent het'.
+    """
+    days = defaultdict(
+        lambda: defaultdict(
+            lambda: {
+                funnel: {stage: 0 for stage in FUNNEL_STAGES}
+                for funnel in PATH_FUNNELS
+            }
+        )
+    )
+    totals = defaultdict(
+        lambda: {
+            funnel: {stage: 0 for stage in FUNNEL_STAGES}
+            for funnel in PATH_FUNNELS
+        }
+    )
+    both = 0
+
+    for lead, rows in by_lead.items():
+        rows.sort(key=lambda r: r.get("Edit Date") or "")
+        last = rows[-1]
+        market = (last.get("Market") or "").strip().lower()
+        if not market:
+            continue
+        fallback_reason = (last.get("Reason") or "").strip()
+
+        matched = 0
+        for funnel, second in PATH_FUNNELS.items():
+            stages = _walk_funnel(rows, second, fallback_reason, active)
+            if not stages:
+                continue
+            matched += 1
+            conv = converted.get(lead) or {}
+            if (
+                stages.get("appointment")
+                and conv.get("won")
+                and conv.get("date")
+                and conv["date"] >= stages["appointment"]
+            ):
+                stages["order"] = conv["date"]
+
+            for stage in FUNNEL_STAGES:
+                day = stages.get(stage)
+                if not day:
+                    continue
+                days[day][market][funnel][stage] += 1
+                totals[market][funnel][stage] += 1
+        if matched > 1:
+            both += 1
+
+    return days, totals, both
+
+
+def _walk_funnel(rows, second, fallback_reason, active):
+    """De dagen waarop deze lead de stappen van één trechter zette.
+
+    Geeft een dict stap -> dag terug, of None als de lead niet eens instroomt
+    of zijn reden niet actief is. `order` wordt hier niet gevuld: die hangt aan
+    de Opportunity, niet aan de statushistorie.
+    """
+    stages = {}
+    for row in rows:
+        old = (row.get("Old Value") or "").strip()
+        new = (row.get("New Value") or "").strip()
+        day = (row.get("Edit Date") or "")[:10]
+        if not day:
+            continue
+
+        if "new" not in stages:
+            if old == "New" and new == second:
+                reason = (row.get("Reason") or "").strip() or fallback_reason
+                if reason not in active:
+                    return None
+                # Stap 1 en 2 zijn dezelfde overgang en delen dus hun dag.
+                stages["new"] = day
+                stages["stage2"] = day
+            continue
+
+        if "reentered" not in stages:
+            if new in FUNNEL_REENTRY:
+                stages["reentered"] = day
+            continue
+
+        if "appointment" not in stages:
+            if new == S_APPOINTMENT:
+                stages["appointment"] = day
+            continue
+
+        break
+
+    return stages or None
+
+
 def main():
     token, instance_url = get_token()
     session = requests.Session()
@@ -404,7 +569,8 @@ def main():
     converted = conversions(session, instance_url)
     signed = signed_quotes(session, instance_url)
     print(f"Getekende offertes in {LOOKBACK_DAYS} dagen: {len(signed)}")
-    paths = reactivation_paths(REPORT_PATH)
+    transitions = load_transitions(REPORT_PATH)
+    paths = reactivation_paths(REPORT_PATH, transitions)
     flows = reached_by_flow(REACHED_PATH)
     first_send_all, first_send_flow = first_send_dates(REACHED_PATH)
 
@@ -434,6 +600,12 @@ def main():
     }
     print(f"Leads in de mailflow met een actieve reden: {len(parked)} "
           f"(van {len(paths)}), {len(active)} redenen actief")
+
+    # De twee vaste trechters, per dag en per stap. Staat los van de
+    # omzettoerekening hieronder: dit telt leads, geen euro's.
+    funnel_days, funnel_totals, funnel_both = path_funnels(
+        transitions, converted, active)
+    print(f"Leads in beide trechters tegelijk: {funnel_both}")
 
     # Eerste mail per lead binnen de doelgroep. Voor geparkeerde leads telt
     # elke automation-mail; voor de offerte- en nurtureflows alleen die flows.
@@ -629,6 +801,28 @@ def main():
         # byFlow telt een order bij élke journey die de lead raakte. Kolommen
         # daaruit nooit optellen of naast het totaal leggen.
         "byFlowNote": "meervoudig toegerekend",
+        # Elke trechterstap is geteld op de dag van die stap, dus elk bereik is
+        # optelbaar maar beschrijft geen cohort. Een lead kan in beide
+        # trechters zitten; niet bij elkaar optellen.
+        "pathFunnelNote": (
+            "Per stap geteld op de dag van die stap, niet op de instroomdag: "
+            "optelbaar over elk bereik, maar géén cohort. Een lead met beide "
+            "routes in zijn historie telt in beide trechters."
+        ),
+        "pathFunnels": {
+            day: {
+                market: {
+                    funnel: dict(stages)
+                    for funnel, stages in per_funnel.items()
+                }
+                for market, per_funnel in per_market.items()
+            }
+            for day, per_market in funnel_days.items()
+        },
+        "pathFunnelTotals": {
+            market: {funnel: dict(stages) for funnel, stages in per_funnel.items()}
+            for market, per_funnel in funnel_totals.items()
+        },
         "warnings": warnings,
         "days": out_days,
         "paths": {
