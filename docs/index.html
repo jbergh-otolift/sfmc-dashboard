@@ -494,21 +494,19 @@
   .vb-t-val{font-variant-numeric:tabular-nums}
   .path-funnels{margin-top:14px}
   .pf-cap{font-size:11px;color:var(--ink-soft);line-height:1.5;max-width:720px;margin-bottom:12px}
-  .pf-row{margin-bottom:10px}
+  .pf-row{padding:10px 14px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);
+          margin-bottom:8px}
+  /* Om de beurt een andere ondergrond: dat scheidt de routes zonder extra lijnen. */
+  .pf-row:nth-child(even){background:#F7F8FA}
   /* Compacter dan de hoofdfunnel: vijf stappen moeten op een rij passen. */
-  .pf-line{flex-wrap:nowrap}
-  .pf-line .mf-stage{flex:1 1 0;min-width:0;padding:13px 8px}
-  .pf-line .mf-name{font-size:10.5px;min-height:0}
-  .pf-line .mf-abs{font-size:23px;margin-top:5px}
-  .pf-line .mf-arrow{min-width:62px;padding:0 5px}
-  .pf-line .mfa-ratio{font-size:13px}
+  .pf-line{flex-wrap:nowrap;padding:2px 0 0}
   .pf-label{font-size:11px;font-weight:700;color:var(--oto-red);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px;
             display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .pfl-share{font-size:9.5px;font-weight:600;color:var(--ink-soft);text-transform:none;letter-spacing:0}
   /* Klein totaalblokje rechtsboven, net als bij de orders. */
-  .pf-stat{float:right;display:flex;flex-direction:column;align-items:flex-end;gap:1px;
+  .pf-stat{margin-left:auto;display:flex;align-items:baseline;gap:10px;
            background:#F4F8F4;border:1px solid var(--oto-green-soft);border-radius:10px;
-           padding:7px 14px;margin:-2px 0 10px 16px}
+           padding:6px 14px;align-self:center}
   .pfs-lbl{font-size:9.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;
            letter-spacing:.4px}
   .pfs-abs{font-size:24px;font-weight:800;color:var(--oto-green);line-height:1.05}
@@ -517,9 +515,18 @@
   .pf-line .mf-stage.muted .mf-abs{color:var(--ink-soft)}
   .pf-note{font-size:10.5px;color:var(--ink-soft);margin:5px 0 0 30px}
 
-  /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen. */
+  /* Aftakking onder een route: de leads die pas na nummerverrijking terugkwamen.
+     Dichtgeklapt is het één regel; open staan dezelfde blokken als erboven. */
+  .pf-fold{margin-top:4px}
+  .pf-fold>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+                   font-size:10.5px;color:var(--ink-soft);padding:3px 2px;border-radius:6px}
+  .pf-fold>summary::-webkit-details-marker{display:none}
+  .pf-fold>summary::before{content:"▸";font-size:9px;color:var(--oto-red)}
+  .pf-fold[open]>summary::before{content:"▾"}
+  .pf-fold>summary:hover{color:var(--ink)}
+  .pf-fold>summary b{color:var(--ink);font-weight:700}
   .pf-branch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-             margin:6px 0 0 30px;padding-left:14px;border-left:2px solid var(--line)}
+             margin:4px 0 2px 16px;padding-left:14px;border-left:2px solid var(--line)}
   .pfb-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
            color:var(--ink-soft);line-height:1.3;white-space:pre-line}
   .pfb-box{display:flex;flex-direction:column;gap:2px;background:#fff;
@@ -595,6 +602,10 @@
       <h2>Her-activatie</h2>
             <span class="desc">Instroom = leads die vanuit <code>New</code> in behandeling komen. Elke stap telt de statusovergangen daarnaartoe; de pijlen tonen de doorstroom van de ene stap naar de volgende.</span>
             <span class="srcbadge" data-source-for="reactivation">–</span>
+            <div class="pf-stat">
+              <span class="pfs-lbl">Alle afspraken uit de mailflow</span>
+              <span class="pfs-abs" data-appt-total>–</span>
+            </div>
     </div>
 
     <div class="card">
@@ -659,10 +670,6 @@
 
           <!-- Twee vaste routes, elk met dezelfde opbouw als de lijn hierboven -->
           <div class="path-funnels" data-path-funnels hidden>
-            <div class="pf-stat">
-              <span class="pfs-lbl">Alle afspraken uit de mailflow</span>
-              <span class="pfs-abs" data-appt-total>–</span>
-            </div>
             <p class="pf-cap">De vier routes hieronder sluiten elkaar uit en tellen op tot
                dat getal. Een aftakking is een deel van zijn route, geen extra groep.</p>
           </div>
@@ -1006,7 +1013,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001122840"></script>
+<script src="data-layer.js?v=20261001123457"></script>
 
 </body>
 </html>

@@ -434,7 +434,8 @@ function renderPathFunnels(paths, split) {
     (sum, key) => sum + (bak[key] || 0),
     0
   );
-  const stat = host.querySelector("[data-appt-total]");
+  // Staat in de sectiekop, buiten dit blok.
+  const stat = document.querySelector("[data-appt-total]");
   if (stat) stat.textContent = nlNum(total, 0);
 
   const rows = [];
@@ -556,7 +557,18 @@ function pathRow(spec) {
 
   row.appendChild(line);
 
-  if (spec.branch) row.appendChild(pathBranch(spec.branch[0], spec.branch[1]));
+  if (spec.branch) {
+    // Dichtgeklapt staat er één regel met de kern; opengeklapt de blokken.
+    const fold = document.createElement("details");
+    fold.className = "pf-fold";
+    const sum = document.createElement("summary");
+    sum.innerHTML =
+      "waarvan uit phone number changed: <b>" + nlNum(spec.branch[0], 0) +
+      "</b> opnieuw binnengekomen, <b>" + nlNum(spec.branch[1], 0) + "</b> afspraak";
+    fold.appendChild(sum);
+    fold.appendChild(pathBranch(spec.branch[0], spec.branch[1]));
+    row.appendChild(fold);
+  }
   if (spec.note) {
     const note = document.createElement("div");
     note.className = "pf-note";
