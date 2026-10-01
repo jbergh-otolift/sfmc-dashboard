@@ -373,6 +373,24 @@ function coverageForPeriod(base, cohort) {
 
 // Toont wat her-activatie heeft opgeleverd in het gekozen bereik, per route.
 // Alleen orders waarvan de conversie ná het heractivatiesignaal ligt.
+// Waar komen de leads in de mailflow vandaan? De funnel leest als een keten,
+// maar maar een deel komt via Not reached — de rest via Follow-up of
+// rechtstreeks vanuit New. Dat hoort erbij te staan.
+function renderMailjourneyOrigin(stage) {
+  const el = document.querySelector("[data-mj-herkomst]");
+  if (!el) return;
+  const h = stage && stage.herkomst;
+  if (!h) {
+    el.textContent = "van instroom";
+    return;
+  }
+  const parts = [];
+  if (h.vanFollowUp) parts.push(nlNum(h.vanFollowUp, 0) + " via Follow-up");
+  if (h.vanNotReached) parts.push(nlNum(h.vanNotReached, 0) + " via Not reached");
+  if (h.direct) parts.push(nlNum(h.direct, 0) + " direct");
+  el.textContent = parts.length ? parts.join(" · ") : "van instroom";
+}
+
 function renderValueBlock(value) {
   const block = document.querySelector("[data-value-block]");
   if (!block) return;
@@ -1148,8 +1166,21 @@ function crmFromSums(crm, prevCrm, value) {
     mailjourney: {
       abs: mailjourney,
       share: safeRatio(mailjourney, intake),
-      ratio: safeRatio(viaA("Not reached", "Mailjourney") + viaA("Follow-up", "Mailjourney"), notReached),
+      // Niet iedereen komt via Not reached binnen: de grootste groep komt uit
+      // Follow-up en een kwart gaat rechtstreeks vanuit New. De pijl toont
+      // daarom de instroom in de mailflow als aandeel van de leadinstroom.
+      ratio: safeRatio(mailjourney, intake),
       deltaPct: null,
+      herkomst: {
+        vanNotReached: viaA("Not reached", "Mailjourney"),
+        vanFollowUp: viaA("Follow-up", "Mailjourney"),
+        direct: viaA("New", "Mailjourney"),
+        overig:
+          mailjourney -
+          viaA("Not reached", "Mailjourney") -
+          viaA("Follow-up", "Mailjourney") -
+          viaA("New", "Mailjourney"),
+      },
     },
     sql: {
       abs: sql,
@@ -1341,6 +1372,7 @@ function applyMarket(marketKey) {
   // context — dat is een ander getal dat een andere vraag beantwoordt.
   applyCoverageNote(view.kernKpis && view.kernKpis.coverage, period && period.cohort);
   renderValueBlock(summed.value);
+  renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
