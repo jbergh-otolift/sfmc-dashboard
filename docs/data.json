@@ -6,7 +6,7 @@
   "defaultPeriod": "30",
   "endDate": "2026-10-02",
   "firstDay": "2025-08-28",
-  "generated_at": "2026-10-01T12:25:38+00:00",
+  "generated_at": "2026-10-01T12:29:33+00:00",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -20795,8 +20795,20 @@
           }
         },
         "2026-07-22": {
+          "apptPaths": {
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
+          },
+          "apptRouteReason": {
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
+            }
+          },
+          "apptRoutes": {
+            "Nummer gewijzigd": 1
+          },
           "apptSplit": {
-            "entry": 12
+            "entry": 12,
+            "other": 1
           },
           "cohort": {
             "entered": 33,
@@ -20855,6 +20867,11 @@
               "Not reached>Mailjourney": 1,
               "Re-entered>Mailjourney": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -22783,6 +22800,9 @@
               "Not reached>Follow-up": 5,
               "Not reached>Mailjourney": 2
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -27388,22 +27408,28 @@
         "2026-08-10": {
           "apptPaths": {
             "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1,
-            "Mailjourney (Orientation for later moment) → Follow-up → Appointment": 1
+            "Mailjourney (Orientation for later moment) → Follow-up → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "No Contact Possible - number incorrect": 1,
               "Orientation for later moment": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 2
+            "Direct afspraak": 2,
+            "Nummer gewijzigd": 1
           },
           "apptSplit": {
             "direct": 1,
             "directMailjourney": 1,
             "entry": 32,
-            "mailjourney": 1
+            "mailjourney": 1,
+            "other": 1
           },
           "cohort": {
             "entered": 17,
@@ -27480,6 +27506,11 @@
               "Re-entered>New": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -30115,6 +30146,9 @@
               "Re-entered>Follow-up": 1,
               "Re-entered>Mailjourney": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -32911,7 +32945,7 @@
             }
           },
           "enrich": {
-            "enriched": 1
+            "enriched": 3
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -33395,6 +33429,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not Qualified": 1
             }
+          },
+          "enrich": {
+            "appointment": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -35999,7 +36036,7 @@
             }
           },
           "enrich": {
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -36415,19 +36452,22 @@
         },
         "2026-09-01": {
           "apptPaths": {
-            "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 1
+            "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
+              "(geen reden)": 1,
               "No Contact Possible - number incorrect": 1
             }
           },
           "apptRoutes": {
-            "Nummer gewijzigd": 1
+            "Nummer gewijzigd": 2
           },
           "apptSplit": {
             "entry": 14,
-            "mailjourney": 1
+            "mailjourney": 1,
+            "other": 1
           },
           "cohort": {
             "entered": 17,
@@ -36496,8 +36536,8 @@
             }
           },
           "enrich": {
-            "appointment": 1,
-            "direct": 1
+            "appointment": 2,
+            "direct": 2
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -37352,20 +37392,26 @@
         },
         "2026-09-03": {
           "apptPaths": {
-            "Mailjourney (No Contact Possible - number correct) → Appointment": 1
+            "Mailjourney (No Contact Possible - number correct) → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "No Contact Possible - number correct": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 1
+            "Direct afspraak": 1,
+            "Nummer gewijzigd": 1
           },
           "apptSplit": {
             "direct": 1,
             "directMailjourney": 1,
-            "entry": 14
+            "entry": 14,
+            "other": 1
           },
           "cohort": {
             "entered": 17,
@@ -37430,6 +37476,11 @@
               "Not reached>Mailjourney": 4,
               "Re-entered>Not Qualified": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -45657,6 +45708,9 @@
               "Re-entered>Not reached": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "BE - New Lead - VL - WA": {
               "bounces": 1,
@@ -46645,6 +46699,9 @@
               "Re-entered - Phone Number Changed>Follow-up": 1,
               "Re-entered>Appointment": 1
             }
+          },
+          "enrich": {
+            "appointment": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -48212,6 +48269,9 @@
               "Re-entered>Appointment": 2,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "BE - New Lead - VL - WA": {
@@ -199016,6 +199076,9 @@
               "Re-entered>Re-entered - Phone Number Changed": 1
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 3,
@@ -199894,6 +199957,9 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 2
             }
+          },
+          "enrich": {
+            "enriched": 2
           },
           "flows": {
             "(niet toegewezen)": {
@@ -202888,20 +202954,31 @@
         "2026-07-20": {
           "apptPaths": {
             "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": 1,
-            "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": 1
+            "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 2,
+            "Mailjourney → Re-entered - Phone Number Changed → Follow-up → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "Never had contact with the customer": 1,
               "No contact possible": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 2
+            },
+            "Overig": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 2
+            "Direct afspraak": 2,
+            "Nummer gewijzigd": 2,
+            "Overig": 1
           },
           "apptSplit": {
             "entry": 54,
-            "mailjourney": 2
+            "mailjourney": 2,
+            "other": 3
           },
           "cohort": {
             "entered": 49,
@@ -202982,6 +203059,11 @@
               "Re-entered>Mailjourney": 3,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "appointment": 3,
+            "direct": 2,
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -205591,6 +205673,9 @@
               "Not reached>Mailjourney": 4,
               "Re-entered>Not reached": 2
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -208752,6 +208837,9 @@
               "Re-entered>Not reached": 5
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 0,
@@ -210576,7 +210664,7 @@
             }
           },
           "enrich": {
-            "appointment": 1
+            "appointment": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -211484,7 +211572,7 @@
             }
           },
           "enrich": {
-            "enriched": 2
+            "enriched": 3
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -215754,7 +215842,7 @@
             }
           },
           "enrich": {
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -216530,20 +216618,22 @@
         },
         "2026-08-05": {
           "apptPaths": {
-            "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 2
+            "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 2,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Nummer gewijzigd": {
+              "(geen reden)": 1,
               "No Contact Possible - number incorrect": 2
             }
           },
           "apptRoutes": {
-            "Nummer gewijzigd": 2
+            "Nummer gewijzigd": 3
           },
           "apptSplit": {
             "entry": 19,
             "notReached": 1,
-            "other": 1
+            "other": 2
           },
           "cohort": {
             "entered": 16,
@@ -216620,8 +216710,8 @@
             }
           },
           "enrich": {
-            "appointment": 2,
-            "direct": 2,
+            "appointment": 3,
+            "direct": 3,
             "enriched": 1
           },
           "flows": {
@@ -217568,7 +217658,7 @@
           "enrich": {
             "appointment": 1,
             "direct": 1,
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -220795,7 +220885,7 @@
             }
           },
           "enrich": {
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -222730,11 +222820,15 @@
           "apptPaths": {
             "Mailjourney (No Contact Possible - number correct) → Re-entered - Phone Number Changed → Follow-up → Appointment": 1,
             "Mailjourney (No Contact Possible - number correct) → Re-entered → Appointment": 1,
-            "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1
+            "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "No Contact Possible - number incorrect": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             },
             "Overig": {
               "No Contact Possible - number correct": 1
@@ -222745,6 +222839,7 @@
           },
           "apptRoutes": {
             "Direct afspraak": 1,
+            "Nummer gewijzigd": 1,
             "Overig": 1,
             "Re-entered": 1
           },
@@ -222753,7 +222848,8 @@
             "directMailjourney": 1,
             "entry": 20,
             "mailjourney": 1,
-            "notReached": 1
+            "notReached": 1,
+            "other": 1
           },
           "cohort": {
             "entered": 27,
@@ -222834,7 +222930,9 @@
             }
           },
           "enrich": {
-            "appointment": 1
+            "appointment": 2,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "(niet toegewezen)": {
@@ -223774,6 +223872,9 @@
               "Not reached>Mailjourney": 2,
               "Re-entered>Mailjourney": 1
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -228134,7 +228235,8 @@
             }
           },
           "enrich": {
-            "appointment": 1
+            "appointment": 1,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -239916,19 +240018,25 @@
         },
         "2026-08-31": {
           "apptPaths": {
-            "Mailjourney (No Contact Possible - number correct) → Follow-up → Re-entered → Not reached → Appointment": 1
+            "Mailjourney (No Contact Possible - number correct) → Follow-up → Re-entered → Not reached → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "No Contact Possible - number correct": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 1
+            "Direct afspraak": 1,
+            "Nummer gewijzigd": 1
           },
           "apptSplit": {
             "entry": 60,
-            "notReached": 1
+            "notReached": 1,
+            "other": 1
           },
           "cohort": {
             "entered": 41,
@@ -240032,7 +240140,9 @@
             }
           },
           "enrich": {
-            "enriched": 1
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -241024,6 +241134,9 @@
               "Re-entered>Not reached": 3
             }
           },
+          "enrich": {
+            "enriched": 1
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 1,
@@ -241877,19 +241990,25 @@
         },
         "2026-09-02": {
           "apptPaths": {
-            "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1
+            "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
+            },
             "Re-entered": {
               "No Contact Possible - number incorrect": 1
             }
           },
           "apptRoutes": {
+            "Nummer gewijzigd": 1,
             "Re-entered": 1
           },
           "apptSplit": {
             "entry": 26,
-            "mailjourney": 1
+            "mailjourney": 1,
+            "other": 1
           },
           "cohort": {
             "entered": 34,
@@ -241974,6 +242093,8 @@
             }
           },
           "enrich": {
+            "appointment": 1,
+            "direct": 1,
             "enriched": 2
           },
           "flows": {
@@ -246599,6 +246720,9 @@
               "Re-entered>Not reached": 6
             }
           },
+          "enrich": {
+            "enriched": 2
+          },
           "flows": {
             "NL - 1x Geen gehoor ": {
               "bounces": 1,
@@ -247608,7 +247732,7 @@
             }
           },
           "enrich": {
-            "appointment": 1
+            "appointment": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -249614,8 +249738,20 @@
           }
         },
         "2026-09-10": {
+          "apptPaths": {
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
+          },
+          "apptRouteReason": {
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
+            }
+          },
+          "apptRoutes": {
+            "Nummer gewijzigd": 1
+          },
           "apptSplit": {
-            "entry": 24
+            "entry": 24,
+            "other": 1
           },
           "cohort": {
             "entered": 24,
@@ -249690,6 +249826,11 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "appointment": 3,
+            "direct": 1,
+            "enriched": 4
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -250698,20 +250839,26 @@
         },
         "2026-09-11": {
           "apptPaths": {
-            "Mailjourney (Wmo application is in progress) → Appointment": 1
+            "Mailjourney (Wmo application is in progress) → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "Wmo application is in progress": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 1
+            "Direct afspraak": 1,
+            "Nummer gewijzigd": 1
           },
           "apptSplit": {
             "direct": 1,
             "directMailjourney": 1,
-            "entry": 38
+            "entry": 38,
+            "other": 1
           },
           "cohort": {
             "entered": 39,
@@ -250781,6 +250928,10 @@
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 2
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -253438,7 +253589,7 @@
           "enrich": {
             "appointment": 2,
             "direct": 2,
-            "enriched": 2
+            "enriched": 5
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -255544,7 +255695,7 @@
           },
           "enrich": {
             "appointment": 1,
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -260285,7 +260436,7 @@
           },
           "enrich": {
             "appointment": 1,
-            "enriched": 3
+            "enriched": 4
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -262362,7 +262513,7 @@
           },
           "enrich": {
             "appointment": 1,
-            "enriched": 1
+            "enriched": 2
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -264332,8 +264483,20 @@
           }
         },
         "2026-09-25": {
+          "apptPaths": {
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
+          },
+          "apptRouteReason": {
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
+            }
+          },
+          "apptRoutes": {
+            "Nummer gewijzigd": 1
+          },
           "apptSplit": {
-            "entry": 23
+            "entry": 23,
+            "other": 1
           },
           "cohort": {
             "entered": 28,
@@ -264413,7 +264576,9 @@
             }
           },
           "enrich": {
-            "enriched": 2
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 4
           },
           "flows": {
             "(niet toegewezen)": {
@@ -266957,7 +267122,7 @@
           },
           "enrich": {
             "appointment": 1,
-            "enriched": 3
+            "enriched": 4
           },
           "flows": {
             "(niet toegewezen)": {
@@ -268074,7 +268239,7 @@
             }
           },
           "enrich": {
-            "enriched": 3
+            "enriched": 4
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -269117,6 +269282,9 @@
               "Re-entered>Mailjourney": 5,
               "Re-entered>Not reached": 3
             }
+          },
+          "enrich": {
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {
@@ -270219,20 +270387,26 @@
         },
         "2026-10-01": {
           "apptPaths": {
-            "Mailjourney (Orientation for later moment) → Appointment": 1
+            "Mailjourney (Orientation for later moment) → Appointment": 1,
+            "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
           },
           "apptRouteReason": {
             "Direct afspraak": {
               "Orientation for later moment": 1
+            },
+            "Nummer gewijzigd": {
+              "(geen reden)": 1
             }
           },
           "apptRoutes": {
-            "Direct afspraak": 1
+            "Direct afspraak": 1,
+            "Nummer gewijzigd": 1
           },
           "apptSplit": {
             "direct": 1,
             "directMailjourney": 1,
-            "entry": 11
+            "entry": 11,
+            "other": 1
           },
           "cohort": {
             "entered": 12,
@@ -270291,6 +270465,11 @@
               "Re-entered>Lost": 1,
               "Re-entered>Not reached": 1
             }
+          },
+          "enrich": {
+            "appointment": 1,
+            "direct": 1,
+            "enriched": 1
           },
           "flows": {
             "NL - 1x Geen gehoor ": {

@@ -452,12 +452,19 @@
       },
       "nl": {
         "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": 1,
-        "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": 1
+        "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 2,
+        "Mailjourney → Re-entered - Phone Number Changed → Follow-up → Appointment": 1
       }
     },
     "2026-07-21": {
       "nl": {
         "Mailjourney (Never had contact with the customer) → Appointment": 1
+      }
+    },
+    "2026-07-22": {
+      "be": {
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-07-23": {
@@ -514,7 +521,8 @@
     },
     "2026-08-05": {
       "nl": {
-        "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 2
+        "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 2,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-08-06": {
@@ -540,7 +548,8 @@
     "2026-08-10": {
       "be": {
         "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1,
-        "Mailjourney (Orientation for later moment) → Follow-up → Appointment": 1
+        "Mailjourney (Orientation for later moment) → Follow-up → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-08-11": {
@@ -555,7 +564,8 @@
       "nl": {
         "Mailjourney (No Contact Possible - number correct) → Re-entered - Phone Number Changed → Follow-up → Appointment": 1,
         "Mailjourney (No Contact Possible - number correct) → Re-entered → Appointment": 1,
-        "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1
+        "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-08-13": {
@@ -644,12 +654,14 @@
         "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1
       },
       "nl": {
-        "Mailjourney (No Contact Possible - number correct) → Follow-up → Re-entered → Not reached → Appointment": 1
+        "Mailjourney (No Contact Possible - number correct) → Follow-up → Re-entered → Not reached → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-09-01": {
       "be": {
-        "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 1
+        "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       },
       "nl": {
         "Mailjourney (Orientation for later moment) → Appointment": 1
@@ -661,12 +673,14 @@
         "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1
       },
       "nl": {
-        "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1
+        "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-09-03": {
       "be": {
-        "Mailjourney (No Contact Possible - number correct) → Appointment": 1
+        "Mailjourney (No Contact Possible - number correct) → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       },
       "nl": {
         "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Follow-up → Appointment": 1,
@@ -700,12 +714,18 @@
         "Mailjourney (Wmo application is in progress) → Re-entered → Follow-up → Appointment": 1
       }
     },
+    "2026-09-10": {
+      "nl": {
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
+      }
+    },
     "2026-09-11": {
       "be": {
         "Mailjourney (No Contact Possible - number correct) → Appointment": 1
       },
       "nl": {
-        "Mailjourney (Wmo application is in progress) → Appointment": 1
+        "Mailjourney (Wmo application is in progress) → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-09-14": {
@@ -785,6 +805,9 @@
     "2026-09-25": {
       "be": {
         "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": 1
+      },
+      "nl": {
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     },
     "2026-09-28": {
@@ -815,7 +838,8 @@
     },
     "2026-10-01": {
       "nl": {
-        "Mailjourney (Orientation for later moment) → Appointment": 1
+        "Mailjourney (Orientation for later moment) → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
       }
     }
   },
@@ -1480,6 +1504,12 @@
         "Direct afspraak": {
           "Never had contact with the customer": 1,
           "No contact possible": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 2
+        },
+        "Overig": {
+          "(geen reden)": 1
         }
       }
     },
@@ -1487,6 +1517,13 @@
       "nl": {
         "Direct afspraak": {
           "Never had contact with the customer": 1
+        }
+      }
+    },
+    "2026-07-22": {
+      "be": {
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       }
     },
@@ -1573,6 +1610,7 @@
     "2026-08-05": {
       "nl": {
         "Nummer gewijzigd": {
+          "(geen reden)": 1,
           "No Contact Possible - number incorrect": 2
         }
       }
@@ -1613,6 +1651,9 @@
         "Direct afspraak": {
           "No Contact Possible - number incorrect": 1,
           "Orientation for later moment": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       }
     },
@@ -1630,6 +1671,9 @@
       "nl": {
         "Direct afspraak": {
           "No Contact Possible - number incorrect": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         },
         "Overig": {
           "No Contact Possible - number correct": 1
@@ -1767,12 +1811,16 @@
       "nl": {
         "Direct afspraak": {
           "No Contact Possible - number correct": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       }
     },
     "2026-09-01": {
       "be": {
         "Nummer gewijzigd": {
+          "(geen reden)": 1,
           "No Contact Possible - number incorrect": 1
         }
       },
@@ -1790,6 +1838,9 @@
         }
       },
       "nl": {
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
+        },
         "Re-entered": {
           "No Contact Possible - number incorrect": 1
         }
@@ -1799,6 +1850,9 @@
       "be": {
         "Direct afspraak": {
           "No Contact Possible - number correct": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       },
       "nl": {
@@ -1852,6 +1906,13 @@
         }
       }
     },
+    "2026-09-10": {
+      "nl": {
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
+        }
+      }
+    },
     "2026-09-11": {
       "be": {
         "Direct afspraak": {
@@ -1861,6 +1922,9 @@
       "nl": {
         "Direct afspraak": {
           "Wmo application is in progress": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       }
     },
@@ -1989,6 +2053,11 @@
         "Overig": {
           "No Contact Possible - number correct": 1
         }
+      },
+      "nl": {
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
+        }
       }
     },
     "2026-09-28": {
@@ -2031,6 +2100,9 @@
       "nl": {
         "Direct afspraak": {
           "Orientation for later moment": 1
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
         }
       }
     }
@@ -2469,12 +2541,19 @@
         "Direct afspraak": 2
       },
       "nl": {
-        "Direct afspraak": 2
+        "Direct afspraak": 2,
+        "Nummer gewijzigd": 2,
+        "Overig": 1
       }
     },
     "2026-07-21": {
       "nl": {
         "Direct afspraak": 1
+      }
+    },
+    "2026-07-22": {
+      "be": {
+        "Nummer gewijzigd": 1
       }
     },
     "2026-07-23": {
@@ -2531,7 +2610,7 @@
     },
     "2026-08-05": {
       "nl": {
-        "Nummer gewijzigd": 2
+        "Nummer gewijzigd": 3
       }
     },
     "2026-08-06": {
@@ -2554,7 +2633,8 @@
     },
     "2026-08-10": {
       "be": {
-        "Direct afspraak": 2
+        "Direct afspraak": 2,
+        "Nummer gewijzigd": 1
       }
     },
     "2026-08-11": {
@@ -2566,6 +2646,7 @@
     "2026-08-12": {
       "nl": {
         "Direct afspraak": 1,
+        "Nummer gewijzigd": 1,
         "Overig": 1,
         "Re-entered": 1
       }
@@ -2650,12 +2731,13 @@
         "Re-entered": 1
       },
       "nl": {
-        "Direct afspraak": 1
+        "Direct afspraak": 1,
+        "Nummer gewijzigd": 1
       }
     },
     "2026-09-01": {
       "be": {
-        "Nummer gewijzigd": 1
+        "Nummer gewijzigd": 2
       },
       "nl": {
         "Direct afspraak": 1
@@ -2666,12 +2748,14 @@
         "Direct afspraak": 2
       },
       "nl": {
+        "Nummer gewijzigd": 1,
         "Re-entered": 1
       }
     },
     "2026-09-03": {
       "be": {
-        "Direct afspraak": 1
+        "Direct afspraak": 1,
+        "Nummer gewijzigd": 1
       },
       "nl": {
         "Nummer gewijzigd": 1,
@@ -2704,12 +2788,18 @@
         "Overig": 1
       }
     },
+    "2026-09-10": {
+      "nl": {
+        "Nummer gewijzigd": 1
+      }
+    },
     "2026-09-11": {
       "be": {
         "Direct afspraak": 1
       },
       "nl": {
-        "Direct afspraak": 1
+        "Direct afspraak": 1,
+        "Nummer gewijzigd": 1
       }
     },
     "2026-09-14": {
@@ -2785,6 +2875,9 @@
     "2026-09-25": {
       "be": {
         "Overig": 1
+      },
+      "nl": {
+        "Nummer gewijzigd": 1
       }
     },
     "2026-09-28": {
@@ -2811,7 +2904,8 @@
     },
     "2026-10-01": {
       "nl": {
-        "Direct afspraak": 1
+        "Direct afspraak": 1,
+        "Nummer gewijzigd": 1
       }
     }
   },
@@ -3922,7 +4016,8 @@
       },
       "nl": {
         "entry": 54,
-        "mailjourney": 2
+        "mailjourney": 2,
+        "other": 3
       }
     },
     "2026-07-21": {
@@ -3934,7 +4029,8 @@
     },
     "2026-07-22": {
       "be": {
-        "entry": 12
+        "entry": 12,
+        "other": 1
       },
       "nl": {
         "entry": 23
@@ -4038,7 +4134,7 @@
       "nl": {
         "entry": 19,
         "notReached": 1,
-        "other": 1
+        "other": 2
       }
     },
     "2026-08-06": {
@@ -4071,7 +4167,8 @@
         "direct": 1,
         "directMailjourney": 1,
         "entry": 32,
-        "mailjourney": 1
+        "mailjourney": 1,
+        "other": 1
       },
       "nl": {
         "entry": 36
@@ -4099,7 +4196,8 @@
         "directMailjourney": 1,
         "entry": 20,
         "mailjourney": 1,
-        "notReached": 1
+        "notReached": 1,
+        "other": 1
       }
     },
     "2026-08-13": {
@@ -4249,13 +4347,15 @@
       },
       "nl": {
         "entry": 60,
-        "notReached": 1
+        "notReached": 1,
+        "other": 1
       }
     },
     "2026-09-01": {
       "be": {
         "entry": 14,
-        "mailjourney": 1
+        "mailjourney": 1,
+        "other": 1
       },
       "nl": {
         "direct": 1,
@@ -4271,14 +4371,16 @@
       },
       "nl": {
         "entry": 26,
-        "mailjourney": 1
+        "mailjourney": 1,
+        "other": 1
       }
     },
     "2026-09-03": {
       "be": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 14
+        "entry": 14,
+        "other": 1
       },
       "nl": {
         "entry": 32,
@@ -4334,7 +4436,8 @@
         "entry": 19
       },
       "nl": {
-        "entry": 24
+        "entry": 24,
+        "other": 1
       }
     },
     "2026-09-11": {
@@ -4349,7 +4452,8 @@
       "nl": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 38
+        "entry": 38,
+        "other": 1
       }
     },
     "2026-09-14": {
@@ -4462,7 +4566,8 @@
         "other": 1
       },
       "nl": {
-        "entry": 23
+        "entry": 23,
+        "other": 1
       }
     },
     "2026-09-28": {
@@ -4507,7 +4612,8 @@
       "nl": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 11
+        "entry": 11,
+        "other": 1
       }
     }
   },
@@ -4519,7 +4625,7 @@
       "entry": 2248,
       "mailjourney": 10,
       "notReached": 17,
-      "other": 10
+      "other": 14
     },
     "fr": {
       "entry": 2753
@@ -4531,7 +4637,7 @@
       "entry": 5149,
       "mailjourney": 27,
       "notReached": 35,
-      "other": 22
+      "other": 33
     }
   },
   "attribution": "Statuspad: instroom in Mailjourney, daarna een heractivatiesignaal (Re-entered, Nummer gewijzigd of direct Appointment), en de conversie ná dat signaal. Toegerekend aan de conversiedatum.",
@@ -11746,7 +11852,36 @@
         "enriched": 2
       }
     },
+    "2026-07-15": {
+      "nl": {
+        "enriched": 1
+      }
+    },
+    "2026-07-16": {
+      "nl": {
+        "enriched": 2
+      }
+    },
     "2026-07-17": {
+      "nl": {
+        "enriched": 1
+      }
+    },
+    "2026-07-20": {
+      "nl": {
+        "appointment": 3,
+        "direct": 2,
+        "enriched": 2
+      }
+    },
+    "2026-07-22": {
+      "be": {
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 1
+      }
+    },
+    "2026-07-23": {
       "nl": {
         "enriched": 1
       }
@@ -11756,7 +11891,15 @@
         "enriched": 2
       }
     },
+    "2026-07-27": {
+      "nl": {
+        "enriched": 1
+      }
+    },
     "2026-07-28": {
+      "be": {
+        "enriched": 1
+      },
       "nl": {
         "appointment": 1,
         "direct": 1,
@@ -11768,12 +11911,12 @@
         "enriched": 1
       },
       "nl": {
-        "appointment": 1
+        "appointment": 2
       }
     },
     "2026-07-30": {
       "nl": {
-        "enriched": 2
+        "enriched": 3
       }
     },
     "2026-07-31": {
@@ -11794,13 +11937,13 @@
     },
     "2026-08-04": {
       "nl": {
-        "enriched": 1
+        "enriched": 2
       }
     },
     "2026-08-05": {
       "nl": {
-        "appointment": 2,
-        "direct": 2,
+        "appointment": 3,
+        "direct": 3,
         "enriched": 1
       }
     },
@@ -11808,7 +11951,7 @@
       "nl": {
         "appointment": 1,
         "direct": 1,
-        "enriched": 1
+        "enriched": 2
       }
     },
     "2026-08-07": {
@@ -11819,8 +11962,13 @@
       }
     },
     "2026-08-10": {
-      "nl": {
+      "be": {
+        "appointment": 1,
+        "direct": 1,
         "enriched": 1
+      },
+      "nl": {
+        "enriched": 2
       }
     },
     "2026-08-11": {
@@ -11832,17 +11980,28 @@
     },
     "2026-08-12": {
       "nl": {
-        "appointment": 1
+        "appointment": 2,
+        "direct": 1,
+        "enriched": 1
+      }
+    },
+    "2026-08-13": {
+      "nl": {
+        "enriched": 1
       }
     },
     "2026-08-17": {
+      "be": {
+        "enriched": 1
+      },
       "nl": {
         "enriched": 2
       }
     },
     "2026-08-18": {
       "nl": {
-        "appointment": 1
+        "appointment": 1,
+        "enriched": 1
       }
     },
     "2026-08-19": {
@@ -11872,7 +12031,7 @@
     },
     "2026-08-24": {
       "be": {
-        "enriched": 1
+        "enriched": 3
       },
       "nl": {
         "appointment": 1,
@@ -11880,6 +12039,9 @@
       }
     },
     "2026-08-25": {
+      "be": {
+        "appointment": 1
+      },
       "nl": {
         "enriched": 1
       }
@@ -11904,24 +12066,36 @@
     },
     "2026-08-31": {
       "be": {
-        "enriched": 1
+        "enriched": 2
+      },
+      "nl": {
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 2
+      }
+    },
+    "2026-09-01": {
+      "be": {
+        "appointment": 2,
+        "direct": 2
       },
       "nl": {
         "enriched": 1
       }
     },
-    "2026-09-01": {
-      "be": {
-        "appointment": 1,
-        "direct": 1
-      }
-    },
     "2026-09-02": {
       "nl": {
+        "appointment": 1,
+        "direct": 1,
         "enriched": 2
       }
     },
     "2026-09-03": {
+      "be": {
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 1
+      },
       "nl": {
         "appointment": 2,
         "enriched": 3
@@ -11932,14 +12106,32 @@
         "enriched": 1
       }
     },
+    "2026-09-07": {
+      "nl": {
+        "enriched": 2
+      }
+    },
     "2026-09-08": {
       "nl": {
-        "appointment": 1
+        "appointment": 2
       }
     },
     "2026-09-09": {
       "nl": {
         "enriched": 1
+      }
+    },
+    "2026-09-10": {
+      "nl": {
+        "appointment": 3,
+        "direct": 1,
+        "enriched": 4
+      }
+    },
+    "2026-09-11": {
+      "nl": {
+        "appointment": 1,
+        "direct": 1
       }
     },
     "2026-09-13": {
@@ -11951,7 +12143,7 @@
       "nl": {
         "appointment": 2,
         "direct": 2,
-        "enriched": 2
+        "enriched": 5
       }
     },
     "2026-09-15": {
@@ -11962,7 +12154,7 @@
     "2026-09-16": {
       "nl": {
         "appointment": 1,
-        "enriched": 1
+        "enriched": 2
       }
     },
     "2026-09-17": {
@@ -11980,7 +12172,12 @@
     "2026-09-21": {
       "nl": {
         "appointment": 1,
-        "enriched": 3
+        "enriched": 4
+      }
+    },
+    "2026-09-22": {
+      "be": {
+        "enriched": 1
       }
     },
     "2026-09-23": {
@@ -11989,10 +12186,13 @@
       },
       "nl": {
         "appointment": 1,
-        "enriched": 1
+        "enriched": 2
       }
     },
     "2026-09-24": {
+      "be": {
+        "appointment": 1
+      },
       "nl": {
         "appointment": 1,
         "direct": 1
@@ -12000,31 +12200,48 @@
     },
     "2026-09-25": {
       "nl": {
-        "enriched": 2
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 4
       }
     },
     "2026-09-28": {
+      "be": {
+        "enriched": 1
+      },
       "nl": {
         "appointment": 1,
-        "enriched": 3
+        "enriched": 4
       }
     },
     "2026-09-29": {
       "nl": {
-        "enriched": 3
+        "enriched": 4
+      }
+    },
+    "2026-09-30": {
+      "nl": {
+        "enriched": 1
+      }
+    },
+    "2026-10-01": {
+      "nl": {
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 1
       }
     }
   },
   "enrichmentTotals": {
     "be": {
-      "appointment": 2,
-      "direct": 2,
-      "enriched": 7
+      "appointment": 8,
+      "direct": 6,
+      "enriched": 17
     },
     "nl": {
-      "appointment": 28,
-      "direct": 15,
-      "enriched": 53
+      "appointment": 43,
+      "direct": 25,
+      "enriched": 87
     }
   },
   "generated_at": "2026-10-01T09:10:24+00:00",

@@ -502,6 +502,10 @@ def appointment_split(by_lead, active):
             when = (row.get("Edit Date") or "")[:10]
             if not when:
                 continue
+            if new == S_PHONE_CHANGED:
+                # Automatisch gezet vanaf de CloudPage in de mail: bewijs van
+                # e-mailcontact, dus vanaf hier telt deze lead hoe dan ook mee.
+                in_flow = True
             if new in FUNNEL_ENTRY:
                 reason = (row.get("Reason") or "").strip() or fallback_reason
                 in_flow = reason in active
@@ -584,8 +588,18 @@ def _appointment_steps(rows, until, fallback_reason):
     return entry_reason, steps
 
 
-def enrichment_flow(by_lead, active):
+def enrichment_flow(by_lead, active=None):
     """De aftakking nummerverrijking, per dag geteld en dus optelbaar.
+
+    Deze status is geen inschatting maar een bewijs. Hij wordt automatisch
+    gezet als een lead zijn telefoonnummer wijzigt via de link in de mails
+    van No contact possible en Not reached, op een CloudPage. Wie hier staat
+    heeft dus aantoonbaar een mail geopend en erop geklikt.
+
+    Daarom geldt hier geen filter op instroomreden, anders dan in de rest van
+    de funnel: de reden hoeft niet te bewijzen dat er een flow draaide, de
+    status doet dat zelf. En daarom telt elke afspraak die erna komt mee,
+    hoeveel stappen er ook tussen zitten.
 
     Een verrijkte lead gaat lang niet altijd rechtstreeks naar een afspraak.
     Vaak komt er eerst nog een belpoging of een follow-up tussen, en die
@@ -611,8 +625,6 @@ def enrichment_flow(by_lead, active):
         market = (rows[-1].get("Market") or "").strip().lower()
         if not market:
             continue
-        fallback_reason = (rows[-1].get("Reason") or "").strip()
-
         index = next(
             (i for i, row in enumerate(rows)
              if (row.get("New Value") or "").strip() == S_PHONE_CHANGED),
@@ -620,10 +632,6 @@ def enrichment_flow(by_lead, active):
         )
         if index is None:
             continue
-        reason = (rows[index].get("Reason") or "").strip() or fallback_reason
-        if reason not in active:
-            continue
-
         day = (rows[index].get("Edit Date") or "")[:10]
         if not day:
             continue
