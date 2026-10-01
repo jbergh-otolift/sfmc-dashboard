@@ -458,10 +458,10 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
       name.className = "vb-r-name";
       // De reden is de kop; zonder reden is het een lead die alleen via de
       // nummerwijziging in beeld kwam.
+      // Alleen de reden. Dat het om een mailjourney gaat staat al in de kop
+      // van het blok; het er bij elke kaart voor zetten is ruis.
       name.textContent =
-        reason === "(geen reden)"
-          ? "Zonder instroomreden"
-          : "Mailjourney (" + reason + ")";
+        reason === "(geen reden)" ? "Zonder instroomreden" : reason;
       const amount = document.createElement("div");
       amount.className = "vb-r-val";
       amount.textContent = nlNum(n, 0);
@@ -1805,3 +1805,65 @@ function wireSectionNav() {
 }
 
 wireSectionNav();
+
+
+// Blokken met meerdere uitklappers krijgen een knop om ze in een keer open of
+// dicht te zetten. Zonder die knop zit je bij negen instroomredenen negen keer
+// te klikken om een beeld te krijgen.
+function wireExpandAll() {
+  const blokken = [
+    ["[data-appt-block] .vb-head", "[data-appt-block]"],
+    ["[data-value-block] .vb-head", "[data-value-block]"],
+  ];
+
+  blokken.forEach(([waar, bereik]) => {
+    const kop = document.querySelector(waar);
+    const blok = document.querySelector(bereik);
+    if (!kop || !blok || kop.querySelector("[data-expand-all]")) return;
+
+    const knop = document.createElement("button");
+    knop.type = "button";
+    knop.className = "expand-all";
+    knop.setAttribute("data-expand-all", "");
+    kop.appendChild(knop);
+
+    const alle = () => [...blok.querySelectorAll("details")];
+    const bijwerken = () => {
+      const lijst = alle();
+      if (!lijst.length) {
+        knop.hidden = true;
+        return;
+      }
+      knop.hidden = false;
+      const open = lijst.every((d) => d.open);
+      const tekst = open ? "Alles inklappen" : "Alles uitklappen";
+      // Alleen schrijven als er iets verandert. De observer hieronder kijkt
+      // naar wijzigingen in dit blok, en de knop staat er zelf in: blind
+      // toekennen zou hem eindeloos opnieuw laten afgaan.
+      if (knop.textContent !== tekst) knop.textContent = tekst;
+    };
+
+    knop.addEventListener("click", () => {
+      const lijst = alle();
+      const openzetten = !lijst.every((d) => d.open);
+      lijst.forEach((d) => {
+        d.open = openzetten;
+      });
+      bijwerken();
+    });
+    // Een losse uitklapper die met de hand opengaat verandert de knoptekst mee.
+    blok.addEventListener("toggle", bijwerken, true);
+    bijwerken();
+
+    // De kaarten worden bij elke periodewissel opnieuw getekend, dus de knop
+    // moet daarna opnieuw kijken wat er staat.
+    const kijker = new MutationObserver((muts) => {
+      // Wijzigingen in de knop zelf negeren, anders houdt hij zichzelf bezig.
+      if (muts.every((m) => knop.contains(m.target))) return;
+      bijwerken();
+    });
+    kijker.observe(blok, { childList: true, subtree: true });
+  });
+}
+
+wireExpandAll();
