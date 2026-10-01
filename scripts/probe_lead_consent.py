@@ -174,6 +174,7 @@ def main():
     probe_order_counting(token, instance_url)
     probe_quote_fields(token, instance_url)
     probe_quote_object(token, instance_url)
+    probe_quote_link(token, instance_url)
 
 
 def probe_history_recordtype(token, instance_url):
@@ -574,6 +575,46 @@ def probe_quote_object(token, instance_url):
         print("  Statusverdeling:")
         for row in res["records"][:10]:
             print(f"    {str(row['Status'])[:34]:36} {row['n']}")
+
+
+def probe_quote_link(token, instance_url):
+    """Hoe hangt een Quote aan de lead die we gemaild hebben?
+
+    De offerteflow mailt Lead-id's, maar de toerekening loopt nu via
+    Lead.ConvertedOpportunityId. Als die leads niet geconverteerd zijn, of
+    hun opportunity langs een andere weg is ontstaan, breekt die keten.
+    """
+    print("\n--- Hoe hangt een Quote aan een lead? ---")
+    resp = requests.get(
+        f"{instance_url}/services/data/{API_VERSION}/sobjects/Quote/describe",
+        headers={"Authorization": f"Bearer {token}"}, timeout=60)
+    if resp.ok:
+        refs = [
+            f for f in resp.json()["fields"]
+            if f["type"] == "reference"
+            and any(w in (f["name"] + " " + (f.get("label") or "")).lower()
+                    for w in ("lead", "contact", "account", "opportunity"))
+        ]
+        print(f"  {'veld':40} verwijst naar")
+        for f in refs[:14]:
+            print(f"  {f['name'][:40]:40} {', '.join(f.get('referenceTo') or [])}")
+
+    # Hoeveel getekende offertes hangen aan een opportunity die uit een
+    # leadconversie komt? Dat bepaalt of de huidige keten kan werken.
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Quote WHERE Date_Quote_signed__c = LAST_N_DAYS:180")
+    getekend = res["records"][0]["n"] if not err else 0
+    res, err = query(
+        token, instance_url,
+        "SELECT COUNT(Id) n FROM Quote WHERE Date_Quote_signed__c = LAST_N_DAYS:180 "
+        "AND OpportunityId IN (SELECT ConvertedOpportunityId FROM Lead "
+        "WHERE IsConverted = true)")
+    if not err:
+        viaLead = res["records"][0]["n"]
+        aandeel = f"{viaLead / getekend * 100:.0f}%" if getekend else "?"
+        print(f"\n  Getekende offertes laatste 180 dagen      : {getekend}")
+        print(f"  Waarvan via een geconverteerde lead       : {viaLead} ({aandeel})")
 
 
 if __name__ == "__main__":
