@@ -445,9 +445,19 @@ function renderPathFunnels(paths, split) {
     rows.push({
       label: layout.label,
       boxes: [
-        { name: layout.entry, value: data.stage2 || 0 },
-        { name: "Opnieuw binnengekomen", value: data.reentered || 0 },
-        { name: "Afspraak", value: data.appointment || 0 },
+        { name: layout.entry, value: data.stage2 || 0, sub: "instroom" },
+        {
+          name: "Opnieuw binnengekomen",
+          value: data.reentered || 0,
+          sub: "van instroom",
+          lbl: layout.entry + " → opnieuw",
+        },
+        {
+          name: "Afspraak",
+          value: data.appointment || 0,
+          sub: "via deze route",
+          lbl: "Opnieuw → afspraak",
+        },
       ],
       // De aftakking is een deel van deze route, geen extra groep.
       branch: data.reenteredEnriched
@@ -459,9 +469,25 @@ function renderPathFunnels(paths, split) {
   rows.push({
     label: "Direct uit de mailflow",
     boxes: [
-      { name: "Uit Mailjourney", value: bak.directMailjourney || 0 },
-      { name: "Uit Not reached", value: bak.directNotReached || 0, join: "+" },
-      { name: "Afspraak", value: bak.direct || 0, join: "→" },
+      {
+        name: "Uit Mailjourney",
+        value: bak.directMailjourney || 0,
+        sub: "zonder tussenstap",
+      },
+      {
+        name: "Uit Not reached",
+        value: bak.directNotReached || 0,
+        sub: "zonder tussenstap",
+        join: "+",
+        lbl: "samen",
+      },
+      {
+        name: "Afspraak",
+        value: bak.direct || 0,
+        sub: "via deze route",
+        join: "→",
+        lbl: "mailflow → afspraak",
+      },
     ],
     note: "rechtstreeks vanuit de mailflow, zonder heractivatiestatus",
   });
@@ -469,9 +495,21 @@ function renderPathFunnels(paths, split) {
   rows.push({
     label: "Overig",
     boxes: [
-      { name: "Andere instroom", value: null, muted: true },
-      { name: "Geen vaste route", value: null, muted: true, join: "·" },
-      { name: "Afspraak", value: bak.other || 0, join: "→" },
+      { name: "Andere instroom", value: null, muted: true, sub: "geen noemer" },
+      {
+        name: "Geen vaste route",
+        value: null,
+        muted: true,
+        join: "·",
+        lbl: "geen stap",
+      },
+      {
+        name: "Afspraak",
+        value: bak.other || 0,
+        sub: "via deze route",
+        join: "→",
+        lbl: "restgroep",
+      },
     ],
     note: "niet vanuit New de mailflow in gekomen",
   });
@@ -510,7 +548,14 @@ function pathRow(spec) {
       // Deze route telt op of wijst door; er valt geen doorstroom te berekenen.
       const fixed = document.createElement("div");
       fixed.className = "mf-arrow";
-      fixed.innerHTML = '<span class="mfa-ratio">' + box.join + "</span>";
+      fixed.innerHTML =
+        (box.lbl ? '<span class="mfa-lbl">' + box.lbl + "</span>" : "") +
+        '<span class="mfa-ratio">' + box.join + "</span>" +
+        // Alleen bij een doorverwijspijl zegt het aantal iets; bij "+" of "·"
+        // zou het het getal van het blok ernaast herhalen.
+        (box.join === "\u2192" && box.value !== null
+          ? '<span class="mfa-abs">' + nlNum(box.value, 0) + " leads</span>"
+          : "");
       line.appendChild(fixed);
     } else if (i > 0) {
       // De pijl toont de doorstroom vanaf het laatste blok met een getal, zodat
@@ -536,7 +581,19 @@ function pathRow(spec) {
       const fill = document.createElement("i");
       fill.style.width = known ? Math.min((now / prev) * 100, 100) + "%" : "0%";
       track.appendChild(fill);
+      if (box.lbl) {
+        const lbl = document.createElement("span");
+        lbl.className = "mfa-lbl";
+        lbl.textContent = box.lbl;
+        arrow.appendChild(lbl);
+      }
       arrow.append(ratio, track);
+      if (now !== null) {
+        const abs = document.createElement("span");
+        abs.className = "mfa-abs";
+        abs.textContent = nlNum(now, 0) + " leads";
+        arrow.appendChild(abs);
+      }
       line.appendChild(arrow);
     }
 
@@ -552,6 +609,12 @@ function pathRow(spec) {
     abs.className = "mf-abs";
     abs.textContent = box.value === null ? NODATA : nlNum(box.value, 0);
     el.append(name, abs);
+    if (box.sub) {
+      const sub = document.createElement("div");
+      sub.className = "mf-sub";
+      sub.textContent = box.sub;
+      el.appendChild(sub);
+    }
     line.appendChild(el);
   });
 
