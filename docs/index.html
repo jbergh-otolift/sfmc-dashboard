@@ -516,6 +516,10 @@
   .cov-details .cov-build{margin-top:2px;border-top:none;padding-top:4px}
   .daterange{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .dr-custom{display:flex;align-items:center;gap:7px}
+  /* Een klassenregel wint van het hidden-attribuut, dus stonden de
+     datumvelden er altijd — ook als de periodekiezer niet op "Zelf kiezen"
+     stond. Op een telefoon kostte dat 74 px kop voor niets. */
+  .dr-custom[hidden]{display:none}
   .dr-custom input[type="date"]{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12.5px;font-family:inherit;color:var(--ink)}
   .dr-custom input[type="date"]:focus{outline:2px solid var(--oto-red-soft);outline-offset:1px}
   .dr-sep{font-size:12px;color:var(--ink-soft)}
@@ -575,6 +579,97 @@
   .notice{border-radius:10px;padding:12px 16px;font-size:13px;margin-top:24px;line-height:1.5}
   .notice.warn{background:#FBF0D8;border:1px solid #EBD9A8;color:#7A5A06}
   .notice.err{background:#FBE8E1;border:1px solid #F0C6B6;color:#8A2A0C}
+
+  /* ============================================================
+     Mobiel (iPhone 15 is 393 px breed).
+
+     De plakkende kop nam op een telefoon het halve scherm in: logo,
+     landkeuze, periodekiezer, periodelabel en tijdstempel stonden
+     onder elkaar. Daarom blijft op mobiel alleen de sectiebalk plakken
+     en scrollt de kop gewoon weg. De periodekiezer blijft wel binnen
+     handbereik doordat hij in diezelfde balk meeschuift.
+     ============================================================ */
+  /* Op breed scherm staat de periode in de kop; die herhaling hoeft niet. */
+  .sh-periode{display:none}
+
+  @media(max-width:560px){
+    .wrap{padding:0 14px}
+
+    /* De rode balk nam 107 px: de bronvermelding en de vergelijking vallen
+       weg, markt en periode blijven. Dat is wat je op een telefoon moet
+       weten om de cijfers te kunnen plaatsen. */
+    .sh-bron,.sh-verg{display:none}
+    .sh-periode{display:inline;margin-left:4px}
+    .sh-periode::before{content:"· "}
+
+    /* Landkeuze en periodekiezer naast elkaar in plaats van onder elkaar. */
+    .head-meta{flex-wrap:nowrap;align-items:stretch}
+    .country-toggle{width:auto;flex:0 0 auto;padding:2px}
+    /* Tikdoelen minstens 36 px hoog: met een duim is 24 px te klein. */
+    .flag-btn{padding:9px 8px;min-height:36px}
+    .secnav a{padding:9px 11px}
+    .flag-btn .cc{display:none}
+    .daterange{flex:1 1 auto;min-width:0}
+
+    /* Kop scrollt weg; alleen de sectiebalk blijft staan. */
+    header{position:static}
+    .secnav{top:0}
+    .topbar{padding:12px 14px;gap:10px}
+    .brand-logo{height:34px}
+    .brand{gap:10px}
+    .brand-divider{height:26px}
+    .brand-txt h1{font-size:15px}
+    .brand-txt .subtitle{display:none}
+    /* Periodelabel en tijdstempel staan al in de rode balk eronder. */
+    .period-static,.stamp{display:none}
+    .head-meta{gap:8px;width:100%}
+    /* min-width:0 is hier het hele punt: zonder dat weigert een flexitem te
+       krimpen onder zijn inhoud en duwt de datumkiezer het scherm uit. */
+    .daterange{flex:1 1 auto;min-width:0}
+    .period{width:100%;min-width:0}
+    .dr-custom{width:100%;flex-wrap:wrap;gap:4px}
+    .dr-custom input{flex:1 1 120px;min-width:0}
+
+    .secnav .wrap{flex-wrap:nowrap;overflow-x:auto;gap:2px;
+                  scrollbar-width:none;-ms-overflow-style:none}
+    .secnav .wrap::-webkit-scrollbar{display:none}
+    .subhead{font-size:11px;padding:8px 0;line-height:1.4}
+
+    section{margin-top:24px}
+    .card-pad{padding:14px}
+    .sec-head{flex-wrap:wrap;gap:6px}
+    .sec-head h2{font-size:17px}
+    /* Zonder dit rekt de omschrijving op als flexitem en lijnt hij rechts uit. */
+    .sec-head .desc{text-align:left;flex:1 1 100%}
+    /* Knoppen en uitklappers ruimer aantikbaar. */
+    .expand-all{padding:8px 0}
+    .vb-details summary,.vb-route summary{padding-top:10px;padding-bottom:10px}
+
+    /* De stroomkaart wordt één kolom: knooppunten onder elkaar, met de
+       verbinding ertussen als eigen regel. Zeven kolommen naast elkaar
+       passen niet op 393 px en horizontaal scrollen leest niet. */
+    .flowmap{grid-template-columns:1fr;row-gap:0;overflow-x:visible}
+    .flowmap>*{grid-column:1/-1 !important;grid-row:auto !important}
+    .fm-node{text-align:left}
+    .fm-node .fn-name{text-transform:none;letter-spacing:0;font-size:11.5px}
+    .fn-abs{font-size:22px}
+    .fm-link{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:7px;
+             padding:9px 12px;margin:3px 0}
+    .fm-link .fl-lbl{text-align:left}
+    .fm-link .fl-bar{display:none}
+    .fm-link.wide{border-top:none}
+    /* Pijl omlaag in plaats van naar rechts: de stroom loopt nu verticaal. */
+    .fm-link::before{content:"↓";color:var(--oto-red);font-size:13px;font-weight:700}
+
+    .vb-head{gap:12px}
+    .vb-total{text-align:left}
+    .vb-t-val{font-size:26px}
+    .vb-path{flex-direction:column;gap:2px}
+    .vb-p-val{align-self:flex-start}
+    .mf-branch-inner{flex-direction:column;align-items:stretch;gap:8px}
+    .mf-barrow{flex-direction:row;gap:6px;padding:0}
+    .mf-bstage{min-width:0}
+  }
 </style>
 </head>
 <body>
@@ -629,7 +724,7 @@
   </nav>
 
   <div class="subhead">
-    <div class="wrap"><span class="dot"></span> Databron: Salesforce Marketing Cloud (tracking events) + Salesforce CRM (LeadHistory) · Markt: <b data-country-label style="margin-left:2px">Nederland</b> · vergelijking t.o.v. <span data-prev-period-label>vorige periode</span></div>
+    <div class="wrap"><span class="dot"></span><span class="sh-bron">Databron: Salesforce Marketing Cloud (tracking events) + Salesforce CRM (LeadHistory) · </span>Markt: <b data-country-label style="margin-left:2px">Nederland</b><span class="sh-verg"> · vergelijking t.o.v. <span data-prev-period-label>vorige periode</span></span><span class="sh-periode" data-period-label></span></div>
   </div>
 
 <div class="wrap">
@@ -1123,7 +1218,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261001154910"></script>
+<script src="data-layer.js?v=20261002113752"></script>
 
 </body>
 </html>

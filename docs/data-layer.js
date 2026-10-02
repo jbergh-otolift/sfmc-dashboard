@@ -1658,19 +1658,25 @@ function applyMeta(data) {
     prevRange: { start: addDays(range.start, -span), end: range.start },
   };
   const showRange = (selector, value) => {
-    const el = document.querySelector(selector);
-    if (!el || !value) return;
+    // Alle plekken bijwerken, niet alleen de eerste: op mobiel staat het
+    // periodelabel in de rode balk omdat de kop daar geen ruimte voor heeft.
+    const els = document.querySelectorAll(selector);
+    if (!els.length || !value) return;
+    let tekst;
     if (daysBetween(value.start, value.end) < 1) {
-      el.textContent = "geen dagen in dit bereik";
-      return;
+      tekst = "geen dagen in dit bereik";
+    } else {
+      // end is exclusief; toon de laatste dag die er wél in zit.
+      const end = new Date(value.end);
+      end.setDate(end.getDate() - 1);
+      tekst =
+        fmtDate(value.start) + " t/m " + fmtDate(end.toISOString()) +
+        // Zeg het als het bereik is ingekort, anders lijkt een half jaar een heel jaar.
+        (value.clamped ? " · data begint " + fmtDate(value.start) : "");
     }
-    // end is exclusief; toon de laatste dag die er wél in zit.
-    const end = new Date(value.end);
-    end.setDate(end.getDate() - 1);
-    el.textContent =
-      fmtDate(value.start) + " t/m " + fmtDate(end.toISOString()) +
-      // Zeg het als het bereik is ingekort, anders lijkt een half jaar een heel jaar.
-      (value.clamped ? " · data begint " + fmtDate(value.start) : "");
+    els.forEach((el) => {
+      el.textContent = tekst;
+    });
   };
   showRange("[data-period-label]", (block && block.range) || data.period);
 
