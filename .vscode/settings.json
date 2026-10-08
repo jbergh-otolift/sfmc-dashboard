@@ -1,0 +1,31 @@
+{
+  // Geldt als je alleen deze map opent. Werk je vanuit Otolift.code-workspace
+  // op het bureaublad, dan staan dezelfde regels daar nog eens, zodat het in
+  // beide gevallen klopt.
+
+  // docs/data.json is 8 MB en exports/report.csv 6 MB. Zoeken op een veldnaam
+  // levert daar duizenden treffers in één regel op, en dan loopt de editor
+  // vast. Ze blijven gewoon zichtbaar en te openen.
+  "search.exclude": {
+    "docs/data.json": true,
+    "exports/**": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "exports/**": true,
+    "docs/data.json": true
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/__pycache__": true
+  },
+
+  "editor.rulers": [88],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.eol": "\n",
+  "[python]": { "editor.tabSize": 4 },
+  "[html]": { "editor.tabSize": 2 },
+  "[javascript]": { "editor.tabSize": 2 },
+  "[json]": { "editor.tabSize": 2 }
+}
