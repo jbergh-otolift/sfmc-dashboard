@@ -6791,7 +6791,7 @@
     },
     "2026-10-13": {
       "be": {
-        "entry": 4
+        "entry": 6
       },
       "nl": {
         "direct": 2,
@@ -6805,7 +6805,7 @@
       "direct": 35,
       "directMailjourney": 34,
       "directNotReached": 1,
-      "entry": 2184,
+      "entry": 2186,
       "mailjourney": 12,
       "notReached": 16,
       "other": 16
@@ -13854,8 +13854,8 @@
         },
         "mailedOrders": 8,
         "mailedRevenue": 52759.4,
-        "orders": 107,
-        "revenue": 741840.13,
+        "orders": 108,
+        "revenue": 750547.62,
         "viaAutomationOrders": 8,
         "viaAutomationRevenue": 52759.4
       }
@@ -14142,8 +14142,8 @@
         },
         "mailedOrders": 1,
         "mailedRevenue": 6983.04,
-        "orders": 4,
-        "revenue": 19968.3,
+        "orders": 5,
+        "revenue": 24528.93,
         "viaAutomationOrders": 1,
         "viaAutomationRevenue": 6983.04
       }
@@ -14598,7 +14598,7 @@
       "enriched": 98
     }
   },
-  "generated_at": "2026-10-13T11:42:31+00:00",
+  "generated_at": "2026-10-13T12:17:22+00:00",
   "lookback_days": 400,
   "offerteFlow": {
     "nl": {
@@ -15081,7 +15081,7 @@
         "NL - Offerteflow - mail 2 - korting": {
           "aanbod": "geldkorting",
           "inSplit": true,
-          "ontvangers": 17
+          "ontvangers": 46
         },
         "NL - Offerteflow - mail 2 - zorgpakket": {
           "aanbod": "zorgpakket",
@@ -15096,12 +15096,12 @@
         "NL - Openstaande offerte - Korting": {
           "aanbod": "geldkorting",
           "inSplit": false,
-          "ontvangers": 161
+          "ontvangers": 290
         },
         "NL - Openstaande offerte - Korting - Versie 2": {
           "aanbod": "geldkorting",
           "inSplit": false,
-          "ontvangers": 50
+          "ontvangers": 375
         },
         "NL - Openstaande offerte - Korting herinnering": {
           "aanbod": "geldkorting",
@@ -15111,12 +15111,12 @@
         "NL - Openstaande offerte - Kortingreminder": {
           "aanbod": "geldkorting",
           "inSplit": false,
-          "ontvangers": 130
+          "ontvangers": 240
         },
         "NL - Openstaande offerte - herinnering -Versie 2": {
           "aanbod": "herinnering",
           "inSplit": false,
-          "ontvangers": 649
+          "ontvangers": 1110
         }
       },
       "totals": {
@@ -15129,7 +15129,8 @@
         "getekend:herinnering": 134,
         "getekend:split:geldkorting": 4,
         "getekend:split:zorgpakket": 3,
-        "getekend:zorgpakket": 3
+        "getekend:zorgpakket": 3,
+        "splitStart": "2026-07-18"
       }
     }
   },
@@ -23398,9 +23399,9 @@
     "be": {
       "Appointment": {
         "orders": 9,
-        "reached": 108,
+        "reached": 109,
         "revenue": 79096.41,
-        "withAppointment": 108
+        "withAppointment": 109
       },
       "Re-entered": {
         "orders": 11,
