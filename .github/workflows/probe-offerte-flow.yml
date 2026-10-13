@@ -1,0 +1,42 @@
+name: Probe — offerteflow naar order
+
+# Diagnose, geen export. Draait alleen handmatig, schrijft niets weg en commit
+# niets: de uitslag lees je in de job-log.
+#
+# De offerteflow mailt contacten, geen leads, en valt daardoor buiten de
+# toerekening van het dashboard. Deze probe meet welke brug terug naar een
+# getekende offerte werkt en hoeveel die oplevert.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dagen:
+        description: "Hoeveel dagen terugkijken"
+        required: false
+        default: "90"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - run: python scripts/probe_offerte_flow.py
+        env:
+          PROBE_DAYS: ${{ inputs.dagen }}
+          SF_DOMAIN: ${{ secrets.SF_DOMAIN }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_CLIENT_SECRET: ${{ secrets.SF_CLIENT_SECRET }}
+          SFMC_SUBDOMAIN: ${{ secrets.SFMC_SUBDOMAIN }}
+          SFMC_CLIENT_ID: ${{ secrets.SFMC_CLIENT_ID }}
+          SFMC_CLIENT_SECRET: ${{ secrets.SFMC_CLIENT_SECRET }}
+          SFMC_MID_NL: ${{ secrets.SFMC_MID_NL }}
