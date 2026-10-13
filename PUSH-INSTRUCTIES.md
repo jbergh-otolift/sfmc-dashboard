@@ -20,7 +20,7 @@ de CLI: `brew install gh && gh auth login`, dan werkt `git push` zonder prompt.
 
 De dagelijkse refresh heeft vier nieuwe secrets nodig (Settings → Secrets and
 variables → Actions → New repository secret). De waarden staan lokaal in
-`Mail Library/Dashboard/bu_config.json`:
+`~/.config/otolift/bu_config.json`:
 
 | Secret | Waarde uit bu_config.json |
 |---|---|

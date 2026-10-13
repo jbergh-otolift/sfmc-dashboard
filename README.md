@@ -89,8 +89,9 @@ Settings → Secrets and variables → Actions:
 | `SFMC_MID_NL`, `SFMC_MID_BE` | Business Unit ID's (MID) per markt |
 | `SFMC_MID_FR`, `SFMC_MID_IT` | Optioneel; ontbrekende BU's worden overgeslagen |
 
-De SFMC-waarden staan lokaal in `Mail Library/Dashboard/bu_config.json`. Dat
-bestand staat in `.gitignore` en hoort daar te blijven.
+De SFMC-waarden staan lokaal in `~/.config/otolift/bu_config.json`, met
+leesrechten alleen voor jezelf. Dat bestand hoort buiten elke map te blijven
+die je deelt, zipt of in een screenshot zet.
 
 Eén Installed Package op de parent-BU met multi-business-unit scope volstaat
 voor alle markten; per BU wordt alleen de MID meegegeven bij het ophalen van het
