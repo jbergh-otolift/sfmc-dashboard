@@ -417,8 +417,19 @@ def offerte_resultaat(session, instance_url):
 
         getekend_op = signed_quotes(session, instance_url)
 
+        # De kortingmail bestaat pas vanaf versie 8 van de journey; daarvoor
+        # ging iedereen naar het zorgpakket. De twee armen hebben dus niet
+        # even lang gelopen, en zonder correctie vergelijk je een arm van een
+        # paar weken met een arm van maanden. We nemen daarom als startpunt
+        # de eerste kortingmail, en tellen beide armen pas vanaf die dag.
+        split_start = min(
+            (a["split:geldkorting"] for a in per_contact.values()
+             if a.get("split:geldkorting")), default=None)
+
         dagen = defaultdict(lambda: defaultdict(int))
         totalen = defaultdict(int)
+        if split_start:
+            totalen["splitStart"] = split_start
         for contact, aanboden in per_contact.items():
             # Een ontvanger telt bij elk aanbod dat hij kreeg. In de huidige
             # journey is dat er één, maar oudere versies stuurden soms beide.
@@ -428,6 +439,10 @@ def offerte_resultaat(session, instance_url):
             echt = [s for s in aanboden if s != "herinnering" and not s.startswith("split:")]
             soorten = (echt or ["herinnering"]) + [s for s in aanboden if s.startswith("split:")]
             for soort in soorten:
+                if soort.startswith("split:") and split_start:
+                    # Buiten het vergelijkbare venster telt de arm niet mee.
+                    if (aanboden.get(soort) or "") < split_start:
+                        continue
                 totalen[f"gemaild:{soort}"] += 1
 
             dag = getekend_op.get(opp_van_contact.get(contact))
@@ -439,6 +454,9 @@ def offerte_resultaat(session, instance_url):
             if eerste_mail and dag < eerste_mail:
                 continue
             for soort in soorten:
+                if soort.startswith("split:") and split_start:
+                    if (aanboden.get(soort) or "") < split_start:
+                        continue
                 dagen[dag][f"getekend:{soort}"] += 1
                 totalen[f"getekend:{soort}"] += 1
 

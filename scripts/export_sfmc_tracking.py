@@ -712,8 +712,13 @@ def offerte_payload(offerte_sends, naam_van_tsd, tsd_names):
         # klappen.
         naam = naam_van_tsd.get(tsd) or email_name(tsd, tsd_names)
         soorten = aanbod_van_mail(naam)
-        per_mail[naam or tsd] = {"aanbod": soorten[0], "ontvangers": len(per_key),
-                                 "inSplit": len(soorten) > 1}
+        # Een mail kan meerdere verzenddefinities hebben, één per
+        # journeyversie. Optellen dus, niet overschrijven: anders toont de
+        # lijst alleen de laatste versie en lijkt een mail kleiner dan hij is.
+        vak = per_mail.setdefault(naam or tsd, {"aanbod": soorten[0],
+                                                "ontvangers": 0,
+                                                "inSplit": len(soorten) > 1})
+        vak["ontvangers"] += len(per_key)
         for key, day in per_key.items():
             if not key.startswith("003"):
                 continue
