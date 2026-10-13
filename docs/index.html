@@ -880,6 +880,34 @@
           <div class="vb-routes" data-appt-routes></div>
         </div>
 
+        <!-- Offerteflow: eigen blok, want deze flow mailt contacten in plaats
+             van leads en past niet in de toerekening hierboven. -->
+        <div class="value-block" data-offerte-block hidden>
+          <div class="vb-head">
+            <div>
+              <h3>Offerteflow</h3>
+              <p>Mensen met een openstaande offerte die mail kregen en daarna tekenden.
+                 Deze flow mailt <b>contacten</b>, geen leads — ligt er een offerte, dan is
+                 de lead al geconverteerd. De koppeling loopt via de opportunity van die
+                 lead naar de getekende offerte.</p>
+              <p class="vb-warn" style="margin-top:9px">Gemaild en daarna getekend is geen
+                 bewijs dat de mail het deed: wie een offerte heeft, wordt ook gebeld.
+                 Lees dit als volume, niet als opbrengst.</p>
+            </div>
+            <div class="vb-total">
+              <span class="vb-t-val" data-offerte-total>–</span>
+              <span class="vb-t-lbl" data-offerte-sub>–</span>
+            </div>
+          </div>
+          <div class="vb-routes" data-offerte-routes></div>
+
+          <details class="vb-details" data-offerte-split hidden>
+            <summary>De twee aanbiedingen naast elkaar</summary>
+            <p class="vb-warn" data-offerte-splitnote></p>
+            <div class="vb-list" data-offerte-splitlist></div>
+          </details>
+        </div>
+
         <div class="value-block" data-value-block hidden>
           <div class="vb-head">
             <div>
@@ -1218,7 +1246,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261013111655"></script>
+<script src="data-layer.js?v=20261013134358"></script>
 
 </body>
 </html>

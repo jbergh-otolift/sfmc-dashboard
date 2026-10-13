@@ -490,6 +490,107 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
     });
 }
 
+// De offerteflow. Eigen blok omdat deze flow contacten mailt in plaats van
+// leads: ligt er een offerte, dan is de lead al geconverteerd. De koppeling
+// loopt via Lead.ConvertedContactId naar de opportunity en de getekende
+// offerte. Dat is touch-attributie — wie een offerte heeft wordt ook gebeld —
+// dus het blok leest als volume, niet als opbrengst.
+const OFFERTE_LABELS = {
+  geldkorting: "Na een geldkorting",
+  zorgpakket: "Na een zorgpakket",
+  herinnering: "Alleen een herinnering",
+};
+
+function renderOfferteBlock(totals, perDag) {
+  const block = document.querySelector("[data-offerte-block]");
+  if (!block) return;
+  const t = totals || {};
+  const dag = perDag || {};
+
+  // Gemaild is een eigenschap van het hele meetvenster en niet optelbaar per
+  // dag; getekend wel, dus dat volgt het gekozen bereik.
+  const soorten = ["geldkorting", "zorgpakket", "herinnering"];
+  const gemaild = soorten.reduce((n, k) => n + (t["gemaild:" + k] || 0), 0);
+  const getekend = soorten.reduce((n, k) => n + (dag["getekend:" + k] || 0), 0);
+  if (!gemaild) {
+    block.hidden = true;
+    return;
+  }
+  block.hidden = false;
+
+  const val = block.querySelector("[data-offerte-total]");
+  const sub = block.querySelector("[data-offerte-sub]");
+  if (val) val.textContent = nlNum(getekend, 0);
+  if (sub) {
+    sub.textContent =
+      "getekende offertes · van " + nlNum(gemaild, 0) +
+      " gemailde contacten over het hele venster";
+  }
+
+  const box = block.querySelector("[data-offerte-routes]");
+  box.innerHTML = "";
+  soorten.forEach((soort) => {
+    const g = t["gemaild:" + soort] || 0;
+    if (!g) return;
+    const n = dag["getekend:" + soort] || 0;
+    const kaart = document.createElement("div");
+    kaart.className = "vb-route";
+    kaart.innerHTML =
+      '<div class="vb-r-name">' + OFFERTE_LABELS[soort] + "</div>" +
+      '<div class="vb-r-val">' + nlNum(n, 0) + "</div>" +
+      '<div class="vb-r-sub">' + (n === 1 ? "getekend" : "getekend") +
+      " · " + nlNum(g, 0) + " gemaild</div>";
+    box.appendChild(kaart);
+  });
+
+  // De willekeurige split. Alleen de huidige journey telt mee: de oudere
+  // losse kortingmails gingen naar iedereen, en die erbij optellen maakt van
+  // een A/B-test een gewone mailing.
+  const fold = block.querySelector("[data-offerte-split]");
+  const lijst = block.querySelector("[data-offerte-splitlist]");
+  const noot = block.querySelector("[data-offerte-splitnote]");
+  const armen = ["geldkorting", "zorgpakket"].map((soort) => ({
+    soort,
+    gemaild: t["gemaild:split:" + soort] || 0,
+    getekend: dag["getekend:split:" + soort] || 0,
+  })).filter((a) => a.gemaild);
+
+  if (!armen.length) {
+    fold.hidden = true;
+    return;
+  }
+  fold.hidden = false;
+  lijst.innerHTML = "";
+  armen.forEach((a) => {
+    const rij = document.createElement("div");
+    rij.className = "vb-path";
+    const naam = document.createElement("span");
+    naam.className = "vb-p-name";
+    naam.textContent = OFFERTE_LABELS[a.soort];
+    const waarde = document.createElement("span");
+    waarde.className = "vb-p-val";
+    const pct = a.gemaild ? Math.round((a.getekend / a.gemaild) * 1000) / 10 : null;
+    waarde.textContent =
+      nlNum(a.getekend, 0) + " van " + nlNum(a.gemaild, 0) +
+      (pct === null ? "" : " · " + nlNum(pct, 1) + "%");
+    rij.append(naam, waarde);
+    lijst.appendChild(rij);
+  });
+
+  // Eerlijk zijn over wat dit wel en niet aantoont. Bij een handvol
+  // handtekeningen zegt een verschil niets, en dat hoort erbij te staan
+  // zolang dat zo is.
+  const kleinste = Math.min(...armen.map((a) => a.getekend));
+  const totaalArmen = armen.reduce((n, a) => n + a.getekend, 0);
+  noot.textContent = totaalArmen < 30
+    ? "De journey splitst willekeurig tussen deze twee, dus een verschil is " +
+      "hier wél zuiver te vergelijken. Maar met " + nlNum(totaalArmen, 0) +
+      " handtekeningen in totaal is elk verschil nog ruis. Pas vanaf enkele " +
+      "tientallen per arm valt er iets te zeggen."
+    : "De journey splitst willekeurig tussen deze twee, dus dit verschil is " +
+      "zuiver te vergelijken en niet vertekend door wie welke mail kreeg.";
+}
+
 function renderValueBlock(value) {
   const block = document.querySelector("[data-value-block]");
   if (!block) return;
@@ -1151,6 +1252,7 @@ function sumRange(days, start, end) {
   // Twee vaste routes door de funnel; per stap optelbaar over het bereik.
   const paths = {};
   const apptSplit = {};
+  const offerte = {};
   const enrich = {};
   const apptRoutes = {};
   const apptReasons = {};
@@ -1202,6 +1304,9 @@ function sumRange(days, start, end) {
 
     Object.entries(bucket.enrich || {}).forEach(([k, n]) => {
       enrich[k] = (enrich[k] || 0) + (n || 0);
+    });
+    Object.entries(bucket.offerte || {}).forEach(([k, n]) => {
+      offerte[k] = (offerte[k] || 0) + (n || 0);
     });
     Object.entries(bucket.apptSplit || {}).forEach(([bak, n]) => {
       apptSplit[bak] = (apptSplit[bak] || 0) + (n || 0);
@@ -1266,6 +1371,7 @@ function sumRange(days, start, end) {
     value: value.hasData ? value : null,
     paths,
     apptSplit,
+    offerte,
     enrich,
     apptRoutes,
     apptReasons,
@@ -1606,6 +1712,7 @@ function applyMarket(marketKey) {
   renderValueBlock(summed.value);
   renderApptBlock(summed.apptSplit, summed.apptReasons, summed.apptReasonPaths,
                   summed.apptRoutes);
+  renderOfferteBlock((market || {}).offerteTotals, summed.offerte);
   renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
