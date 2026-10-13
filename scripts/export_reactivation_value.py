@@ -64,6 +64,7 @@ API_VERSION = "v60.0"
 REPORT_PATH = "exports/report.csv"
 GOALS_PATH = "config/flow_goals.json"
 REACHED_PATH = "exports/_reached_lead_ids.json"
+OFFERTE_PATH = "exports/_offerte_contacts.json"
 OUT_PATH = "exports/reactivation_value.json"
 
 # Ruim terugkijken: een lead die maanden geleden instroomde kan nu pas tekenen.
@@ -364,6 +365,83 @@ def signed_quotes(session, instance_url):
         if opp not in out or day < out[opp]:
             out[opp] = day
     return out
+
+
+def offerte_resultaat(session, instance_url):
+    """Wat levert de offerteflow op?
+
+    Die flow mailt contacten en geen leads: ligt er een offerte, dan is de
+    lead al geconverteerd en bestaat hij verder als Contact. De hele
+    toerekening van dit dashboard werkt op lead-id's, dus zonder deze omweg
+    valt de flow buiten elke telling.
+
+    De keten die wél werkt, gemeten met scripts/probe_offerte_flow.py:
+
+        mail -> Contact -> Lead.ConvertedContactId
+             -> Lead.ConvertedOpportunityId -> Quote.OpportunityId
+             -> Date_Quote_signed__c
+
+    Quote.ContactId bestaat wel maar is in geen enkele van de 10.450
+    getekende offertes gevuld, dus de korte weg bestaat alleen op papier.
+
+    LET OP: dit is touch-attributie. Iemand met een openstaande offerte krijgt
+    mail én wordt gebeld. "Gemaild en daarna getekend" is geen bewijs dat de
+    mail het deed. De uitzondering is de vergelijking tussen de twee
+    aanbiedingen: die split is willekeurig, dus dáár is een verschil wel
+    zuiver — zodra de aantallen groot genoeg zijn.
+    """
+    if not os.path.exists(OFFERTE_PATH):
+        return None
+    with open(OFFERTE_PATH, encoding="utf-8") as f:
+        bron = json.load(f)
+
+    uit = {}
+    for market, blok in (bron.get("markets") or {}).items():
+        per_contact = blok.get("perContact") or {}
+        if not per_contact:
+            continue
+
+        # Contact -> opportunity, via de lead waaruit het contact ontstond.
+        opp_van_contact = {}
+        ids = list(per_contact)
+        for i in range(0, len(ids), 180):
+            groep = ids[i:i + 180]
+            lijst = ", ".join("'" + c.replace("'", "") + "'" for c in groep)
+            for row in query_all(
+                session, instance_url,
+                "SELECT ConvertedContactId, ConvertedOpportunityId FROM Lead "
+                f"WHERE ConvertedContactId IN ({lijst}) "
+                "AND ConvertedOpportunityId != null"
+            ):
+                opp_van_contact[row["ConvertedContactId"]] = row["ConvertedOpportunityId"]
+
+        getekend_op = signed_quotes(session, instance_url)
+
+        dagen = defaultdict(lambda: defaultdict(int))
+        totalen = defaultdict(int)
+        for contact, aanboden in per_contact.items():
+            # Een ontvanger telt bij elk aanbod dat hij kreeg. In de huidige
+            # journey is dat er één, maar oudere versies stuurden soms beide.
+            soorten = [s for s in aanboden if s != "herinnering"] or ["herinnering"]
+            for soort in soorten:
+                totalen[f"gemaild:{soort}"] += 1
+
+            dag = getekend_op.get(opp_van_contact.get(contact))
+            if not dag:
+                continue
+            # Alleen tekenen ná de mail telt; andersom heeft de mail er niets
+            # mee te maken en is het toeval in dezelfde periode.
+            eerste_mail = min(aanboden.values()) if aanboden else None
+            if eerste_mail and dag < eerste_mail:
+                continue
+            for soort in soorten:
+                dagen[dag][f"getekend:{soort}"] += 1
+                totalen[f"getekend:{soort}"] += 1
+
+        uit[market] = {"days": {d: dict(v) for d, v in dagen.items()},
+                       "totals": dict(totalen),
+                       "perMail": blok.get("perMail") or {}}
+    return uit
 
 
 def load_transitions(path):
@@ -854,6 +932,14 @@ def main():
 
     converted = conversions(session, instance_url)
     signed = signed_quotes(session, instance_url)
+    offerte = offerte_resultaat(session, instance_url)
+    if offerte:
+        for markt, blok in sorted(offerte.items()):
+            t = blok["totals"]
+            print(f"Offerteflow {markt}: " + ", ".join(
+                f"{k}={v}" for k, v in sorted(t.items())))
+    else:
+        print("Offerteflow: geen contactenbestand gevonden, blok blijft leeg")
     print(f"Getekende offertes in {LOOKBACK_DAYS} dagen: {len(signed)}")
     transitions = load_transitions(REPORT_PATH)
     paths = reactivation_paths(REPORT_PATH, transitions)
@@ -1120,6 +1206,9 @@ def main():
             }
             for day, per_market in funnel_days.items()
         },
+        # De offerteflow, apart omdat hij contacten mailt in plaats van leads
+        # en dus niet in de gewone toerekening past.
+        "offerteFlow": offerte or {},
         # Alle afspraken uit de mailflow, in elkaar uitsluitende bakken die
         # optellen tot het totaal. Zie appointment_split().
         "appointmentSplit": {

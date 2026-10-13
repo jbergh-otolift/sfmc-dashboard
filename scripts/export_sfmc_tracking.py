@@ -89,6 +89,12 @@ OUT_PATH = "exports/sfmc_tracking.json"
 # snijdt het door met de leads die we hóren te mailen en bewaart enkel de
 # aantallen. Zo staan er geen losse id-lijsten in een publieke repo.
 REACHED_PATH = "exports/_reached_lead_ids.json"
+OFFERTE_PATH = "exports/_offerte_contacts.json"
+
+# De offerteflow mailt contacten (003), geen leads, want ligt er een offerte
+# dan is de lead al geconverteerd. Hij valt daardoor buiten de hele
+# leadgebaseerde toerekening en wordt apart verzameld.
+OFFERTE_PATRONEN = ("offerte",)
 
 # Coverage meet iets anders dan Email Health en heeft daarom een eigen,
 # langer venster. De noemer (leads met status Mailjourney) is een
@@ -662,6 +668,43 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
     return tsd_map, tsd_names
 
 
+def aanbod_van_mail(naam):
+    """Welk aanbod zat er in deze mail?
+
+    De offertejourney splitst willekeurig tussen een geldkorting en een
+    zorgpakket. Zorgpakket wordt eerst getoetst, want zo'n mail kan het woord
+    korting ook bevatten. Een mail zonder aanbod is een herinnering.
+    """
+    n = (naam or "").lower()
+    if "zorgpakket" in n or "pakket" in n:
+        return "zorgpakket"
+    if "korting" in n:
+        return "geldkorting"
+    return "herinnering"
+
+
+def offerte_payload(offerte_sends, naam_van_tsd, tsd_names):
+    """Per ontvanger van de offerteflow: per aanbod de eerste senddag.
+
+    Alleen contacten (003) komen hier terecht; leads lopen al via de gewone
+    toerekening. De uitkomst is bewust klein gehouden: een map van ontvanger
+    naar aanbod naar datum, meer heeft de omzetkoppeling niet nodig.
+    """
+    per_contact = {}
+    per_mail = {}
+    for tsd, per_key in offerte_sends.items():
+        naam = naam_van_tsd.get(tsd) or tsd_names.get(tsd) or ""
+        soort = aanbod_van_mail(naam)
+        per_mail[naam or tsd] = {"aanbod": soort, "ontvangers": len(per_key)}
+        for key, day in per_key.items():
+            if not key.startswith("003"):
+                continue
+            vak = per_contact.setdefault(key, {})
+            if vak.get(soort) is None or day < vak[soort]:
+                vak[soort] = day
+    return {"perContact": per_contact, "perMail": per_mail}
+
+
 def flow_for(row, tsd_map, sendid_to_flow):
     """Geeft (journeynaam, tier, tsd-objectid). Tier 3 = niet toegewezen."""
     tsd = (row.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
@@ -780,6 +823,10 @@ class DayAggregator:
         self.first_seen = {}
         self.first_seen_email = {}
         self.first_seen_all = {}
+        # Offerteflow: per verzenddefinitie per ontvanger de eerste senddag.
+        # Bewust op tsd-id en niet op mailnaam, want de namen van deze journey
+        # zijn pas bekend nadat de structuur is opgehaald — ná dit streamen.
+        self.offerte_sends = {}
         # Hele-vensterprofiel per flow: sends en (via `first_seen`) unieke mensen.
         self.flow_sent = {}
         # dag -> flow -> {"flow": n, "emails": {naam: n}}, gevuld in `_first_touch`.
@@ -835,6 +882,11 @@ class DayAggregator:
                     known = store.get(store_key)
                     if known is None or day < known:
                         store[store_key] = day
+                if any(p in (flow or "").lower() for p in OFFERTE_PATRONEN):
+                    per_key = self.offerte_sends.setdefault(self.tsd_of(row), {})
+                    known = per_key.get(key)
+                    if known is None or day < known:
+                        per_key[key] = day
                 for days, start in self.reach_starts.items():
                     if day >= start:
                         self.reach[days].add(key)
@@ -1061,6 +1113,7 @@ def main():
     journeys_out = {}
     structures_out = {}
     reached_lead_ids = {}
+    offerte_contacten = {}
     first_day = None
 
     for market in MARKETS:
@@ -1103,6 +1156,18 @@ def main():
             # voorkomen, zodat het dashboard metrics aan het diagram kan koppelen.
             structures = fetch_journey_structures(
                 session, auth, journeys, flow_names)
+
+            # De mailnamen van de offertejourney staan niet in de TSD-lijst,
+            # want die versies zijn verwijderd. De structuur noemt ze wel, en
+            # die is nu opgehaald. Daarmee is per ontvanger te zeggen welk
+            # aanbod hij kreeg: een geldkorting of een zorgpakket.
+            naam_van_tsd = {}
+            for structuur in structures.values():
+                for node in (structuur or {}).get("nodes", []):
+                    if node.get("tsdId") and node.get("name"):
+                        naam_van_tsd[node["tsdId"].strip().lower()] = node["name"]
+            offerte_contacten[market] = offerte_payload(
+                agg.offerte_sends, naam_van_tsd, agg.tsd_names)
 
             reached_lead_ids[market] = {
                 "all": sorted(agg.cov_leads),
@@ -1181,6 +1246,22 @@ def main():
             f)
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
           + ", ".join(f"{m}={len(v['all'])}" for m, v in reached_lead_ids.items()))
+
+    # Contacten uit de offerteflow, apart omdat ze geen lead zijn en dus
+    # buiten de gewone toerekening vallen. Niet gecommit: het zijn id's.
+    offerte_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), OFFERTE_PATH)
+    with open(offerte_path, "w", encoding="utf-8") as f:
+        json.dump({"period": {"start": cov_window_start, "end": period_end},
+                   "markets": offerte_contacten}, f)
+    for markt, blok in sorted(offerte_contacten.items()):
+        aantallen = {}
+        for aanboden in blok["perContact"].values():
+            for soort in aanboden:
+                aantallen[soort] = aantallen.get(soort, 0) + 1
+        if blok["perContact"]:
+            print(f"Offerteflow {markt}: {len(blok['perContact'])} contacten · "
+                  + ", ".join(f"{k}={v}" for k, v in sorted(aantallen.items())))
 
     print(f"\nGeschreven naar {out_path} ({os.path.getsize(out_path) / 1e6:.1f} MB)")
     for market, data in sorted(markets.items()):

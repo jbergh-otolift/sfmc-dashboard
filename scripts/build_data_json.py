@@ -542,6 +542,10 @@ def main():
             if key in per_market:
                 days.setdefault(day, {})["apptSplit"] = per_market[key]
         # Route en statuspad per afspraak, voor het uitklapblok onder de funnel.
+        # De offerteflow heeft zijn eigen dagtelling, los van de leadfunnel.
+        for day, waarden in (((value or {}).get("offerteFlow") or {})
+                             .get(key, {}).get("days") or {}).items():
+            days.setdefault(day, {})["offerte"] = waarden
         for field, target in (("enrichment", "enrich"),
                               ("appointmentReasons", "apptReasons"),
                               ("appointmentReasonPaths", "apptReasonPaths"),
@@ -555,6 +559,11 @@ def main():
         markets[key] = {
             "marketLabel": label,
             "days": days,
+            # Niet optelbaar over een bereik: dit is het hele meetvenster.
+            # Staat er alleen om te kunnen tonen hoeveel mensen welk aanbod
+            # kregen, want dat is geen dagcijfer.
+            "offerteTotals": (((value or {}).get("offerteFlow") or {})
+                              .get(key, {}).get("totals") or {}),
             "reach": (block or {}).get("reach") or {},
             # Mails per persoon per flow, over het hele meetvenster. Dit is
             # een eigenschap van de flow, geen periodecijfer: over een kort
