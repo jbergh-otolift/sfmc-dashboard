@@ -45,6 +45,18 @@ DAGEN = int(os.environ.get("PROBE_DAYS", "90"))
 # Welke flows we als offerteflow beschouwen. Zelfde patroon als de export.
 OFFERTE_PATRONEN = ("offerte",)
 
+# De journey splitst willekeurig tussen twee aanbiedingen. Omdat die split
+# random is, is een verschil tussen de twee armen een echte vergelijking en
+# geen zelfselectie. De mailnaam bepaalt de arm; "zorgpakket" eerst, want een
+# zorgpakketmail kan ook het woord korting bevatten.
+def aanbod(mailnaam):
+    n = (mailnaam or "").lower()
+    if "zorgpakket" in n or "pakket" in n:
+        return "zorgpakket"
+    if "korting" in n:
+        return "geldkorting"
+    return "herinnering"
+
 # Salesforce accepteert maar een beperkt aantal id's per IN-clausule.
 BATCH = 180
 
@@ -118,24 +130,37 @@ def ontvangers_offerteflow():
         session, auth, id_to_journey, email_to_journey, prefix_to_journey)
 
     keys = defaultdict(set)
+    # Per ontvanger: per aanbod de eerste verzenddatum. Daarmee kunnen we later
+    # toetsen of de handtekening ná die mail kwam.
+    aanbod_per_key = defaultdict(dict)
+    mailnamen = Counter()
 
     def on_page(rows):
         for r in rows:
             naam = tsd_map.get(r.get("TriggeredSendDefinitionObjectID") or "")
-            if isinstance(naam, tuple):
-                naam = naam[0]
-            if not naam or not any(p in naam.lower() for p in OFFERTE_PATRONEN):
+            tsd_naam = naam[0] if isinstance(naam, tuple) else naam
+            if not tsd_naam or not any(p in tsd_naam.lower() for p in OFFERTE_PATRONEN):
                 continue
             key = (r.get("SubscriberKey") or "").strip()
-            if key:
-                keys[naam].add(key)
+            if not key:
+                continue
+            keys[tsd_naam].add(key)
+            # De journeynaam is te grof; de mailnaam bepaalt het aanbod. Die
+            # zit in de tweede helft van de TSD-koppeling als die er is.
+            mail = _names.get(r.get("TriggeredSendDefinitionObjectID") or "") or tsd_naam
+            mailnamen[mail] += 1
+            soort = aanbod(mail)
+            dag = (r.get("EventDate") or "")[:10]
+            huidig = aanbod_per_key[key].get(soort)
+            if dag and (huidig is None or dag < huidig):
+                aanbod_per_key[key][soort] = dag
 
     T.soap_retrieve(
         session, auth, "SentEvent",
         ["SubscriberKey", "EventDate", "SendID", "TriggeredSendDefinitionObjectID"],
         start=start.isoformat() + "T00:00:00", end=eind.isoformat() + "T00:00:00",
         on_page=on_page)
-    return keys
+    return keys, aanbod_per_key, mailnamen
 
 
 def main():
@@ -143,7 +168,7 @@ def main():
     print(f"PROBE OFFERTEFLOW · laatste {DAGEN} dagen")
     print("=" * 72)
 
-    per_flow = ontvangers_offerteflow()
+    per_flow, aanbod_per_key, mailnamen = ontvangers_offerteflow()
     alle = set().union(*per_flow.values()) if per_flow else set()
     print("\n1. Wie is er gemaild")
     for flow, keys in sorted(per_flow.items()):
@@ -245,6 +270,35 @@ def main():
     print(f"   route C · contactrol          {len(treffers_c)}")
     print(f"   samen, ontdubbeld             {len(samen)}"
           f"  ({len(samen)/len(contacten)*100:.0f}% van de gemailde contacten)")
+    # ---- de random split: welk aanbod levert meer handtekeningen op ------
+    print("\n7. De twee aanbiedingen (random split, dus eerlijk te vergelijken)")
+    print("   verzonden mails in deze periode:")
+    for naam, n in mailnamen.most_common(12):
+        print(f"      {n:6}  {naam}  →  {aanbod(naam)}")
+
+    per_arm = defaultdict(lambda: {"gemaild": set(), "getekend": set()})
+    for key, aanboden in aanbod_per_key.items():
+        for soort in aanboden:
+            if soort == "herinnering":
+                continue
+            per_arm[soort]["gemaild"].add(key)
+            if key in samen:
+                per_arm[soort]["getekend"].add(key)
+
+    print(f"\n   {'aanbod':14} {'gemaild':>9} {'getekend':>10} {'aandeel':>9}")
+    for soort in ("geldkorting", "zorgpakket"):
+        g = per_arm[soort]["gemaild"]
+        t = per_arm[soort]["getekend"]
+        pct = f"{len(t)/len(g)*100:.1f}%" if g else "–"
+        print(f"   {soort:14} {len(g):9} {len(t):10} {pct:>9}")
+    beide = per_arm["geldkorting"]["gemaild"] & per_arm["zorgpakket"]["gemaild"]
+    if beide:
+        print(f"   let op: {len(beide)} ontvangers kregen allebei de aanbiedingen; "
+              "die tellen in beide armen mee")
+    zonder = {k for k, a in aanbod_per_key.items()
+              if not ({"geldkorting", "zorgpakket"} & set(a))}
+    print(f"   {len(zonder)} ontvangers kregen alleen een herinnering, geen aanbod")
+
     if samen:
         beste = max([("A", treffers_a), ("B", treffers_b), ("C", treffers_c)],
                     key=lambda x: len(x[1]))
