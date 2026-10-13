@@ -69,7 +69,7 @@
     },
     "2026-04-20": {
       "be": {
-        "Mailjourney (Orientation for later moment) → Follow-up → Not reached → Follow-up → Appointment": 1
+        "Mailjourney (Orientation for later moment) → Follow-up → Appointment": 1
       },
       "nl": {
         "Mailjourney (Never had contact with the customer) → Appointment": 1
@@ -266,7 +266,7 @@
     },
     "2026-06-12": {
       "nl": {
-        "Mailjourney (Never had contact with the customer) → Follow-up → Appointment": 1
+        "Mailjourney (Never had contact with the customer) → Appointment": 1
       }
     },
     "2026-06-15": {
@@ -851,6 +851,11 @@
       "nl": {
         "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": 1
       }
+    },
+    "2026-10-13": {
+      "nl": {
+        "Mailjourney (No Contact Possible - number incorrect) → Appointment": 1
+      }
     }
   },
   "appointmentReasonPaths": {
@@ -954,7 +959,7 @@
     "2026-04-20": {
       "be": {
         "Orientation for later moment": {
-          "→ Follow-up → Not reached → Follow-up → Appointment": 1
+          "→ Follow-up → Appointment": 1
         }
       },
       "nl": {
@@ -1243,7 +1248,7 @@
     "2026-06-12": {
       "nl": {
         "Never had contact with the customer": {
-          "→ Follow-up → Appointment": 1
+          "→ Appointment": 1
         }
       }
     },
@@ -2159,6 +2164,13 @@
           "→ Re-entered → Appointment": 1
         }
       }
+    },
+    "2026-10-13": {
+      "nl": {
+        "No Contact Possible - number incorrect": {
+          "→ Appointment": 1
+        }
+      }
     }
   },
   "appointmentReasons": {
@@ -2967,6 +2979,11 @@
       },
       "nl": {
         "Never had contact with the customer": 1
+      }
+    },
+    "2026-10-13": {
+      "nl": {
+        "No Contact Possible - number incorrect": 1
       }
     }
   },
@@ -4258,6 +4275,13 @@
           "Never had contact with the customer": 1
         }
       }
+    },
+    "2026-10-13": {
+      "nl": {
+        "Direct afspraak": {
+          "No Contact Possible - number incorrect": 1
+        }
+      }
     }
   },
   "appointmentRoutes": {
@@ -5069,20 +5093,14 @@
       "nl": {
         "Re-entered": 1
       }
+    },
+    "2026-10-13": {
+      "nl": {
+        "Direct afspraak": 1
+      }
     }
   },
   "appointmentSplit": {
-    "2026-03-26": {
-      "be": {
-        "entry": 12
-      },
-      "fr": {
-        "entry": 1
-      },
-      "nl": {
-        "entry": 40
-      }
-    },
     "2026-03-27": {
       "be": {
         "entry": 7
@@ -6712,16 +6730,16 @@
       "nl": {
         "direct": 1,
         "directNotReached": 1,
-        "entry": 59,
+        "entry": 63,
         "mailjourney": 2
       }
     },
     "2026-10-06": {
       "be": {
-        "entry": 17
+        "entry": 18
       },
       "nl": {
-        "entry": 51
+        "entry": 52
       }
     },
     "2026-10-07": {
@@ -6731,7 +6749,7 @@
       "nl": {
         "direct": 2,
         "directMailjourney": 2,
-        "entry": 30,
+        "entry": 31,
         "mailjourney": 2,
         "notReached": 1
       }
@@ -6752,10 +6770,10 @@
       "be": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 7
+        "entry": 9
       },
       "nl": {
-        "entry": 23,
+        "entry": 26,
         "notReached": 1
       }
     },
@@ -6767,8 +6785,18 @@
         "mailjourney": 1
       },
       "nl": {
-        "entry": 37,
+        "entry": 38,
         "other": 1
+      }
+    },
+    "2026-10-13": {
+      "be": {
+        "entry": 4
+      },
+      "nl": {
+        "direct": 1,
+        "directMailjourney": 1,
+        "entry": 16
       }
     }
   },
@@ -6777,23 +6805,23 @@
       "direct": 35,
       "directMailjourney": 34,
       "directNotReached": 1,
-      "entry": 2189,
+      "entry": 2184,
       "mailjourney": 12,
       "notReached": 16,
       "other": 16
     },
     "fr": {
       "direct": 0,
-      "entry": 2746,
+      "entry": 2745,
       "mailjourney": 0,
       "notReached": 0,
       "other": 0
     },
     "nl": {
-      "direct": 108,
-      "directMailjourney": 90,
+      "direct": 109,
+      "directMailjourney": 91,
       "directNotReached": 18,
-      "entry": 5081,
+      "entry": 5067,
       "mailjourney": 33,
       "notReached": 33,
       "other": 35
@@ -9180,38 +9208,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 2,
-            "revenue": 17633.2
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 17633.2
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 17633.2
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 2,
-              "revenue": 17633.2
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 17633.2,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 124454.43,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 17633.2
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-04-16": {
@@ -9358,42 +9364,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 3067.57
-          },
-          "Mailjourney (Never had contact with the customer) → Follow-up → Appointment": {
-            "orders": 1,
-            "revenue": 2130.55
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 5198.12
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 5198.12
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 2,
-              "revenue": 5198.12
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 5198.12,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 12,
         "revenue": 61318.38,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 5198.12
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-04-24": {
@@ -9410,52 +9390,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 7763.6
-          },
-          "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 2360.19
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 10123.79
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 7763.6
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 2360.19
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 7763.6
-            }
-          },
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 2360.19
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 10123.79,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 7,
         "revenue": 50451.86,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 10123.79
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-04-27": {
@@ -9538,38 +9482,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 8622.21
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 8622.21
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 8622.21
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 8622.21
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8622.21,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 13,
         "revenue": 73170.29,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8622.21
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-05-01": {
@@ -9860,38 +9782,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 2,
-            "revenue": 22411.59
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 22411.59
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 22411.59
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 2,
-              "revenue": 22411.59
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 22411.59,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 15,
         "revenue": 120854.64,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 22411.59
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-05-20": {
@@ -10012,38 +9912,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 7561.98
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 7561.98
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 7561.98
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 7561.98
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 7561.98,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 20,
         "revenue": 126220.77,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 7561.98
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-05-28": {
@@ -10060,38 +9938,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 9972.8
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 9972.8
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9972.8
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 9972.8
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 9972.8,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 13,
         "revenue": 91991.92,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 9972.8
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-05-29": {
@@ -10212,38 +10068,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 3709.19
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 3709.19
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 3709.19
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 3709.19
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 3709.19,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 106012.41,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3709.19
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-05": {
@@ -10286,56 +10120,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 0.0
-          },
-          "Mailjourney (Orientation for later moment) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 8625.28
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 0.0
-          },
-          "Orientation for later moment": {
-            "orders": 1,
-            "revenue": 8625.28
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 0.0
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 8625.28
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 0.0
-            }
-          },
-          "Re-entered": {
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 8625.28
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 8625.28,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 103813.29,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 8625.28
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-09": {
@@ -10352,38 +10146,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 8775.36
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 8775.36
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 8775.36
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 8775.36
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8775.36,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 121124.06,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8775.36
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-10": {
@@ -10400,18 +10172,12 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byFlow": {
-          "NL - Nurturelane Stairlift Q2 2026": {
-            "orders": 1,
-            "revenue": 5537.2
-          }
-        },
         "byPath": {},
         "byReason": {},
         "byRoute": {},
         "byRouteReason": {},
-        "mailedOrders": 1,
-        "mailedRevenue": 5537.2,
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 14,
         "revenue": 99403.17,
         "viaAutomationOrders": 0,
@@ -10432,38 +10198,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 2,
-            "revenue": 15875.68
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 15875.68
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 15875.68
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 2,
-              "revenue": 15875.68
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 15875.68,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 23,
         "revenue": 150286.21,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 15875.68
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-12": {
@@ -10480,38 +10224,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (WMO) → Appointment": {
-            "orders": 1,
-            "revenue": 2513.91
-          }
-        },
-        "byReason": {
-          "WMO": {
-            "orders": 1,
-            "revenue": 2513.91
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 2513.91
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "WMO": {
-              "orders": 1,
-              "revenue": 2513.91
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 2513.91,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 18,
         "revenue": 114917.12,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 2513.91
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-15": {
@@ -10580,38 +10302,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 2,
-            "revenue": 8018.65
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 8018.65
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 8018.65
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 2,
-              "revenue": 8018.65
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 8018.65,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 18,
         "revenue": 123593.47,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 8018.65
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-18": {
@@ -10706,38 +10406,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Orientation for later moment) → Appointment": {
-            "orders": 1,
-            "revenue": 4283.45
-          }
-        },
-        "byReason": {
-          "Orientation for later moment": {
-            "orders": 1,
-            "revenue": 4283.45
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 4283.45
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 4283.45
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 4283.45,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 15,
         "revenue": 103024.5,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 4283.45
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-24": {
@@ -10754,38 +10432,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 8011.17
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 8011.17
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 8011.17
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 8011.17
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8011.17,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 104445.95,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8011.17
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-25": {
@@ -10854,38 +10510,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 8935.26
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 8935.26
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 8935.26
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 8935.26
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8935.26,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 15,
         "revenue": 94535.75,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8935.26
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-06-30": {
@@ -10918,62 +10552,22 @@
         },
         "mailedOrders": 1,
         "mailedRevenue": 13111.16,
-        "orders": 81,
-        "revenue": 756354.7,
+        "orders": 82,
+        "revenue": 764454.1,
         "viaAutomationOrders": 1,
         "viaAutomationRevenue": 13111.16
       },
       "nl": {
-        "byFlow": {
-          "NL - Nurturelane Stairlift Q2 2026": {
-            "orders": 2,
-            "revenue": 9853.45
-          }
-        },
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 7622.04
-          },
-          "Mailjourney (Orientation for later moment) → Appointment": {
-            "orders": 1,
-            "revenue": 9252.36
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 7622.04
-          },
-          "Orientation for later moment": {
-            "orders": 1,
-            "revenue": 9252.36
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 2,
-            "revenue": 16874.4
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 7622.04
-            },
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 9252.36
-            }
-          }
-        },
-        "mailedOrders": 3,
-        "mailedRevenue": 19105.81,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 120,
         "revenue": 835359.3,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 16874.4
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-02": {
@@ -11004,52 +10598,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 9287.53
-          },
-          "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 6009.99
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 2,
-            "revenue": 15297.52
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9287.53
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 6009.99
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 9287.53
-            }
-          },
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 6009.99
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 15297.52,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 7,
         "revenue": 52584.66,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 15297.52
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-06": {
@@ -11140,44 +10698,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byFlow": {
-          "NL - Nurturelane Stairlift Q2 2026": {
-            "orders": 1,
-            "revenue": 2376.87
-          }
-        },
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 3721.93
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 6098.8,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 11,
         "revenue": 55267.97,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3721.93
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-09": {
@@ -11242,38 +10772,16 @@
         "viaAutomationRevenue": 10284.92
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 9209.09
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 9209.09
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9209.09
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 9209.09
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 9209.09,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 10,
         "revenue": 48720.45,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 9209.09
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-13": {
@@ -11290,38 +10798,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Appointment": {
-            "orders": 1,
-            "revenue": 9125.6
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 9125.6
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9125.6
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 9125.6
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 9125.6,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 15,
         "revenue": 94119.79,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 9125.6
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-14": {
@@ -11338,38 +10824,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No contact possible) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 2313.18
-          }
-        },
-        "byReason": {
-          "No contact possible": {
-            "orders": 1,
-            "revenue": 2313.18
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 2313.18
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "No contact possible": {
-              "orders": 1,
-              "revenue": 2313.18
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 2313.18,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 8,
         "revenue": 52156.47,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 2313.18
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-15": {
@@ -11412,38 +10876,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 3723.1
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 3723.1
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 3723.1
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 3723.1
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 3723.1,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 11,
         "revenue": 75238.88,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3723.1
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-17": {
@@ -11700,38 +11142,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 8282.4
-          }
-        },
-        "byReason": {
-          "No contact possible": {
-            "orders": 1,
-            "revenue": 8282.4
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 8282.4
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "No contact possible": {
-              "orders": 1,
-              "revenue": 8282.4
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8282.4,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 14,
         "revenue": 93920.93,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8282.4
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-30": {
@@ -11748,38 +11168,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No contact possible) → Appointment": {
-            "orders": 1,
-            "revenue": 6760.44
-          }
-        },
-        "byReason": {
-          "No contact possible": {
-            "orders": 1,
-            "revenue": 6760.44
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 6760.44
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No contact possible": {
-              "orders": 1,
-              "revenue": 6760.44
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 6760.44,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 9,
         "revenue": 59613.96,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 6760.44
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-07-31": {
@@ -12000,38 +11398,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 11122.17
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 11122.17
-          }
-        },
-        "byRoute": {
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 11122.17
-          }
-        },
-        "byRouteReason": {
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 11122.17
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 11122.17,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 8,
         "revenue": 54257.41,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 11122.17
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-12": {
@@ -12148,38 +11524,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No contact possible) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 3364.74
-          }
-        },
-        "byReason": {
-          "No contact possible": {
-            "orders": 1,
-            "revenue": 3364.74
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 3364.74
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "No contact possible": {
-              "orders": 1,
-              "revenue": 3364.74
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 3364.74,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 11,
         "revenue": 74784.44,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3364.74
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-18": {
@@ -12196,38 +11550,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 2,
-            "revenue": 12741.47
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 12741.47
-          }
-        },
-        "byRoute": {
-          "Re-entered - Phone Number Changed": {
-            "orders": 2,
-            "revenue": 12741.47
-          }
-        },
-        "byRouteReason": {
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 2,
-              "revenue": 12741.47
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 12741.47,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 128908.09,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 12741.47
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-19": {
@@ -12244,52 +11576,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Appointment": {
-            "orders": 1,
-            "revenue": 1599.31
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 6402.13
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 8001.44
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 1599.31
-          },
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 6402.13
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 1599.31
-            }
-          },
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 6402.13
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 8001.44,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 19,
         "revenue": 106882.73,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 8001.44
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-20": {
@@ -12328,50 +11624,16 @@
         "viaAutomationRevenue": 8070.46
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Appointment": {
-            "orders": 1,
-            "revenue": 7593.72
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Appointment": {
-            "orders": 2,
-            "revenue": 17517.47
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 1,
-            "revenue": 7593.72
-          },
-          "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 17517.47
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 3,
-            "revenue": 25111.19
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number correct": {
-              "orders": 1,
-              "revenue": 7593.72
-            },
-            "No Contact Possible - number incorrect": {
-              "orders": 2,
-              "revenue": 17517.47
-            }
-          }
-        },
-        "mailedOrders": 3,
-        "mailedRevenue": 25111.19,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 14,
         "revenue": 95454.35,
-        "viaAutomationOrders": 3,
-        "viaAutomationRevenue": 25111.19
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-21": {
@@ -12436,38 +11698,16 @@
         "viaAutomationRevenue": 4610.4
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Orientation for later moment) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 3031.93
-          }
-        },
-        "byReason": {
-          "Orientation for later moment": {
-            "orders": 1,
-            "revenue": 3031.93
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 3031.93
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 3031.93
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 3031.93,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 10,
         "revenue": 76451.33,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3031.93
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-25": {
@@ -12506,70 +11746,16 @@
         "viaAutomationRevenue": 10798.65
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 7892.56
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Appointment": {
-            "orders": 1,
-            "revenue": 9848.73
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 8268.11
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 7892.56
-          },
-          "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 18116.84
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9848.73
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 7892.56
-          },
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 8268.11
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 9848.73
-            }
-          },
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 7892.56
-            }
-          },
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 8268.11
-            }
-          }
-        },
-        "mailedOrders": 3,
-        "mailedRevenue": 26009.4,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 27,
         "revenue": 179266.93,
-        "viaAutomationOrders": 3,
-        "viaAutomationRevenue": 26009.4
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-26": {
@@ -12656,38 +11842,16 @@
         "viaAutomationRevenue": 9599.97
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 8725.72
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 8725.72
-          }
-        },
-        "byRoute": {
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 8725.72
-          }
-        },
-        "byRouteReason": {
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 8725.72
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 8725.72,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 15,
         "revenue": 115232.87,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 8725.72
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-28": {
@@ -12704,56 +11868,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 7185.33
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 6613.99
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 1,
-            "revenue": 7185.33
-          },
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 6613.99
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 7185.33
-          },
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 6613.99
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number correct": {
-              "orders": 1,
-              "revenue": 7185.33
-            }
-          },
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 6613.99
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 13799.32,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 21,
         "revenue": 129173.18,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 13799.32
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-08-31": {
@@ -12822,38 +11946,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 6859.5
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 6859.5
-          }
-        },
-        "byRoute": {
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 6859.5
-          }
-        },
-        "byRouteReason": {
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 6859.5
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 6859.5,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 124462.7,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 6859.5
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-03": {
@@ -12870,52 +11972,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Appointment": {
-            "orders": 1,
-            "revenue": 1401.48
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 5661.16
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 7062.64
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 1401.48
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 5661.16
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 1401.48
-            }
-          },
-          "Re-entered": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 5661.16
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 7062.64,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 17,
         "revenue": 85339.54,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 7062.64
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-04": {
@@ -12932,56 +11998,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 8686.19
-          },
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 3318.66
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 8686.19
-          },
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 3318.66
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 8686.19
-          },
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 3318.66
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 8686.19
-            }
-          },
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 3318.66
-            }
-          }
-        },
-        "mailedOrders": 2,
-        "mailedRevenue": 12004.85,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 13,
         "revenue": 100449.75,
-        "viaAutomationOrders": 2,
-        "viaAutomationRevenue": 12004.85
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-07": {
@@ -13024,38 +12050,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Re-entered → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "No Contact Possible - number correct": {
-              "orders": 1,
-              "revenue": 7309.4
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 7309.4,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 13,
         "revenue": 94997.89,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 7309.4
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-09": {
@@ -13291,59 +12295,37 @@
       },
       "nl": {
         "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Brochure → Follow-up → Appointment": {
-            "orders": 1,
-            "revenue": 8254.12
-          },
           "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Re-entered - Phone Number Changed → Appointment": {
             "orders": 1,
             "revenue": 3366.28
-          },
-          "Mailjourney (Orientation for later moment) → Appointment": {
-            "orders": 1,
-            "revenue": 9458.46
           }
         },
         "byReason": {
           "No Contact Possible - number incorrect": {
-            "orders": 2,
-            "revenue": 11620.4
-          },
-          "Orientation for later moment": {
             "orders": 1,
-            "revenue": 9458.46
+            "revenue": 3366.28
           }
         },
         "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 9458.46
-          },
           "Re-entered - Phone Number Changed": {
-            "orders": 2,
-            "revenue": 11620.4
+            "orders": 1,
+            "revenue": 3366.28
           }
         },
         "byRouteReason": {
-          "Appointment": {
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 9458.46
-            }
-          },
           "Re-entered - Phone Number Changed": {
             "No Contact Possible - number incorrect": {
-              "orders": 2,
-              "revenue": 11620.4
+              "orders": 1,
+              "revenue": 3366.28
             }
           }
         },
-        "mailedOrders": 3,
-        "mailedRevenue": 21078.86,
+        "mailedOrders": 1,
+        "mailedRevenue": 3366.28,
         "orders": 17,
         "revenue": 131282.87,
-        "viaAutomationOrders": 3,
-        "viaAutomationRevenue": 21078.86
+        "viaAutomationOrders": 1,
+        "viaAutomationRevenue": 3366.28
       }
     },
     "2026-09-17": {
@@ -13534,38 +12516,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 7353.33
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number incorrect": {
-            "orders": 1,
-            "revenue": 7353.33
-          }
-        },
-        "byRoute": {
-          "Re-entered - Phone Number Changed": {
-            "orders": 1,
-            "revenue": 7353.33
-          }
-        },
-        "byRouteReason": {
-          "Re-entered - Phone Number Changed": {
-            "No Contact Possible - number incorrect": {
-              "orders": 1,
-              "revenue": 7353.33
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 7353.33,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 14,
         "revenue": 80578.76,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 7353.33
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-25": {
@@ -13656,38 +12616,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Appointment": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 1,
-            "revenue": 3721.93
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number correct": {
-              "orders": 1,
-              "revenue": 3721.93
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 3721.93,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 20,
         "revenue": 136355.89,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 3721.93
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-09-30": {
@@ -13750,86 +12688,22 @@
         },
         "mailedOrders": 3,
         "mailedRevenue": 25286.42,
-        "orders": 42,
-        "revenue": 392285.45,
+        "orders": 43,
+        "revenue": 403696.61,
         "viaAutomationOrders": 3,
         "viaAutomationRevenue": 25286.42
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Appointment": {
-            "orders": 3,
-            "revenue": 24957.6
-          },
-          "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": {
-            "orders": 1,
-            "revenue": 1611.48
-          },
-          "Mailjourney (Orientation for later moment) → Appointment": {
-            "orders": 1,
-            "revenue": 6253.48
-          },
-          "Mailjourney (Orientation for later moment) → Re-entered → Appointment": {
-            "orders": 1,
-            "revenue": 7858.49
-          },
-          "Mailjourney (Wmo application is in progress) → Appointment": {
-            "orders": 2,
-            "revenue": 12078.35
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 4,
-            "revenue": 26569.08
-          },
-          "Orientation for later moment": {
-            "orders": 2,
-            "revenue": 14111.97
-          },
-          "Wmo application is in progress": {
-            "orders": 2,
-            "revenue": 12078.35
-          }
-        },
-        "byRoute": {
-          "Appointment": {
-            "orders": 7,
-            "revenue": 44900.91
-          },
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 7858.49
-          }
-        },
-        "byRouteReason": {
-          "Appointment": {
-            "No Contact Possible - number correct": {
-              "orders": 4,
-              "revenue": 26569.08
-            },
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 6253.48
-            },
-            "Wmo application is in progress": {
-              "orders": 2,
-              "revenue": 12078.35
-            }
-          },
-          "Re-entered": {
-            "Orientation for later moment": {
-              "orders": 1,
-              "revenue": 7858.49
-            }
-          }
-        },
-        "mailedOrders": 8,
-        "mailedRevenue": 52759.4,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 107,
-        "revenue": 741740.88,
-        "viaAutomationOrders": 8,
-        "viaAutomationRevenue": 52759.4
+        "revenue": 741840.13,
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-10-02": {
@@ -13924,38 +12798,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byReason": {
-          "Never had contact with the customer": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 7309.4
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "Never had contact with the customer": {
-              "orders": 1,
-              "revenue": 7309.4
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 7309.4,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 12,
         "revenue": 84611.21,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 7309.4
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-10-08": {
@@ -13972,38 +12824,16 @@
         "viaAutomationRevenue": 0.0
       },
       "nl": {
-        "byPath": {
-          "Mailjourney (No Contact Possible - number correct) → Re-entered → Not reached → Re-entered - Phone Number Changed → Appointment": {
-            "orders": 1,
-            "revenue": 11389.71
-          }
-        },
-        "byReason": {
-          "No Contact Possible - number correct": {
-            "orders": 1,
-            "revenue": 11389.71
-          }
-        },
-        "byRoute": {
-          "Re-entered": {
-            "orders": 1,
-            "revenue": 11389.71
-          }
-        },
-        "byRouteReason": {
-          "Re-entered": {
-            "No Contact Possible - number correct": {
-              "orders": 1,
-              "revenue": 11389.71
-            }
-          }
-        },
-        "mailedOrders": 1,
-        "mailedRevenue": 11389.71,
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
         "orders": 13,
         "revenue": 90454.96,
-        "viaAutomationOrders": 1,
-        "viaAutomationRevenue": 11389.71
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
       }
     },
     "2026-10-09": {
@@ -14068,6 +12898,32 @@
         "mailedRevenue": 0.0,
         "orders": 16,
         "revenue": 100565.13,
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
+      }
+    },
+    "2026-10-13": {
+      "be": {
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
+        "orders": 3,
+        "revenue": 29134.3,
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
+      },
+      "nl": {
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
+        "orders": 3,
+        "revenue": 16448.01,
         "viaAutomationOrders": 0,
         "viaAutomationRevenue": 0.0
       }
@@ -14522,28 +13378,29 @@
       "enriched": 98
     }
   },
-  "generated_at": "2026-10-12T16:00:59+00:00",
+  "generated_at": "2026-10-13T10:33:45+00:00",
   "lookback_days": 400,
+  "offerteFlow": {},
   "pathFunnelNote": "Per stap geteld op de dag van die stap, niet op de instroomdag: optelbaar over elk bereik, maar géén cohort. Een lead met beide routes in zijn historie telt in beide trechters.",
   "pathFunnelTotals": {
     "be": {
       "mailjourney": {
         "appointment": 12,
         "appointmentEnriched": 2,
-        "new": 209,
+        "new": 207,
         "order": 8,
         "reentered": 20,
         "reenteredEnriched": 3,
-        "stage2": 209
+        "stage2": 207
       },
       "notReached": {
         "appointment": 16,
         "appointmentEnriched": 0,
-        "new": 718,
+        "new": 720,
         "order": 9,
         "reentered": 40,
         "reenteredEnriched": 3,
-        "stage2": 718
+        "stage2": 720
       }
     },
     "fr": {
@@ -14571,7 +13428,7 @@
         "appointment": 33,
         "appointmentEnriched": 13,
         "new": 807,
-        "order": 12,
+        "order": 13,
         "reentered": 73,
         "reenteredEnriched": 18,
         "stage2": 807
@@ -14579,57 +13436,15 @@
       "notReached": {
         "appointment": 33,
         "appointmentEnriched": 12,
-        "new": 1565,
+        "new": 1559,
         "order": 14,
         "reentered": 121,
         "reenteredEnriched": 27,
-        "stage2": 1565
+        "stage2": 1559
       }
     }
   },
   "pathFunnels": {
-    "2026-03-26": {
-      "be": {
-        "mailjourney": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 2,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 2
-        },
-        "notReached": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 0,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 0
-        }
-      },
-      "nl": {
-        "mailjourney": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 3,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 3
-        },
-        "notReached": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 14,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 14
-        }
-      }
-    },
     "2026-03-27": {
       "be": {
         "mailjourney": {
@@ -22400,11 +21215,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 25,
+          "new": 28,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 25
+          "stage2": 28
         }
       }
     },
@@ -22422,11 +21237,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 1,
+          "new": 2,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 1
+          "stage2": 2
         }
       },
       "nl": {
@@ -22442,11 +21257,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 5,
+          "new": 6,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 1,
-          "stage2": 5
+          "stage2": 6
         }
       }
     },
@@ -22484,11 +21299,11 @@
         "notReached": {
           "appointment": 1,
           "appointmentEnriched": 1,
-          "new": 3,
+          "new": 4,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 3
+          "stage2": 4
         }
       }
     },
@@ -22548,11 +21363,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 0,
+          "new": 1,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 0
+          "stage2": 1
         }
       },
       "nl": {
@@ -22568,11 +21383,11 @@
         "notReached": {
           "appointment": 1,
           "appointmentEnriched": 1,
-          "new": 3,
+          "new": 5,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 3
+          "stage2": 5
         }
       }
     },
@@ -22610,11 +21425,33 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 5,
+          "new": 6,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 5
+          "stage2": 6
+        }
+      }
+    },
+    "2026-10-13": {
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 3,
+          "order": 1,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 3
+        },
+        "notReached": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 0
         }
       }
     }
@@ -22688,115 +21525,10 @@
       }
     },
     "nl": {
-      "Mailjourney (Never had contact with the customer) → Appointment": {
-        "leads": 21,
-        "orders": 21,
-        "revenue": 151613.83
-      },
-      "Mailjourney (Never had contact with the customer) → Follow-up → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 2130.55
-      },
-      "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": {
-        "leads": 5,
-        "orders": 5,
-        "revenue": 29803.9
-      },
-      "Mailjourney (Never had contact with the customer) → Re-entered → Not reached → Appointment": {
-        "leads": 3,
-        "orders": 3,
-        "revenue": 23888.15
-      },
-      "Mailjourney (No Contact Possible - number correct) → Appointment": {
-        "leads": 5,
-        "orders": 5,
-        "revenue": 36273.25
-      },
-      "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 1611.48
-      },
-      "Mailjourney (No Contact Possible - number correct) → Not reached → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 7185.33
-      },
-      "Mailjourney (No Contact Possible - number correct) → Re-entered → Not reached → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 7309.4
-      },
-      "Mailjourney (No Contact Possible - number correct) → Re-entered → Not reached → Re-entered - Phone Number Changed → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 11389.71
-      },
-      "Mailjourney (No Contact Possible - number incorrect) → Appointment": {
-        "leads": 5,
-        "orders": 5,
-        "revenue": 30366.99
-      },
-      "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Appointment": {
-        "leads": 8,
-        "orders": 8,
-        "revenue": 59360.7
-      },
-      "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Brochure → Follow-up → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 8254.12
-      },
-      "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 3318.66
-      },
       "Mailjourney (No Contact Possible - number incorrect) → Re-entered - Phone Number Changed → Not reached → Re-entered - Phone Number Changed → Appointment": {
-        "leads": 2,
-        "orders": 2,
-        "revenue": 12092.0
-      },
-      "Mailjourney (No Contact Possible - number incorrect) → Re-entered → Appointment": {
         "leads": 1,
         "orders": 1,
-        "revenue": 5661.16
-      },
-      "Mailjourney (No contact possible) → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 6760.44
-      },
-      "Mailjourney (No contact possible) → Re-entered → Appointment": {
-        "leads": 2,
-        "orders": 2,
-        "revenue": 5677.92
-      },
-      "Mailjourney (No contact possible) → Re-entered → Not reached → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 8282.4
-      },
-      "Mailjourney (Orientation for later moment) → Appointment": {
-        "leads": 4,
-        "orders": 4,
-        "revenue": 29247.75
-      },
-      "Mailjourney (Orientation for later moment) → Re-entered → Appointment": {
-        "leads": 3,
-        "orders": 3,
-        "revenue": 19515.7
-      },
-      "Mailjourney (WMO) → Appointment": {
-        "leads": 1,
-        "orders": 1,
-        "revenue": 2513.91
-      },
-      "Mailjourney (Wmo application is in progress) → Appointment": {
-        "leads": 2,
-        "orders": 2,
-        "revenue": 12078.35
+        "revenue": 3366.28
       }
     }
   },
@@ -22844,21 +21576,21 @@
     },
     "nl": {
       "Appointment": {
-        "orders": 42,
-        "reached": 217,
-        "revenue": 279781.88,
-        "withAppointment": 217
+        "orders": 0,
+        "reached": 218,
+        "revenue": 0.0,
+        "withAppointment": 218
       },
       "Re-entered": {
-        "orders": 17,
+        "orders": 0,
         "reached": 270,
-        "revenue": 111528.34,
+        "revenue": 0.0,
         "withAppointment": 87
       },
       "Re-entered - Phone Number Changed": {
-        "orders": 12,
+        "orders": 1,
         "reached": 51,
-        "revenue": 83025.48,
+        "revenue": 3366.28,
         "withAppointment": 31
       }
     }
