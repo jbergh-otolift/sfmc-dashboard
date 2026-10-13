@@ -357,9 +357,18 @@ def build_coverage(consent_market, market_block):
     }
 
 
-def source_state(email_health, has_crm, has_outcomes=False):
-    """Bepaalt de badge per sectie."""
-    live_email = bool(
+def source_state(email_health, has_crm, has_outcomes=False, sends_in_days=0):
+    """Bepaalt de badge per sectie.
+
+    Email Health wordt op het dashboard client-side opgeteld uit de
+    dagbuckets, zodat elk datumbereik klopt. De tracking-export schrijft
+    daarom geen totaalblok per flow meer weg. Dat totaalblok werd hier nog
+    wel als enige bewijs gebruikt, waardoor de badge "niet aangesloten" zei
+    terwijl de sectie gewoon live cijfers toonde — precies de verwarring die
+    deze badges moeten voorkomen. Nu telt ook het aantal sends in de
+    dagbuckets als bewijs dat de bron er is.
+    """
+    live_email = bool(sends_in_days) or bool(
         email_health
         and any(f.get("sent") for f in email_health.values() if isinstance(f, dict))
     )
@@ -554,7 +563,14 @@ def main():
             "flowProfile": (block or {}).get("flowProfile") or {},
             "byPeriod": by_period,
             "available": available,
-            "_sources": source_state(email_health, bool(market_crm), bool(market_outcomes)),
+            "_sources": source_state(
+                email_health, bool(market_crm), bool(market_outcomes),
+                sends_in_days=sum(
+                    (flow.get("sent") or 0)
+                    for day in days.values()
+                    for flow in (day.get("flows") or {}).values()
+                ),
+            ),
             "kernKpis": kern,
             "reactivation": market_crm.get("reactivation", {}),
             "acquisition": market_crm.get("acquisition", {}),
