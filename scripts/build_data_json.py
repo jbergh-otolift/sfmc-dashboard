@@ -84,6 +84,43 @@ def clean_label(label):
     return cleaned or label
 
 
+def controleer_geen_dataverlies(nieuw, pad=OUT_PATH):
+    """Stopt als een markt al zijn maildata kwijtraakt.
+
+    De tracking-export vangt een mislukte Business Unit op met een
+    waarschuwing en gaat door met de volgende. Dat is op zichzelf redelijk,
+    maar het betekende wel dat één fout in de NL-export een dashboard
+    opleverde waarin Nederland geen enkele mail meer had — en dat werd
+    gewoon gepubliceerd. Een waarschuwing tussen tweehonderd regels log leest
+    niemand; een gefaalde build wel.
+
+    Daarom: raakt een markt die eerder sends had ze allemaal kwijt, dan stopt
+    de build en blijft de vorige versie staan.
+    """
+    if not os.path.exists(pad):
+        return
+    with open(pad, encoding="utf-8") as f:
+        oud = json.load(f)
+
+    def sends(blok):
+        return sum((flow.get("sent") or 0)
+                   for dag in (blok.get("days") or {}).values()
+                   for flow in (dag.get("flows") or {}).values())
+
+    verloren = []
+    for markt, blok in (oud.get("markets") or {}).items():
+        was = sends(blok)
+        wordt = sends((nieuw.get("markets") or {}).get(markt) or {})
+        if was and not wordt:
+            verloren.append(f"{markt}: {was} sends -> 0")
+    if verloren:
+        raise SystemExit(
+            "FOUT: deze build zou maildata weggooien (" + "; ".join(verloren) + ").\n"
+            "Waarschijnlijk is een Business Unit in de tracking-export mislukt. "
+            "Kijk in de log op 'BU ... mislukt'. De vorige data.json blijft staan."
+        )
+
+
 def controleer_stylesheet(path="docs/index.html"):
     """Sluit elke CSS-regel? Een regel die niet sluit slikt alles wat erna komt
     op, en dan verdwijnt de helft van de opmaak zonder foutmelding."""
@@ -627,6 +664,8 @@ def main():
     }
 
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
+    controleer_geen_dataverlies(out)
+
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")

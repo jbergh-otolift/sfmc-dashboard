@@ -671,10 +671,15 @@ def fetch_tsd_map(session, auth, id_to_journey, email_to_journey, prefix_to_jour
 def aanbod_van_mail(naam):
     """Welk aanbod zat er in deze mail?
 
+    Neemt bewust ook een tuple aan: de namenlijst bewaart per verzending een
+    paar, en dat is hier al een keer misgegaan.
+
     De offertejourney splitst willekeurig tussen een geldkorting en een
     zorgpakket. Zorgpakket wordt eerst getoetst, want zo'n mail kan het woord
     korting ook bevatten. Een mail zonder aanbod is een herinnering.
     """
+    if isinstance(naam, (tuple, list)):
+        naam = next((deel for deel in naam if deel), "")
     n = (naam or "").lower()
     if "zorgpakket" in n or "pakket" in n:
         return "zorgpakket"
@@ -693,7 +698,10 @@ def offerte_payload(offerte_sends, naam_van_tsd, tsd_names):
     per_contact = {}
     per_mail = {}
     for tsd, per_key in offerte_sends.items():
-        naam = naam_van_tsd.get(tsd) or tsd_names.get(tsd) or ""
+        # tsd_names bewaart (activiteitnaam, tsd-naam); email_name pakt dat
+        # uit. Rechtstreeks uitlezen gaf een tuple en liet de hele NL-export
+        # klappen.
+        naam = naam_van_tsd.get(tsd) or email_name(tsd, tsd_names)
         soort = aanbod_van_mail(naam)
         per_mail[naam or tsd] = {"aanbod": soort, "ontvangers": len(per_key)}
         for key, day in per_key.items():
