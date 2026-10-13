@@ -124,10 +124,25 @@ def ontvangers_offerteflow():
 
     session = T.make_session()
     auth = T.Auth(session, subdomain, client_id, client_secret, mid)
-    _journeys, id_to_journey, email_to_journey, prefix_to_journey, _namen = T.fetch_journeys(
+    journeys, id_to_journey, email_to_journey, prefix_to_journey, _namen = T.fetch_journeys(
         session, auth)
-    tsd_map, _names = T.fetch_tsd_map(
+    tsd_map, tsd_names = T.fetch_tsd_map(
         session, auth, id_to_journey, email_to_journey, prefix_to_journey)
+
+    # De mails van deze journey staan niet in de TSD-lijst: die versies zijn
+    # verwijderd, waardoor ze alleen via de journey zelf bekend zijn. De
+    # journeystructuur noemt per stap wél de mailnaam en het bijbehorende
+    # tsdId, dus die gebruiken we als eerste bron voor de naam.
+    uit_structuur = {}
+    namen_offerte = [n for n in set(
+        (v[0] if isinstance(v, tuple) else v) for v in tsd_map.values())
+        if n and any(pat in n.lower() for pat in OFFERTE_PATRONEN)]
+    for naam, structuur in T.fetch_journey_structures(
+            session, auth, journeys, namen_offerte).items():
+        for node in (structuur or {}).get("nodes", []):
+            if node.get("tsdId") and node.get("name"):
+                uit_structuur[node["tsdId"].strip().lower()] = node["name"]
+    print(f"  mailnamen uit de journeystructuur: {len(uit_structuur)}")
 
     keys = defaultdict(set)
     # Per ontvanger: per aanbod de eerste verzenddatum. Daarmee kunnen we later
@@ -147,7 +162,8 @@ def ontvangers_offerteflow():
             keys[tsd_naam].add(key)
             # De journeynaam is te grof; de mailnaam bepaalt het aanbod. Die
             # zit in de tweede helft van de TSD-koppeling als die er is.
-            mail = _names.get(r.get("TriggeredSendDefinitionObjectID") or "") or tsd_naam
+            tsd_id = (r.get("TriggeredSendDefinitionObjectID") or "").strip().lower()
+            mail = uit_structuur.get(tsd_id) or tsd_names.get(tsd_id) or tsd_naam
             mailnamen[mail] += 1
             soort = aanbod(mail)
             dag = (r.get("EventDate") or "")[:10]
