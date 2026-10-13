@@ -6730,7 +6730,7 @@
       "nl": {
         "direct": 1,
         "directNotReached": 1,
-        "entry": 63,
+        "entry": 64,
         "mailjourney": 2
       }
     },
@@ -6796,7 +6796,7 @@
       "nl": {
         "direct": 2,
         "directMailjourney": 2,
-        "entry": 16
+        "entry": 17
       }
     }
   },
@@ -6821,7 +6821,7 @@
       "direct": 110,
       "directMailjourney": 92,
       "directNotReached": 18,
-      "entry": 5067,
+      "entry": 5069,
       "mailjourney": 33,
       "notReached": 33,
       "other": 35
@@ -14598,7 +14598,7 @@
       "enriched": 98
     }
   },
-  "generated_at": "2026-10-13T11:27:16+00:00",
+  "generated_at": "2026-10-13T11:42:31+00:00",
   "lookback_days": 400,
   "offerteFlow": {
     "nl": {
@@ -15019,25 +15019,30 @@
           "getekend:herinnering": 1
         },
         "2026-08-05": {
-          "getekend:geldkorting": 1
+          "getekend:geldkorting": 1,
+          "getekend:split:geldkorting": 1
         },
         "2026-08-20": {
           "getekend:herinnering": 1
         },
         "2026-08-24": {
-          "getekend:geldkorting": 1
+          "getekend:geldkorting": 1,
+          "getekend:split:geldkorting": 1
         },
         "2026-08-27": {
+          "getekend:split:zorgpakket": 1,
           "getekend:zorgpakket": 1
         },
         "2026-08-31": {
-          "getekend:geldkorting": 1
+          "getekend:geldkorting": 1,
+          "getekend:split:geldkorting": 1
         },
         "2026-09-01": {
           "getekend:herinnering": 1
         },
         "2026-09-03": {
           "getekend:herinnering": 1,
+          "getekend:split:zorgpakket": 1,
           "getekend:zorgpakket": 1
         },
         "2026-09-07": {
@@ -15053,9 +15058,11 @@
           "getekend:geldkorting": 1
         },
         "2026-09-22": {
-          "getekend:geldkorting": 1
+          "getekend:geldkorting": 1,
+          "getekend:split:geldkorting": 1
         },
         "2026-09-23": {
+          "getekend:split:zorgpakket": 1,
           "getekend:zorgpakket": 1
         },
         "2026-09-30": {
@@ -15068,47 +15075,60 @@
       "perMail": {
         "NL - Offerteflow - mail 1 reminder": {
           "aanbod": "herinnering",
+          "inSplit": false,
           "ontvangers": 179
         },
         "NL - Offerteflow - mail 2 - korting": {
           "aanbod": "geldkorting",
+          "inSplit": true,
           "ontvangers": 17
         },
         "NL - Offerteflow - mail 2 - zorgpakket": {
           "aanbod": "zorgpakket",
+          "inSplit": true,
           "ontvangers": 39
         },
         "NL - Offerteflow - mail 3 - zorgpakket reminder": {
           "aanbod": "zorgpakket",
+          "inSplit": true,
           "ontvangers": 23
         },
         "NL - Openstaande offerte - Korting": {
           "aanbod": "geldkorting",
+          "inSplit": false,
           "ontvangers": 161
         },
         "NL - Openstaande offerte - Korting - Versie 2": {
           "aanbod": "geldkorting",
+          "inSplit": false,
           "ontvangers": 50
         },
         "NL - Openstaande offerte - Korting herinnering": {
           "aanbod": "geldkorting",
+          "inSplit": false,
           "ontvangers": 124
         },
         "NL - Openstaande offerte - Kortingreminder": {
           "aanbod": "geldkorting",
+          "inSplit": false,
           "ontvangers": 130
         },
         "NL - Openstaande offerte - herinnering -Versie 2": {
           "aanbod": "herinnering",
+          "inSplit": false,
           "ontvangers": 649
         }
       },
       "totals": {
         "gemaild:geldkorting": 669,
         "gemaild:herinnering": 649,
+        "gemaild:split:geldkorting": 29,
+        "gemaild:split:zorgpakket": 39,
         "gemaild:zorgpakket": 39,
         "getekend:geldkorting": 66,
         "getekend:herinnering": 134,
+        "getekend:split:geldkorting": 4,
+        "getekend:split:zorgpakket": 3,
         "getekend:zorgpakket": 3
       }
     }
@@ -15168,11 +15188,11 @@
       "notReached": {
         "appointment": 33,
         "appointmentEnriched": 12,
-        "new": 1559,
+        "new": 1560,
         "order": 14,
         "reentered": 121,
         "reenteredEnriched": 27,
-        "stage2": 1559
+        "stage2": 1560
       }
     }
   },
@@ -22947,11 +22967,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 28,
+          "new": 29,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 28
+          "stage2": 29
         }
       }
     },

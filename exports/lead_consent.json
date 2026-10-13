@@ -2823,8 +2823,8 @@
         "reached": null
       },
       "nl": {
-        "entered": 22,
-        "mailable": 17,
+        "entered": 23,
+        "mailable": 18,
         "reached": 17
       }
     }
@@ -2832,7 +2832,7 @@
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
   "coverage_definition": "Status = 'Mailjourney' AND Email != null AND HasOptedOutOfEmail = false AND (Customized_Product_Advice__c = true OR Reason_Mailjourney__c IN ('No Contact Possible - number correct', 'No Contact Possible - number incorrect', 'No contact possible')); bereikt = minstens een e-mail in de laatste 90 dagen",
-  "generated_at": "2026-10-13T11:27:38+00:00",
+  "generated_at": "2026-10-13T11:42:50+00:00",
   "markets": {
     "be": {
       "cohorts": {
@@ -2942,37 +2942,37 @@
     "nl": {
       "cohorts": {
         "30": {
-          "coverage": 97.4,
-          "entered": 922,
-          "mailable": 571,
+          "coverage": 97.2,
+          "entered": 923,
+          "mailable": 572,
           "reached": 556
         },
         "7": {
-          "coverage": 98.4,
-          "entered": 185,
-          "mailable": 128,
+          "coverage": 97.7,
+          "entered": 186,
+          "mailable": 129,
           "reached": 126
         },
         "90": {
-          "coverage": 91.8,
-          "entered": 2376,
-          "mailable": 1486,
+          "coverage": 91.7,
+          "entered": 2377,
+          "mailable": 1487,
           "reached": 1364
         }
       },
       "consentShare": 10.18,
-      "consentTotal": 34513,
+      "consentTotal": 34516,
       "coverage": 35.1,
-      "growth": 2412,
-      "growthDeltaPct": 147.1,
+      "growth": 2415,
+      "growthDeltaPct": 147.4,
       "growthPrev": 976,
-      "leadsTotal": 339175,
-      "mailjourneyNoConsent": 25773,
-      "mailjourneyNoContactException": 373,
+      "leadsTotal": 339209,
+      "mailjourneyNoConsent": 25774,
+      "mailjourneyNoContactException": 374,
       "mailjourneyNoEmail": 5254,
-      "mailjourneyTotal": 42391,
+      "mailjourneyTotal": 42393,
       "reachedOfShouldMail": 3990,
-      "shouldMail": 11364
+      "shouldMail": 11365
     }
   },
   "period": {
