@@ -422,7 +422,11 @@ def offerte_resultaat(session, instance_url):
         for contact, aanboden in per_contact.items():
             # Een ontvanger telt bij elk aanbod dat hij kreeg. In de huidige
             # journey is dat er één, maar oudere versies stuurden soms beide.
-            soorten = [s for s in aanboden if s != "herinnering"] or ["herinnering"]
+            # Een "split:"-sleutel staat náást zijn gewone soort, niet in
+            # plaats daarvan: de mail telt mee in het totaal én in de
+            # vergelijking tussen de twee aanbiedingen.
+            echt = [s for s in aanboden if s != "herinnering" and not s.startswith("split:")]
+            soorten = (echt or ["herinnering"]) + [s for s in aanboden if s.startswith("split:")]
             for soort in soorten:
                 totalen[f"gemaild:{soort}"] += 1
 

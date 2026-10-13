@@ -682,10 +682,19 @@ def aanbod_van_mail(naam):
         naam = next((deel for deel in naam if deel), "")
     n = (naam or "").lower()
     if "zorgpakket" in n or "pakket" in n:
-        return "zorgpakket"
-    if "korting" in n:
-        return "geldkorting"
-    return "herinnering"
+        soort = "zorgpakket"
+    elif "korting" in n:
+        soort = "geldkorting"
+    else:
+        soort = "herinnering"
+    # De willekeurige split zit alleen in de huidige journey, waarvan de
+    # mails "Offerteflow" heten. De oudere losse kortingmails heten
+    # "Openstaande offerte" en zijn naar iedereen gestuurd, dus die horen
+    # niet in de vergelijking: dan zou je een A/B-test optellen bij een
+    # gewone mailing en het verschil betekent niets meer.
+    if soort != "herinnering" and "offerteflow" in n:
+        return soort, "split:" + soort
+    return (soort,)
 
 
 def offerte_payload(offerte_sends, naam_van_tsd, tsd_names):
@@ -702,14 +711,16 @@ def offerte_payload(offerte_sends, naam_van_tsd, tsd_names):
         # uit. Rechtstreeks uitlezen gaf een tuple en liet de hele NL-export
         # klappen.
         naam = naam_van_tsd.get(tsd) or email_name(tsd, tsd_names)
-        soort = aanbod_van_mail(naam)
-        per_mail[naam or tsd] = {"aanbod": soort, "ontvangers": len(per_key)}
+        soorten = aanbod_van_mail(naam)
+        per_mail[naam or tsd] = {"aanbod": soorten[0], "ontvangers": len(per_key),
+                                 "inSplit": len(soorten) > 1}
         for key, day in per_key.items():
             if not key.startswith("003"):
                 continue
             vak = per_contact.setdefault(key, {})
-            if vak.get(soort) is None or day < vak[soort]:
-                vak[soort] = day
+            for soort in soorten:
+                if vak.get(soort) is None or day < vak[soort]:
+                    vak[soort] = day
     return {"perContact": per_contact, "perMail": per_mail}
 
 
