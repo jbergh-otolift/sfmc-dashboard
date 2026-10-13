@@ -503,6 +503,14 @@ const OFFERTE_AANBOD = [
   { sleutel: "zorgpakket", label: "Zorgzekerpakket" },
 ];
 
+// Datum als "18 jul 2026". Stond eerder alleen lokaal in applyMeta, waardoor
+// deze functie hem niet kende en de kaarten helemaal niet getekend werden.
+function datumNL(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("nl-NL",
+    { day: "numeric", month: "short", year: "numeric" });
+}
+
 function offerteKaarten(box, totals, perDag) {
   const t = totals || {};
   const dag = perDag || {};
@@ -530,7 +538,7 @@ function offerteKaarten(box, totals, perDag) {
     noot.textContent =
       (orders === 1 ? "getekende offerte" : "getekende offertes") +
       " · " + nlNum(gemaild, 0) + " gemaild" +
-      (vanaf ? " sinds " + fmtDate(vanaf) : "");
+      (vanaf ? " sinds " + datumNL(vanaf) : "");
     kaart.append(naam, waarde, noot);
     box.appendChild(kaart);
   });
@@ -1696,8 +1704,7 @@ function applyPeriodWarning(period) {
 }
 
 function applyMeta(data) {
-  const fmtDate = (iso) =>
-    new Date(iso).toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" });
+  const fmtDate = datumNL;
 
   const stamp = document.querySelector("[data-stamp]");
   if (stamp && data.generated_at) stamp.textContent = "Bijgewerkt: " + fmtDate(data.generated_at);
