@@ -503,6 +503,135 @@ const OFFERTE_AANBOD = [
   { sleutel: "zorgpakket", label: "Zorgzekerpakket" },
 ];
 
+// De verticale trechter. Elke stap een regel, en tussen twee stappen staat
+// wat er afvalt — zodat je van boven naar beneden kunt natellen hoe je van de
+// ene stap bij de volgende komt. Dat is de hele reden voor deze opzet: in de
+// horizontale versie moest je de aansluiting geloven.
+//
+// Balkbreedte is evenredig aan de bovenste stap, met een ondergrens, anders
+// verdwijnt de laatste stap. Het getal in de balk is de waarheid.
+const VF_MIN_BREEDTE = 11;
+
+function vfRij(stap, top) {
+  const rij = document.createElement("div");
+  rij.className = "vf-row" + (stap.soort ? " " + stap.soort : "");
+
+  const naam = document.createElement("div");
+  naam.className = "vf-name";
+  naam.textContent = stap.naam;
+  if (stap.onder) {
+    const sub = document.createElement("span");
+    sub.textContent = stap.onder;
+    naam.appendChild(sub);
+  }
+
+  const wrap = document.createElement("div");
+  wrap.className = "vf-barwrap";
+  const balk = document.createElement("div");
+  balk.className = "vf-bar";
+  // Niet afkappen op een ondergrens maar de schaal verschuiven: anders
+  // worden twee ongelijke stappen even breed zodra ze allebei onder de
+  // grens vallen, en dan liegt de balk over de volgorde.
+  const deel = top ? stap.waarde / top : 1;
+  balk.style.width = (VF_MIN_BREEDTE + (100 - VF_MIN_BREEDTE) * deel) + "%";
+  const abs = document.createElement("div");
+  abs.className = "vf-abs";
+  abs.textContent = nlNum(stap.waarde, 0);
+  balk.appendChild(abs);
+  wrap.appendChild(balk);
+
+  const zij = document.createElement("div");
+  zij.className = "vf-side";
+  zij.innerHTML = stap.zij || "";
+
+  rij.append(naam, wrap, zij);
+  return rij;
+}
+
+function vfStap(vorige, nu, label, afval) {
+  const el = document.createElement("div");
+  el.className = "vf-step";
+  const pct = document.createElement("div");
+  pct.className = "vf-pct";
+  const deel = vorige ? Math.round((nu / vorige) * 1000) / 10 : null;
+  pct.innerHTML =
+    '<span class="vf-arrow">\u2193</span><b>' +
+    (deel === null ? NODATA : nlNum(deel, 1) + "%") + "</b> " + label;
+  const drop = document.createElement("div");
+  drop.className = "vf-drop";
+  drop.innerHTML = afval || "";
+  el.append(pct, drop);
+  return el;
+}
+
+function renderVFunnel(r) {
+  const host = document.querySelector("[data-vfunnel]");
+  if (!host || !r) return;
+  host.innerHTML = "";
+
+  const instroom = r.leadIntake.abs || 0;
+  const mailflow = r.mailjourney.abs || 0;
+  const sql = r.sql.abs || 0;
+  const afspraak = r.appointment.abs || 0;
+  const viaSql = r.appointment.direct || 0;
+  const h = r.mailjourney.herkomst || {};
+
+  const bronnen = [
+    [h.vanNotReached, "via Not reached"],
+    [h.vanFollowUp, "via Follow-up"],
+    [h.direct, "direct vanuit New"],
+    [h.overig, "overig"],
+  ].filter(([n]) => n).map(([n, t]) => "<b>" + nlNum(n, 0) + "</b> " + t).join(" · ");
+
+  const stappen = [
+    {
+      naam: "Lead instroom", onder: "startpunt", soort: "start", waarde: instroom,
+      zij: "<b>" + nlNum(r.leadIntake.nieuw || 0, 0) + "</b> nieuw · <b>" +
+           nlNum(r.leadIntake.opnieuw || 0, 0) + "</b> opnieuw binnengekomen",
+    },
+    {
+      naam: "In de mailflow", onder: "actieve journey", waarde: mailflow,
+      zij: bronnen,
+    },
+    {
+      naam: "Re-entered (SQL)", onder: "heropleefd", waarde: sql,
+      zij: r.sql.herkomst && r.sql.herkomst.buitenMailflow
+        ? "<b>" + nlNum(r.sql.herkomst.buitenMailflow, 0) +
+          "</b> buiten de mailflow gezet, niet geteld"
+        : "",
+    },
+    {
+      naam: "Afspraak", onder: "uit de mailflow", soort: "end", waarde: afspraak,
+      zij: "<b>" + nlNum(viaSql, 0) + "</b> via Re-entered · <b>" +
+           nlNum(Math.max(afspraak - viaSql, 0), 0) +
+           "</b> rechtstreeks, zonder die stap",
+    },
+  ];
+
+  const tussen = [
+    { label: "komt in een actieve flow",
+      afval: "<b>" + nlNum(r.notContact.abs || 0, 0) + "</b> staat onderweg op " +
+             "Not reached · wachtstand van maximaal vier belpogingen" },
+    { label: "leeft op",
+      afval: "<b>" + nlNum(Math.max(mailflow - sql, 0), 0) +
+             "</b> nog geen heractivatie" },
+    { label: "naar een afspraak",
+      afval: "<b>" + nlNum(Math.max(sql - viaSql, 0), 0) + "</b> nog geen afspraak" },
+  ];
+
+  const top = stappen[0].waarde;
+  stappen.forEach((stap, i) => {
+    if (i) {
+      const t = tussen[i - 1];
+      // De laatste stap heeft twee bronnen, dus daar deelt het percentage op
+      // de stap die er echt doorheen liep en niet op het eindtotaal.
+      const nu = i === stappen.length - 1 ? viaSql : stap.waarde;
+      host.appendChild(vfStap(stappen[i - 1].waarde, nu, t.label, t.afval));
+    }
+    host.appendChild(vfRij(stap, top));
+  });
+}
+
 // Datum als "18 jul 2026". Stond eerder alleen lokaal in applyMeta, waardoor
 // deze functie hem niet kende en de kaarten helemaal niet getekend werden.
 function datumNL(iso) {
@@ -1669,6 +1798,7 @@ function applyMarket(marketKey) {
   renderApptBlock(summed.apptSplit, summed.apptReasons, summed.apptReasonPaths,
                   summed.apptRoutes);
 
+  renderVFunnel(view.reactivation);
   renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);
