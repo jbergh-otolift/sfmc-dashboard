@@ -442,55 +442,87 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
 
   const box = block.querySelector("[data-appt-routes]");
   box.innerHTML = "";
-  Object.entries(reasons || {})
-    .sort((a, b) => b[1] - a[1])
-    .forEach(([reason, n]) => {
-      const paden = Object.entries((reasonPaths || {})[reason] || {}).sort(
-        (a, b) => b[1] - a[1]
-      );
+  const rijen = Object.entries(reasons || {}).sort((a, b) => b[1] - a[1]);
+  const top = rijen.length ? rijen[0][1] : 0;
 
-      const card = document.createElement(paden.length ? "details" : "div");
-      card.className = "vb-route";
+  rijen.forEach(([reason, n]) => {
+    const paden = Object.entries((reasonPaths || {})[reason] || {}).sort(
+      (a, b) => b[1] - a[1]
+    );
+    const regel = document.createElement(paden.length ? "details" : "div");
+    regel.className = "vb-route";
 
-      const head = document.createElement(paden.length ? "summary" : "div");
-      head.className = "vb-r-head";
-      const name = document.createElement("div");
-      name.className = "vb-r-name";
-      // De reden is de kop; zonder reden is het een lead die alleen via de
-      // nummerwijziging in beeld kwam.
-      // Alleen de reden. Dat het om een mailjourney gaat staat al in de kop
-      // van het blok; het er bij elke kaart voor zetten is ruis. Leads zonder
-      // reden krijgen de status waarmee ze instroomden als naam.
-      name.textContent = reason;
-      const amount = document.createElement("div");
-      amount.className = "vb-r-val";
-      amount.textContent = nlNum(n, 0);
-      const note = document.createElement("div");
-      note.className = "vb-r-sub";
-      note.textContent = n === 1 ? "afspraak" : "afspraken";
-      head.append(name, amount, note);
-      card.appendChild(head);
+    const kop = vbRegel({ naam: reason, waarde: n, totaal: total, top,
+                          eenheid: n === 1 ? "afspraak" : "afspraken" });
+    if (paden.length) {
+      const sum = document.createElement("summary");
+      sum.className = "vb-r-head";
+      sum.append(...kop.childNodes);
+      regel.appendChild(sum);
+    } else {
+      regel.appendChild(kop);
+    }
 
-      if (paden.length) {
-        const list = document.createElement("div");
-        list.className = "vb-reasons";
-        paden.forEach(([pad, count]) => {
-          const line = document.createElement("div");
-          line.className = "vb-reason";
-          const label = document.createElement("span");
-          label.textContent = pad;
-          const amt = document.createElement("span");
-          amt.textContent = nlNum(count, 0);
-          line.append(label, amt);
-          list.appendChild(line);
-        });
-        card.appendChild(list);
-      }
-      box.appendChild(card);
-    });
+    if (paden.length) {
+      const lijst = document.createElement("div");
+      lijst.className = "vb-reasons";
+      paden.forEach(([pad, count]) => {
+        const r = document.createElement("div");
+        r.className = "vb-reason";
+        const l = document.createElement("span");
+        l.textContent = pad;
+        const a = document.createElement("span");
+        a.textContent = nlNum(count, 0);
+        r.append(l, a);
+        lijst.appendChild(r);
+      });
+      regel.appendChild(lijst);
+    }
+    box.appendChild(regel);
+  });
 }
 
-// De offerteflow levert twee extra kaarten bij de orders. Eigen kaarten en
+// Eén regel in een balkenlijst: naam, balk op schaal, aantal en aandeel.
+// De balk schaalt op de grootste regel en niet op het totaal, anders is bij
+// een gelijkmatige verdeling elke balk een streepje.
+function vbRegel({ naam, waarde, totaal, top, eenheid, extra, soort }) {
+  const kop = document.createElement("div");
+  kop.className = "vb-r-head";
+
+  const naamEl = document.createElement("div");
+  naamEl.className = "vb-r-name";
+  naamEl.textContent = naam;
+
+  const baan = document.createElement("div");
+  baan.className = "vb-r-track";
+  const vul = document.createElement("i");
+  vul.style.width = top ? Math.max((waarde / top) * 100, 2) + "%" : "0%";
+  baan.appendChild(vul);
+
+  const getal = document.createElement("div");
+  getal.className = "vb-r-val";
+  getal.textContent = nlNum(waarde, 0);
+
+  const deel = document.createElement("div");
+  deel.className = "vb-r-sub";
+  deel.textContent = extra !== undefined
+    ? extra
+    : (totaal ? nlNum(Math.round((waarde / totaal) * 100), 0) + "%" : "");
+
+  // Eigen cel in plaats van een ::after op de summary: die telde als zesde
+  // item in een raster van vijf kolommen en viel daardoor op een eigen regel,
+  // waardoor elke rij dubbel zo hoog werd.
+  const punt = document.createElement("div");
+  punt.className = "vb-r-chev";
+  punt.textContent = soort === "plat" ? "" : "\u203a";
+
+  kop.append(naamEl, baan, getal, deel, punt);
+  if (soort) kop.dataset.soort = soort;
+  if (eenheid) kop.title = nlNum(waarde, 0) + " " + eenheid;
+  return kop;
+}
+
+// De offerteflow levert twee extra regels bij de orders. Eigen kaarten en
 // geen eigen blok, want het zijn gewoon orders — alleen langs een andere weg
 // gemeten, omdat deze flow contacten mailt in plaats van leads.
 //
@@ -642,36 +674,40 @@ function datumNL(iso) {
     { day: "numeric", month: "short", year: "numeric" });
 }
 
-function offerteKaarten(box, totals, perDag) {
+function offerteRegels(box, totals, perDag) {
   const t = totals || {};
   const dag = perDag || {};
-  // De kortingmail bestaat pas sinds versie 8 van de journey; daarvoor ging
-  // iedereen naar het zorgpakket. Beide armen tellen daarom pas vanaf de
-  // eerste kortingmail, anders vergelijk je ongelijke periodes.
   const vanaf = t.splitStart;
-  OFFERTE_AANBOD.forEach(({ sleutel, label }) => {
-    const gemaild = t["gemaild:split:" + sleutel] || 0;
-    if (!gemaild) return;
-    const orders = dag["getekend:split:" + sleutel] || 0;
+  const regels = OFFERTE_AANBOD
+    .map(({ sleutel, label }) => ({
+      label,
+      gemaild: t["gemaild:split:" + sleutel] || 0,
+      getekend: dag["getekend:split:" + sleutel] || 0,
+    }))
+    .filter((r) => r.gemaild);
+  if (!regels.length) return;
 
-    const kaart = document.createElement("div");
-    kaart.className = "vb-route offerte";
-    const naam = document.createElement("div");
-    naam.className = "vb-r-name";
-    naam.textContent = label;
-    const waarde = document.createElement("div");
-    waarde.className = "vb-r-val";
-    waarde.textContent = nlNum(orders, 0);
-    const noot = document.createElement("div");
-    noot.className = "vb-r-sub";
-    // Zeggen waar het getal vandaan komt: dit zijn getekende offertes van
-    // gemailde contacten, geen leads die een order werden.
-    noot.textContent =
-      (orders === 1 ? "getekende offerte" : "getekende offertes") +
-      " · " + nlNum(gemaild, 0) + " gemaild" +
-      (vanaf ? " sinds " + datumNL(vanaf) : "");
-    kaart.append(naam, waarde, noot);
-    box.appendChild(kaart);
+  // Eigen kopje: deze regels tellen getekende offertes van gemailde
+  // contacten, geen leads die een order werden. Zonder die scheiding staan
+  // twee verschillende dingen met hetzelfde gewicht onder elkaar.
+  const kop = document.createElement("div");
+  kop.className = "vb-offerte-kop";
+  kop.textContent = "Uit de offerteflow · getekende offertes" +
+    (vanaf ? ", sinds " + datumNL(vanaf) : "");
+  box.appendChild(kop);
+
+  // De balk schaalt hier op het aantal gemailden van die regel zelf, niet op
+  // de grootste regel. Op elkaar schalen zou bij 1 tegen 1 twee volle balken
+  // geven, en juist de verhouding getekend tegenover gemaild is wat je wilt
+  // zien — dat is de vergelijking tussen de twee aanbiedingen.
+  regels.forEach((r) => {
+    const regel = document.createElement("div");
+    regel.className = "vb-route offerte";
+    regel.appendChild(vbRegel({
+      naam: r.label, waarde: r.getekend, top: r.gemaild, soort: "plat",
+      extra: "van " + nlNum(r.gemaild, 0),
+    }));
+    box.appendChild(regel);
   });
 }
 
@@ -701,51 +737,49 @@ function renderValueBlock(value, offerteTotals, offertePerDag) {
   const routes = Object.entries(value.byRoute || {}).sort(
     (a, b) => b[1].orders - a[1].orders
   );
+  const totaalOrders = routes.reduce((n, [, v]) => n + v.orders, 0);
+  const topOrders = routes.length ? routes[0][1].orders : 0;
 
-  // Elke route uitklapbaar: welke instroomredenen zitten erachter.
   routes.forEach(([route, stats]) => {
     const reasons = Object.entries((value.byRouteReason || {})[route] || {}).sort(
       (a, b) => b[1].orders - a[1].orders
     );
+    const regel = document.createElement(reasons.length ? "details" : "div");
+    regel.className = "vb-route";
 
-    const card = document.createElement(reasons.length ? "details" : "div");
-    card.className = "vb-route";
-
-    const head = document.createElement(reasons.length ? "summary" : "div");
-    head.className = "vb-r-head";
-    const name = document.createElement("div");
-    name.className = "vb-r-name";
-    name.textContent = labels[route] || route;
-    const val = document.createElement("div");
-    val.className = "vb-r-val";
-    val.textContent = nlNum(stats.orders, 0);
-    const note = document.createElement("div");
-    note.className = "vb-r-sub";
-    note.textContent = stats.orders === 1 ? "order" : "orders";
-    head.append(name, val, note);
-    card.appendChild(head);
+    const kop = vbRegel({ naam: labels[route] || route, waarde: stats.orders,
+                          totaal: totaalOrders, top: topOrders,
+                          eenheid: stats.orders === 1 ? "order" : "orders",
+                          soort: reasons.length ? "" : "plat" });
+    if (reasons.length) {
+      const sum = document.createElement("summary");
+      sum.className = "vb-r-head";
+      sum.append(...kop.childNodes);
+      regel.appendChild(sum);
+    } else {
+      regel.appendChild(kop);
+    }
 
     if (reasons.length) {
-      const list = document.createElement("div");
-      list.className = "vb-reasons";
+      const lijst = document.createElement("div");
+      lijst.className = "vb-reasons";
       reasons.forEach(([reason, v]) => {
-        const row = document.createElement("div");
-        row.className = "vb-reason";
-        const label = document.createElement("span");
-        label.textContent = reason;
-        const amount = document.createElement("span");
-        amount.textContent =
-          nlNum(v.orders, 0) + (v.orders === 1 ? " order" : " orders");
-        row.append(label, amount);
-        list.appendChild(row);
+        const r = document.createElement("div");
+        r.className = "vb-reason";
+        const l = document.createElement("span");
+        l.textContent = reason;
+        const a2 = document.createElement("span");
+        a2.textContent = nlNum(v.orders, 0);
+        r.append(l, a2);
+        lijst.appendChild(r);
       });
-      card.appendChild(list);
+      regel.appendChild(lijst);
     }
-    box.appendChild(card);
+    box.appendChild(regel);
   });
 
   // De offerteflow erbij, als twee extra kaarten.
-  offerteKaarten(box, offerteTotals, offertePerDag);
+  offerteRegels(box, offerteTotals, offertePerDag);
 
   renderDetailList(
     "[data-value-paths]",

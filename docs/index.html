@@ -532,26 +532,49 @@
   .expand-all:hover{text-decoration:underline}
   .vb-t-val{display:block;font-size:30px;font-weight:800;color:var(--oto-green);line-height:1.1}
   .vb-t-lbl{display:block;font-size:11px;color:var(--ink-soft);margin-top:4px}
-  .vb-routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
-  @media(max-width:760px){.vb-routes{grid-template-columns:1fr}}
-  .vb-route{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
-  /* De offertekaarten zijn langs een andere weg gemeten: getekende offertes
-     van gemailde contacten, niet leads die een order werden. Gestippeld, zodat
-     je ziet dat het een ander soort getal is. */
-  .vb-route.offerte{border-style:dashed}
-  .vb-r-name{font-size:12px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.3px}
-  .vb-r-val{font-size:22px;font-weight:800;color:var(--oto-green);margin-top:7px;line-height:1.1}
-  .vb-r-sub{font-size:11px;color:var(--ink-soft);margin-top:4px}
+  /* Lijst met balken in plaats van kaarten. Zeven kaarten van gelijke maat
+     laten 16 en 1 even belangrijk lijken, en de zevende viel alleen op een
+     tweede regel — dat las als een fout. Een balk op schaal toont de
+     verhouding meteen en kost ongeveer de helft van de hoogte. */
+  .vb-routes{display:flex;flex-direction:column}
+  .vb-route{border-bottom:1px solid #EEF1F5;padding:0}
+  .vb-route:last-child{border-bottom:none}
+  .vb-r-head{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(90px,2fr) 54px 46px 14px;
+             align-items:center;gap:12px;padding:8px 2px;min-height:0}
+  .vb-r-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
+  .vb-r-track{height:9px;border-radius:5px;background:#EEF1F5;overflow:hidden}
+  .vb-r-track i{display:block;height:100%;border-radius:5px;background:var(--oto-green)}
+  .vb-r-val{font-size:17px;font-weight:800;color:var(--oto-green);text-align:right;line-height:1}
+  .vb-r-sub{font-size:11px;color:var(--ink-soft);text-align:right}
+  /* De offerteregels meten iets anders: getekende offertes van gemailde
+     contacten, geen leads die een order werden. Eigen kopje, eigen kleur. */
+  .vb-offerte-kop{font-size:10.5px;font-weight:700;text-transform:uppercase;
+                  letter-spacing:.4px;color:var(--ink-soft);margin:14px 0 2px;
+                  padding-top:12px;border-top:1px dashed var(--line)}
+  .vb-route.offerte .vb-r-track i{background:var(--oto-green-soft)}
+  .vb-route.offerte .vb-r-val{color:var(--oto-green-soft)}
+  @media(max-width:760px){
+    .vb-r-head{grid-template-columns:1fr 54px 46px;row-gap:3px}
+    .vb-r-name{grid-column:1/-1}
+    .vb-r-track{grid-column:1}
+  }
   .vb-empty{font-size:12.5px;color:var(--ink-soft)}
   .vb-route summary{list-style:none;cursor:pointer}
   .vb-route summary::-webkit-details-marker{display:none}
-  .vb-route summary::after{content:"›";float:right;font-weight:700;color:var(--ink-soft);transition:transform .15s}
-  .vb-route[open] summary::after{transform:rotate(90deg)}
+  .vb-r-chev{font-weight:700;color:var(--ink-soft);text-align:center;
+             transition:transform .15s;line-height:1}
+  .vb-route[open] .vb-r-chev{transform:rotate(90deg)}
+  .vb-route summary:hover .vb-r-chev{color:var(--oto-red)}
   .vb-route summary:hover .vb-r-name{color:var(--oto-red)}
-  .vb-reasons{margin-top:11px;padding-top:9px;border-top:1px solid var(--line)}
+  .vb-reasons{margin:0 0 10px;padding:8px 0 0 14px;border-left:2px solid var(--line)}
   .vb-reason{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;padding:4px 0;color:var(--ink-soft)}
   .vb-reason span:last-child{font-weight:700;color:var(--ink);white-space:nowrap}
   .vb-details{margin-top:16px;border-top:1px solid var(--line)}
+  /* De telwijze staat in de kop van het blok, niet onderaan: daar is hij geen
+     losse sectie maar een voetnoot bij de inleiding. */
+  .vb-details.telwijze{margin-top:7px;border-top:none}
+  .vb-details.telwijze summary{padding:3px 0;font-size:11.5px}
+  .vb-details.telwijze p{font-size:11.5px;color:var(--ink-soft);line-height:1.55;max-width:620px}
   .vb-details summary{font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:11px 0 5px;list-style:revert}
   .vb-details summary:hover{color:var(--oto-red)}
   .vb-warn{font-size:11.5px;color:#9A7108;background:#FBF0D8;border:1px solid #EBD9A8;border-radius:8px;padding:8px 11px;margin:6px 0 10px;line-height:1.45}
@@ -782,10 +805,17 @@
           <div class="vb-head">
             <div>
               <h3>Afspraken via automation</h3>
-              <p>Elke afspraak van een lead die eerder met een actieve reden in
-                 <code>Not reached</code> of <code>Mailjourney</code> stond, gegroepeerd op
-                 die instroomreden — dat is waar de flow aan hangt. Klap een reden open voor
-                 de statussen die de leads daarna doorliepen.</p>
+              <p>Gegroepeerd op instroomreden, want daar hangt de flow aan. Klap een
+                 reden open voor de statussen die de leads daarna doorliepen.</p>
+              <details class="vb-details telwijze">
+                <summary>Hoe dit geteld wordt</summary>
+                <p>Elke afspraak van een lead die eerder met een actieve reden in
+                   <code>Not reached</code> of <code>Mailjourney</code> stond. Alleen redenen
+                   waar werkelijk een journey op draait tellen mee; staat een lead geparkeerd
+                   zonder flow, dan is er niets om aan toe te rekenen. Een lead die zijn
+                   telefoonnummer via de mail wijzigde telt hoe dan ook mee: die status
+                   bewijst dat hij de mail opende en erop klikte.</p>
+              </details>
             </div>
             <div class="vb-total">
               <span class="vb-t-val" data-appt-total>–</span>
@@ -799,15 +829,20 @@
           <div class="vb-head">
             <div>
               <h3>Orders via automation</h3>
-              <p>Orders die in deze periode binnenkwamen van leads uit de mailflow, de
-                 offerteflow of de nurture lane. Alleen conversies <b>ná</b> de eerste mail
-                 tellen mee — ligt de order ervoor, dan is het toeval in dezelfde periode.
-                 Bevestigingsmails blijven erbuiten: die raken iedereen die binnenkomt en
-                 zouden vrijwel alle omzet opeisen.<br>
-                 De twee gestippelde kaarten komen uit de offerteflow. Die mailt
-                 <b>contacten</b> in plaats van leads, dus daar telt een getekende offerte
-                 in plaats van een geconverteerde lead. Alleen de huidige mails tellen mee:
-                 de oudere kortingmails dateren van vóór de wijziging naar €250.</p>
+              <p>Orders van leads uit de mailflow, gegroepeerd op de route waarlangs ze
+                 terugkwamen. Onderaan apart de offerteflow.</p>
+              <details class="vb-details telwijze">
+                <summary>Hoe dit geteld wordt</summary>
+                <p>Alleen conversies <b>ná</b> de eerste mail tellen mee — ligt de order
+                   ervoor, dan is het toeval in dezelfde periode. Bevestigingsmails blijven
+                   erbuiten: die raken iedereen die binnenkomt en zouden vrijwel alle omzet
+                   opeisen.</p>
+                <p style="margin-top:7px">De offerteflow staat apart omdat hij
+                   <b>contacten</b> mailt in plaats van leads: ligt er een offerte, dan is de
+                   lead al geconverteerd. Daar telt een getekende offerte in plaats van een
+                   geconverteerde lead, en alleen de huidige mails — de oudere kortingmails
+                   dateren van vóór de wijziging naar €250.</p>
+              </details>
             </div>
             <div class="vb-total">
               <span class="vb-t-val" data-value-total>–</span>
@@ -1137,7 +1172,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261016145100"></script>
+<script src="data-layer.js?v=20261016145759"></script>
 
 </body>
 </html>
