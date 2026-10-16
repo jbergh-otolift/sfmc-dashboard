@@ -623,10 +623,12 @@ function renderVFunnel(r) {
   stappen.forEach((stap, i) => {
     if (i) {
       const t = tussen[i - 1];
-      // De laatste stap heeft twee bronnen, dus daar deelt het percentage op
-      // de stap die er echt doorheen liep en niet op het eindtotaal.
-      const nu = i === stappen.length - 1 ? viaSql : stap.waarde;
-      host.appendChild(vfStap(stappen[i - 1].waarde, nu, t.label, t.afval));
+      // Elk percentage is deze stap gedeeld door de stap erboven, overal op
+      // dezelfde manier. Bij de laatste stap is dat geen zuivere doorstroom:
+      // van de afspraken liep maar een deel via Re-entered, de rest kwam er
+      // rechtstreeks. Dat staat ernaast, zodat het percentage leesbaar blijft
+      // zonder de nuance te verliezen.
+      host.appendChild(vfStap(stappen[i - 1].waarde, stap.waarde, t.label, t.afval));
     }
     host.appendChild(vfRij(stap, top));
   });
