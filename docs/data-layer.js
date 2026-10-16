@@ -2005,6 +2005,22 @@ function wirePeriodPicker() {
       }
       maandkies.appendChild(optie);
     });
+
+    // De lijst wordt bij elke hertekening opnieuw opgebouwd, dus de keuze
+    // zou steeds terugvallen op "Maand…". In plaats van de oude waarde te
+    // onthouden leiden we hem af uit het bereik dat je nu ziet: dekt dat
+    // precies één hele maand, dan staat die maand geselecteerd. Zo klopt het
+    // ook als je de maand via de datumvelden of een preset hebt ingesteld.
+    maandkies.value = "";
+    if (currentRange) {
+      const begin = currentRange.start;
+      const na = new Date(Date.UTC(+begin.slice(0, 4), +begin.slice(5, 7), 1))
+        .toISOString().slice(0, 10);
+      if (begin.slice(8) === "01" && currentRange.end === na) {
+        const optie = [...maandkies.options].find((o) => o.value === begin);
+        if (optie) maandkies.value = begin;
+      }
+    }
   };
 
   if (maandkies) {
