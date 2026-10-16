@@ -1813,6 +1813,11 @@ function applyMarket(marketKey) {
   applySourceBadges(market._sources);
   applyPeriodWarning(period);
   buildFlowChips(view.emailHealth || { all: { label: "Alle flows" } });
+
+  // De maandkiezer hangt aan het databereik van de markt, en dat verschilt
+  // per markt. Hier melden dat het gewisseld is; dit draait ook bij de
+  // eerste keer tekenen, dus de lijst is meteen gevuld.
+  document.dispatchEvent(new CustomEvent("otolift:marktgewijzigd"));
 }
 
 // Sommige periodes hebben nog te weinig historie om met de vorige periode te
@@ -1926,6 +1931,83 @@ function wirePeriodPicker() {
   };
   if (from) from.addEventListener("change", applyCustom);
   if (to) to.addEventListener("change", applyCustom);
+
+  // ---- Maandkiezer --------------------------------------------------
+  // Een losse lijst met de maanden, want "september" opzoeken via twee
+  // datumvelden is omslachtig als je gewoon een maand wilt zien. Maanden
+  // zonder data staan uitgeschakeld in plaats van verborgen: dan zie je dat
+  // ze bestaan en waarom je ze niet kunt kiezen.
+  const maandkies = document.querySelector("[data-maand]");
+  const MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli",
+                   "augustus", "september", "oktober", "november", "december"];
+
+  const vulMaanden = () => {
+    if (!maandkies || !DATA) return;
+    const markt = DATA.markets[currentMarket] || {};
+    const eerste = firstDayWithData(markt);
+    const laatste = DATA.endDate ? addDays(DATA.endDate, -1) : null;
+    if (!eerste || !laatste) return;
+
+    maandkies.innerHTML = "";
+    const kop = document.createElement("option");
+    kop.value = "";
+    kop.textContent = "Maand…";
+    maandkies.appendChild(kop);
+
+    // Alle maanden van het jaar waarin de data eindigt.
+    const jaar = laatste.slice(0, 4);
+    MAANDEN.forEach((naam, i) => {
+      const mm = String(i + 1).padStart(2, "0");
+      const start = `${jaar}-${mm}-01`;
+      const eind = addDays(`${jaar}-${mm}-01`.slice(0, 8) + "01", 0);
+      const volgende = new Date(Date.UTC(+jaar, i + 1, 1)).toISOString().slice(0, 10);
+      const optie = document.createElement("option");
+      optie.value = start;
+      optie.textContent = naam;
+      // Buiten het databereik: wel tonen, niet kiesbaar.
+      if (volgende <= eerste || start > laatste) {
+        optie.disabled = true;
+        optie.textContent = naam + " · geen data";
+      }
+      maandkies.appendChild(optie);
+    });
+  };
+
+  if (maandkies) {
+    maandkies.addEventListener("change", () => {
+      if (!maandkies.value) return;
+      const start = maandkies.value;
+      const volgende = new Date(Date.UTC(+start.slice(0, 4), +start.slice(5, 7), 1))
+        .toISOString().slice(0, 10);
+      currentRange = { start, end: volgende };
+      // De presetlijst staat nu niet meer op wat je ziet; leeg hem zodat er
+      // geen twee keuzes tegelijk actief lijken.
+      preset.value = "custom";
+      if (custom) custom.hidden = true;
+      refresh();
+    });
+  }
+  // Bij het wisselen van markt verandert het databereik, dus opnieuw vullen.
+  document.addEventListener("otolift:marktgewijzigd", vulMaanden);
+  vulMaanden();
+
+  // ---- Periodebalk als knop ------------------------------------------
+  const balk = document.querySelector("[data-period-open]");
+  if (balk && custom) {
+    balk.setAttribute("aria-expanded", "false");
+    balk.addEventListener("click", () => {
+      const open = custom.hidden;
+      custom.hidden = !open;
+      balk.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!open) return;
+      preset.value = "custom";
+      if (from && to && currentRange) {
+        from.value = currentRange.start;
+        to.value = addDays(currentRange.end, -1);
+      }
+      if (from) from.focus();
+    });
+  }
 }
 
 function wireCountryToggle() {
