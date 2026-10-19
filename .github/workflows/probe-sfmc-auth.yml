@@ -1,0 +1,45 @@
+name: Probe — SFMC-authenticatie
+
+# Diagnose, geen export. Haalt alleen een token op en drukt het volledige
+# antwoord van SFMC af. De gewone export logt alleen "403 Forbidden", en
+# daarmee is niet te zien óf de sleutel ongeldig is, óf het verzoek vanaf dit
+# IP-adres geweigerd wordt. Dat onderscheid bepaalt de oplossing.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pip install requests
+      - name: Token opvragen en het antwoord tonen
+        env:
+          SFMC_SUBDOMAIN: ${{ secrets.SFMC_SUBDOMAIN }}
+          SFMC_CLIENT_ID: ${{ secrets.SFMC_CLIENT_ID }}
+          SFMC_CLIENT_SECRET: ${{ secrets.SFMC_CLIENT_SECRET }}
+          SFMC_MID_NL: ${{ secrets.SFMC_MID_NL }}
+        run: |
+          python - <<'PY'
+          import os, requests
+          sub = os.environ["SFMC_SUBDOMAIN"]
+          cid = os.environ["SFMC_CLIENT_ID"]
+          print("client_id begint met:", cid[:8])
+          print("uitgaand IP:", requests.get("https://api.ipify.org", timeout=20).text)
+          for naam, body in (
+              ("zonder account_id", {"grant_type": "client_credentials",
+                                     "client_id": cid,
+                                     "client_secret": os.environ["SFMC_CLIENT_SECRET"]}),
+              ("met account_id",    {"grant_type": "client_credentials",
+                                     "client_id": cid,
+                                     "client_secret": os.environ["SFMC_CLIENT_SECRET"],
+                                     "account_id": os.environ["SFMC_MID_NL"]}),
+          ):
+              r = requests.post(f"https://{sub}.auth.marketingcloudapis.com/v2/token",
+                                json=body, timeout=30)
+              print(f"\n--- {naam}: HTTP {r.status_code}")
+              print(r.text[:600])
+          PY
