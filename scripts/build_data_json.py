@@ -84,6 +84,24 @@ def clean_label(label):
     return cleaned or label
 
 
+def gezamenlijk_einde(tracking, crm):
+    """De laatste dag waarvoor zowel de mailtracking als het CRM data heeft.
+
+    Beide exports draaien los van elkaar en kunnen uit de pas lopen. Neem je
+    dan de verste van de twee, dan tellen de dagen waarvoor de andere bron
+    niets heeft stilletjes als nul mee. In de funnel ziet dat eruit als een
+    terugval in de instroom, terwijl er alleen data mist.
+    """
+    einden = [d for d in ((tracking or {}).get("endDate"), (crm or {}).get("endDate")) if d]
+    if not einden:
+        return None
+    vroegste = min(einden)
+    if len(einden) == 2 and einden[0] != einden[1]:
+        print(f"LET OP: bronnen lopen uit de pas (tracking {einden[0]}, "
+              f"crm {einden[1]}); bereik eindigt op {vroegste}")
+    return vroegste
+
+
 def controleer_geen_dataverlies(nieuw, pad=OUT_PATH):
     """Stopt als een markt al zijn maildata kwijtraakt.
 
@@ -658,7 +676,12 @@ def main():
         "pathFunnelNote": (value or {}).get("pathFunnelNote"),
         "defaultPeriod": DEFAULT_PERIOD,
         "coveragePeriod": COVERAGE_PERIOD,
-        "endDate": (tracking or {}).get("endDate") or (crm or {}).get("endDate"),
+        # Het bereik eindigt op de laatste dag waarvoor béíde bronnen data
+        # hebben. Lopen ze uit de pas — zoals wanneer de mailexport wel draait
+        # en de CRM-export niet — dan zouden de laatste dagen in de funnel als
+        # nul meetellen en lijkt de instroom lager dan hij is. Liever een dag
+        # minder tonen dan een dag verkeerd.
+        "endDate": gezamenlijk_einde(tracking, crm),
         "notes": (crm or {}).get("notes", []),
         "markets": markets,
     }

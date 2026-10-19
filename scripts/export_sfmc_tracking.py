@@ -1256,6 +1256,27 @@ def main():
 
     out_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), OUT_PATH)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    # Mislukte een Business Unit, dan is dit bestand onvolledig. Het wegschrijven
+    # zou de vorige export overschrijven met niets, en dat is erger dan oude
+    # data: het dashboard raakt dan een hele markt kwijt.
+    #
+    # Dit is geen theoretisch geval. Marketing Cloud heeft op 16 oktober 2026
+    # een IP-allowlist aangezet; sindsdien krijgt de GitHub-runner een 403 op
+    # het token en vallen NL en BE allebei weg, terwijl dezelfde sleutel vanaf
+    # kantoor gewoon werkt. De Salesforce-kant draait wel door. Door hier te
+    # stoppen blijft de laatste goede mailexport staan en kan de rest van de
+    # keten de CRM-cijfers wel bijwerken.
+    mislukt = [m for m in ("nl", "be") if m not in markets and os.environ.get(
+        "SFMC_MID_" + m.upper())]
+    if mislukt and os.path.exists(out_path):
+        warn(f"Markten mislukt ({', '.join(mislukt)}); {OUT_PATH} NIET overschreven. "
+             "De vorige mailexport blijft staan.")
+        print(f"\n{len(WARNINGS)} waarschuwing(en)")
+        for w in WARNINGS:
+            print(f"  - {w}")
+        return
+
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, sort_keys=True, ensure_ascii=False)
         f.write("\n")
