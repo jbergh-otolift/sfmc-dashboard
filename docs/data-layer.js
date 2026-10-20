@@ -231,6 +231,40 @@ function renderFlowDelta(el, key, pct) {
     (rising ? "+" : "-") + nlNum(Math.abs(pct), 1) + "%";
 }
 
+// Het huisgemiddelde over álle beschikbare dagen, niet over de gekozen
+// periode. Een maatstaf die meebeweegt met je datumfilter is geen maatstaf:
+// dan verandert het oordeel over een flow terwijl die flow niets deed. Eén
+// keer per markt uitrekenen en bewaren.
+const huisgemiddelden = {};
+
+function huisgemiddelde(marktSleutel) {
+  if (huisgemiddelden[marktSleutel]) return huisgemiddelden[marktSleutel];
+  const markt = (DATA && DATA.markets[marktSleutel]) || {};
+  const som = { sent: 0, delivered: 0, opens: 0, clicks: 0, bounces: 0, unsubs: 0 };
+  Object.values(markt.days || {}).forEach((dag) => {
+    Object.entries(dag.flows || {}).forEach(([naam, f]) => {
+      // "all" uit de export bevat ook test- en niet-toegewezen sends; die
+      // horen niet in een maatstaf waar je flows aan afmeet.
+      if (naam === "all" || isNoiseFlow(naam)) return;
+      Object.keys(som).forEach((k) => {
+        som[k] += f[k] || 0;
+      });
+    });
+  });
+  const gem = {
+    sent: som.sent,
+    delivery: pct(som.delivered, som.sent),
+    open: pct(som.opens, som.delivered),
+    ctr: pct(som.clicks, som.delivered),
+    ctor: pct(som.clicks, som.opens),
+    unsub: pct(som.unsubs, som.delivered),
+    bounce: pct(som.bounces, som.sent),
+    spam: null,
+  };
+  huisgemiddelden[marktSleutel] = gem;
+  return gem;
+}
+
 function applyFlow(emailHealth, flowKey) {
   const flow = emailHealth[flowKey];
   if (!flow) return;
@@ -252,17 +286,35 @@ function applyFlow(emailHealth, flowKey) {
     renderFlowDelta(document.querySelector('[data-d="' + key + '"]'), key, deltas[key]);
   });
 
-  ["delivery", "ctor", "ctr", "unsub", "bounce", "spam"].forEach((key) => {
+  // Het oordeel is nu het eigen huisgemiddelde in plaats van een vaste
+  // drempel: de regel "Alle flows" over het hele venster. Een vaste norm zegt
+  // weinig over deze lijst, en hij veroudert zodra jullie beter gaan
+  // presteren. Tegen je eigen gemiddelde zie je meteen of een flow mee- of
+  // tegenvalt, en het schuift vanzelf op.
+  METRICS.forEach((key) => {
     const el = document.querySelector('[data-b="' + key + '"]');
     if (!el) return;
-    const level = benchLevel(key, flow[key]);
-    if (!level) {
+    const waarde = flow[key];
+    const gem = huisgemiddelde(currentMarket)[key];
+    if (waarde === null || waarde === undefined || gem === null ||
+        gem === undefined || !gem) {
       el.className = "bench nodata";
-      el.textContent = "geen bron";
+      el.textContent = "geen vergelijking";
       return;
     }
-    el.className = "bench " + level;
-    el.textContent = key === "ctor" ? openBench[level] : benchTxt[level];
+
+    const cijfers = key === "sent" ? 0 : (key === "spam" || key === "unsub" ? 2 : 1);
+    const verschil = waarde - gem;
+    // Bij uitschrijvingen, bounces en spam is hoger juist slechter.
+    const slechtBovenGem = badWhenUp[key];
+    const beter = slechtBovenGem ? verschil < 0 : verschil > 0;
+    // Een paar tiende is ruis; pas vanaf een tiende van het gemiddelde
+    // noemen we het mee- of tegenvallen.
+    const merkbaar = Math.abs(verschil) >= Math.abs(gem) * 0.1;
+    el.className = "bench " + (!merkbaar ? "neutraal" : beter ? "ok" : "bad");
+    const teken = verschil > 0 ? "+" : "\u2212";
+    el.textContent = "gem. " + nlNum(gem, cijfers) + (UNITS[key] || "") +
+      " \u00b7 " + teken + nlNum(Math.abs(verschil), cijfers) + (UNITS[key] || "");
   });
 }
 
