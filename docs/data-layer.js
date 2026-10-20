@@ -758,11 +758,17 @@ function nurtureStappen(markt) {
     const t = per[node.name];
     stappen.push({
       naam: node.name,
+      // De diepte uit de journey: mails op dezelfde diepte zijn parallelle
+      // takken, geen opeenvolgende stappen. Bij de bevestigingsmails krijg je
+      // er één van de drie, dus daar is "van 223 naar 111" geen verloop.
+      diepte: node.depth,
       wachtDavor: wacht,
       // Bevestigingsmails staan aan het begin van de lane maar zijn
       // transactioneel; hun hoge cijfers horen niet naast de nurture-inhoud.
       bevestiging: /bevest/i.test(node.name),
       sent: t ? t.sent : 0,
+      opensRuw: t ? t.opens : 0,
+      clicksRuw: t ? t.clicks : 0,
       ctor: t && t.opens ? (t.clicks / t.opens) * 100 : null,
       unsub: t && t.delivered ? (t.unsubs / t.delivered) * 100 : null,
     });
@@ -771,13 +777,25 @@ function nurtureStappen(markt) {
   return stappen.filter((x) => x.sent);
 }
 
+// De lane ingeklapt tot drie fases. Dertien losse mails is te veel detail
+// voor de vraag die dit blok beantwoordt, en verticaal te lang. Per fase het
+// bereik aan het begin en eind, de betrokkenheid, en hoe lang hij duurt.
+const NURTURE_FASES = [
+  { naam: "Binnenkomst", toelichting: "bevestiging van de aanvraag",
+    hoort: (s) => s.bevestiging },
+  { naam: "Opwarmen", toelichting: "de vijf nurturemails",
+    hoort: (s) => /nurturemail/i.test(s.naam) },
+  { naam: "Verdieping", toelichting: "de Trapliftlane-reeks",
+    hoort: (s) => /trapliftlane/i.test(s.naam) },
+];
+
 function renderNurture(markt) {
   const kop = document.querySelector("[data-nurture-kop]");
   const lijst = document.querySelector("[data-nurture-lijst]");
   const uit = document.querySelector("[data-nurture-uit]");
   if (!kop || !lijst) return;
   const stappen = nurtureStappen(markt);
-  const kaart = document.querySelector("[data-nurture-lijst]").closest(".card");
+  const kaart = lijst.closest(".card");
   if (!stappen || !stappen.length) {
     if (kaart) kaart.hidden = true;
     return;
@@ -785,13 +803,26 @@ function renderNurture(markt) {
   if (kaart) kaart.hidden = false;
 
   const profiel = (markt.flowProfile || {})[NURTURE_FLOW] || {};
-  const dagen = stappen.reduce((n, s) => n + (s.wachtDavor || 0), 0);
+  const dagenTotaal = stappen.reduce((n, s) => n + (s.wachtDavor || 0), 0);
+
+  // Per fase optellen, en bijhouden op welke dag hij begint en eindigt.
+  let dag = 0;
+  const fases = NURTURE_FASES.map((f) => ({ ...f, mails: [], start: null, eind: 0 }));
+  stappen.forEach((stap) => {
+    dag += stap.wachtDavor || 0;
+    const fase = fases.find((f) => f.hoort(stap));
+    if (!fase) return;
+    if (fase.start === null) fase.start = dag;
+    fase.eind = dag;
+    fase.mails.push(stap);
+  });
+
   kop.innerHTML = "";
   [
-    [nlNum(profiel.subscribers || 0, 0), "leads bereikt"],
+    [nlNum(profiel.subscribers || 0, 0), "leads in de lane"],
     [nlNum(profiel.sent || 0, 0), "mails verstuurd"],
     [nlNum(profiel.mailsPerPerson || 0, 1), "per persoon"],
-    [nlNum(dagen, 0) + " dagen", "looptijd van de lane"],
+    [nlNum(dagenTotaal, 0) + " dagen", "van begin tot eind"],
   ].forEach(([waarde, label]) => {
     const vak = document.createElement("div");
     vak.className = "nlk";
@@ -799,49 +830,45 @@ function renderNurture(markt) {
     kop.appendChild(vak);
   });
 
-  // Alleen de inhoudelijke mails bepalen wat sterk of zwak is; de
-  // bevestigingsmails zitten structureel veel hoger en zouden de schaal
-  // scheeftrekken.
-  const inhoud = stappen.filter((x) => !x.bevestiging && x.ctor !== null);
-  const beste = Math.max(...inhoud.map((x) => x.ctor));
-  const zwakste = Math.min(...inhoud.map((x) => x.ctor));
   const topBereik = Math.max(...stappen.map((x) => x.sent));
-
   lijst.innerHTML = "";
-  let nummer = 0;
-  stappen.forEach((stap) => {
-    if (stap.wachtDavor) {
-      const w = document.createElement("div");
-      w.className = "nl-wacht";
-      w.textContent = "\u2193 " + stap.wachtDavor +
-        (stap.wachtDavor === 1 ? " dag" : " dagen");
-      lijst.appendChild(w);
-    }
-    if (!stap.bevestiging) nummer += 1;
+  fases.filter((f) => f.mails.length).forEach((f) => {
+    // Betrokkenheid over de fase als geheel, niet het gemiddelde van de
+    // losse percentages: een mail naar 3.000 mensen weegt dan terecht
+    // zwaarder dan een naar 100.
+    const opens = f.mails.reduce((n, m) => n + (m.opensRuw || 0), 0);
+    const clicks = f.mails.reduce((n, m) => n + (m.clicksRuw || 0), 0);
+    const ctor = opens ? (clicks / opens) * 100 : null;
+    const parallel = new Set(f.mails.map((m) => m.diepte)).size === 1 &&
+                     f.mails.length > 1;
+    // Parallelle takken tel je op; een reeks lees je van eerste naar laatste.
+    const van = parallel
+      ? f.mails.reduce((n, m) => n + m.sent, 0)
+      : f.mails[0].sent;
+    const tot = parallel ? van : f.mails[f.mails.length - 1].sent;
 
     const rij = document.createElement("div");
-    rij.className = "nl-rij" + (stap.bevestiging ? " bevestiging" : "") +
-      (!stap.bevestiging && stap.ctor === beste ? " best" : "") +
-      (!stap.bevestiging && stap.ctor === zwakste ? " zwak" : "");
+    rij.className = "nl-fase";
     rij.innerHTML =
-      '<div class="nl-nr">' + (stap.bevestiging ? "" : nummer) + "</div>" +
-      '<div class="nl-naam">' + stap.naam.replace(/^NL ?-? ?/i, "") + "</div>" +
-      '<div class="nl-baan"><i style="width:' +
-        Math.max((stap.sent / topBereik) * 100, 2) + '%"></i></div>' +
-      '<div class="nl-bereik">' + nlNum(stap.sent, 0) + "</div>" +
-      '<div class="nl-ctor">' +
-        (stap.ctor === null ? NODATA : nlNum(stap.ctor, 1) + "%") + "</div>" +
-      '<div class="nl-unsub">' +
-        (stap.unsub === null ? NODATA : nlNum(stap.unsub, 2) + "%") + "</div>";
+      '<div class="nlf-naam"><b>' + f.naam + "</b><span>" + f.toelichting +
+        " · " + f.mails.length + (f.mails.length === 1 ? " mail" : " mails") +
+        (parallel ? ", waarvan er één wordt verstuurd" : "") + "</span></div>" +
+      '<div class="nlf-dag">dag ' + (f.start === f.eind ? f.start : f.start + "\u2013" + f.eind) + "</div>" +
+      '<div class="nlf-baan"><i style="width:' + Math.max((van / topBereik) * 100, 2) + '%"></i>' +
+        '<u style="width:' + Math.max((tot / topBereik) * 100, 2) + '%"></u></div>' +
+      '<div class="nlf-bereik">' + nlNum(van, 0) +
+        (van === tot ? "" : " \u2192 " + nlNum(tot, 0)) + "</div>" +
+      '<div class="nlf-ctor">' + (ctor === null ? NODATA : nlNum(ctor, 1) + "%") + "</div>";
     lijst.appendChild(rij);
   });
 
   if (uit) {
     uit.hidden = false;
     uit.innerHTML =
-      "Kolommen: bereik, click-to-open en uitschrijvingen. De cursieve regels " +
-      "zijn bevestigingsmails bij binnenkomst — transactioneel, dus die tellen " +
-      "niet mee in het bepalen van de sterkste en zwakste mail.";
+      "De balk toont het bereik aan het begin en het einde van de fase; het " +
+      "percentage is de click-to-open over de hele fase. " +
+      "<b>7 leads uit deze lane kregen een afspraak</b>, verspreid over alle " +
+      "fases — te weinig om er een patroon in te lezen.";
   }
 }
 

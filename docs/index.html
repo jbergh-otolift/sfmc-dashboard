@@ -309,24 +309,30 @@
   .nlk{display:flex;flex-direction:column;gap:2px}
   .nlk b{font-size:19px;font-weight:800;color:var(--ink);line-height:1}
   .nlk span{font-size:10px;color:var(--ink-soft);font-weight:600}
-  .nl-lijst{display:flex;flex-direction:column}
-  .nl-rij{display:grid;grid-template-columns:22px minmax(130px,1.5fr) minmax(70px,2fr)
-          64px 58px 52px;align-items:center;gap:10px;padding:6px 0;
-          border-bottom:1px solid #F1F3F6}
-  .nl-rij:last-child{border-bottom:none}
-  .nl-nr{font-size:10px;color:var(--ink-soft);font-weight:700;text-align:right}
-  .nl-naam{font-size:11.5px;color:var(--ink);line-height:1.3}
-  .nl-baan{height:8px;border-radius:4px;background:#EEF1F5;overflow:hidden}
-  .nl-baan i{display:block;height:100%;border-radius:4px;background:var(--oto-red-soft)}
-  .nl-bereik{font-size:11.5px;color:var(--ink-soft);text-align:right}
-  .nl-ctor{font-size:13px;font-weight:800;text-align:right;color:var(--ink)}
-  .nl-unsub{font-size:10.5px;text-align:right;color:var(--ink-soft)}
-  /* Alleen de uitschieters krijgen kleur; de rest is context. */
-  .nl-rij.best .nl-ctor{color:var(--oto-green)}
-  .nl-rij.zwak .nl-ctor{color:var(--oto-red)}
-  .nl-rij.bevestiging{opacity:.72}
-  .nl-rij.bevestiging .nl-naam{font-style:italic}
-  .nl-wacht{font-size:9.5px;color:#9AA4B2;padding:2px 0 2px 32px}
+  .nl-lijst{display:flex;flex-direction:column;gap:6px}
+  /* Drie fases in plaats van dertien mails: korter, en het beantwoordt de
+     vraag waar mensen afhaken zonder elke mail apart te bespreken. */
+  .nl-fase{display:grid;grid-template-columns:minmax(150px,1.4fr) 86px minmax(80px,2fr)
+           minmax(96px,auto) 56px;align-items:center;gap:12px;
+           padding:11px 13px;background:var(--bg);border:1px solid var(--line);
+           border-radius:10px}
+  .nlf-naam b{display:block;font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.2}
+  .nlf-naam span{display:block;font-size:10px;color:var(--ink-soft);margin-top:2px}
+  .nlf-dag{font-size:10.5px;color:var(--ink-soft);font-weight:600}
+  /* Twee balken over elkaar: het bereik aan het begin en aan het eind van de
+     fase. Het verschil tussen de twee is het verloop. */
+  .nlf-baan{position:relative;height:10px;border-radius:5px;background:#EEF1F5;overflow:hidden}
+  .nlf-baan i{position:absolute;left:0;top:0;height:100%;border-radius:5px;
+              background:var(--oto-red-soft)}
+  .nlf-baan u{position:absolute;left:0;top:0;height:100%;border-radius:5px;
+              background:var(--oto-red);text-decoration:none}
+  .nlf-bereik{font-size:11.5px;color:var(--ink);text-align:right;white-space:nowrap}
+  .nlf-ctor{font-size:15px;font-weight:800;color:var(--ink);text-align:right}
+  @media(max-width:760px){
+    .nl-fase{grid-template-columns:1fr 56px;row-gap:5px}
+    .nlf-naam,.nlf-baan{grid-column:1/-1}
+    .nlf-dag{grid-column:1}
+  }
   .nl-uit{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
           font-size:11.5px;color:var(--ink-soft);line-height:1.6}
   .nl-uit b{color:var(--ink)}
@@ -1215,7 +1221,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261020105852"></script>
+<script src="data-layer.js?v=20261020110924"></script>
 
 </body>
 </html>
