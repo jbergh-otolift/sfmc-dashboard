@@ -171,7 +171,9 @@
 
   /* Acquisition split */
   .acq-grid{grid-template-columns:1.35fr 1fr}
-  @media(max-width:960px){.acq-grid{grid-template-columns:1fr}}
+  /* De trendkaart en de nurture-fases hebben zes kolommen; onder de 1100 px
+     passen die niet meer naast elkaar en duwt de kaart het raster uit. */
+  @media(max-width:1100px){.acq-grid{grid-template-columns:1fr}}
 
   .chan-list{display:flex;flex-direction:column;gap:2px;margin-top:6px}
   .chan-head{display:grid;grid-template-columns:130px 1fr 86px 86px;align-items:center;gap:12px;padding:0 0 8px;border-bottom:1px solid var(--line)}
@@ -695,6 +697,24 @@
   /* Op breed scherm staat de periode in de kop; die herhaling hoeft niet. */
   .sh-periode{display:none}
 
+  /* Tussen telefoon en breed scherm wikkelt de kop naar twee regels en wordt
+     hij 192 px hoog. Omdat hij meeplakt is dat te veel; het logo en de
+     ondertitel krimpen hier zodat alles op één regel blijft. */
+  @media(max-width:900px) and (min-width:561px){
+    .brand-logo{height:34px}
+    .brand-txt .subtitle{display:none}
+    .brand-txt h1{font-size:15px}
+    .topbar{padding:10px 18px;gap:10px}
+    .stamp{display:none}
+    .period-static{padding:6px 11px;font-size:12px}
+    /* Zonder de landcodes past de landkeuze op de helft; de vlag zelf is
+       genoeg om te zien welke markt actief is. */
+    .flag-btn .cc{display:none}
+    .flag-btn{padding:6px 7px}
+    .maandkies{min-width:104px}
+    .period{max-width:170px}
+  }
+
   @media(max-width:560px){
     .wrap{padding:0 14px}
 
@@ -714,9 +734,14 @@
     .flag-btn .cc{display:none}
     .daterange{flex:1 1 auto;min-width:0}
 
-    /* Kop scrollt weg; alleen de sectiebalk blijft staan. */
-    header{position:static}
-    .secnav{top:0}
+    /* De kop blijft plakken, maar zonder logo en naam. Die namen de meeste
+       hoogte en je weet op een telefoon heus wel welk dashboard je open hebt;
+       de bediening kwijtraken bij het scrollen is veel hinderlijker. Zo blijft
+       de hoogte constant — een kop die tijdens het scrollen van maat verandert
+       laat de pagina verspringen. */
+    header{position:sticky;top:0}
+    .brand{display:none}
+    .topbar{padding:8px 14px}
     .topbar{padding:12px 14px;gap:10px}
     .brand-logo{height:34px}
     .brand{gap:10px}
@@ -1247,7 +1272,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261020114755"></script>
+<script src="data-layer.js?v=20261020120705"></script>
 
 </body>
 </html>
