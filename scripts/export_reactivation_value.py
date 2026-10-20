@@ -65,6 +65,7 @@ REPORT_PATH = "exports/report.csv"
 GOALS_PATH = "config/flow_goals.json"
 REACHED_PATH = "exports/_reached_lead_ids.json"
 OFFERTE_PATH = "exports/_offerte_contacts.json"
+NURTURE_PATH = "exports/_nurture_voortgang.json"
 OUT_PATH = "exports/reactivation_value.json"
 
 # Ruim terugkijken: een lead die maanden geleden instroomde kan nu pas tekenen.
@@ -365,6 +366,97 @@ def signed_quotes(session, instance_url):
         if opp not in out or day < out[opp]:
             out[opp] = day
     return out
+
+
+def doorlooptijden(by_lead, active):
+    """Hoeveel dagen zitten er tussen instroom in de mailflow en de afspraak?
+
+    Staat nergens anders op het dashboard en zegt iets over opvolging: loopt
+    de mediaan op, dan duurt het langer voor sales erachteraan gaat. Per dag
+    een lijst met de doorlooptijden van de afspraken die op die dag gemaakt
+    zijn, zodat het dashboard over elk bereik zelf een mediaan kan nemen.
+    Een gemiddelde zou hier misleiden: er zit een staart van maanden in.
+    """
+    dagen = defaultdict(lambda: defaultdict(list))
+    for lead, rows in by_lead.items():
+        rows.sort(key=lambda r: r.get("Edit Date") or "")
+        market = (rows[-1].get("Market") or "").strip().lower()
+        if not market:
+            continue
+        fallback = (rows[-1].get("Reason") or "").strip()
+        instroom = None
+        for row in rows:
+            new = (row.get("New Value") or "").strip()
+            dag = (row.get("Edit Date") or "")[:10]
+            if not dag:
+                continue
+            if new in FUNNEL_ENTRY and instroom is None:
+                reden = (row.get("Reason") or "").strip() or fallback
+                if reden in active:
+                    instroom = dag
+            if new == S_APPOINTMENT and instroom:
+                verschil = (datetime.strptime(dag, "%Y-%m-%d")
+                            - datetime.strptime(instroom, "%Y-%m-%d")).days
+                if verschil >= 0:
+                    dagen[dag][market].append(verschil)
+                break
+    return {d: {m: v for m, v in per.items()} for d, per in dagen.items()}
+
+
+def nurture_resultaat(by_lead):
+    """Waar in de nurturelane maakt iemand alsnog een afspraak?
+
+    Die lane kweekt leads en stuurt niet op status; de meesten bewegen niet.
+    Wat er wél uitkomt is daarom interessant, maar alleen als je weet wáár in
+    de reeks het gebeurt. Per lead met een afspraak zoeken we de laatste mail
+    die hij vóór die dag kreeg; die mail krijgt de afspraak toegerekend.
+
+    Het dashboard groepeert de mailnamen zelf in fases, dus hier blijft het
+    per mail. Geen Salesforce nodig: alles komt uit de statushistorie en het
+    bestand dat de tracking-export achterlaat.
+    """
+    if not os.path.exists(NURTURE_PATH):
+        return None
+    with open(NURTURE_PATH, encoding="utf-8") as f:
+        bron = json.load(f)
+
+    uit = {}
+    for market, per_mail in (bron.get("markets") or {}).items():
+        if not per_mail:
+            continue
+        # Lead -> mail -> eerste senddag, omgedraaid voor het opzoeken.
+        per_lead = defaultdict(dict)
+        for mail, leads in per_mail.items():
+            for lead, dag in leads.items():
+                per_lead[lead][mail] = dag
+
+        dagen = defaultdict(lambda: defaultdict(int))
+        totalen = defaultdict(int)
+        bewogen = 0
+        for lead, mails in per_lead.items():
+            rijen = sorted(by_lead.get(lead) or [],
+                           key=lambda r: r.get("Edit Date") or "")
+            if not rijen:
+                continue
+            bewogen += 1
+            afspraak = next(((r.get("Edit Date") or "")[:10] for r in rijen
+                             if (r.get("New Value") or "").strip() == S_APPOINTMENT), None)
+            if not afspraak:
+                continue
+            # De laatste mail die hij kreeg vóór of op de dag van de afspraak.
+            ervoor = [(d, m) for m, d in mails.items() if d <= afspraak]
+            if not ervoor:
+                continue
+            mail = max(ervoor)[1]
+            dagen[afspraak][mail] += 1
+            totalen[mail] += 1
+        uit[market] = {
+            "days": {d: dict(v) for d, v in dagen.items()},
+            "totals": dict(totalen),
+            "leadsMetStatuswijziging": bewogen,
+            "leadsInLane": len(per_lead),
+        }
+    return uit
 
 
 def offerte_resultaat(session, instance_url):
@@ -954,6 +1046,20 @@ def main():
 
     converted = conversions(session, instance_url)
     signed = signed_quotes(session, instance_url)
+    looptijden = doorlooptijden(transitions, active)
+    alle = [x for per in looptijden.values() for v in per.values() for x in v]
+    if alle:
+        alle.sort()
+        print(f"Doorlooptijd tot afspraak: {len(alle)} gemeten, "
+              f"mediaan {alle[len(alle)//2]} dagen")
+
+    nurture = nurture_resultaat(transitions)
+    if nurture:
+        for markt, blok in sorted(nurture.items()):
+            print(f"Nurturelane {markt}: {blok['leadsInLane']} leads, "
+                  f"{blok['leadsMetStatuswijziging']} met een statuswijziging, "
+                  f"{sum(blok['totals'].values())} afspraken")
+
     offerte = offerte_resultaat(session, instance_url)
     if offerte:
         for markt, blok in sorted(offerte.items()):
@@ -1228,6 +1334,10 @@ def main():
             }
             for day, per_market in funnel_days.items()
         },
+        # Dagen tussen instroom in de mailflow en de afspraak, per afspraakdag.
+        "doorlooptijd": looptijden,
+        # Waar in de nurturelane iemand alsnog een afspraak maakte.
+        "nurtureResultaat": nurture or {},
         # De offerteflow, apart omdat hij contacten mailt in plaats van leads
         # en dus niet in de gewone toerekening past.
         "offerteFlow": offerte or {},

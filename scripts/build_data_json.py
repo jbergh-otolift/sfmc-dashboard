@@ -598,6 +598,10 @@ def main():
                 days.setdefault(day, {})["apptSplit"] = per_market[key]
         # Route en statuspad per afspraak, voor het uitklapblok onder de funnel.
         # De offerteflow heeft zijn eigen dagtelling, los van de leadfunnel.
+        # Doorlooptijden van de afspraken die op die dag gemaakt zijn.
+        for day, per_market in ((value or {}).get("doorlooptijd") or {}).items():
+            if key in per_market:
+                days.setdefault(day, {})["looptijd"] = per_market[key]
         for day, waarden in (((value or {}).get("offerteFlow") or {})
                              .get(key, {}).get("days") or {}).items():
             days.setdefault(day, {})["offerte"] = waarden
@@ -619,6 +623,10 @@ def main():
             # kregen, want dat is geen dagcijfer.
             "offerteTotals": (((value or {}).get("offerteFlow") or {})
                               .get(key, {}).get("totals") or {}),
+            # Afspraken per mail in de nurturelane. Over het hele venster,
+            # net als de lane zelf: die loopt 115 dagen.
+            "nurtureResultaat": (((value or {}).get("nurtureResultaat") or {})
+                                 .get(key) or {}),
             "reach": (block or {}).get("reach") or {},
             # Mails per persoon per flow, over het hele meetvenster. Dit is
             # een eigenschap van de flow, geen periodecijfer: over een kort

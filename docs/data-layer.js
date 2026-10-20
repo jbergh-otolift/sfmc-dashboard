@@ -718,6 +718,121 @@ function renderVFunnel(r) {
   });
 }
 
+// Twee trends op de plek waar eerst de MQL-funnel stond. Het dashboard
+// toonde verder alleen momentopnames, waardoor een uitschieter opging in het
+// periodegemiddelde — de piek van 6,9% bounce in week 40 was nergens te zien.
+
+function isoWeek(iso) {
+  const d = new Date(iso + "T00:00:00Z");
+  // Donderdag van deze week bepaalt het jaar (ISO-8601).
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const begin = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return { jaar: d.getUTCFullYear(),
+           nr: Math.ceil(((d - begin) / 86400000 + 1) / 7) };
+}
+
+// Boven deze grenzen is een bounce-aandeel niet meer normaal. 2% is de
+// gangbare grens waarboven mailproviders je reputatie aanrekenen; 5% is het
+// punt waarop je er last van krijgt.
+const BOUNCE_LETOP = 2;
+const BOUNCE_ALARM = 5;
+const TREND_WEKEN = 10;
+
+function renderLijstgezondheid(markt) {
+  const host = document.querySelector("[data-health-weken]");
+  const voet = document.querySelector("[data-health-voet]");
+  if (!host) return;
+
+  const weken = {};
+  Object.entries(markt.days || {}).forEach(([dag, bucket]) => {
+    Object.entries(bucket.flows || {}).forEach(([naam, f]) => {
+      if (naam === "all" || isNoiseFlow(naam)) return;
+      const w = isoWeek(dag);
+      const sleutel = w.jaar + "-" + String(w.nr).padStart(2, "0");
+      const vak = (weken[sleutel] = weken[sleutel] ||
+        { nr: w.nr, sent: 0, bounces: 0, unsubs: 0, delivered: 0 });
+      vak.sent += f.sent || 0;
+      vak.bounces += f.bounces || 0;
+      vak.unsubs += f.unsubs || 0;
+      vak.delivered += f.delivered || 0;
+    });
+  });
+
+  // De laatste week loopt vaak nog en zou als een inzakking lezen.
+  const lijst = Object.entries(weken).sort().map(([, v]) => v);
+  const getoond = lijst.slice(-TREND_WEKEN - 1, -1).slice(-TREND_WEKEN);
+  if (!getoond.length) {
+    host.innerHTML = "";
+    if (voet) voet.textContent = "";
+    return;
+  }
+  const top = Math.max(...getoond.map((w) => w.sent));
+
+  host.innerHTML = "";
+  getoond.forEach((w) => {
+    const bounce = w.sent ? (w.bounces / w.sent) * 100 : 0;
+    const kolom = document.createElement("div");
+    kolom.className = "trw" +
+      (bounce >= BOUNCE_ALARM ? " alarm" : bounce >= BOUNCE_LETOP ? " let-op" : "");
+    kolom.innerHTML =
+      '<div class="trw-pct">' + nlNum(bounce, 1) + "%</div>" +
+      '<div class="trw-staaf" style="height:' +
+        Math.max((w.sent / top) * 74, 3) + 'px"></div>' +
+      '<div class="trw-lbl">wk ' + w.nr + "</div>";
+    kolom.title = nlNum(w.sent, 0) + " verzonden · " + nlNum(w.bounces, 0) +
+      " onbezorgbaar · " + nlNum(w.unsubs, 0) + " uitgeschreven";
+    host.appendChild(kolom);
+  });
+
+  if (voet) {
+    const erg = getoond.filter((w) => w.sent && (w.bounces / w.sent) * 100 >= BOUNCE_LETOP);
+    const staafhoogte = "De staaf is het verzonden volume, het percentage erboven " +
+      "is het aandeel onbezorgbaar. ";
+    voet.innerHTML = erg.length
+      ? staafhoogte + "<b>Week " + erg.map((w) => w.nr).join(", ") +
+        "</b> ligt boven de 2% die providers nog als normaal zien" +
+        (erg.some((w) => (w.bounces / w.sent) * 100 >= BOUNCE_ALARM)
+          ? ", en daar zit een week bij boven de 5% — dat raakt de bezorging van je andere flows."
+          : ".")
+      : staafhoogte + "Alle weken blijven onder de 2%, de grens die providers nog als normaal zien.";
+  }
+}
+
+function renderDoorlooptijd(markt, start, eind) {
+  const host = document.querySelector("[data-looptijd]");
+  if (!host) return;
+  const waarden = [];
+  Object.entries(markt.days || {}).forEach(([dag, bucket]) => {
+    if (dag < start || dag >= eind) return;
+    (bucket.looptijd || []).forEach((n) => waarden.push(n));
+  });
+  if (!waarden.length) {
+    host.innerHTML = '<span class="tr-voet">Geen afspraken in dit bereik.</span>';
+    return;
+  }
+  waarden.sort((a, b) => a - b);
+  const op = (deel) => waarden[Math.min(Math.floor(waarden.length * deel),
+                                        waarden.length - 1)];
+  const mediaan = op(0.5);
+  const q1 = op(0.25);
+  const q3 = op(0.75);
+  const schaal = Math.max(q3 * 1.6, 14);
+  const pos = (n) => Math.min((n / schaal) * 100, 100);
+
+  host.innerHTML =
+    '<div class="trl-groot"><b>' + nlNum(mediaan, 0) + "</b>" +
+      "<span>dagen mediaan · " + nlNum(waarden.length, 0) + " afspraken</span></div>" +
+    '<div class="trl-spreiding">' +
+      '<div class="trl-baan">' +
+        '<i style="left:' + pos(q1) + "%;width:" + (pos(q3) - pos(q1)) + '%"></i>' +
+        '<u style="left:' + pos(mediaan) + '%"></u>' +
+      "</div>" +
+      '<div class="trl-asp"><span>de helft zit tussen ' + nlNum(q1, 0) + " en " +
+        nlNum(q3, 0) + " dagen</span><span>traagste " +
+        nlNum(waarden[waarden.length - 1], 0) + " dagen</span></div>" +
+    "</div>";
+}
+
 // De nurturelane uitgediept. Die lane kweekt leads en stuurt bewust niet op
 // status: de mensen erin oriënteren zich nog. Betrokkenheid per mail, in de
 // volgorde van de journey, is daar het enige signaal dat iets zegt.
@@ -830,6 +945,7 @@ function renderNurture(markt) {
     kop.appendChild(vak);
   });
 
+  const resultaat = (markt.nurtureResultaat || {}).totals || {};
   const topBereik = Math.max(...stappen.map((x) => x.sent));
   lijst.innerHTML = "";
   fases.filter((f) => f.mails.length).forEach((f) => {
@@ -847,6 +963,10 @@ function renderNurture(markt) {
       : f.mails[0].sent;
     const tot = parallel ? van : f.mails[f.mails.length - 1].sent;
 
+    // Wat er in deze fase uitkwam: afspraken, toegerekend aan de laatste
+    // mail die iemand kreeg voordat hij er een maakte.
+    const afspraken = f.mails.reduce((n, m) => n + (resultaat[m.naam] || 0), 0);
+
     const rij = document.createElement("div");
     rij.className = "nl-fase";
     rij.innerHTML =
@@ -858,17 +978,32 @@ function renderNurture(markt) {
         '<u style="width:' + Math.max((tot / topBereik) * 100, 2) + '%"></u></div>' +
       '<div class="nlf-bereik">' + nlNum(van, 0) +
         (van === tot ? "" : " \u2192 " + nlNum(tot, 0)) + "</div>" +
-      '<div class="nlf-ctor">' + (ctor === null ? NODATA : nlNum(ctor, 1) + "%") + "</div>";
+      '<div class="nlf-ctor">' + (ctor === null ? NODATA : nlNum(ctor, 1) + "%") +
+        '<span>klikt na openen</span></div>' +
+      '<div class="nlf-res' + (afspraken ? "" : " leeg") + '">' +
+        nlNum(afspraken, 0) + "<span>" +
+        (afspraken === 1 ? "afspraak" : "afspraken") + "</span></div>";
     lijst.appendChild(rij);
   });
 
   if (uit) {
     uit.hidden = false;
+    const blok = markt.nurtureResultaat || {};
+    const totaalAfspraken = Object.values(resultaat).reduce((n, v) => n + v, 0);
+    const inLane = blok.leadsInLane || profiel.subscribers || 0;
     uit.innerHTML =
-      "De balk toont het bereik aan het begin en het einde van de fase; het " +
-      "percentage is de click-to-open over de hele fase. " +
-      "<b>7 leads uit deze lane kregen een afspraak</b>, verspreid over alle " +
-      "fases — te weinig om er een patroon in te lezen.";
+      "De balk toont het bereik aan het begin en het einde van elke fase. " +
+      "Een afspraak telt bij de laatste mail die iemand kreeg voordat hij er " +
+      "een maakte. " +
+      (totaalAfspraken
+        ? "In totaal <b>" + nlNum(totaalAfspraken, 0) + " afspraken</b> uit " +
+          nlNum(inLane, 0) + " leads" +
+          (blok.leadsMetStatuswijziging
+            ? ", en <b>" + nlNum(blok.leadsMetStatuswijziging, 0) +
+              "</b> leads met een statuswijziging"
+            : "") +
+          ". Dat zijn kleine aantallen: lees ze als richting, niet als trend."
+        : "Er is nog geen afspraak uit deze lane gekomen.");
   }
 }
 
@@ -2042,6 +2177,8 @@ function applyMarket(marketKey) {
 
   renderVFunnel(view.reactivation);
   renderNurture(market);
+  renderLijstgezondheid(market);
+  renderDoorlooptijd(market, range.start, range.end);
   renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);

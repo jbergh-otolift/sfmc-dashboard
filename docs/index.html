@@ -299,6 +299,34 @@
   .mf-stage .mf-abs{font-size:28px;font-weight:800;color:var(--oto-red);margin-top:7px;line-height:1}
   .mf-stage.start .mf-abs{color:var(--ink)}
   .mf-stage.end .mf-abs{color:var(--oto-green)}
+  /* Trendkaart: weken naast elkaar. Verder op het dashboard staan alleen
+     momentopnames, waardoor een uitschieter in het periodegemiddelde verdwijnt. */
+  .tr-weken{display:flex;align-items:flex-end;gap:5px;height:104px;margin:14px 0 6px}
+  .trw{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;
+       min-width:0;position:relative}
+  .trw-staaf{border-radius:4px 4px 0 0;background:#DCE3EC;min-height:3px}
+  .trw.alarm .trw-staaf{background:var(--oto-red)}
+  .trw.let-op .trw-staaf{background:var(--oto-amber,#E0A800)}
+  .trw-lbl{font-size:9px;color:var(--ink-soft);text-align:center;white-space:nowrap}
+  .trw-pct{font-size:9.5px;font-weight:700;text-align:center;color:var(--ink-soft)}
+  .trw.alarm .trw-pct,.trw.let-op .trw-pct{color:var(--oto-red)}
+  .tr-voet{font-size:11px;color:var(--ink-soft);line-height:1.6}
+  .tr-voet b{color:var(--ink)}
+  .tr-scheiding{margin:22px 0 16px;border-top:1px solid var(--line)}
+  /* Doorlooptijd: de mediaan groot, de spreiding als staafje eronder. */
+  .tr-looptijd{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:12px}
+  .trl-groot{display:flex;flex-direction:column;gap:2px}
+  .trl-groot b{font-size:30px;font-weight:800;color:var(--ink);line-height:1}
+  .trl-groot span{font-size:10.5px;color:var(--ink-soft);font-weight:600}
+  .trl-spreiding{flex:1;min-width:200px}
+  .trl-baan{position:relative;height:10px;border-radius:5px;background:#EEF1F5}
+  .trl-baan i{position:absolute;top:0;height:100%;border-radius:5px;
+              background:var(--oto-red-soft)}
+  .trl-baan u{position:absolute;top:-3px;width:3px;height:16px;border-radius:2px;
+              background:var(--oto-red);text-decoration:none}
+  .trl-asp{display:flex;justify-content:space-between;font-size:9.5px;
+           color:var(--ink-soft);margin-top:5px}
+
   /* Nurturelane: het verloop door de mails. Bereik en betrokkenheid naast
      elkaar per stap, in de volgorde van de journey, met de wachttijd ertussen.
      Voor een lane die niet op status stuurt is dit het enige echte signaal. */
@@ -312,8 +340,8 @@
   .nl-lijst{display:flex;flex-direction:column;gap:6px}
   /* Drie fases in plaats van dertien mails: korter, en het beantwoordt de
      vraag waar mensen afhaken zonder elke mail apart te bespreken. */
-  .nl-fase{display:grid;grid-template-columns:minmax(150px,1.4fr) 86px minmax(80px,2fr)
-           minmax(96px,auto) 56px;align-items:center;gap:12px;
+  .nl-fase{display:grid;grid-template-columns:minmax(140px,1.3fr) 82px minmax(70px,1.6fr)
+           minmax(92px,auto) 74px 66px;align-items:center;gap:12px;
            padding:11px 13px;background:var(--bg);border:1px solid var(--line);
            border-radius:10px}
   .nlf-naam b{display:block;font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.2}
@@ -327,11 +355,18 @@
   .nlf-baan u{position:absolute;left:0;top:0;height:100%;border-radius:5px;
               background:var(--oto-red);text-decoration:none}
   .nlf-bereik{font-size:11.5px;color:var(--ink);text-align:right;white-space:nowrap}
-  .nlf-ctor{font-size:15px;font-weight:800;color:var(--ink);text-align:right}
+  /* Percentage en resultaat krijgen allebei een woordje eronder: een kaal
+     getal in een kolom laat de lezer raden wat het is. */
+  .nlf-ctor,.nlf-res{text-align:right;line-height:1.15}
+  .nlf-ctor{font-size:15px;font-weight:800;color:var(--ink)}
+  .nlf-res{font-size:17px;font-weight:800;color:var(--oto-green)}
+  .nlf-res.leeg{color:var(--ink-soft)}
+  .nlf-ctor span,.nlf-res span{display:block;font-size:9px;font-weight:600;
+                               color:var(--ink-soft);margin-top:2px}
   @media(max-width:760px){
-    .nl-fase{grid-template-columns:1fr 56px;row-gap:5px}
+    .nl-fase{grid-template-columns:1fr 62px 62px;row-gap:5px}
     .nlf-naam,.nlf-baan{grid-column:1/-1}
-    .nlf-dag{grid-column:1}
+    .nlf-dag,.nlf-bereik{grid-column:1}
   }
   .nl-uit{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
           font-size:11.5px;color:var(--ink-soft);line-height:1.6}
@@ -1160,33 +1195,24 @@
     </div>
 
     <div class="grid acq-grid">
-      <!-- Funnel -->
-      <div class="card funnel-card">
+      <!-- Lijstgezondheid en opvolging over tijd. Het dashboard liet verder
+           alleen momentopnames zien, dus een uitschieter in bounces of een
+           oplopende doorlooptijd viel weg in het periodegemiddelde. -->
+      <div class="card">
         <div class="card-pad">
-          <div class="card-title" style="margin-bottom:18px">Lead funnel · MQL → R1 → Order</div>
-          <div style="font-size:11.5px;color:var(--ink-soft);margin:-14px 0 16px">MQL = leads met statusactiviteit · R1 = <code>Appointment</code> · Order = gewonnen opportunity, gesloten in deze periode.<br><code>Re-entered</code> stond hier eerder als tussenstap, maar dat is geen schakel in deze keten — een afspraak komt in de praktijk direct uit <code>New</code> of <code>Not reached</code>. Die doorstroom staat bij Her-activatie.</div>
-          <div class="funnel">
-            <div class="fstep">
-              <div class="fbar-wrap">
-                <div class="fbar-top"><span class="fbar-name">MQL <small>Marketing Qualified · aandeel · aantal</small></span><span class="fbar-count"><span style="font-weight:700;color:var(--ink-soft);font-size:12px">100%</span>&nbsp; <span data-bind="acquisition.funnel.mql.abs" data-fmt="int">–</span></span></div>
-                <div class="fbar" style="width:100%"></div>
-              </div>
-            </div>
-            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.r1.share" data-fmt="pct1nosign">54,5%</span><span class="pct-lbl">naar afspraak</span><span class="delta up" style="margin-top:2px" data-bind-delta="acquisition.funnel.r1.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▲</span><span class="bindval">+2,6%</span></span></div>
-            <div class="fstep">
-              <div class="fbar-wrap">
-                <div class="fbar-top"><span class="fbar-name">R1 <small>Eerste afspraak / thuisadvies</small></span><span class="fbar-count"><span data-bind="acquisition.funnel.r1.share" data-fmt="pct1nosign" style="font-weight:700;color:var(--ink-soft);font-size:12px">–</span>&nbsp; <span data-bind="acquisition.funnel.r1.abs" data-fmt="int">–</span></span></div>
-                <div class="fbar" data-bind-width="acquisition.funnel.r1.share"></div>
-              </div>
-            </div>
-            <div class="fconv"><span class="arrow">▼</span><span class="pct" data-bind="acquisition.funnel.order.share" data-fmt="pct1nosign">37,2%</span><span class="pct-lbl">naar order</span><span class="delta down" style="margin-top:2px" data-bind-delta="acquisition.funnel.order.convDeltaPct" data-delta-dir="up-good"><span class="d-arw">▼</span><span class="bindval">-2,4%</span></span></div>
-            <div class="fstep">
-              <div class="fbar-wrap">
-                <div class="fbar-top"><span class="fbar-name">Order <small>Getekende opdracht</small></span><span class="fbar-count" style="color:var(--oto-green)"><span data-bind="acquisition.funnel.order.share" data-fmt="pct1nosign" style="font-weight:700;color:var(--ink-soft);font-size:12px">–</span>&nbsp; <span data-bind="acquisition.funnel.order.abs" data-fmt="int">–</span></span></div>
-                <div class="fbar" style="background:linear-gradient(90deg,var(--oto-green),var(--oto-green-soft))" data-bind-width="acquisition.funnel.order.share"></div>
-              </div>
-            </div>
-          </div>
+          <div class="card-title" style="margin-bottom:4px">Lijstgezondheid per week</div>
+          <p class="nl-intro">Volume met het aandeel onbezorgbare adressen ernaast. Een
+             piek in bounces schaadt je afzenderreputatie en daarmee de bezorging van
+             álle flows, ook de flows die niets fout deden.</p>
+          <div class="tr-weken" data-health-weken></div>
+          <div class="tr-voet" data-health-voet></div>
+
+          <div class="tr-scheiding"></div>
+          <div class="card-title" style="margin-bottom:4px">Doorlooptijd tot een afspraak</div>
+          <p class="nl-intro">Dagen tussen de instroom in de mailflow en de afspraak.
+             De mediaan en niet het gemiddelde: er zit een staart van maanden in die een
+             gemiddelde onbruikbaar maakt.</p>
+          <div class="tr-looptijd" data-looptijd></div>
         </div>
       </div>
 
@@ -1221,7 +1247,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261020110924"></script>
+<script src="data-layer.js?v=20261020114755"></script>
 
 </body>
 </html>

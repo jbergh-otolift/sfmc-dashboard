@@ -90,6 +90,13 @@ OUT_PATH = "exports/sfmc_tracking.json"
 # aantallen. Zo staan er geen losse id-lijsten in een publieke repo.
 REACHED_PATH = "exports/_reached_lead_ids.json"
 OFFERTE_PATH = "exports/_offerte_contacts.json"
+NURTURE_PATH = "exports/_nurture_voortgang.json"
+
+# De nurturelane stuurt niet op status maar kweekt leads. Om te kunnen tonen
+# waar in die reeks iemand toch een afspraak maakt, is per lead nodig welke
+# mail hij wanneer kreeg. Dat is te veel om in de dagbuckets te stoppen en
+# het zijn lead-id's, dus het gaat naar een apart, niet-gecommit bestand.
+NURTURE_PATROON = "nurturelane"
 
 # De offerteflow mailt contacten (003), geen leads, want ligt er een offerte
 # dan is de lead al geconverteerd. Hij valt daardoor buiten de hele
@@ -851,6 +858,8 @@ class DayAggregator:
         # Bewust op tsd-id en niet op mailnaam, want de namen van deze journey
         # zijn pas bekend nadat de structuur is opgehaald — ná dit streamen.
         self.offerte_sends = {}
+        # Nurturelane: per verzenddefinitie per lead de eerste senddag.
+        self.nurture_sends = {}
         # Hele-vensterprofiel per flow: sends en (via `first_seen`) unieke mensen.
         self.flow_sent = {}
         # dag -> flow -> {"flow": n, "emails": {naam: n}}, gevuld in `_first_touch`.
@@ -906,6 +915,11 @@ class DayAggregator:
                     known = store.get(store_key)
                     if known is None or day < known:
                         store[store_key] = day
+                if NURTURE_PATROON in (flow or "").lower():
+                    per_key = self.nurture_sends.setdefault(self.tsd_of(row), {})
+                    bekend = per_key.get(key)
+                    if bekend is None or day < bekend:
+                        per_key[key] = day
                 if any(p in (flow or "").lower() for p in OFFERTE_PATRONEN):
                     per_key = self.offerte_sends.setdefault(self.tsd_of(row), {})
                     known = per_key.get(key)
@@ -1138,6 +1152,7 @@ def main():
     structures_out = {}
     reached_lead_ids = {}
     offerte_contacten = {}
+    nurture_voortgang = {}
     first_day = None
 
     for market in MARKETS:
@@ -1190,6 +1205,15 @@ def main():
                 for node in (structuur or {}).get("nodes", []):
                     if node.get("tsdId") and node.get("name"):
                         naam_van_tsd[node["tsdId"].strip().lower()] = node["name"]
+            # Per lead per mail de eerste senddag, met de mailnaam uit de
+            # journeystructuur. Het dashboard legt die namen zelf in fases.
+            nurture_voortgang[market] = {
+                naam_van_tsd.get(tsd) or email_name(tsd, agg.tsd_names): {
+                    k: d for k, d in per_key.items() if k.startswith("00Q")
+                }
+                for tsd, per_key in agg.nurture_sends.items()
+            }
+
             offerte_contacten[market] = offerte_payload(
                 agg.offerte_sends, naam_van_tsd, agg.tsd_names)
 
@@ -1291,6 +1315,15 @@ def main():
             f)
     print(f"Bereikte Lead-id's (niet gecommit) naar {REACHED_PATH}: "
           + ", ".join(f"{m}={len(v['all'])}" for m, v in reached_lead_ids.items()))
+
+    nurture_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), NURTURE_PATH)
+    with open(nurture_path, "w", encoding="utf-8") as f:
+        json.dump({"markets": nurture_voortgang}, f)
+    for markt, blok in sorted(nurture_voortgang.items()):
+        leads = len({k for per in blok.values() for k in per})
+        if leads:
+            print(f"Nurturelane {markt}: {leads} leads over {len(blok)} mails")
 
     # Contacten uit de offerteflow, apart omdat ze geen lead zijn en dus
     # buiten de gewone toerekening vallen. Niet gecommit: het zijn id's.
