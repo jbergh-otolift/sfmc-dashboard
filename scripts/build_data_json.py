@@ -434,8 +434,12 @@ def source_state(email_health, has_crm, has_outcomes=False, sends_in_days=0):
         # Kern KPI's: heractivatie-ratio en MQL->SQL zijn live, coverage /
         # database-groei / CPQL nog niet.
         "kernKpis": "partial" if has_crm else "not_connected",
-        # Acquisitie: funnel live, kanalen en kosten niet.
-        "acquisition": "partial" if has_crm else "not_connected",
+        # Signalen: lijstgezondheid uit de mailtracking, doorlooptijd en de
+        # nurture-resultaten uit LeadHistory. Beide bronnen zijn er, dus die
+        # sectie staat op live — de lege kanalen- en kostenblokken die hem
+        # eerder op "deels" hielden bestaan niet meer.
+        "acquisition": ("live" if (has_crm and sends_in_days)
+                        else "partial" if has_crm else "not_connected"),
         "outcomes": "live" if has_outcomes else "not_connected",
     }
 
