@@ -718,6 +718,133 @@ function renderVFunnel(r) {
   });
 }
 
+// De nurturelane uitgediept. Die lane kweekt leads en stuurt bewust niet op
+// status: de mensen erin oriënteren zich nog. Betrokkenheid per mail, in de
+// volgorde van de journey, is daar het enige signaal dat iets zegt.
+//
+// Over het hele meetvenster en niet over de gekozen periode: de lane loopt
+// bijna honderd dagen, dus over een maand zie je alleen een willekeurige
+// doorsnede van mensen die op verschillende punten in de reeks zitten.
+const NURTURE_FLOW = "NL - Nurturelane Stairlift Q2 2026";
+
+function nurtureStappen(markt) {
+  const structuur = ((DATA.journeyStructures || {})[currentMarket] || {})[NURTURE_FLOW];
+  if (!structuur) return null;
+
+  // Tellingen per mail over alle dagen.
+  const per = {};
+  Object.values(markt.days || {}).forEach((dag) => {
+    const flow = (dag.flows || {})[NURTURE_FLOW];
+    if (!flow) return;
+    Object.entries(flow.emails || {}).forEach(([naam, st]) => {
+      const vak = (per[naam] = per[naam] ||
+        { sent: 0, delivered: 0, opens: 0, clicks: 0, unsubs: 0 });
+      Object.keys(vak).forEach((k) => {
+        vak[k] += st[k] || 0;
+      });
+    });
+  });
+
+  // De volgorde komt uit de journey zelf, niet uit het aantal verzendingen:
+  // een latere mail met meer sends zou anders bovenaan komen.
+  const stappen = [];
+  let wacht = null;
+  (structuur.nodes || []).forEach((node) => {
+    if (node.type === "WAIT") {
+      wacht = node.waitDays;
+      return;
+    }
+    if (node.type !== "EMAILV2" || !node.name) return;
+    const t = per[node.name];
+    stappen.push({
+      naam: node.name,
+      wachtDavor: wacht,
+      // Bevestigingsmails staan aan het begin van de lane maar zijn
+      // transactioneel; hun hoge cijfers horen niet naast de nurture-inhoud.
+      bevestiging: /bevest/i.test(node.name),
+      sent: t ? t.sent : 0,
+      ctor: t && t.opens ? (t.clicks / t.opens) * 100 : null,
+      unsub: t && t.delivered ? (t.unsubs / t.delivered) * 100 : null,
+    });
+    wacht = null;
+  });
+  return stappen.filter((x) => x.sent);
+}
+
+function renderNurture(markt) {
+  const kop = document.querySelector("[data-nurture-kop]");
+  const lijst = document.querySelector("[data-nurture-lijst]");
+  const uit = document.querySelector("[data-nurture-uit]");
+  if (!kop || !lijst) return;
+  const stappen = nurtureStappen(markt);
+  const kaart = document.querySelector("[data-nurture-lijst]").closest(".card");
+  if (!stappen || !stappen.length) {
+    if (kaart) kaart.hidden = true;
+    return;
+  }
+  if (kaart) kaart.hidden = false;
+
+  const profiel = (markt.flowProfile || {})[NURTURE_FLOW] || {};
+  const dagen = stappen.reduce((n, s) => n + (s.wachtDavor || 0), 0);
+  kop.innerHTML = "";
+  [
+    [nlNum(profiel.subscribers || 0, 0), "leads bereikt"],
+    [nlNum(profiel.sent || 0, 0), "mails verstuurd"],
+    [nlNum(profiel.mailsPerPerson || 0, 1), "per persoon"],
+    [nlNum(dagen, 0) + " dagen", "looptijd van de lane"],
+  ].forEach(([waarde, label]) => {
+    const vak = document.createElement("div");
+    vak.className = "nlk";
+    vak.innerHTML = "<b>" + waarde + "</b><span>" + label + "</span>";
+    kop.appendChild(vak);
+  });
+
+  // Alleen de inhoudelijke mails bepalen wat sterk of zwak is; de
+  // bevestigingsmails zitten structureel veel hoger en zouden de schaal
+  // scheeftrekken.
+  const inhoud = stappen.filter((x) => !x.bevestiging && x.ctor !== null);
+  const beste = Math.max(...inhoud.map((x) => x.ctor));
+  const zwakste = Math.min(...inhoud.map((x) => x.ctor));
+  const topBereik = Math.max(...stappen.map((x) => x.sent));
+
+  lijst.innerHTML = "";
+  let nummer = 0;
+  stappen.forEach((stap) => {
+    if (stap.wachtDavor) {
+      const w = document.createElement("div");
+      w.className = "nl-wacht";
+      w.textContent = "\u2193 " + stap.wachtDavor +
+        (stap.wachtDavor === 1 ? " dag" : " dagen");
+      lijst.appendChild(w);
+    }
+    if (!stap.bevestiging) nummer += 1;
+
+    const rij = document.createElement("div");
+    rij.className = "nl-rij" + (stap.bevestiging ? " bevestiging" : "") +
+      (!stap.bevestiging && stap.ctor === beste ? " best" : "") +
+      (!stap.bevestiging && stap.ctor === zwakste ? " zwak" : "");
+    rij.innerHTML =
+      '<div class="nl-nr">' + (stap.bevestiging ? "" : nummer) + "</div>" +
+      '<div class="nl-naam">' + stap.naam.replace(/^NL ?-? ?/i, "") + "</div>" +
+      '<div class="nl-baan"><i style="width:' +
+        Math.max((stap.sent / topBereik) * 100, 2) + '%"></i></div>' +
+      '<div class="nl-bereik">' + nlNum(stap.sent, 0) + "</div>" +
+      '<div class="nl-ctor">' +
+        (stap.ctor === null ? NODATA : nlNum(stap.ctor, 1) + "%") + "</div>" +
+      '<div class="nl-unsub">' +
+        (stap.unsub === null ? NODATA : nlNum(stap.unsub, 2) + "%") + "</div>";
+    lijst.appendChild(rij);
+  });
+
+  if (uit) {
+    uit.hidden = false;
+    uit.innerHTML =
+      "Kolommen: bereik, click-to-open en uitschrijvingen. De cursieve regels " +
+      "zijn bevestigingsmails bij binnenkomst — transactioneel, dus die tellen " +
+      "niet mee in het bepalen van de sterkste en zwakste mail.";
+  }
+}
+
 // Datum als "18 jul 2026". Stond eerder alleen lokaal in applyMeta, waardoor
 // deze functie hem niet kende en de kaarten helemaal niet getekend werden.
 function datumNL(iso) {
@@ -1887,6 +2014,7 @@ function applyMarket(marketKey) {
                   summed.apptRoutes);
 
   renderVFunnel(view.reactivation);
+  renderNurture(market);
   renderIntakeSplit(view.reactivation && view.reactivation.leadIntake);
   renderMailjourneyOrigin(view.reactivation && view.reactivation.mailjourney);
   renderSqlOrigin(view.reactivation && view.reactivation.sql);

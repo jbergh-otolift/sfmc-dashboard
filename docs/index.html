@@ -299,6 +299,44 @@
   .mf-stage .mf-abs{font-size:28px;font-weight:800;color:var(--oto-red);margin-top:7px;line-height:1}
   .mf-stage.start .mf-abs{color:var(--ink)}
   .mf-stage.end .mf-abs{color:var(--oto-green)}
+  /* Nurturelane: het verloop door de mails. Bereik en betrokkenheid naast
+     elkaar per stap, in de volgorde van de journey, met de wachttijd ertussen.
+     Voor een lane die niet op status stuurt is dit het enige echte signaal. */
+  .nl-intro{font-size:11.5px;color:var(--ink-soft);line-height:1.6;max-width:660px;
+            margin:0 0 14px}
+  .nl-kop{display:flex;flex-wrap:wrap;gap:22px;padding:11px 14px;background:var(--bg);
+          border:1px solid var(--line);border-radius:10px;margin-bottom:16px}
+  .nlk{display:flex;flex-direction:column;gap:2px}
+  .nlk b{font-size:19px;font-weight:800;color:var(--ink);line-height:1}
+  .nlk span{font-size:10px;color:var(--ink-soft);font-weight:600}
+  .nl-lijst{display:flex;flex-direction:column}
+  .nl-rij{display:grid;grid-template-columns:22px minmax(130px,1.5fr) minmax(70px,2fr)
+          64px 58px 52px;align-items:center;gap:10px;padding:6px 0;
+          border-bottom:1px solid #F1F3F6}
+  .nl-rij:last-child{border-bottom:none}
+  .nl-nr{font-size:10px;color:var(--ink-soft);font-weight:700;text-align:right}
+  .nl-naam{font-size:11.5px;color:var(--ink);line-height:1.3}
+  .nl-baan{height:8px;border-radius:4px;background:#EEF1F5;overflow:hidden}
+  .nl-baan i{display:block;height:100%;border-radius:4px;background:var(--oto-red-soft)}
+  .nl-bereik{font-size:11.5px;color:var(--ink-soft);text-align:right}
+  .nl-ctor{font-size:13px;font-weight:800;text-align:right;color:var(--ink)}
+  .nl-unsub{font-size:10.5px;text-align:right;color:var(--ink-soft)}
+  /* Alleen de uitschieters krijgen kleur; de rest is context. */
+  .nl-rij.best .nl-ctor{color:var(--oto-green)}
+  .nl-rij.zwak .nl-ctor{color:var(--oto-red)}
+  .nl-rij.bevestiging{opacity:.72}
+  .nl-rij.bevestiging .nl-naam{font-style:italic}
+  .nl-wacht{font-size:9.5px;color:#9AA4B2;padding:2px 0 2px 32px}
+  .nl-uit{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+          font-size:11.5px;color:var(--ink-soft);line-height:1.6}
+  .nl-uit b{color:var(--ink)}
+  @media(max-width:760px){
+    .nl-rij{grid-template-columns:22px 1fr 58px 50px;row-gap:3px}
+    .nl-naam{grid-column:2/-1}
+    .nl-baan{grid-column:2}
+    .nl-bereik{grid-column:3}
+  }
+
   /* Verticale trechter. Elke stap een regel: naam links, balk in het midden
      met het aantal erin, toelichting rechts. Tussen twee stappen staat wat er
      afvalt, zodat de aantallen van boven naar beneden na te rekenen zijn.
@@ -1146,16 +1184,19 @@
         </div>
       </div>
 
-      <!-- Channels: volume, CPA & CPQL -->
+      <!-- Verdieping op de nurturelane. Die lane stuurt bewust niet op status
+           maar op betrokkenheid, dus het verloop door de mails is daar het
+           enige echte signaal. -->
       <div class="card">
         <div class="card-pad">
-          <div class="card-title" style="margin-bottom:14px">Werving per kanaal · volume, CPA &amp; CPQL</div>
-          <div class="notice warn" style="margin-top:0">
-            <b>Nog geen bron aangesloten.</b> Werving per kanaal en de kosten-KPI's (CPA, CPQL, CPL)
-            vragen advertentiekosten uit de ad-platform-API's of een kostentabel, plus kanaal-attributie
-            op de Lead. Beide zijn nog niet bepaald — zie vraag 5 in het stappenplan. Zolang die bron
-            ontbreekt staan deze cijfers hier bewust leeg in plaats van geschat.
-          </div>
+          <div class="card-title" style="margin-bottom:4px">Nurturelane · langer thuis</div>
+          <p class="nl-intro">Leads kweken, een stap vóór een echte lead. Deze mensen
+             oriënteren zich en staan nog ver van een aanvraag, dus hier sturen we op
+             betrokkenheid en niet op status. Het verloop gaat over het hele meetvenster,
+             want de lane loopt langer dan de meeste gekozen periodes.</p>
+          <div class="nl-kop" data-nurture-kop></div>
+          <div class="nl-lijst" data-nurture-lijst></div>
+          <div class="nl-uit" data-nurture-uit hidden></div>
         </div>
       </div>
     </div>
@@ -1174,7 +1215,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261020095719"></script>
+<script src="data-layer.js?v=20261020105852"></script>
 
 </body>
 </html>
