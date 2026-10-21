@@ -87,9 +87,15 @@ function applyBindings(root, data) {
 
   // Halve-cirkel gauge: de boog is één pad met stroke-dasharray = volle lengte,
   // dus een offset van len (100% weg) t/m 0 (helemaal vol) tekent het percentage.
+  // De lengte wordt bij het pad zelf opgevraagd. Stond er een handmatig getal
+  // dat niet bij de boog paste, dan liep de vulling vóór op het cijfer: de
+  // boog was al vol bij 75% terwijl er 87% boven stond. Het attribuut blijft
+  // als terugval voor browsers zonder getTotalLength.
   root.querySelectorAll("[data-bind-arc]").forEach((el) => {
     const raw = getPath(data, el.dataset.bindArc);
-    const len = parseFloat(el.dataset.arcLen) || 0;
+    const echt = el.getTotalLength ? el.getTotalLength() : 0;
+    const len = echt || parseFloat(el.dataset.arcLen) || 0;
+    if (echt) el.setAttribute("stroke-dasharray", echt.toFixed(1));
     const pct = typeof raw === "number" ? Math.max(0, Math.min(100, raw)) : 0;
     el.setAttribute("stroke-dashoffset", (len * (1 - pct / 100)).toFixed(1));
   });
