@@ -22,6 +22,7 @@ jobs:
           SFMC_CLIENT_ID: ${{ secrets.SFMC_CLIENT_ID }}
           SFMC_CLIENT_SECRET: ${{ secrets.SFMC_CLIENT_SECRET }}
           SFMC_MID_NL: ${{ secrets.SFMC_MID_NL }}
+          SFMC_MID_BE: ${{ secrets.SFMC_MID_BE }}
         run: |
           python - <<'PY'
           import os, requests
@@ -30,13 +31,17 @@ jobs:
           print("client_id begint met:", cid[:8])
           print("uitgaand IP:", requests.get("https://api.ipify.org", timeout=20).text)
           for naam, body in (
-              ("zonder account_id", {"grant_type": "client_credentials",
-                                     "client_id": cid,
-                                     "client_secret": os.environ["SFMC_CLIENT_SECRET"]}),
-              ("met account_id",    {"grant_type": "client_credentials",
-                                     "client_id": cid,
-                                     "client_secret": os.environ["SFMC_CLIENT_SECRET"],
-                                     "account_id": os.environ["SFMC_MID_NL"]}),
+              ("enterprise", {"grant_type": "client_credentials",
+                              "client_id": cid,
+                              "client_secret": os.environ["SFMC_CLIENT_SECRET"]}),
+              ("NL",         {"grant_type": "client_credentials",
+                              "client_id": cid,
+                              "client_secret": os.environ["SFMC_CLIENT_SECRET"],
+                              "account_id": os.environ["SFMC_MID_NL"]}),
+              ("BE",         {"grant_type": "client_credentials",
+                              "client_id": cid,
+                              "client_secret": os.environ["SFMC_CLIENT_SECRET"],
+                              "account_id": os.environ["SFMC_MID_BE"]}),
           ):
               r = requests.post(f"https://{sub}.auth.marketingcloudapis.com/v2/token",
                                 json=body, timeout=30)
