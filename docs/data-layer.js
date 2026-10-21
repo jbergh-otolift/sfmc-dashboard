@@ -318,6 +318,16 @@ function applyFlow(emailHealth, flowKey) {
   });
 }
 
+/* De chipstrook schuift zijwaarts. Alleen als er echt meer chips zijn dan
+   er passen tonen we de vervaging rechts, anders lijkt de laatste chip
+   afgekapt terwijl er niets meer komt. */
+function markeerSchuifbaar() {
+  const bar = document.querySelector("[data-flow-chips]");
+  if (!bar) return;
+  bar.classList.toggle("is-scroll", bar.scrollWidth > bar.clientWidth + 2);
+}
+window.addEventListener("resize", markeerSchuifbaar);
+
 function buildFlowChips(emailHealth) {
   const bar = document.querySelector("[data-flow-chips]");
   if (!bar) return;
@@ -344,6 +354,7 @@ function buildFlowChips(emailHealth) {
     btn.addEventListener("click", () => {
       bar.querySelectorAll(".flowchip").forEach((c) => c.classList.remove("active"));
       btn.classList.add("active");
+      btn.scrollIntoView({ block: "nearest", inline: "nearest" });
       applyFlow(emailHealth, key);
       // "Alle flows" heeft geen mailopbouw; de losse journeys wel.
       if (key === "all") closeFlowDetail();
@@ -354,6 +365,7 @@ function buildFlowChips(emailHealth) {
 
   if (keys.length) applyFlow(emailHealth, keys[0]);
   closeFlowDetail();
+  markeerSchuifbaar();
 }
 
 /* ---------- coverage: meetbaar of niet ---------- */
@@ -2482,6 +2494,12 @@ function wireSectionNav() {
     // de sectie onder de kop terecht; de CSS-waarde is dan de terugval.
     if (!h) return;
     document.documentElement.style.setProperty("--hdr", Math.round(h) + "px");
+    // Alles wat bovenin blijft staan: kop plus sectiebalk. Elementen die
+    // daaronder moeten blijven plakken — zoals de filterbalk van Email
+    // Health — rekenen hiermee en niet met een vast getal, want de hoogte
+    // verschilt per schermbreedte.
+    document.documentElement.style.setProperty(
+      "--vast", Math.round(h + nav.offsetHeight) + "px");
     document.querySelectorAll("section[id]").forEach((el) => {
       el.style.scrollMarginTop = Math.round(h + nav.offsetHeight + 12) + "px";
     });

@@ -431,9 +431,13 @@ def source_state(email_health, has_crm, has_outcomes=False, sends_in_days=0):
         "emailHealth": "live" if live_email else "not_connected",
         # Her-activatie komt volledig uit LeadHistory.
         "reactivation": "live" if has_crm else "not_connected",
-        # Kern KPI's: heractivatie-ratio en MQL->SQL zijn live, coverage /
-        # database-groei / CPQL nog niet.
-        "kernKpis": "partial" if has_crm else "not_connected",
+        # Kern KPI's stond op "deels" toen coverage, database-groei en de
+        # kosten-KPI's nog geen bron hadden. Coverage en groei draaien
+        # inmiddels op lead_consent, de ratio's op LeadHistory en mails per
+        # persoon op de tracking; de kostenblokken bestaan niet meer. Alle
+        # vijf blokken zijn gevuld, dus het label hoort op live te staan.
+        "kernKpis": ("live" if (has_crm and sends_in_days)
+                     else "partial" if has_crm else "not_connected"),
         # Signalen: lijstgezondheid uit de mailtracking, doorlooptijd en de
         # nurture-resultaten uit LeadHistory. Beide bronnen zijn er, dus die
         # sectie staat op live — de lege kanalen- en kostenblokken die hem
