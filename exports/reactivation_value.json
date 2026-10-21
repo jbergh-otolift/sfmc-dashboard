@@ -6687,7 +6687,7 @@
       "nl": {
         "direct": 3,
         "directMailjourney": 3,
-        "entry": 34
+        "entry": 38
       }
     },
     "2026-10-14": {
@@ -6747,17 +6747,17 @@
         "mailjourney": 1
       },
       "nl": {
-        "entry": 35
+        "entry": 37
       }
     },
     "2026-10-21": {
       "be": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 4
+        "entry": 9
       },
       "nl": {
-        "entry": 11
+        "entry": 19
       }
     }
   },
@@ -6766,7 +6766,7 @@
       "direct": 37,
       "directMailjourney": 36,
       "directNotReached": 1,
-      "entry": 2241,
+      "entry": 2246,
       "mailjourney": 13,
       "notReached": 15,
       "other": 16
@@ -6782,7 +6782,7 @@
       "direct": 110,
       "directMailjourney": 93,
       "directNotReached": 17,
-      "entry": 5069,
+      "entry": 5083,
       "mailjourney": 32,
       "notReached": 36,
       "other": 33
@@ -13641,8 +13641,8 @@
         },
         "mailedOrders": 3,
         "mailedRevenue": 25286.42,
-        "orders": 54,
-        "revenue": 516456.08,
+        "orders": 55,
+        "revenue": 524638.5,
         "viaAutomationOrders": 3,
         "viaAutomationRevenue": 25286.42
       },
@@ -13717,8 +13717,8 @@
         },
         "mailedOrders": 8,
         "mailedRevenue": 52759.4,
-        "orders": 129,
-        "revenue": 878209.5,
+        "orders": 130,
+        "revenue": 880466.08,
         "viaAutomationOrders": 8,
         "viaAutomationRevenue": 52759.4
       }
@@ -14309,8 +14309,8 @@
         },
         "mailedOrders": 1,
         "mailedRevenue": 5748.47,
-        "orders": 6,
-        "revenue": 34420.18,
+        "orders": 10,
+        "revenue": 62098.79,
         "viaAutomationOrders": 1,
         "viaAutomationRevenue": 5748.47
       }
@@ -15640,7 +15640,7 @@
       "enriched": 105
     }
   },
-  "generated_at": "2026-10-21T08:45:31+00:00",
+  "generated_at": "2026-10-21T12:16:59+00:00",
   "lookback_days": 400,
   "nurtureResultaat": {
     "nl": {
@@ -16232,11 +16232,11 @@
       "notReached": {
         "appointment": 15,
         "appointmentEnriched": 0,
-        "new": 732,
+        "new": 733,
         "order": 9,
         "reentered": 39,
         "reenteredEnriched": 3,
-        "stage2": 732
+        "stage2": 733
       }
     },
     "fr": {
@@ -16263,20 +16263,20 @@
       "mailjourney": {
         "appointment": 32,
         "appointmentEnriched": 13,
-        "new": 818,
+        "new": 820,
         "order": 15,
         "reentered": 72,
         "reenteredEnriched": 18,
-        "stage2": 818
+        "stage2": 820
       },
       "notReached": {
         "appointment": 36,
         "appointmentEnriched": 14,
-        "new": 1570,
+        "new": 1575,
         "order": 15,
-        "reentered": 118,
-        "reenteredEnriched": 28,
-        "stage2": 1570
+        "reentered": 119,
+        "reenteredEnriched": 29,
+        "stage2": 1575
       }
     }
   },
@@ -23927,11 +23927,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 7,
+          "new": 10,
           "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 7
+          "reentered": 1,
+          "reenteredEnriched": 1,
+          "stage2": 10
         }
       }
     },
@@ -24159,24 +24159,44 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 3,
+          "new": 5,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 3
+          "stage2": 5
         }
       }
     },
     "2026-10-21": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 1,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 1
+        }
+      },
       "nl": {
         "mailjourney": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 6,
+          "new": 8,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 6
+          "stage2": 8
         },
         "notReached": {
           "appointment": 0,
@@ -24395,9 +24415,9 @@
     "be": {
       "Appointment": {
         "orders": 9,
-        "reached": 108,
+        "reached": 110,
         "revenue": 79096.41,
-        "withAppointment": 108
+        "withAppointment": 110
       },
       "Re-entered": {
         "orders": 12,
@@ -24431,9 +24451,9 @@
     "nl": {
       "Appointment": {
         "orders": 43,
-        "reached": 219,
+        "reached": 220,
         "revenue": 283613.98,
-        "withAppointment": 219
+        "withAppointment": 220
       },
       "Re-entered": {
         "orders": 17,
