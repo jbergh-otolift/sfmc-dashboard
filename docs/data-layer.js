@@ -2506,6 +2506,16 @@ function wireSectionNav() {
   };
   place();
   window.addEventListener("resize", place);
+  // De kop groeit nadat de data binnen is: de landenvlaggen en de
+  // periodekiezer worden pas dan getekend, waardoor hij van 89 naar 143px
+  // gaat. Werd --hdr alleen bij het laden gemeten, dan bleef de sectiebalk
+  // op 89px plakken en schoof hij over precies die twee knoppen heen. Een
+  // observer houdt de maat bij, ook bij een andere lettergrootte of markt.
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(place);
+    if (header) ro.observe(header);
+    ro.observe(nav);
+  }
 
   const links = [...nav.querySelectorAll("a")];
   const sections = links
