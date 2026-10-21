@@ -150,6 +150,11 @@
   .bench.bad{color:var(--oto-red)}
   /* Binnen een tiende van het huisgemiddelde: geen oordeel, want dat is ruis. */
   .bench.neutraal{color:var(--ink-soft);font-weight:600}
+  /* Tot wanneer een bron loopt. Alleen tonen als die achterloopt op de rest,
+     anders is het ruis bij een dashboard dat gewoon bij is. */
+  .tot-wanneer{font-size:10.5px;font-weight:600;color:#9A7108;background:#FBF0D8;
+               border:1px solid #EBD9A8;border-radius:20px;padding:3px 10px;
+               white-space:nowrap}
   .spark{margin-top:12px;height:32px;width:100%}
   .info-note{font-size:11px;color:var(--ink-soft);font-style:italic;display:inline-flex;align-items:center;gap:4px}
   .qmark{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#DCE3EC;color:var(--ink-soft);font-size:9px;font-weight:700;font-style:normal;cursor:help}
@@ -1081,6 +1086,7 @@
       <h2>Email Health</h2>
             <span class="desc">Gemeten op de tracking events per journey. Filter voor een specifieke flow.</span>
             <span class="srcbadge" data-source-for="emailHealth">–</span>
+            <span class="tot-wanneer" data-mail-tot hidden></span>
     </div>
 
     <div class="filterbar">
@@ -1274,7 +1280,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261020121033"></script>
+<script src="data-layer.js?v=20261021094054"></script>
 
 </body>
 </html>

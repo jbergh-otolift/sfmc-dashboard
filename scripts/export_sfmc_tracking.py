@@ -1299,7 +1299,16 @@ def main():
         print(f"\n{len(WARNINGS)} waarschuwing(en)")
         for w in WARNINGS:
             print(f"  - {w}")
-        return
+        # Hier stoppen, en niet de rest van de keten laten doordraaien. De
+        # CRM-stappen zouden het wel redden, maar dan ververst de bovenkant
+        # van de funnel terwijl de afspraken eronder blijven staan — twee
+        # verschillende dagen in één grafiek, en dat is erger dan een
+        # dashboard dat een paar dagen oud maar wel consistent is.
+        raise SystemExit(
+            "\nExport gestopt: Marketing Cloud liet dit IP-adres niet toe.\n"
+            "Het dashboard blijft op de laatste volledige versie staan.\n"
+            "Zie INSTELLEN-DAGELIJKSE-EXPORT.md voor het draaien vanaf kantoor."
+        )
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, sort_keys=True, ensure_ascii=False)

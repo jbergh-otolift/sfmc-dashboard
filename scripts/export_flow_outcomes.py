@@ -126,9 +126,15 @@ def transitions_by_lead(path):
 
 def main():
     if not os.path.exists(REACHED_PATH):
-        raise SystemExit(
-            f"{REACHED_PATH} ontbreekt. Draai eerst scripts/export_sfmc_tracking.py."
-        )
+        # Dit bestand komt uit de mailexport en staat niet in de repo. Lukt die
+        # export niet — sinds 16 oktober 2026 blokkeert Marketing Cloud het
+        # IP-adres van de runner — dan is er niets om aan te koppelen. Stoppen
+        # met een foutmelding zou de hele keten breken, inclusief de
+        # CRM-stappen die wél kunnen draaien. De vorige uitkomsten blijven
+        # staan en de rest van de keten gaat door.
+        print(f"{REACHED_PATH} ontbreekt; de mailexport is niet gelukt. "
+              f"{OUT_PATH} blijft op de vorige versie staan.")
+        return
     with open(REACHED_PATH, encoding="utf-8") as f:
         reached = json.load(f)
 

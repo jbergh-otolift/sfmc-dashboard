@@ -738,6 +738,33 @@ const BOUNCE_LETOP = 2;
 const BOUNCE_ALARM = 5;
 const TREND_WEKEN = 10;
 
+// Tot wanneer de mailtracking loopt. Die export hangt aan Marketing Cloud en
+// kan achterlopen op de rest; dan hoort dat bij de cijfers te staan en niet
+// alleen in een commitbericht. Loopt hij gelijk met het getoonde bereik, dan
+// is de melding ruis en blijft hij weg.
+function renderMailTot(markt, eindBereik) {
+  const el = document.querySelector("[data-mail-tot]");
+  if (!el) return;
+  const dagen = Object.entries(markt.days || {})
+    .filter(([, b]) => Object.keys(b.flows || {}).length)
+    .map(([d]) => d);
+  if (!dagen.length) {
+    el.hidden = true;
+    return;
+  }
+  const laatste = dagen.sort()[dagen.length - 1];
+  const laatsteGetoond = addDays(eindBereik, -1);
+  if (laatste >= laatsteGetoond) {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+  el.textContent = "maildata tot " + datumNL(laatste);
+  el.title = "De mailtracking loopt tot " + datumNL(laatste) +
+    ", het getoonde bereik tot " + datumNL(laatsteGetoond) +
+    ". De dagen daartussen tellen hier als nul.";
+}
+
 function renderLijstgezondheid(markt) {
   const host = document.querySelector("[data-health-weken]");
   const voet = document.querySelector("[data-health-voet]");
