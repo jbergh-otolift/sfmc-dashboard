@@ -1046,20 +1046,6 @@ def main():
 
     converted = conversions(session, instance_url)
     signed = signed_quotes(session, instance_url)
-    looptijden = doorlooptijden(transitions, active)
-    alle = [x for per in looptijden.values() for v in per.values() for x in v]
-    if alle:
-        alle.sort()
-        print(f"Doorlooptijd tot afspraak: {len(alle)} gemeten, "
-              f"mediaan {alle[len(alle)//2]} dagen")
-
-    nurture = nurture_resultaat(transitions)
-    if nurture:
-        for markt, blok in sorted(nurture.items()):
-            print(f"Nurturelane {markt}: {blok['leadsInLane']} leads, "
-                  f"{blok['leadsMetStatuswijziging']} met een statuswijziging, "
-                  f"{sum(blok['totals'].values())} afspraken")
-
     offerte = offerte_resultaat(session, instance_url)
     if offerte:
         for markt, blok in sorted(offerte.items()):
@@ -1094,6 +1080,20 @@ def main():
         active = set()
         warnings.append(
             f"{GOALS_PATH} ontbreekt; geen enkele instroomreden telt mee.")
+
+    looptijden = doorlooptijden(transitions, active)
+    alle = [x for per in looptijden.values() for v in per.values() for x in v]
+    if alle:
+        alle.sort()
+        print(f"Doorlooptijd tot afspraak: {len(alle)} gemeten, "
+              f"mediaan {alle[len(alle)//2]} dagen")
+
+    nurture = nurture_resultaat(transitions)
+    if nurture:
+        for markt, blok in sorted(nurture.items()):
+            print(f"Nurturelane {markt}: {blok['leadsInLane']} leads, "
+                  f"{blok['leadsMetStatuswijziging']} met een statuswijziging, "
+                  f"{sum(blok['totals'].values())} afspraken")
     parked = {
         lead for lead, info in paths.items()
         if (info.get("entryReason") or info.get("reason") or "").strip() in active
