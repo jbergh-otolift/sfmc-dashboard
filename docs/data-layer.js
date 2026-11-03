@@ -746,13 +746,14 @@ function renderAcChart(id) {
   if (!plot || !bron) return;
 
   if (stand.autoSchaal) {
+    // Altijd synchroniseren, niet alleen bij een wijziging: bij het eerste
+    // laden staat de markering nog op de waarde uit de HTML en zou je een
+    // andere knop opgelicht zien dan de schaal die getekend wordt.
     const auto = acAutoSchaal(bron.start, bron.eind);
-    if (auto !== stand.schaal) {
-      stand.schaal = auto;
-      const bar = document.querySelector(cfg.bar);
-      if (bar) bar.querySelectorAll("[data-ac-schaal]").forEach(
-        (b) => b.classList.toggle("aan", b.dataset.acSchaal === auto));
-    }
+    stand.schaal = auto;
+    const bar = document.querySelector(cfg.bar);
+    if (bar) bar.querySelectorAll("[data-ac-schaal]").forEach(
+      (b) => b.classList.toggle("aan", b.dataset.acSchaal === auto));
   }
 
   const bakken = acBouwBakken(cfg, bron.days, bron.start, bron.eind, stand);
