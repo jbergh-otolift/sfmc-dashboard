@@ -552,6 +552,301 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
   });
 }
 
+/* ---------- Afspraken over tijd ----------
+   Gestapelde staven per dag, week of maand. De kleuren liggen vast per
+   categorie en worden nooit doorgerouleerd: de volgorde is precies wat de
+   scheiding onder kleurenblindheid garandeert. Overig is grijs, want dat is
+   een restbak en geen categorie. */
+const AC_SLOTS = ["ac-r1", "ac-r2", "ac-r3", "ac-r4"];
+const AC_HEX = { "ac-r1": "#CA061A", "ac-r2": "#2a78d6", "ac-r3": "#B47C06",
+                 "ac-r4": "#6250d6", "ac-rest": "#7A8491" };
+const AC_REST = "Overig";
+// Vaste volgorde van de routes, met de restbak altijd onderop de stapel.
+const AC_ROUTES = ["Direct afspraak", "Nummer gewijzigd", "Re-entered"];
+const AC_MAANDEN = ["jan", "feb", "mrt", "apr", "mei", "jun",
+                    "jul", "aug", "sep", "okt", "nov", "dec"];
+
+let acStand = { schaal: "week", groep: "route", vorm: "staven" };
+let acBron = null;
+
+// Afspraken zijn hele mensen, dus de y-as krijgt hele stappen. Met een vast
+// aantal rasterlijnen kreeg je anders 1,3 / 2,5 / 3,8 boven een as die nooit
+// een halve afspraak kan tonen.
+function acSchaal(maxWaarde) {
+  const ruw = Math.max(Math.ceil(maxWaarde) || 1, 1);
+  for (const stap of [1, 2, 5, 10, 20, 25, 50, 100, 250, 500, 1000]) {
+    const lijnen = Math.ceil(ruw / stap);
+    if (lijnen <= 5) return { top: lijnen * stap, stap, lijnen };
+  }
+  const stap = Math.ceil(ruw / 5);
+  return { top: stap * 5, stap, lijnen: 5 };
+}
+
+// Eén dag naar de bak waarin hij valt, plus het label en de volle lengte van
+// die bak. Die lengte is nodig om te zien of de eerste of laatste bak maar
+// deels in het gekozen bereik ligt — anders leest een halve week als een dip.
+function acBak(iso, schaal) {
+  if (schaal === "dag") {
+    const d = new Date(iso + "T00:00:00Z");
+    return { sleutel: iso, label: d.getUTCDate() + " " + AC_MAANDEN[d.getUTCMonth()], lengte: 1 };
+  }
+  if (schaal === "maand") {
+    const d = new Date(iso + "T00:00:00Z");
+    const jaar = d.getUTCFullYear(), maand = d.getUTCMonth();
+    return { sleutel: iso.slice(0, 7),
+             label: AC_MAANDEN[maand] + (maand === 0 ? " " + String(jaar).slice(2) : ""),
+             lengte: new Date(Date.UTC(jaar, maand + 1, 0)).getUTCDate() };
+  }
+  const w = isoWeek(iso);
+  return { sleutel: w.jaar + "-" + String(w.nr).padStart(2, "0"),
+           label: "wk " + w.nr, lengte: 7 };
+}
+
+function acCategorieen(bakken, groep) {
+  const tot = {};
+  bakken.forEach((b) => Object.entries(b.waarden).forEach(([k, v]) => {
+    tot[k] = (tot[k] || 0) + v;
+  }));
+  let namen;
+  if (groep === "route") {
+    namen = AC_ROUTES.filter((r) => tot[r]);
+  } else {
+    // Meer dan vier kleuren naast elkaar houdt niemand uit elkaar; de staart
+    // gaat op in Overig en blijft leesbaar in de tabel eronder.
+    namen = Object.entries(tot).filter(([k]) => k !== AC_REST)
+      .sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k]) => k);
+  }
+  const rest = Object.keys(tot).filter((k) => !namen.includes(k));
+  const reeksen = namen.map((naam, i) => ({ naam, slot: AC_SLOTS[i], totaal: tot[naam] }));
+  const restTot = rest.reduce((s, k) => s + tot[k], 0);
+  if (restTot) reeksen.push({ naam: AC_REST, slot: "ac-rest", totaal: restTot, rest });
+  return reeksen;
+}
+
+function acBouwBakken(days, start, eind, schaal, groep) {
+  const veld = groep === "route" ? "apptRoutes" : "apptReasons";
+  const bakken = new Map();
+  Object.keys(days || {}).sort().forEach((dag) => {
+    if (dag < start || dag > eind) return;
+    const b = acBak(dag, schaal);
+    let vak = bakken.get(b.sleutel);
+    if (!vak) bakken.set(b.sleutel, (vak = { label: b.label, lengte: b.lengte,
+                                             dagen: 0, waarden: {}, totaal: 0 }));
+    vak.dagen += 1;
+    Object.entries(days[dag][veld] || {}).forEach(([k, v]) => {
+      if (!v) return;
+      vak.waarden[k] = (vak.waarden[k] || 0) + v;
+      vak.totaal += v;
+    });
+  });
+  return [...bakken.values()];
+}
+
+function acTip(plot) {
+  let tip = plot.querySelector(".ac-tip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.className = "ac-tip";
+    tip.hidden = true;
+    plot.appendChild(tip);
+  }
+  return tip;
+}
+
+function acToonTip(plot, bak, reeksen, x, breedte) {
+  const tip = acTip(plot);
+  const rijen = reeksen
+    .map((r) => ({ r, n: r.rest ? r.rest.reduce((s, k) => s + (bak.waarden[k] || 0), 0)
+                                : (bak.waarden[r.naam] || 0) }))
+    .filter((o) => o.n);
+  tip.innerHTML =
+    '<div class="ac-tip-kop">' + bak.label + "</div>" +
+    rijen.map((o) =>
+      '<div class="ac-tip-rij" style="--c:' + AC_HEX[o.r.slot] + '"><i></i>' +
+      "<span>" + o.r.naam + "</span><b>" + nlNum(o.n, 0) + "</b></div>").join("") +
+    '<div class="ac-tip-tot"><span>Totaal</span><span>' + nlNum(bak.totaal, 0) + "</span></div>";
+  tip.hidden = false;
+  // Naast de kolom, niet erboven: gecentreerd dekte de tooltip precies de
+  // staaf af die hij beschrijft. Links of rechts, afhankelijk van waar je zit.
+  const bk = tip.getBoundingClientRect();
+  const links = x < breedte / 2 ? x + 16 : x - bk.width - 16;
+  tip.style.left = Math.max(0, Math.min(links, breedte - bk.width)) + "px";
+  tip.style.top = "0px";
+}
+
+function renderApptChart() {
+  const plot = document.querySelector("[data-appt-chart]");
+  const leg = document.querySelector("[data-appt-legenda]");
+  const note = document.querySelector("[data-appt-note]");
+  if (!plot || !acBron) return;
+
+  const { days, start, eind } = acBron;
+  const bakken = acBouwBakken(days, start, eind, acStand.schaal, acStand.groep);
+  const tip = acTip(plot);
+  tip.hidden = true;
+  plot.querySelectorAll("svg").forEach((el) => el.remove());
+  if (leg) leg.innerHTML = "";
+  if (note) note.textContent = "";
+  if (!bakken.length) return;
+
+  const reeksen = acCategorieen(bakken, acStand.groep);
+  const breedte = Math.max(plot.clientWidth || 0, 280);
+  const L = 32, R = 6, T = 14, B = 24, H = 180;
+  const plotB = Math.max(breedte - L - R, 40);
+  const lijn = acStand.vorm === "lijn";
+
+  const maxWaarde = lijn
+    ? Math.max(...bakken.map((b) => Math.max(...reeksen.map((r) =>
+        r.rest ? r.rest.reduce((s, k) => s + (b.waarden[k] || 0), 0) : (b.waarden[r.naam] || 0)))))
+    : Math.max(...bakken.map((b) => b.totaal));
+  const as = acSchaal(maxWaarde || 1);
+  const top = as.top;
+  const y = (v) => T + H - (v / top) * H;
+
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 " + breedte + " " + (T + H + B));
+  svg.setAttribute("width", breedte);
+  svg.setAttribute("height", T + H + B);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label",
+    "Afspraken per " + acStand.schaal + ", gestapeld per " +
+    (acStand.groep === "route" ? "route" : "instroomreden"));
+  const maak = (naam, attrs) => {
+    const el = document.createElementNS(ns, naam);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    svg.appendChild(el);
+    return el;
+  };
+
+  // Raster: hairlines, nooit gestippeld, op hele stappen.
+  for (let i = 0; i <= as.lijnen; i++) {
+    const v = as.stap * i;
+    maak("line", { class: "ac-grid", x1: L, x2: L + plotB, y1: y(v), y2: y(v) });
+    const t = maak("text", { class: "ac-tick", x: L - 7, y: y(v) + 3.5, "text-anchor": "end" });
+    t.textContent = nlNum(v, 0);
+  }
+
+  const slot = plotB / bakken.length;
+  const staafB = Math.max(1.5, Math.min(34, slot * 0.64));
+  const gat = staafB >= 7 ? 2 : 0;
+  // Labels dunnen zodra ze elkaar zouden raken. Het laatste label is handig,
+  // maar alleen als er nog ruimte tussen zit — anders schrijft het over zijn
+  // voorganger heen.
+  const elke = Math.max(1, Math.ceil(44 / slot));
+  const laatsteVast = Math.floor((bakken.length - 1) / elke) * elke;
+  const toonLaatste = (bakken.length - 1 - laatsteVast) * slot >= 44;
+
+  bakken.forEach((bak, i) => {
+    const mid = L + slot * (i + 0.5);
+
+    if (!lijn) {
+      let onder = 0;
+      const stapel = reeksen.map((r) => ({
+        r, n: r.rest ? r.rest.reduce((s, k) => s + (bak.waarden[k] || 0), 0)
+                     : (bak.waarden[r.naam] || 0),
+      })).filter((o) => o.n);
+      stapel.forEach((o, j) => {
+        const y0 = y(onder + o.n), y1 = y(onder);
+        const h = Math.max(y1 - y0 - (j < stapel.length - 1 ? gat : 0), 1);
+        const bovenste = j === stapel.length - 1;
+        const rond = bovenste && h >= 5 && staafB >= 7 ? Math.min(4, staafB / 2) : 0;
+        if (rond) {
+          maak("path", { fill: AC_HEX[o.r.slot], d:
+            "M" + (mid - staafB / 2) + " " + (y0 + h) +
+            "V" + (y0 + rond) + "a" + rond + " " + rond + " 0 0 1 " + rond + " " + -rond +
+            "h" + (staafB - rond * 2) + "a" + rond + " " + rond + " 0 0 1 " + rond + " " + rond +
+            "V" + (y0 + h) + "Z" });
+        } else {
+          maak("rect", { fill: AC_HEX[o.r.slot], x: mid - staafB / 2, y: y0,
+                         width: staafB, height: h });
+        }
+        onder += o.n;
+      });
+    }
+
+    if (i % elke === 0 || (toonLaatste && i === bakken.length - 1)) {
+      const t = maak("text", { class: "ac-xlbl", x: mid, y: T + H + 15,
+                               "text-anchor": "middle" });
+      t.textContent = bak.label;
+    }
+
+    // Trefvlak over de hele kolom, dus je hoeft de staaf niet te raken.
+    const hit = maak("rect", { class: "ac-hit", x: L + slot * i, y: T,
+                               width: slot, height: H });
+    const aan = () => acToonTip(plot, bak, reeksen, mid, breedte);
+    hit.addEventListener("mouseenter", aan);
+    hit.addEventListener("mousemove", aan);
+    hit.addEventListener("mouseleave", () => { tip.hidden = true; });
+  });
+
+  if (lijn) {
+    reeksen.forEach((r) => {
+      const punten = bakken.map((b, i) => [L + slot * (i + 0.5),
+        y(r.rest ? r.rest.reduce((s, k) => s + (b.waarden[k] || 0), 0)
+                 : (b.waarden[r.naam] || 0))]);
+      maak("polyline", { fill: "none", stroke: AC_HEX[r.slot], "stroke-width": 2,
+                         "stroke-linejoin": "round", "stroke-linecap": "round",
+                         points: punten.map((p) => p.join(",")).join(" ") });
+      if (bakken.length <= 24) {
+        punten.forEach((p) => maak("circle", { class: "ac-punt", cx: p[0], cy: p[1],
+                                               r: 4, fill: AC_HEX[r.slot] }));
+      }
+    });
+  }
+
+  plot.insertBefore(svg, tip);
+
+  // Legenda staat er altijd: identiteit mag nooit alleen aan kleur hangen.
+  const somTot = reeksen.reduce((s, r) => s + r.totaal, 0);
+  if (leg) {
+    reeksen.forEach((r) => {
+      const el = document.createElement("span");
+      el.className = "ac-lg";
+      el.style.setProperty("--c", AC_HEX[r.slot]);
+      el.innerHTML = "<i></i>" + r.naam + " · <b>" + nlNum(r.totaal, 0) + "</b> (" +
+                     nlNum(somTot ? (r.totaal / somTot) * 100 : 0, 0) + "%)";
+      leg.appendChild(el);
+    });
+  }
+
+  if (note) {
+    const half = [];
+    const eerste = bakken[0], laatste = bakken[bakken.length - 1];
+    if (eerste.dagen < eerste.lengte) half.push("eerste");
+    if (bakken.length > 1 && laatste.dagen < laatste.lengte) half.push("laatste");
+    note.textContent = half.length
+      ? "Let op: de " + half.join(" en ") + " " +
+        (acStand.schaal === "maand" ? "maand" : acStand.schaal === "week" ? "week" : "dag") +
+        " ligt maar deels in het gekozen bereik en valt daardoor lager uit."
+      : "";
+  }
+}
+
+function wireApptChart() {
+  const bar = document.querySelector(".ac-bar");
+  if (!bar) return;
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-ac-schaal],button[data-ac-groep],button[data-ac-vorm]");
+    if (!btn) return;
+    const veld = btn.dataset.acSchaal ? "schaal" : btn.dataset.acGroep ? "groep" : "vorm";
+    acStand[veld] = btn.dataset.acSchaal || btn.dataset.acGroep || btn.dataset.acVorm;
+    [...btn.parentElement.children].forEach((b) => b.classList.toggle("aan", b === btn));
+    renderApptChart();
+  });
+  // Breedte bepaalt de staafdikte en hoeveel labels passen, dus hertekenen.
+  const plot = document.querySelector("[data-appt-chart]");
+  if (plot && window.ResizeObserver) {
+    let wacht = 0, vorige = 0;
+    new ResizeObserver(() => {
+      if (Math.abs(plot.clientWidth - vorige) < 2) return;
+      vorige = plot.clientWidth;
+      cancelAnimationFrame(wacht);
+      wacht = requestAnimationFrame(renderApptChart);
+    }).observe(plot);
+  }
+}
+
 // Eén regel in een balkenlijst: naam, balk op schaal, aantal en aandeel.
 // De balk schaalt op de grootste regel en niet op het totaal, anders is bij
 // een gelijkmatige verdeling elke balk een streepje.
@@ -2219,6 +2514,10 @@ function applyMarket(marketKey) {
   renderValueBlock(summed.value, (market || {}).offerteTotals, summed.offerte);
   renderApptBlock(summed.apptSplit, summed.apptReasons, summed.apptReasonPaths,
                   summed.apptRoutes);
+  // De grafiek leest dezelfde dagbuckets en volgt dus het gekozen bereik,
+  // net als het totaal erboven.
+  acBron = { days: market.days || {}, start: range.start, eind: range.end };
+  renderApptChart();
 
   renderVFunnel(view.reactivation);
   renderNurture(market);
@@ -2542,6 +2841,7 @@ function wireSectionNav() {
 }
 
 wireSectionNav();
+wireApptChart();
 
 
 // Blokken met meerdere uitklappers krijgen een knop om ze in een keer open of
@@ -2549,7 +2849,7 @@ wireSectionNav();
 // te klikken om een beeld te krijgen.
 function wireExpandAll() {
   const blokken = [
-    ["[data-appt-block] .vb-head", "[data-appt-block]"],
+    [".ac-tabel-kop", "[data-appt-routes]"],
     ["[data-value-block] .vb-head", "[data-value-block]"],
   ];
 

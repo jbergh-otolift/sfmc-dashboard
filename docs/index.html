@@ -150,6 +150,58 @@
   .flowchip:hover{border-color:var(--oto-red-soft);color:var(--oto-red)}
   .flowchip.active{background:var(--oto-red);border-color:var(--oto-red);color:#fff}
 
+  /* ---- Afspraken over tijd: gestapelde staven met een tijdschaal ----
+     De categoriekleuren zijn gevalideerd op lichtheid, chroma, kleurenblind-
+     scheiding en contrast (OKLab dE, protan/deutan). Volgorde ligt vast: de
+     scheiding tussen buren is wat het veilig maakt, dus nooit doorrouleren.
+     Overig is bewust grijs — dat is een restbak, geen categorie. */
+  .ac-r1{--c:#CA061A} .ac-r2{--c:#2a78d6} .ac-r3{--c:#B47C06}
+  .ac-r4{--c:#6250d6} .ac-rest{--c:#7A8491}
+
+  .ac-bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .ac-seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+  .ac-seg button{border:0;background:#fff;color:var(--ink-soft);font:600 12px/1 inherit;
+                 padding:7px 13px;cursor:pointer;font-family:inherit;transition:background .13s,color .13s}
+  .ac-seg button + button{border-left:1px solid var(--line)}
+  .ac-seg button:hover{background:#F7F9FC;color:var(--ink)}
+  .ac-seg button.aan{background:var(--oto-red);color:#fff}
+  .ac-seg button.aan:hover{background:var(--oto-red-deep)}
+
+  .ac-plot{position:relative;margin-top:4px}
+  .ac-plot svg{display:block;width:100%;height:auto;overflow:visible}
+  .ac-grid{stroke:var(--line);stroke-width:1}
+  .ac-tick{fill:var(--ink-soft);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .ac-xlbl{fill:var(--ink-soft);font-size:10.5px}
+  .ac-hit{fill:transparent;cursor:default}
+  .ac-hit:hover{fill:rgba(21,46,85,.045)}
+  .ac-punt{stroke:#fff;stroke-width:2}
+
+  .ac-legenda{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px}
+  .ac-lg{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+  .ac-lg i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:0 0 auto}
+  .ac-lg b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+
+  .ac-note{font-size:11.5px;color:var(--ink-soft);margin:9px 0 0;font-style:italic}
+
+  .ac-tip{position:absolute;z-index:6;pointer-events:none;background:#fff;border:1px solid var(--line);
+          border-radius:10px;box-shadow:var(--shadow);padding:9px 11px;font-size:12px;min-width:150px}
+  .ac-tip[hidden]{display:none}
+  .ac-tip-kop{font-weight:700;color:var(--ink);margin-bottom:6px}
+  .ac-tip-rij{display:flex;align-items:center;gap:7px;margin-top:3px;color:var(--ink-soft)}
+  .ac-tip-rij i{width:9px;height:9px;border-radius:3px;background:var(--c);flex:0 0 auto}
+  .ac-tip-rij span{flex:1 1 auto}
+  .ac-tip-rij b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .ac-tip-tot{display:flex;justify-content:space-between;gap:12px;margin-top:7px;padding-top:6px;
+              border-top:1px solid var(--line);color:var(--ink);font-weight:700}
+
+  .ac-tabel{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+  .ac-tabel > summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--oto-red);list-style:none}
+  .ac-tabel > summary::-webkit-details-marker{display:none}
+  .ac-tabel > summary::before{content:"\25B8";display:inline-block;margin-right:6px;transition:transform .15s}
+  .ac-tabel[open] > summary::before{transform:rotate(90deg)}
+  .ac-tabel .vb-routes{margin-top:4px}
+  .ac-tabel-kop{display:flex;justify-content:flex-end;min-height:0;margin-top:8px}
+
   .kpi-grid{grid-template-columns:repeat(4,1fr)}
   @media(max-width:1000px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:520px){.kpi-grid{grid-template-columns:1fr}}
@@ -933,8 +985,9 @@
           <div class="vb-head">
             <div>
               <h3>Afspraken via automation</h3>
-              <p>Gegroepeerd op instroomreden, want daar hangt de flow aan. Klap een
-                 reden open voor de statussen die de leads daarna doorliepen.</p>
+              <p>Het verloop over de tijd, gestapeld per route of per instroomreden.
+                 Schakel tussen dag, week en maand; de grafiek volgt het gekozen bereik.
+                 Onderaan staan alle redenen met de statussen die de leads doorliepen.</p>
               <details class="vb-details telwijze">
                 <summary>Hoe dit geteld wordt</summary>
                 <p>Elke afspraak van een lead die eerder met een actieve reden in
@@ -950,7 +1003,32 @@
               <span class="vb-t-lbl" data-appt-sub>–</span>
             </div>
           </div>
-          <div class="vb-routes" data-appt-routes></div>
+
+          <div class="ac-bar">
+            <div class="ac-seg" role="group" aria-label="Tijdschaal">
+              <button type="button" data-ac-schaal="dag">Dag</button>
+              <button type="button" data-ac-schaal="week" class="aan">Week</button>
+              <button type="button" data-ac-schaal="maand">Maand</button>
+            </div>
+            <div class="ac-seg" role="group" aria-label="Groepering">
+              <button type="button" data-ac-groep="route" class="aan">Route</button>
+              <button type="button" data-ac-groep="reden">Reden</button>
+            </div>
+            <div class="ac-seg" role="group" aria-label="Vorm">
+              <button type="button" data-ac-vorm="staven" class="aan">Staven</button>
+              <button type="button" data-ac-vorm="lijn">Lijn</button>
+            </div>
+          </div>
+
+          <div class="ac-plot" data-appt-chart></div>
+          <div class="ac-legenda" data-appt-legenda></div>
+          <p class="ac-note" data-appt-note></p>
+
+          <details class="ac-tabel">
+            <summary>Alle afspraken per instroomreden</summary>
+            <div class="ac-tabel-kop"></div>
+            <div class="vb-routes" data-appt-routes></div>
+          </details>
         </div>
 
         <div class="value-block" data-value-block hidden>
@@ -1297,7 +1375,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261021093534"></script>
+<script src="data-layer.js?v=20261103085917"></script>
 
 </body>
 </html>
