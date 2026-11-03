@@ -1004,7 +1004,7 @@
             </div>
           </div>
 
-          <div class="ac-bar">
+          <div class="ac-bar" data-ac-bar="appt">
             <div class="ac-seg" role="group" aria-label="Tijdschaal">
               <button type="button" data-ac-schaal="dag">Dag</button>
               <button type="button" data-ac-schaal="week" class="aan">Week</button>
@@ -1035,8 +1035,9 @@
           <div class="vb-head">
             <div>
               <h3>Orders via automation</h3>
-              <p>Orders van leads uit de mailflow, gegroepeerd op de route waarlangs ze
-                 terugkwamen. Onderaan apart de offerteflow.</p>
+              <p>Orders van leads uit de mailflow over de tijd, gestapeld op de route
+                 waarlangs ze terugkwamen of op instroomreden. Schakel tussen aantal en
+                 omzet. Daaronder apart de offerteflow.</p>
               <details class="vb-details telwijze">
                 <summary>Hoe dit geteld wordt</summary>
                 <p>Alleen conversies <b>ná</b> de eerste mail tellen mee — ligt de order
@@ -1055,7 +1056,37 @@
               <span class="vb-t-lbl" data-value-sub>–</span>
             </div>
           </div>
-          <div class="vb-routes" data-value-routes></div>
+          <div class="ac-bar" data-ac-bar="order">
+            <div class="ac-seg" role="group" aria-label="Tijdschaal">
+              <button type="button" data-ac-schaal="dag">Dag</button>
+              <button type="button" data-ac-schaal="week">Week</button>
+              <button type="button" data-ac-schaal="maand" class="aan">Maand</button>
+            </div>
+            <div class="ac-seg" role="group" aria-label="Maat">
+              <button type="button" data-ac-maat="orders" class="aan">Orders</button>
+              <button type="button" data-ac-maat="omzet">Omzet</button>
+            </div>
+            <div class="ac-seg" role="group" aria-label="Groepering">
+              <button type="button" data-ac-groep="route" class="aan">Route</button>
+              <button type="button" data-ac-groep="reden">Reden</button>
+            </div>
+            <div class="ac-seg" role="group" aria-label="Vorm">
+              <button type="button" data-ac-vorm="staven" class="aan">Staven</button>
+              <button type="button" data-ac-vorm="lijn">Lijn</button>
+            </div>
+          </div>
+
+          <div class="ac-plot" data-order-chart></div>
+          <div class="ac-legenda" data-order-legenda></div>
+          <p class="ac-note" data-order-note></p>
+
+          <div class="vb-routes" data-offerte-box></div>
+
+          <details class="ac-tabel">
+            <summary>Alle orders per route</summary>
+            <div class="ac-tabel-kop"></div>
+            <div class="vb-routes" data-value-routes></div>
+          </details>
 
           <details class="vb-details">
             <summary>Welke statussen deze leads doorliepen</summary>
@@ -1375,7 +1406,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261103085917"></script>
+<script src="data-layer.js?v=20261103095242"></script>
 
 </body>
 </html>
