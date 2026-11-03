@@ -1,27 +1,5 @@
 {
   "cohortDays": {
-    "2026-04-16": {
-      "be": {
-        "entered": 13,
-        "mailable": 12,
-        "reached": 0
-      },
-      "fr": {
-        "entered": 13,
-        "mailable": 0,
-        "reached": null
-      },
-      "it": {
-        "entered": 25,
-        "mailable": 0,
-        "reached": null
-      },
-      "nl": {
-        "entered": 37,
-        "mailable": 12,
-        "reached": 0
-      }
-    },
     "2026-04-17": {
       "be": {
         "entered": 6,
@@ -173,7 +151,7 @@
         "reached": null
       },
       "it": {
-        "entered": 2,
+        "entered": 3,
         "mailable": 0,
         "reached": null
       }
@@ -419,8 +397,8 @@
       },
       "nl": {
         "entered": 56,
-        "mailable": 21,
-        "reached": 2
+        "mailable": 22,
+        "reached": 3
       }
     },
     "2026-05-13": {
@@ -1451,7 +1429,7 @@
       "be": {
         "entered": 22,
         "mailable": 15,
-        "reached": 4
+        "reached": 0
       },
       "nl": {
         "entered": 40,
@@ -1528,7 +1506,7 @@
       "nl": {
         "entered": 16,
         "mailable": 8,
-        "reached": 7
+        "reached": 4
       }
     },
     "2026-08-06": {
@@ -1540,13 +1518,13 @@
       "nl": {
         "entered": 43,
         "mailable": 23,
-        "reached": 18
+        "reached": 17
       }
     },
     "2026-08-07": {
       "be": {
-        "entered": 17,
-        "mailable": 11,
+        "entered": 18,
+        "mailable": 12,
         "reached": 3
       },
       "fr": {
@@ -1617,7 +1595,7 @@
       "nl": {
         "entered": 27,
         "mailable": 18,
-        "reached": 13
+        "reached": 12
       }
     },
     "2026-08-13": {
@@ -1682,7 +1660,7 @@
       "nl": {
         "entered": 61,
         "mailable": 42,
-        "reached": 38
+        "reached": 37
       }
     },
     "2026-08-18": {
@@ -1701,7 +1679,7 @@
       "be": {
         "entered": 20,
         "mailable": 15,
-        "reached": 15
+        "reached": 14
       },
       "fr": {
         "entered": 1,
@@ -1733,7 +1711,7 @@
       "nl": {
         "entered": 25,
         "mailable": 16,
-        "reached": 13
+        "reached": 12
       }
     },
     "2026-08-21": {
@@ -1847,7 +1825,7 @@
       "nl": {
         "entered": 31,
         "mailable": 21,
-        "reached": 19
+        "reached": 18
       }
     },
     "2026-08-28": {
@@ -2219,7 +2197,7 @@
       "nl": {
         "entered": 56,
         "mailable": 36,
-        "reached": 34
+        "reached": 35
       }
     },
     "2026-09-23": {
@@ -2666,8 +2644,8 @@
       },
       "nl": {
         "entered": 26,
-        "mailable": 15,
-        "reached": 14
+        "mailable": 14,
+        "reached": 13
       }
     },
     "2026-10-24": {
@@ -2685,8 +2663,8 @@
     "2026-10-26": {
       "be": {
         "entered": 12,
-        "mailable": 12,
-        "reached": 12
+        "mailable": 11,
+        "reached": 11
       },
       "fr": {
         "entered": 1,
@@ -2761,8 +2739,8 @@
       },
       "nl": {
         "entered": 26,
-        "mailable": 15,
-        "reached": 15
+        "mailable": 14,
+        "reached": 14
       }
     },
     "2026-10-30": {
@@ -2817,65 +2795,82 @@
         "mailable": 25,
         "reached": 25
       }
+    },
+    "2026-11-03": {
+      "be": {
+        "entered": 23,
+        "mailable": 20,
+        "reached": 20
+      },
+      "fr": {
+        "entered": 31,
+        "mailable": 0,
+        "reached": null
+      },
+      "nl": {
+        "entered": 41,
+        "mailable": 29,
+        "reached": 29
+      }
     }
   },
   "consent_definition": "Customized_Product_Advice__c = true AND HasOptedOutOfEmail = false",
   "coverage_days": 90,
   "coverage_definition": "Status = 'Mailjourney' AND Email != null AND HasOptedOutOfEmail = false AND (Customized_Product_Advice__c = true OR Reason_Mailjourney__c IN ('No Contact Possible - number correct', 'No Contact Possible - number incorrect', 'No contact possible')); bereikt = minstens een e-mail in de laatste 90 dagen",
-  "generated_at": "2026-11-02T16:30:42+00:00",
+  "generated_at": "2026-11-03T14:39:48+00:00",
   "markets": {
     "be": {
       "cohorts": {
         "30": {
-          "coverage": 89.8,
-          "entered": 361,
-          "mailable": 275,
-          "reached": 247
+          "coverage": 90.5,
+          "entered": 384,
+          "mailable": 294,
+          "reached": 266
         },
         "7": {
-          "coverage": 94.9,
-          "entered": 99,
-          "mailable": 79,
-          "reached": 75
+          "coverage": 94.8,
+          "entered": 95,
+          "mailable": 77,
+          "reached": 73
         },
         "90": {
-          "coverage": 88.0,
-          "entered": 1231,
-          "mailable": 945,
-          "reached": 832
+          "coverage": 88.8,
+          "entered": 1227,
+          "mailable": 946,
+          "reached": 840
         }
       },
-      "consentShare": 7.16,
-      "consentTotal": 5482,
-      "coverage": 38.0,
-      "growth": 1605,
-      "growthDeltaPct": 243.7,
+      "consentShare": 7.18,
+      "consentTotal": 5502,
+      "coverage": 38.3,
+      "growth": 1625,
+      "growthDeltaPct": 248.0,
       "growthPrev": 467,
-      "leadsTotal": 76596,
+      "leadsTotal": 76623,
       "mailjourneyNoConsent": 14901,
-      "mailjourneyNoContactException": 89,
-      "mailjourneyNoEmail": 648,
-      "mailjourneyTotal": 17606,
-      "reachedOfShouldMail": 782,
-      "shouldMail": 2057
+      "mailjourneyNoContactException": 92,
+      "mailjourneyNoEmail": 649,
+      "mailjourneyTotal": 17626,
+      "reachedOfShouldMail": 796,
+      "shouldMail": 2076
     },
     "fr": {
       "cohorts": {
         "30": {
           "coverage": null,
-          "entered": 388,
+          "entered": 419,
           "mailable": 0,
           "reached": null
         },
         "7": {
           "coverage": null,
-          "entered": 157,
+          "entered": 147,
           "mailable": 0,
           "reached": null
         },
         "90": {
           "coverage": null,
-          "entered": 484,
+          "entered": 515,
           "mailable": 0,
           "reached": null
         }
@@ -2886,13 +2881,13 @@
       "growth": 0,
       "growthDeltaPct": null,
       "growthPrev": 0,
-      "leadsTotal": 142985,
-      "mailjourneyNoConsent": 39281,
-      "mailjourneyNoContactException": 1391,
-      "mailjourneyNoEmail": 4312,
-      "mailjourneyTotal": 44984,
+      "leadsTotal": 143048,
+      "mailjourneyNoConsent": 39313,
+      "mailjourneyNoContactException": 1390,
+      "mailjourneyNoEmail": 4314,
+      "mailjourneyTotal": 45017,
       "reachedOfShouldMail": null,
-      "shouldMail": 1391
+      "shouldMail": 1390
     },
     "it": {
       "cohorts": {
@@ -2904,7 +2899,7 @@
         },
         "7": {
           "coverage": null,
-          "entered": 50,
+          "entered": 46,
           "mailable": 0,
           "reached": null
         },
@@ -2921,52 +2916,52 @@
       "growth": 0,
       "growthDeltaPct": null,
       "growthPrev": 0,
-      "leadsTotal": 159325,
-      "mailjourneyNoConsent": 12151,
+      "leadsTotal": 159388,
+      "mailjourneyNoConsent": 12153,
       "mailjourneyNoContactException": 0,
       "mailjourneyNoEmail": 1669,
-      "mailjourneyTotal": 13820,
+      "mailjourneyTotal": 13822,
       "reachedOfShouldMail": null,
       "shouldMail": 0
     },
     "nl": {
       "cohorts": {
         "30": {
-          "coverage": 98.3,
-          "entered": 864,
-          "mailable": 541,
-          "reached": 532
+          "coverage": 98.4,
+          "entered": 908,
+          "mailable": 571,
+          "reached": 562
         },
         "7": {
           "coverage": 99.1,
-          "entered": 186,
+          "entered": 182,
           "mailable": 115,
           "reached": 114
         },
         "90": {
-          "coverage": 94.4,
-          "entered": 2482,
-          "mailable": 1533,
-          "reached": 1447
+          "coverage": 94.3,
+          "entered": 2506,
+          "mailable": 1553,
+          "reached": 1464
         }
       },
-      "consentShare": 9.95,
-      "consentTotal": 35222,
-      "coverage": 34.6,
-      "growth": 3190,
-      "growthDeltaPct": 229.5,
-      "growthPrev": 968,
-      "leadsTotal": 354066,
-      "mailjourneyNoConsent": 25934,
-      "mailjourneyNoContactException": 440,
-      "mailjourneyNoEmail": 5264,
-      "mailjourneyTotal": 42840,
-      "reachedOfShouldMail": 4027,
-      "shouldMail": 11642
+      "consentShare": 9.96,
+      "consentTotal": 35262,
+      "coverage": 34.7,
+      "growth": 3233,
+      "growthDeltaPct": 234.3,
+      "growthPrev": 967,
+      "leadsTotal": 354200,
+      "mailjourneyNoConsent": 25944,
+      "mailjourneyNoContactException": 447,
+      "mailjourneyNoEmail": 5262,
+      "mailjourneyTotal": 42871,
+      "reachedOfShouldMail": 4042,
+      "shouldMail": 11665
     }
   },
   "period": {
-    "end": "2026-11-03",
+    "end": "2026-11-04",
     "start": "2026-08-20"
   },
   "prev_period": {
