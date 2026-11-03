@@ -558,13 +558,26 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
    de volgorde is precies wat de scheiding onder kleurenblindheid garandeert.
    Gevalideerd op lichtheid, chroma, contrast en OKLab-afstand onder protanopie
    en deuteranopie. Overig is grijs, want dat is een restbak, geen categorie. */
-const AC_SLOTS = ["ac-r1", "ac-r2", "ac-r3", "ac-r4"];
+const AC_SLOTS = ["ac-r1", "ac-r2", "ac-r3", "ac-r4", "ac-r5", "ac-r6"];
 const AC_HEX = { "ac-r1": "#CA061A", "ac-r2": "#2a78d6", "ac-r3": "#B47C06",
-                 "ac-r4": "#6250d6", "ac-rest": "#7A8491" };
+                 "ac-r4": "#C44B7A", "ac-r5": "#6250d6", "ac-r6": "#17895F",
+                 "ac-rest": "#7A8491" };
 const AC_REST = "Overig";
 // Vaste routevolgorde. Beide blokken gebruiken dezelfde namen, dus "Direct
 // afspraak" is in de afsprakengrafiek en de ordergrafiek hetzelfde rood.
 const AC_ROUTES = ["Direct afspraak", "Nummer gewijzigd", "Re-entered"];
+// De instroomredenen waar daadwerkelijk een flow achter draait. De rest is
+// legacy — "No contact possible" is de voorloper van de twee nummer-varianten
+// en "WMO" heeft geen flow — en gaat op in Overig. De volgorde ligt vast,
+// zodat een reden in beide grafieken en in elke periode dezelfde kleur houdt.
+const AC_REDENEN = [
+  "No Contact Possible - number incorrect",
+  "No Contact Possible - number correct",
+  "Orientation for later moment",
+  "Not reached \u00b7 zonder reden",
+  "Never had contact with the customer",
+  "Wmo application is in progress",
+];
 const AC_MAANDEN = ["jan", "feb", "mrt", "apr", "mei", "jun",
                     "jul", "aug", "sep", "okt", "nov", "dec"];
 
@@ -602,8 +615,8 @@ const AC_CFG = {
 };
 
 const acStanden = {
-  appt: { schaal: "week", groep: "route", vorm: "staven", maat: "aantal", autoSchaal: true },
-  order: { schaal: "week", groep: "route", vorm: "staven", maat: "orders", autoSchaal: true },
+  appt: { schaal: "week", groep: "reden", vorm: "staven", maat: "aantal", autoSchaal: true },
+  order: { schaal: "week", groep: "reden", vorm: "staven", maat: "orders", autoSchaal: true },
 };
 const acBronnen = {};
 
@@ -658,17 +671,14 @@ function acCategorieen(bakken, groep) {
   bakken.forEach((b) => Object.entries(b.waarden).forEach(([k, v]) => {
     tot[k] = (tot[k] || 0) + v;
   }));
-  let namen;
-  if (groep === "route") {
-    namen = AC_ROUTES.filter((r) => tot[r]);
-  } else {
-    // Meer dan vier kleuren naast elkaar houdt niemand uit elkaar; de staart
-    // gaat op in Overig en blijft leesbaar in de tabel eronder.
-    namen = Object.entries(tot).filter(([k]) => k !== AC_REST)
-      .sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k]) => k);
-  }
-  const rest = Object.keys(tot).filter((k) => !namen.includes(k));
-  const reeksen = namen.map((naam, i) => ({ naam, slot: AC_SLOTS[i], totaal: tot[naam] }));
+  // De kleur hangt aan de plek in de vaste lijst, niet aan de plek in wat er
+  // in deze periode toevallig overblijft. Anders verschiet een reden van kleur
+  // zodra een andere reden een periode lang op nul staat.
+  const vast = groep === "route" ? AC_ROUTES : AC_REDENEN;
+  const reeksen = vast
+    .map((naam, i) => ({ naam, slot: AC_SLOTS[i], totaal: tot[naam] || 0 }))
+    .filter((r) => r.totaal);
+  const rest = Object.keys(tot).filter((k) => !vast.includes(k));
   const restTot = rest.reduce((s, k) => s + tot[k], 0);
   if (restTot) reeksen.push({ naam: AC_REST, slot: "ac-rest", totaal: restTot, rest });
   return reeksen;
