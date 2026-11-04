@@ -597,26 +597,25 @@ const AC_CFG = {
     note: "[data-order-note]", bar: "[data-ac-bar=order]",
     velden: { route: "byRoute", reden: "byReason" },
     // Orders zitten een niveau dieper, met omzet ernaast in dezelfde knoop.
+    // Die omzet laten we bewust liggen: de gemiddelde orderwaarde varieert
+    // sterk, dus een bedrag zegt meer over de mix dan over de prestatie.
     lees: (bucket, veld) => (bucket.value || {})[veld] || {},
-    getal: (v, maat) => (maat === "omzet" ? (v && v.revenue) : (v && v.orders)) || 0,
-    fmt: (n, maat) => (maat === "omzet" ? eur(n) : nlNum(n, 0)),
-    noemer: (maat) => (maat === "omzet" ? "omzet" : "orders"),
+    getal: (v) => (v && v.orders) || 0,
+    fmt: (n) => nlNum(n, 0),
+    noemer: () => "orders",
     // Niet elke order van een gemailde lead heeft een aantoonbare route. Zonder
     // dit restje telt de grafiek op tot 72 terwijl er 75 boven staat, en dan
     // mag je de lezer het verschil laten zoeken.
-    rest: (bucket, gevonden, maat) => {
-      const v = bucket.value || {};
-      const alles = (maat === "omzet" ? v.mailedRevenue : v.mailedOrders) || 0;
-      return Math.max(alles - gevonden, 0);
-    },
+    rest: (bucket, gevonden) =>
+      Math.max(((bucket.value || {}).mailedOrders || 0) - gevonden, 0),
     restUitleg: "Overig: orders van gemailde leads waar geen heractivatiepad " +
                 "van te maken is — ze tellen wel mee in het totaal hierboven.",
   },
 };
 
 const acStanden = {
-  appt: { schaal: "week", groep: "reden", vorm: "staven", maat: "aantal", autoSchaal: true },
-  order: { schaal: "week", groep: "reden", vorm: "staven", maat: "orders", autoSchaal: true },
+  appt: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true },
+  order: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true },
 };
 const acBronnen = {};
 
@@ -697,14 +696,14 @@ function acBouwBakken(cfg, days, start, eind, stand) {
     vak.dagen += 1;
     let gevonden = 0;
     Object.entries(cfg.lees(days[dag], veld)).forEach(([k, v]) => {
-      const n = cfg.getal(v, stand.maat);
+      const n = cfg.getal(v);
       if (!n) return;
       const naam = labels[k] || k;
       vak.waarden[naam] = (vak.waarden[naam] || 0) + n;
       vak.totaal += n;
       gevonden += n;
     });
-    const over = cfg.rest ? cfg.rest(days[dag], gevonden, stand.maat) : 0;
+    const over = cfg.rest ? cfg.rest(days[dag], gevonden) : 0;
     if (over) {
       vak.waarden[AC_REST] = (vak.waarden[AC_REST] || 0) + over;
       vak.totaal += over;
@@ -736,9 +735,9 @@ function acToonTip(cfg, stand, plot, bak, reeksen, x, breedte) {
     '<div class="ac-tip-kop">' + bak.label + "</div>" +
     rijen.map((o) =>
       '<div class="ac-tip-rij" style="--c:' + AC_HEX[o.r.slot] + '"><i></i>' +
-      "<span>" + o.r.naam + "</span><b>" + cfg.fmt(o.n, stand.maat) + "</b></div>").join("") +
+      "<span>" + o.r.naam + "</span><b>" + cfg.fmt(o.n) + "</b></div>").join("") +
     '<div class="ac-tip-tot"><span>Totaal</span><span>' +
-      cfg.fmt(bak.totaal, stand.maat) + "</span></div>";
+      cfg.fmt(bak.totaal) + "</span></div>";
   tip.hidden = false;
   // Naast de kolom, niet erboven: gecentreerd dekte de tooltip precies de
   // staaf af die hij beschrijft. Links of rechts, afhankelijk van waar je zit.
@@ -783,7 +782,7 @@ function renderAcChart(id) {
   const as = acSchaal(maxWaarde || 1);
   const top = as.top;
   // Omzetlabels zijn breed (€25.000), dus de linkermarge groeit mee.
-  const L = Math.max(32, cfg.fmt(top, stand.maat).length * 6.6 + 10);
+  const L = Math.max(32, cfg.fmt(top).length * 6.6 + 10);
   const R = 6, T = 14, B = 24, H = 180;
   const plotB = Math.max(breedte - L - R, 40);
   const y = (v) => T + H - (v / top) * H;
@@ -795,7 +794,7 @@ function renderAcChart(id) {
   svg.setAttribute("height", T + H + B);
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label",
-    cfg.noemer(stand.maat) + " per " + stand.schaal + ", gestapeld per " +
+    cfg.noemer() + " per " + stand.schaal + ", gestapeld per " +
     (stand.groep === "route" ? "route" : "instroomreden"));
   const maak = (naam, attrs) => {
     const el = document.createElementNS(ns, naam);
@@ -809,7 +808,7 @@ function renderAcChart(id) {
     const v = as.stap * i;
     maak("line", { class: "ac-grid", x1: L, x2: L + plotB, y1: y(v), y2: y(v) });
     const t = maak("text", { class: "ac-tick", x: L - 7, y: y(v) + 3.5, "text-anchor": "end" });
-    t.textContent = cfg.fmt(v, stand.maat);
+    t.textContent = cfg.fmt(v);
   }
 
   const slot = plotB / bakken.length;
@@ -884,7 +883,7 @@ function renderAcChart(id) {
       const el = document.createElement("span");
       el.className = "ac-lg";
       el.style.setProperty("--c", AC_HEX[r.slot]);
-      el.innerHTML = "<i></i>" + r.naam + " · <b>" + cfg.fmt(r.totaal, stand.maat) +
+      el.innerHTML = "<i></i>" + r.naam + " · <b>" + cfg.fmt(r.totaal) +
                      "</b> (" + nlNum(somTot ? (r.totaal / somTot) * 100 : 0, 0) + "%)";
       leg.appendChild(el);
     });
@@ -914,11 +913,11 @@ function wireAcCharts() {
     if (bar) {
       bar.addEventListener("click", (e) => {
         const btn = e.target.closest("button[data-ac-schaal],button[data-ac-groep]," +
-                                     "button[data-ac-vorm],button[data-ac-maat]");
+                                     "button[data-ac-vorm]");
         if (!btn) return;
         const d = btn.dataset;
-        const veld = d.acSchaal ? "schaal" : d.acGroep ? "groep" : d.acVorm ? "vorm" : "maat";
-        acStanden[id][veld] = d.acSchaal || d.acGroep || d.acVorm || d.acMaat;
+        const veld = d.acSchaal ? "schaal" : d.acGroep ? "groep" : "vorm";
+        acStanden[id][veld] = d.acSchaal || d.acGroep || d.acVorm;
         if (veld === "schaal") acStanden[id].autoSchaal = false;
         [...btn.parentElement.children].forEach((b) => b.classList.toggle("aan", b === btn));
         renderAcChart(id);
