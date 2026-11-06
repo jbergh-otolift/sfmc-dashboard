@@ -6,7 +6,7 @@
   "defaultPeriod": "30",
   "endDate": "2026-11-07",
   "firstDay": "2025-10-03",
-  "generated_at": "2026-11-06T14:50:06+00:00",
+  "generated_at": "2026-11-06T14:58:18+00:00",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -3943,7 +3943,7 @@
         "channels": [],
         "funnel": {
           "mql": {
-            "abs": 1184,
+            "abs": 1186,
             "convDeltaPct": null,
             "share": 100.0
           },
@@ -3953,14 +3953,14 @@
             "share": null
           },
           "r1": {
-            "abs": 476,
+            "abs": 477,
             "convDeltaPct": 5.0,
-            "share": 40.2
+            "share": 40.22
           },
           "sql": {
             "abs": 105,
-            "convDeltaPct": -17.7,
-            "share": 8.87
+            "convDeltaPct": -17.9,
+            "share": 8.85
           }
         },
         "totals": {
@@ -3969,7 +3969,617 @@
           "contacts": null
         }
       },
-      "apptRecords": [],
+      "apptRecords": [
+        {
+          "date": "2026-11-05",
+          "lead": "00QP500000w810qMAA",
+          "path": "→ Re-entered → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-11-04",
+          "lead": "00QP500000yrKPRMA2",
+          "path": "→ Follow-up → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-03",
+          "lead": "00QP5000010JHG0MAO",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-02",
+          "lead": "00QQD00000ZGzAC2A1",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-29",
+          "lead": "00QP50000100fsHMAQ",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-27",
+          "lead": "00QP500000zWxHyMAK",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-23",
+          "lead": "00QQD00000ZGL702AH",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-10-22",
+          "lead": "00QP500000zRxdbMAC",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-21",
+          "lead": "00QP500000z7kFvMAI",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-21",
+          "lead": "00QP500000wbBeDMAU",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-20",
+          "lead": "00QP500000zANMpMAO",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QQD00000ZFGzK2AX",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-16",
+          "lead": "00QP500000yWSkzMAG",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-14",
+          "lead": "00QP500000yMtEbMAK",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-12",
+          "lead": "00QP500000yGG35MAG",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-12",
+          "lead": "00QP500000yG7KmMAK",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-09",
+          "lead": "00QP500000xe9fMMAQ",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-08",
+          "lead": "00QQD00000dwdde2AA",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-10-05",
+          "lead": "00QP500000vv2yjMAA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-02",
+          "lead": "00QP500000xFLkRMAW",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QQD00000ZFjcY2AT",
+          "path": "→ Re-entered → Not reached → Re-entered → Not reached → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QQD00000dBAGv2AO",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QQD00000dmjHJ2AY",
+          "path": "→ Re-entered → Not reached → Re-entered → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QP500000wJVV1MAO",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-25",
+          "lead": "00QP500000vjeLXMAY",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-24",
+          "lead": "00QP500000vgqsbMAA",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-24",
+          "lead": "00QP500000vrmSQMAY",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QQD00000ZGe4I2AT",
+          "path": "→ Not reached → Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-17",
+          "lead": "00QQD00000afYLx2AM",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-17",
+          "lead": "00QQD00000ZFySD2A1",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-15",
+          "lead": "00QP500000v50jXMAQ",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QP500000tTZKUMA4",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-11",
+          "lead": "00QP500000ue2sUMAQ",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-09",
+          "lead": "00QP500000uWNdxMAG",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-08",
+          "lead": "00QP500000u4UKKMA2",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-08",
+          "lead": "00QP500000sp4QgMAI",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-04",
+          "lead": "00QQD00000bC4tl2AC",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QP500000sq4y8MAA",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QP500000u7kqfMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-02",
+          "lead": "00QQD00000ZGpHS2A1",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-02",
+          "lead": "00QP500000tTfo5MAC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-01",
+          "lead": "00QP500000thfRfMAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-01",
+          "lead": "00QP500000tqAV6MAM",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-31",
+          "lead": "00QP500000tk3ZWMAY",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-26",
+          "lead": "00QP500000rrtClMAI",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-21",
+          "lead": "00QQD00000ceca92AA",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000qLL3ZMAW",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QP500000sAIMMMA4",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-14",
+          "lead": "00QP500000rwVmUMAU",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-13",
+          "lead": "00QP500000rP6WlMAK",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-13",
+          "lead": "00QP500000rBXQLMA4",
+          "path": "→ Re-entered → Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-08-10",
+          "lead": "00QP500000romm7MAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-10",
+          "lead": "00QP500000rmNdOMAU",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-10",
+          "lead": "00QQD00000buNXh2AM",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-07",
+          "lead": "00QP500000rbrosMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-06",
+          "lead": "00QQD00000dA51c2AC",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No contact possible",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-08-04",
+          "lead": "00QQD00000d5cz32AA",
+          "path": "→ Follow-up → Re-entered → Not reached → Follow-up → …",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-03",
+          "lead": "00QP500000r3TOkMAM",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-29",
+          "lead": "00QQD00000cq8DJ2AY",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-27",
+          "lead": "00QQD00000ZGjxr2AD",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-07-22",
+          "lead": "00QP500000pqyPKMAY",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000dfe9V2AQ",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000dnuaT2AQ",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-16",
+          "lead": "00QQD00000duqFB2AY",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-13",
+          "lead": "00QQD00000dqYdR2AU",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-10",
+          "lead": "00QQD00000dlY1N2AU",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-09",
+          "lead": "00QQD00000ZGjBM2A1",
+          "path": "→ Re-entered → Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-07-06",
+          "lead": "00QQD00000dcj7J2AQ",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-02",
+          "lead": "00QQD00000ckxon2AA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-26",
+          "lead": "00QQD00000d7QqX2AU",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-23",
+          "lead": "00QQD00000cK5Yj2AK",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-22",
+          "lead": "00QQD00000ccYZ32AM",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-11",
+          "lead": "00QQD00000ZGXKF2A5",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-04",
+          "lead": "00QQD00000bhIij2AE",
+          "path": "→ Follow-up → Re-entered → Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-06-02",
+          "lead": "00QQD00000bh3qA2AQ",
+          "path": "→ Re-entered → Not reached → Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-29",
+          "lead": "00QQD00000bo52P2AQ",
+          "path": "→ Follow-up → Not reached → Follow-up → Not reached → …",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-05-28",
+          "lead": "00QQD00000cDMKz2AO",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000bijIf2AI",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000c5cV02AI",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-22",
+          "lead": "00QQD00000c2Eyg2AE",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-22",
+          "lead": "00QQD00000bQNbZ2AW",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-05-18",
+          "lead": "00QQD00000bsjhC2AQ",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-13",
+          "lead": "00QQD00000biNbW2AU",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-06",
+          "lead": "00QQD00000bS1Gn2AK",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-04",
+          "lead": "00QQD00000bOF5R2AW",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-04-28",
+          "lead": "00QQD00000bI22s2AC",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-04-23",
+          "lead": "00QQD00000at9Ir2AI",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        }
+      ],
       "available": true,
       "byPeriod": {
         "30": {
@@ -3977,7 +4587,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 1184,
+                "abs": 1186,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -3987,14 +4597,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 476,
+                "abs": 477,
                 "convDeltaPct": 5.0,
-                "share": 40.2
+                "share": 40.22
               },
               "sql": {
                 "abs": 105,
-                "convDeltaPct": -17.7,
-                "share": 8.87
+                "convDeltaPct": -17.9,
+                "share": 8.85
               }
             },
             "totals": {
@@ -4027,12 +4637,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": -17.7,
-              "value": 8.87
+              "deltaPct": -17.9,
+              "value": 8.85
             },
             "reactivationRatio": {
-              "deltaPct": -4.9,
-              "value": 12.09
+              "deltaPct": -5.1,
+              "value": 12.06
             }
           },
           "mailsPerPerson": null,
@@ -4060,20 +4670,20 @@
               "toFollowUp": 0
             },
             "leadIntake": {
-              "abs": 1184,
+              "abs": 1186,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 397,
+              "abs": 398,
               "deltaPct": -18.6,
-              "ratio": 78.62,
-              "share": 33.53
+              "ratio": 78.67,
+              "share": 33.56
             },
             "notContact": {
-              "abs": 421,
-              "deltaPct": 6.0,
-              "ratio": 35.56,
-              "share": 35.56
+              "abs": 422,
+              "deltaPct": 6.1,
+              "ratio": 35.58,
+              "share": 35.58
             },
             "recovered": {
               "cac": null,
@@ -4082,9 +4692,9 @@
             },
             "sql": {
               "abs": 105,
-              "deltaPct": -4.9,
-              "ratio": 12.09,
-              "share": 8.87
+              "deltaPct": -5.1,
+              "ratio": 12.06,
+              "share": 8.85
             }
           },
           "uniqueSubscribers": null
@@ -4094,7 +4704,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 304,
+                "abs": 306,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -4104,14 +4714,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 106,
-                "convDeltaPct": 11.1,
-                "share": 34.87
+                "abs": 107,
+                "convDeltaPct": 11.4,
+                "share": 34.97
               },
               "sql": {
                 "abs": 26,
-                "convDeltaPct": -8.9,
-                "share": 8.55
+                "convDeltaPct": -9.5,
+                "share": 8.5
               }
             },
             "totals": {
@@ -4144,12 +4754,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": -8.9,
-              "value": 8.55
+              "deltaPct": -9.5,
+              "value": 8.5
             },
             "reactivationRatio": {
-              "deltaPct": -21.2,
-              "value": 11.7
+              "deltaPct": -22.0,
+              "value": 11.58
             }
           },
           "mailsPerPerson": null,
@@ -4165,7 +4775,7 @@
             "enrichment": {
               "backToMailjourney": 0,
               "backToNotReached": 0,
-              "enrichRatio": 1.06,
+              "enrichRatio": 1.05,
               "enriched": 1,
               "enrichedLeads": 1,
               "fromMailjourney": 1,
@@ -4177,20 +4787,20 @@
               "toFollowUp": 0
             },
             "leadIntake": {
-              "abs": 304,
+              "abs": 306,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 94,
-              "deltaPct": 3.4,
-              "ratio": 80.43,
-              "share": 30.92
+              "abs": 95,
+              "deltaPct": 3.7,
+              "ratio": 80.65,
+              "share": 31.05
             },
             "notContact": {
-              "abs": 92,
-              "deltaPct": -13.4,
-              "ratio": 30.26,
-              "share": 30.26
+              "abs": 93,
+              "deltaPct": -13.0,
+              "ratio": 30.39,
+              "share": 30.39
             },
             "recovered": {
               "cac": null,
@@ -4199,9 +4809,9 @@
             },
             "sql": {
               "abs": 26,
-              "deltaPct": -21.2,
-              "ratio": 11.7,
-              "share": 8.55
+              "deltaPct": -22.0,
+              "ratio": 11.58,
+              "share": 8.5
             }
           },
           "uniqueSubscribers": null
@@ -4211,7 +4821,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 3461,
+                "abs": 3463,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -4221,7 +4831,7 @@
                 "share": null
               },
               "r1": {
-                "abs": 1411,
+                "abs": 1412,
                 "convDeltaPct": 16.6,
                 "share": 40.77
               },
@@ -4266,7 +4876,7 @@
             },
             "reactivationRatio": {
               "deltaPct": 2.5,
-              "value": 12.48
+              "value": 12.47
             }
           },
           "mailsPerPerson": null,
@@ -4294,20 +4904,20 @@
               "toFollowUp": 2
             },
             "leadIntake": {
-              "abs": 3461,
+              "abs": 3463,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 1314,
-              "deltaPct": 19.5,
-              "ratio": 80.13,
+              "abs": 1315,
+              "deltaPct": 19.6,
+              "ratio": 80.15,
               "share": 37.97
             },
             "notContact": {
-              "abs": 1344,
+              "abs": 1345,
               "deltaPct": -12.5,
-              "ratio": 38.83,
-              "share": 38.83
+              "ratio": 38.84,
+              "share": 38.84
             },
             "recovered": {
               "cac": null,
@@ -4317,7 +4927,7 @@
             "sql": {
               "abs": 349,
               "deltaPct": 2.5,
-              "ratio": 12.48,
+              "ratio": 12.47,
               "share": 10.08
             }
           },
@@ -4353,11 +4963,11 @@
         "growthPrev": 467,
         "leadsTotal": 76738,
         "mailjourneyNoConsent": 14906,
-        "mailjourneyNoContactException": 93,
+        "mailjourneyNoContactException": 94,
         "mailjourneyNoEmail": 652,
-        "mailjourneyTotal": 17673,
-        "reachedOfShouldMail": 790,
-        "shouldMail": 2115
+        "mailjourneyTotal": 17674,
+        "reachedOfShouldMail": 791,
+        "shouldMail": 2116
       },
       "days": {
         "2026-03-11": {
@@ -63458,7 +64068,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -63466,7 +64076,7 @@
                 }
               },
               "firstTouch": 6,
-              "opens": 4,
+              "opens": 5,
               "sent": 11,
               "soft_bounces": 0,
               "subscribers": 11,
@@ -63664,7 +64274,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -63705,7 +64315,7 @@
                 }
               },
               "firstTouch": 40,
-              "opens": 45,
+              "opens": 46,
               "sent": 70,
               "soft_bounces": 0,
               "subscribers": 63,
@@ -64239,7 +64849,7 @@
         },
         "2026-11-06": {
           "apptSplit": {
-            "entry": 15
+            "entry": 16
           },
           "cohort": {
             "entered": 24,
@@ -64247,18 +64857,18 @@
             "reached": 15
           },
           "crm": {
-            "activeLeads": 59,
+            "activeLeads": 61,
             "toStatus": {
-              "Appointment": 19,
+              "Appointment": 20,
               "Follow-up": 8,
               "Lost": 3,
-              "Mailjourney": 25,
+              "Mailjourney": 26,
               "Not Qualified": 2,
-              "Not reached": 12
+              "Not reached": 13
             },
             "toStatusActive": {
               "Follow-up": 1,
-              "Mailjourney": 13,
+              "Mailjourney": 14,
               "Not reached": 2
             },
             "transitions": {
@@ -64268,13 +64878,13 @@
               "Follow-up>Not reached": 1,
               "Mailjourney>Not Qualified": 1,
               "Mailjourney>Not reached": 1,
-              "New>Appointment": 14,
+              "New>Appointment": 15,
               "New>Follow-up": 3,
               "New>Mailjourney": 3,
-              "New>Not reached": 10,
+              "New>Not reached": 11,
               "Not reached>Appointment": 2,
               "Not reached>Follow-up": 4,
-              "Not reached>Mailjourney": 4,
+              "Not reached>Mailjourney": 5,
               "Not reached>Not Qualified": 1,
               "Re-entered>Appointment": 1,
               "Re-entered>Follow-up": 1
@@ -64285,7 +64895,7 @@
               "New>Mailjourney": 2,
               "New>Not reached": 1,
               "Not reached>Follow-up": 1,
-              "Not reached>Mailjourney": 4
+              "Not reached>Mailjourney": 5
             }
           },
           "flows": {
@@ -64745,15 +65355,15 @@
           "consentTotal": 5577,
           "deltaPct": null,
           "funnel": {
-            "mailjourneyTotal": 17673,
+            "mailjourneyTotal": 17674,
             "noConsent": 14906,
-            "noContactException": 93,
+            "noContactException": 94,
             "noEmail": 652
           },
           "measurable": true,
-          "reached": 790,
+          "reached": 791,
           "reason": null,
-          "shouldMail": 2115,
+          "shouldMail": 2116,
           "toActivate": 1325,
           "value": 37.4
         },
@@ -64767,18 +65377,194 @@
           "value": 1700
         },
         "mqlToSql": {
-          "deltaPct": -17.7,
-          "value": 8.87
+          "deltaPct": -17.9,
+          "value": 8.85
         },
         "reactivationRatio": {
-          "deltaPct": -4.9,
-          "value": 12.09
+          "deltaPct": -5.1,
+          "value": 12.06
         }
       },
       "marketLabel": "België",
       "nurtureResultaat": {},
       "offerteTotals": {},
-      "orderRecords": [],
+      "orderRecords": [
+        {
+          "date": "2026-09-30",
+          "lead": "00QQD00000dnuaT2AQ",
+          "opp": "006P500000mRtUbIAK",
+          "reason": "No contact possible",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-04",
+          "lead": "00QQD00000cq8DJ2AY",
+          "opp": "006P500000nFpFiIAK",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-14",
+          "lead": "00QP500000r3TOkMAM",
+          "opp": "006P500000nev4zIAA",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-27",
+          "lead": "00QQD00000d5cz32AA",
+          "opp": "006P500000np4IHIAY",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-18",
+          "lead": "00QQD00000dA51c2AC",
+          "opp": "006P500000oPG6PIAW",
+          "reason": "No contact possible",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QP500000rbrosMAA",
+          "opp": "006P500000ofbhxIAA",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000rmNdOMAU",
+          "opp": "006P500000orQnZIAU",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-24",
+          "lead": "00QP500000rBXQLMA4",
+          "opp": "006P500000pBBqoIAG",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000rwVmUMAU",
+          "opp": "006P500000pNMYkIAO",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-25",
+          "lead": "00QP500000sAIMMMA4",
+          "opp": "006P500000pYIIiIAO",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-26",
+          "lead": "00QP500000qLL3ZMAW",
+          "opp": "006P500000qBlfDIAS",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-15",
+          "lead": "00QP500000tk3ZWMAY",
+          "opp": "006P500000s1MFVIA2",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-17",
+          "lead": "00QP500000thfRfMAI",
+          "opp": "006P500000s6wwfIAA",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QP500000tTfo5MAC",
+          "opp": "006P500000sEGQoIAO",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-11",
+          "lead": "00QP500000sq4y8MAA",
+          "opp": "006P500000sNY9zIAG",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000vgqsbMAA",
+          "opp": "006P500000uG1uMIAS",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-25",
+          "lead": "00QP500000vjeLXMAY",
+          "opp": "006P500000uLvnpIAC",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-20",
+          "lead": "00QQD00000ZFjcY2AT",
+          "opp": "006P500000uvPuJIAU",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-30",
+          "lead": "00QP500000z7kFvMAI",
+          "opp": "006P500000woO49IAE",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-11-06",
+          "lead": "00QP500000w810qMAA",
+          "opp": "006P500000xZfazIAC",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000ccYZ32AM",
+          "opp": "006QD00000qzPvlYAE",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-07",
+          "lead": "00QQD00000ckxon2AA",
+          "opp": "006QD00000rk8ldYAA",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-23",
+          "lead": "00QQD00000dcj7J2AQ",
+          "opp": "006QD00000rw3iNYAQ",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-10",
+          "lead": "00QQD00000dlY1N2AU",
+          "opp": "006QD00000sBK2mYAG",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000duqFB2AY",
+          "opp": "006QD00000sVerlYAC",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        }
+      ],
       "outcomeTotal": {
         "appointmentRate": 35.5,
         "conversionRate": 35.5,
@@ -64824,20 +65610,20 @@
           "toFollowUp": 0
         },
         "leadIntake": {
-          "abs": 1184,
+          "abs": 1186,
           "share": 100.0
         },
         "mailjourney": {
-          "abs": 397,
+          "abs": 398,
           "deltaPct": -18.6,
-          "ratio": 78.62,
-          "share": 33.53
+          "ratio": 78.67,
+          "share": 33.56
         },
         "notContact": {
-          "abs": 421,
-          "deltaPct": 6.0,
-          "ratio": 35.56,
-          "share": 35.56
+          "abs": 422,
+          "deltaPct": 6.1,
+          "ratio": 35.58,
+          "share": 35.58
         },
         "recovered": {
           "cac": null,
@@ -64846,9 +65632,9 @@
         },
         "sql": {
           "abs": 105,
-          "deltaPct": -4.9,
-          "ratio": 12.09,
-          "share": 8.87
+          "deltaPct": -5.1,
+          "ratio": 12.06,
+          "share": 8.85
         }
       }
     },
@@ -77061,7 +77847,7 @@
         "channels": [],
         "funnel": {
           "mql": {
-            "abs": 2450,
+            "abs": 2451,
             "convDeltaPct": null,
             "share": 100.0
           },
@@ -77071,9 +77857,9 @@
             "share": null
           },
           "r1": {
-            "abs": 801,
-            "convDeltaPct": 1.2,
-            "share": 32.69
+            "abs": 804,
+            "convDeltaPct": 1.5,
+            "share": 32.8
           },
           "sql": {
             "abs": 260,
@@ -77087,7 +77873,1492 @@
           "contacts": null
         }
       },
-      "apptRecords": [],
+      "apptRecords": [
+        {
+          "date": "2026-11-06",
+          "lead": "00QP5000010gtFhMAI",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-11-05",
+          "lead": "00QP500000r3hY9MAI",
+          "path": "→ Follow-up → Re-entered → Not reached → Re-entered → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-05",
+          "lead": "00QP500000wOuHTMA0",
+          "path": "→ Follow-up → Re-entered - Phone Number Changed → Re-entered → Not reached → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-05",
+          "lead": "00QQD00000YSg7B2AT",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-11-04",
+          "lead": "00QP500000zmC0bMAE",
+          "path": "→ Brochure → Follow-up → Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-04",
+          "lead": "00QP5000010OVocMAG",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-11-03",
+          "lead": "00QP500000zbMGCMA2",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-11-02",
+          "lead": "00QQD00000APyiv2AD",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-30",
+          "lead": "00QP50000105hF7MAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-29",
+          "lead": "00QP500000qu8wLMAQ",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-29",
+          "lead": "00QP500000zGgeTMAS",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-28",
+          "lead": "00QP500000zhkakMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-27",
+          "lead": "00QP500000zpVMnMAM",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-23",
+          "lead": "00QP500000zGC5WMAW",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-23",
+          "lead": "00QP500000zUucjMAC",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-22",
+          "lead": "00QP500000zKWyHMAW",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-21",
+          "lead": "00QQD00000EBeTV2A1",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QP500000xkdhDMAQ",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QP500000vdW5dMAE",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QP500000yH3QOMA0",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Follow-up → Re-entered → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-16",
+          "lead": "00QP500000yomyAMAQ",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-16",
+          "lead": "00QP500000yTpUQMA0",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-16",
+          "lead": "00QQD00000YP5Dq2AL",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-15",
+          "lead": "00QP500000yivdzMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-15",
+          "lead": "00QQD00000APzgu2AD",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-13",
+          "lead": "00QP500000x9AasMAE",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-13",
+          "lead": "00QP500000yRrgnMAC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-13",
+          "lead": "00QP500000sDsrYMAS",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-09",
+          "lead": "00QP500000vs6SpMAI",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-08",
+          "lead": "00QQD00000AQ0Gg2AL",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-08",
+          "lead": "00QP500000x2GjRMAU",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-07",
+          "lead": "00QQD00000cThF12AK",
+          "path": "→ Brochure → Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-07",
+          "lead": "00QP500000xixWcMAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-07",
+          "lead": "00QP500000xH3pAMAS",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-07",
+          "lead": "00QP500000v6majMAA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-07",
+          "lead": "00QP500000xG3b5MAC",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-05",
+          "lead": "00QQD00000d7c5J2AQ",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-05",
+          "lead": "00QP500000xGFIvMAO",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-05",
+          "lead": "00QP500000wZUwIMAW",
+          "path": "→ Re-entered - Phone Number Changed → Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-02",
+          "lead": "00QQD00000ck8Ks2AI",
+          "path": "→ Re-entered → Not reached → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QP500000stTLeMAM",
+          "path": "→ Follow-up → Re-entered → Not reached → Follow-up → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QP500000x4lZSMAY",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QQD00000ao5J92AI",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QP500000x4eBOMAY",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-10-01",
+          "lead": "00QP500000x0j3CMAQ",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000u5WAHMA2",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000wgcp5MAA",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-29",
+          "lead": "00QP500000vEOT7MAO",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QP500000wZ0mvMAC",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QP500000txpN4MAI",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QP500000v4yMfMAI",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-28",
+          "lead": "00QP500000v4qsAMAQ",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-25",
+          "lead": "00QP500000wPMdVMAW",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-24",
+          "lead": "00QP500000w5gjaMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-23",
+          "lead": "00QP500000vLupdMAC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-23",
+          "lead": "00QP500000vEE7EMAW",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-22",
+          "lead": "00QQD00000aTwdN2AS",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-22",
+          "lead": "00QP500000w44BhMAI",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QP500000virkYMAQ",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QQD00000ckLef2AE",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QQD00000dmn6P2AQ",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QP500000sWb29MAC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-21",
+          "lead": "00QQD00000bYfOQ2A0",
+          "path": "→ Re-entered - Phone Number Changed → Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-18",
+          "lead": "00QP500000uf9lSMAQ",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-17",
+          "lead": "00QQD00000XpMGP2A3",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-17",
+          "lead": "00QP500000vQbBDMA0",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QP500000trDx7MAE",
+          "path": "→ Follow-up → Re-entered - Phone Number Changed → Brochure → Follow-up → …",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QP500000tkgxRMAQ",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-15",
+          "lead": "00QP500000v8i6TMAQ",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-15",
+          "lead": "00QP500000pe33XMAQ",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QQD00000bCEcz2AG",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QQD00000boAdC2AU",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QP500000v8dUzMAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QQD00000AQb082AD",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-14",
+          "lead": "00QP500000rZbatMAC",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-11",
+          "lead": "00QP500000tIt6PMAS",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-11",
+          "lead": "00QP500000uniu5MAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-10",
+          "lead": "00QP500000unMaDMAU",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-09",
+          "lead": "00QP500000ucONdMAM",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-09",
+          "lead": "00QP500000tkNpyMAE",
+          "path": "→ Re-entered → Follow-up → Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-09",
+          "lead": "00QP500000uHXgsMAG",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-08",
+          "lead": "00QQD00000AQe862AD",
+          "path": "→ Re-entered - Phone Number Changed → Brochure → Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-04",
+          "lead": "00QP500000uHs8eMAC",
+          "path": "→ Appointment",
+          "reason": "Wmo application is in progress",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QQD00000dOL6T2AW",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QP500000tKw4zMAC",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Follow-up → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-09-02",
+          "lead": "00QP500000qLRSNMA4",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-02",
+          "lead": "00QP500000tx9J7MAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-09-01",
+          "lead": "00QP500000sJaGpMAK",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-31",
+          "lead": "00QP500000tkFKXMA2",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-31",
+          "lead": "00QP500000rLwDmMAK",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-28",
+          "lead": "00QP500000tTOCAMA4",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-28",
+          "lead": "00QQD00000APx1P2AT",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-27",
+          "lead": "00QQD00000ZTXNp2AP",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-26",
+          "lead": "00QP500000tHTqjMAG",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-26",
+          "lead": "00QQD00000AQeuK2AT",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-24",
+          "lead": "00QQD00000dblso2AA",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-24",
+          "lead": "00QQD00000bXIdc2AG",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-24",
+          "lead": "00QP500000svrrhMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-21",
+          "lead": "00QP500000ssSzVMAU",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-21",
+          "lead": "00QP500000sXoesMAC",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000sN4jtMAC",
+          "path": "→ Re-entered → Not reached → Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000rqSLAMA2",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-19",
+          "lead": "00QP500000rvTJjMAM",
+          "path": "→ Follow-up → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-19",
+          "lead": "00QQD00000AQarf2AD",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-19",
+          "lead": "00QP500000rZHttMAG",
+          "path": "→ Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-18",
+          "lead": "00QP500000sMthvMAC",
+          "path": "→ Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-18",
+          "lead": "00QP500000s5gdrMAA",
+          "path": "→ Re-entered → Not reached → Re-entered - Phone Number Changed → Not reached → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QP500000sFVHMMA4",
+          "path": "→ Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QQD00000dffQX2AY",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QQD00000AQMPu2AP",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QP500000sLuEcMAK",
+          "path": "→ Not reached → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QQD00000APyLC2A1",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-14",
+          "lead": "00QP500000s9f1eMAA",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-12",
+          "lead": "00QP500000s18CcMAI",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-12",
+          "lead": "00QP500000s1IzvMAE",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-12",
+          "lead": "00QP500000rsaxdMAA",
+          "path": "→ Re-entered - Phone Number Changed → Follow-up → Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-08-12",
+          "lead": "00QP500000rLnaHMAS",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-11",
+          "lead": "00QQD00000Xke972AB",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-11",
+          "lead": "00QQD00000d1yJp2AI",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-11",
+          "lead": "00QP500000rWfCsMAK",
+          "path": "→ Re-entered - Phone Number Changed → Not reached → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-11",
+          "lead": "00QP500000rpL3tMAE",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-07",
+          "lead": "00QP500000r1rF6MAI",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-07",
+          "lead": "00QP500000ra9XjMAI",
+          "path": "→ Not reached → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-07",
+          "lead": "00QP500000rRSrJMAW",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-07",
+          "lead": "00QP500000qCbOMMA0",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-06",
+          "lead": "00QP500000rUw1iMAC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-06",
+          "lead": "00QP500000qg6ZNMAY",
+          "path": "→ Follow-up → Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-06",
+          "lead": "00QQD00000AQOrS2AX",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-05",
+          "lead": "00QP500000rOiHaMAK",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-05",
+          "lead": "00QP500000rH9wcMAC",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-05",
+          "lead": "00QQD00000cA6HZ2A0",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-04",
+          "lead": "00QP500000puAKJMA2",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-03",
+          "lead": "00QQD00000aCvx32AC",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number correct",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-08-03",
+          "lead": "00QP500000qHIsEMAW",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-08-03",
+          "lead": "00QP500000pigz8MAA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-31",
+          "lead": "00QQD00000AQG7s2AH",
+          "path": "→ Re-entered - Phone Number Changed → Re-entered → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-29",
+          "lead": "00QQD00000cFFDl2AO",
+          "path": "→ Follow-up → Re-entered → Not reached → Re-entered - Phone Number Changed → …",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-28",
+          "lead": "00QP500000qVMjAMAW",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-07-28",
+          "lead": "00QP500000qWGIDMA4",
+          "path": "→ Appointment",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-24",
+          "lead": "00QQD00000ZR5aX2AT",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-23",
+          "lead": "00QP500000pzAgEMAU",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-21",
+          "lead": "00QQD00000AQARe2AP",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QP500000pjvEVMAY",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000dhZdZ2AU",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000dpXwN2AU",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QP500000pdv2rMAA",
+          "path": "→ Re-entered - Phone Number Changed → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Nummer gewijzigd"
+        },
+        {
+          "date": "2026-07-20",
+          "lead": "00QQD00000dzhb42AA",
+          "path": "→ Re-entered - Phone Number Changed → Follow-up → Appointment",
+          "reason": "Not reached · zonder reden",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-07-16",
+          "lead": "00QQD00000dz6tF2AQ",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-15",
+          "lead": "00QQD00000czpEF2AY",
+          "path": "→ Appointment",
+          "reason": "WMO",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-14",
+          "lead": "00QQD00000dByTq2AK",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Financially not feasible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-13",
+          "lead": "00QQD00000ZjcEf2AJ",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-13",
+          "lead": "00QQD00000dr4wi2AA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-10",
+          "lead": "00QQD00000cu8Q12AI",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-07",
+          "lead": "00QQD00000dM4JR2A0",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-07",
+          "lead": "00QQD00000ddJif2AE",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-06",
+          "lead": "00QQD00000dAL4k2AG",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-07-06",
+          "lead": "00QQD00000davis2AA",
+          "path": "→ Appointment",
+          "reason": "No contact possible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-06",
+          "lead": "00QQD00000dGqtp2AC",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-02",
+          "lead": "00QQD00000dDqSA2A0",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-02",
+          "lead": "00QQD00000cjxyx2AA",
+          "path": "→ Appointment",
+          "reason": "WMO",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-02",
+          "lead": "00QQD00000dOipS2AS",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-01",
+          "lead": "00QQD00000csS7w2AE",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-01",
+          "lead": "00QQD00000dR0qH2AS",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-07-01",
+          "lead": "00QQD00000dTqO92AK",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-07-01",
+          "lead": "00QQD00000dOBqI2AW",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000cvGyD2AU",
+          "path": "→ Brochure → Follow-up → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000dQokI2AS",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-29",
+          "lead": "00QQD00000ZcljU2AR",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-26",
+          "lead": "00QQD00000AQHOe2AP",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-24",
+          "lead": "00QQD00000dEBtC2AW",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-23",
+          "lead": "00QQD00000cHdQU2A0",
+          "path": "→ Follow-up → Re-entered → Not reached → Brochure → …",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-19",
+          "lead": "00QQD00000d2FNv2AM",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-16",
+          "lead": "00QQD00000csnDz2AI",
+          "path": "→ Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-16",
+          "lead": "00QQD00000bHywy2AC",
+          "path": "→ Follow-up → Brochure → Follow-up → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-06-15",
+          "lead": "00QQD00000ac6PR2AY",
+          "path": "→ Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-15",
+          "lead": "00QQD00000cnqu62AA",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-15",
+          "lead": "00QQD00000bHJx12AG",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-10",
+          "lead": "00QQD00000ciG842AE",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-10",
+          "lead": "00QQD00000cRY362AG",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-09",
+          "lead": "00QQD00000cgCoT2AU",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-09",
+          "lead": "00QQD00000cg7Yf2AI",
+          "path": "→ Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000cSNob2AG",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000bMzVm2AK",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000biy3B2AQ",
+          "path": "→ Follow-up → Not reached → Re-entered → Not reached → …",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000c9QS12AM",
+          "path": "→ Follow-up → Re-entered → Brochure → Follow-up → …",
+          "reason": "WMO",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-04",
+          "lead": "00QQD00000cR50w2AC",
+          "path": "→ Follow-up → Appointment",
+          "reason": "WMO",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-03",
+          "lead": "00QQD00000ZiN3C2AV",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-06-03",
+          "lead": "00QQD00000bFP8s2AG",
+          "path": "→ Re-entered → Appointment",
+          "reason": "WMO",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-03",
+          "lead": "00QQD00000cQ1kB2AS",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-06-02",
+          "lead": "00QQD00000cOypy2AC",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-06-01",
+          "lead": "00QQD00000c9SSE2A2",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-28",
+          "lead": "00QQD00000YypP32AJ",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-28",
+          "lead": "00QQD00000c4o5B2AQ",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000c4JCj2AM",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000bfE3J2AU",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000XTmRG2A1",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-26",
+          "lead": "00QQD00000TktC52AJ",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-26",
+          "lead": "00QQD00000bcFf32AE",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-26",
+          "lead": "00QQD00000cDrDV2A0",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-19",
+          "lead": "00QQD00000aksof2AA",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-19",
+          "lead": "00QQD00000bNSEP2A4",
+          "path": "→ Follow-up → Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-18",
+          "lead": "00QQD00000VbuRC2AZ",
+          "path": "→ Appointment",
+          "reason": "Financially not feasible",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-13",
+          "lead": "00QQD00000bWVxp2AG",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-12",
+          "lead": "00QQD00000bci4L2AQ",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-11",
+          "lead": "00QQD00000bihn82AA",
+          "path": "→ Brochure → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-11",
+          "lead": "00QQD00000bbQW52AM",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-08",
+          "lead": "00QQD00000bDeQY2A0",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-05-06",
+          "lead": "00QQD00000bV8AT2A0",
+          "path": "→ Follow-up → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Overig"
+        },
+        {
+          "date": "2026-05-05",
+          "lead": "00QQD00000b5iG12AI",
+          "path": "→ Follow-up → Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-05-04",
+          "lead": "00QQD00000b7wef2AA",
+          "path": "→ Re-entered → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-05-01",
+          "lead": "00QQD00000bBlsj2AC",
+          "path": "→ Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        },
+        {
+          "date": "2026-04-28",
+          "lead": "00QQD00000TS6jK2AT",
+          "path": "→ Re-entered → Not reached → Appointment",
+          "reason": "Never had contact with the customer",
+          "route": "Direct afspraak"
+        }
+      ],
       "available": true,
       "byPeriod": {
         "30": {
@@ -77095,7 +79366,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 2450,
+                "abs": 2451,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -77105,9 +79376,9 @@
                 "share": null
               },
               "r1": {
-                "abs": 801,
-                "convDeltaPct": 1.2,
-                "share": 32.69
+                "abs": 804,
+                "convDeltaPct": 1.5,
+                "share": 32.8
               },
               "sql": {
                 "abs": 260,
@@ -77123,9 +79394,9 @@
           },
           "cohort": {
             "coverage": 98.7,
-            "entered": 880,
-            "mailable": 550,
-            "reached": 543
+            "entered": 882,
+            "mailable": 552,
+            "reached": 545
           },
           "comparable": true,
           "emailHealth": null,
@@ -77149,8 +79420,8 @@
               "value": 10.61
             },
             "reactivationRatio": {
-              "deltaPct": -17.4,
-              "value": 15.46
+              "deltaPct": -17.6,
+              "value": 15.43
             }
           },
           "mailsPerPerson": null,
@@ -77178,20 +79449,20 @@
               "toFollowUp": 3
             },
             "leadIntake": {
-              "abs": 2450,
+              "abs": 2451,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 899,
-              "deltaPct": -12.3,
-              "ratio": 69.34,
-              "share": 36.69
+              "abs": 901,
+              "deltaPct": -12.0,
+              "ratio": 69.57,
+              "share": 36.76
             },
             "notContact": {
               "abs": 861,
               "deltaPct": 7.0,
-              "ratio": 35.14,
-              "share": 35.14
+              "ratio": 35.13,
+              "share": 35.13
             },
             "recovered": {
               "cac": null,
@@ -77200,8 +79471,8 @@
             },
             "sql": {
               "abs": 260,
-              "deltaPct": -17.4,
-              "ratio": 15.46,
+              "deltaPct": -17.6,
+              "ratio": 15.43,
               "share": 10.61
             }
           },
@@ -77212,7 +79483,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 659,
+                "abs": 661,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -77222,14 +79493,14 @@
                 "share": null
               },
               "r1": {
-                "abs": 167,
-                "convDeltaPct": -12.0,
-                "share": 25.34
+                "abs": 170,
+                "convDeltaPct": -10.7,
+                "share": 25.72
               },
               "sql": {
                 "abs": 73,
-                "convDeltaPct": 6.0,
-                "share": 11.08
+                "convDeltaPct": 5.6,
+                "share": 11.04
               }
             },
             "totals": {
@@ -77240,9 +79511,9 @@
           },
           "cohort": {
             "coverage": 99.3,
-            "entered": 217,
-            "mailable": 134,
-            "reached": 133
+            "entered": 219,
+            "mailable": 136,
+            "reached": 135
           },
           "comparable": true,
           "emailHealth": null,
@@ -77262,12 +79533,12 @@
               "value": null
             },
             "mqlToSql": {
-              "deltaPct": 6.0,
-              "value": 11.08
+              "deltaPct": 5.6,
+              "value": 11.04
             },
             "reactivationRatio": {
-              "deltaPct": 8.4,
-              "value": 19.46
+              "deltaPct": 7.3,
+              "value": 19.28
             }
           },
           "mailsPerPerson": null,
@@ -77283,7 +79554,7 @@
             "enrichment": {
               "backToMailjourney": 0,
               "backToNotReached": 4,
-              "enrichRatio": 6.33,
+              "enrichRatio": 6.28,
               "enriched": 14,
               "enrichedLeads": 14,
               "fromMailjourney": 7,
@@ -77295,20 +79566,20 @@
               "toFollowUp": 3
             },
             "leadIntake": {
-              "abs": 659,
+              "abs": 661,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 221,
-              "deltaPct": 19.8,
-              "ratio": 68.06,
-              "share": 33.54
+              "abs": 223,
+              "deltaPct": 21.4,
+              "ratio": 68.98,
+              "share": 33.74
             },
             "notContact": {
               "abs": 216,
-              "deltaPct": -3.2,
-              "ratio": 32.78,
-              "share": 32.78
+              "deltaPct": -3.5,
+              "ratio": 32.68,
+              "share": 32.68
             },
             "recovered": {
               "cac": null,
@@ -77317,9 +79588,9 @@
             },
             "sql": {
               "abs": 73,
-              "deltaPct": 8.4,
-              "ratio": 19.46,
-              "share": 11.08
+              "deltaPct": 7.3,
+              "ratio": 19.28,
+              "share": 11.04
             }
           },
           "uniqueSubscribers": null
@@ -77329,7 +79600,7 @@
             "channels": [],
             "funnel": {
               "mql": {
-                "abs": 6851,
+                "abs": 6852,
                 "convDeltaPct": null,
                 "share": 100.0
               },
@@ -77339,9 +79610,9 @@
                 "share": null
               },
               "r1": {
-                "abs": 2436,
-                "convDeltaPct": 6.3,
-                "share": 35.56
+                "abs": 2439,
+                "convDeltaPct": 6.5,
+                "share": 35.6
               },
               "sql": {
                 "abs": 844,
@@ -77357,9 +79628,9 @@
           },
           "cohort": {
             "coverage": 94.3,
-            "entered": 2552,
-            "mailable": 1582,
-            "reached": 1492
+            "entered": 2554,
+            "mailable": 1584,
+            "reached": 1494
           },
           "comparable": true,
           "emailHealth": null,
@@ -77383,8 +79654,8 @@
               "value": 12.32
             },
             "reactivationRatio": {
-              "deltaPct": -1.5,
-              "value": 17.22
+              "deltaPct": -1.7,
+              "value": 17.2
             }
           },
           "mailsPerPerson": null,
@@ -77412,14 +79683,14 @@
               "toFollowUp": 12
             },
             "leadIntake": {
-              "abs": 6851,
+              "abs": 6852,
               "share": 100.0
             },
             "mailjourney": {
-              "abs": 2672,
-              "deltaPct": 8.5,
-              "ratio": 71.14,
-              "share": 39.0
+              "abs": 2674,
+              "deltaPct": 8.6,
+              "ratio": 71.22,
+              "share": 39.03
             },
             "notContact": {
               "abs": 2505,
@@ -77434,8 +79705,8 @@
             },
             "sql": {
               "abs": 844,
-              "deltaPct": -1.5,
-              "ratio": 17.22,
+              "deltaPct": -1.7,
+              "ratio": 17.2,
               "share": 12.32
             }
           },
@@ -77446,36 +79717,36 @@
         "cohorts": {
           "30": {
             "coverage": 98.7,
-            "entered": 880,
-            "mailable": 550,
-            "reached": 543
+            "entered": 882,
+            "mailable": 552,
+            "reached": 545
           },
           "7": {
             "coverage": 99.3,
-            "entered": 217,
-            "mailable": 134,
-            "reached": 133
+            "entered": 219,
+            "mailable": 136,
+            "reached": 135
           },
           "90": {
             "coverage": 94.3,
-            "entered": 2552,
-            "mailable": 1582,
-            "reached": 1492
+            "entered": 2554,
+            "mailable": 1584,
+            "reached": 1494
           }
         },
         "consentShare": 9.98,
         "consentTotal": 35393,
         "coverage": 34.6,
-        "growth": 3380,
-        "growthDeltaPct": 249.9,
+        "growth": 3381,
+        "growthDeltaPct": 250.0,
         "growthPrev": 966,
-        "leadsTotal": 354737,
+        "leadsTotal": 354738,
         "mailjourneyNoConsent": 25977,
-        "mailjourneyNoContactException": 466,
+        "mailjourneyNoContactException": 467,
         "mailjourneyNoEmail": 5269,
-        "mailjourneyTotal": 42966,
-        "reachedOfShouldMail": 4051,
-        "shouldMail": 11720
+        "mailjourneyTotal": 42968,
+        "reachedOfShouldMail": 4053,
+        "shouldMail": 11722
       },
       "days": {
         "2025-10-02": {
@@ -191139,8 +193410,8 @@
             },
             "mailedOrders": 3,
             "mailedRevenue": 19105.81,
-            "orders": 125,
-            "revenue": 871046.52,
+            "orders": 126,
+            "revenue": 879062.68,
             "viaAutomationOrders": 2,
             "viaAutomationRevenue": 16874.4
           }
@@ -275350,7 +277621,7 @@
             "Nummer gewijzigd": 1
           },
           "apptSplit": {
-            "entry": 41,
+            "entry": 42,
             "notReached": 1
           },
           "cohort": {
@@ -275374,10 +277645,10 @@
             "toStatusActive": {
               "Appointment": 1,
               "Brochure": 1,
-              "Follow-up": 18,
+              "Follow-up": 19,
               "Mailjourney": 23,
               "Not Qualified": 1,
-              "Not reached": 18,
+              "Not reached": 19,
               "Re-entered": 3,
               "Re-entered - Phone Number Changed": 2
             },
@@ -275423,8 +277694,8 @@
               "New>Brochure": 1,
               "New>Follow-up": 2,
               "New>Mailjourney": 8,
-              "New>Not reached": 18,
-              "Not reached>Follow-up": 15,
+              "New>Not reached": 19,
+              "Not reached>Follow-up": 16,
               "Not reached>Mailjourney": 12,
               "Re-entered - Phone Number Changed>Appointment": 1
             }
@@ -276361,11 +278632,11 @@
             "notReached": {
               "appointment": 1,
               "appointmentEnriched": 0,
-              "new": 18,
+              "new": 19,
               "order": 0,
               "reentered": 0,
               "reenteredEnriched": 0,
-              "stage2": 18
+              "stage2": 19
             }
           },
           "value": {
@@ -305677,12 +307948,12 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 2,
-              "clicks": 14,
+              "clicks": 15,
               "delivered": 50,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 2,
-                  "clicks": 14,
+                  "clicks": 15,
                   "delivered": 50,
                   "firstTouch": 44,
                   "opens": 29,
@@ -306093,7 +308364,7 @@
             },
             "all": {
               "bounces": 5,
-              "clicks": 34,
+              "clicks": 35,
               "delivered": 399,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -306142,7 +308413,7 @@
                 },
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 2,
-                  "clicks": 14,
+                  "clicks": 15,
                   "delivered": 50,
                   "firstTouch": 44,
                   "opens": 29,
@@ -307554,10 +309825,10 @@
               "Appointment": 5,
               "Follow-up": 4,
               "Mailjourney": 24,
-              "New": 14,
+              "New": 13,
               "Not Qualified": 6,
               "Not reached": 8,
-              "Re-entered": 3,
+              "Re-entered": 4,
               "Re-entered - Phone Number Changed": 1
             },
             "transitions": {
@@ -307599,23 +309870,24 @@
             },
             "transitionsActive": {
               "Follow-up>Mailjourney": 8,
+              "Follow-up>Re-entered": 1,
               "Mailjourney>Appointment": 1,
               "Mailjourney>Follow-up": 1,
-              "Mailjourney>New": 14,
+              "Mailjourney>New": 13,
               "Mailjourney>Not Qualified": 2,
               "Mailjourney>Re-entered": 3,
               "Mailjourney>Re-entered - Phone Number Changed": 1,
               "New>Appointment": 2,
               "New>Mailjourney": 8,
               "New>Not Qualified": 3,
-              "New>Not reached": 7,
+              "New>Not reached": 6,
               "Not reached>Appointment": 1,
               "Not reached>Follow-up": 3,
               "Not reached>Mailjourney": 5,
               "Re-entered - Phone Number Changed>Appointment": 1,
               "Re-entered - Phone Number Changed>Not Qualified": 1,
               "Re-entered>Mailjourney": 3,
-              "Re-entered>Not reached": 1
+              "Re-entered>Not reached": 2
             }
           },
           "enrich": {
@@ -308551,11 +310823,11 @@
             "notReached": {
               "appointment": 2,
               "appointmentEnriched": 1,
-              "new": 7,
+              "new": 6,
               "order": 0,
-              "reentered": 2,
+              "reentered": 3,
               "reenteredEnriched": 1,
-              "stage2": 7
+              "stage2": 6
             }
           },
           "value": {
@@ -308592,23 +310864,23 @@
             "Overig": 1
           },
           "apptSplit": {
-            "entry": 23,
+            "entry": 24,
             "other": 1
           },
           "cohort": {
-            "entered": 29,
-            "mailable": 18,
-            "reached": 18
+            "entered": 31,
+            "mailable": 20,
+            "reached": 20
           },
           "crm": {
-            "activeLeads": 107,
+            "activeLeads": 111,
             "toStatus": {
-              "Appointment": 19,
+              "Appointment": 22,
               "Brochure": 4,
-              "Follow-up": 41,
-              "Lost": 3,
-              "Mailjourney": 30,
-              "Not Qualified": 10,
+              "Follow-up": 42,
+              "Lost": 4,
+              "Mailjourney": 32,
+              "Not Qualified": 11,
               "Not reached": 29,
               "Re-entered": 2,
               "Re-entered - Phone Number Changed": 3
@@ -308616,8 +310888,8 @@
             "toStatusActive": {
               "Appointment": 1,
               "Follow-up": 5,
-              "Lost": 1,
-              "Mailjourney": 19,
+              "Lost": 2,
+              "Mailjourney": 20,
               "Not Qualified": 1,
               "Not reached": 4,
               "Re-entered - Phone Number Changed": 1
@@ -308637,18 +310909,20 @@
               "New>Follow-up": 5,
               "New>Lost": 1,
               "New>Mailjourney": 7,
-              "New>Not Qualified": 7,
+              "New>Not Qualified": 8,
               "New>Not reached": 23,
-              "Not reached>Appointment": 3,
+              "Not Qualified>Appointment": 1,
+              "Not reached>Appointment": 4,
               "Not reached>Brochure": 1,
-              "Not reached>Follow-up": 31,
+              "Not reached>Follow-up": 32,
               "Not reached>Lost": 1,
-              "Not reached>Mailjourney": 6,
+              "Not reached>Mailjourney": 8,
               "Not reached>Not Qualified": 2,
               "Not reached>Re-entered - Phone Number Changed": 2,
+              "Re-entered - Phone Number Changed>Lost": 1,
               "Re-entered - Phone Number Changed>Not Qualified": 1,
               "Re-entered - Phone Number Changed>Not reached": 1,
-              "Re-entered>Appointment": 1,
+              "Re-entered>Appointment": 2,
               "Re-entered>Mailjourney": 1,
               "Re-entered>Not reached": 4
             },
@@ -308662,8 +310936,9 @@
               "New>Not reached": 2,
               "Not reached>Follow-up": 4,
               "Not reached>Lost": 1,
-              "Not reached>Mailjourney": 2,
+              "Not reached>Mailjourney": 3,
               "Not reached>Not Qualified": 1,
+              "Re-entered - Phone Number Changed>Lost": 1,
               "Re-entered>Not reached": 1
             }
           },
@@ -308697,15 +310972,15 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 0,
-              "clicks": 0,
+              "clicks": 1,
               "delivered": 7,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 0,
-                  "clicks": 0,
+                  "clicks": 1,
                   "delivered": 7,
                   "firstTouch": 5,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -308713,7 +310988,7 @@
                 }
               },
               "firstTouch": 5,
-              "opens": 2,
+              "opens": 3,
               "sent": 7,
               "soft_bounces": 0,
               "subscribers": 7,
@@ -308757,17 +311032,17 @@
             "NL - New Lead Journey V2": {
               "bounces": 0,
               "clicks": 1,
-              "delivered": 24,
+              "delivered": 25,
               "emails": {
                 "NL - Bamboo Aanvraag new": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - New Lead Brochure,infopakket": {
@@ -308815,17 +311090,17 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 24,
-              "opens": 8,
-              "sent": 24,
+              "firstTouch": 25,
+              "opens": 9,
+              "sent": 25,
               "soft_bounces": 0,
-              "subscribers": 24,
+              "subscribers": 25,
               "unsubs": 0
             },
             "NL - Nurturelane Stairlift Q2 2026": {
               "bounces": 0,
               "clicks": 2,
-              "delivered": 42,
+              "delivered": 47,
               "emails": {
                 "NL - Nurturemail 5": {
                   "bounces": 0,
@@ -308841,12 +311116,12 @@
                 "NL - Trapliftlane-interieur-4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 5,
-                  "sent": 9,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-showroom-7": {
@@ -308863,23 +311138,23 @@
                 "NL - Trapliftlane-thuisadvies-8": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
+                  "delivered": 5,
+                  "firstTouch": 5,
                   "opens": 1,
-                  "sent": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-trapcheck-5": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
                   "opens": 0,
-                  "sent": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-uitleg-2": {
@@ -308907,12 +311182,12 @@
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 3,
-                  "firstTouch": 3,
+                  "delivered": 5,
+                  "firstTouch": 5,
                   "opens": 0,
-                  "sent": 3,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 3,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
@@ -308929,9 +311204,9 @@
               },
               "firstTouch": 0,
               "opens": 11,
-              "sent": 42,
+              "sent": 47,
               "soft_bounces": 0,
-              "subscribers": 42,
+              "subscribers": 47,
               "unsubs": 0
             },
             "NL - Offerte journey": {
@@ -309066,17 +311341,17 @@
             "NL-Nurture - no contact possible V3": {
               "bounces": 1,
               "clicks": 0,
-              "delivered": 23,
+              "delivered": 24,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 17,
-                  "firstTouch": 12,
+                  "delivered": 18,
+                  "firstTouch": 13,
                   "opens": 3,
-                  "sent": 17,
+                  "sent": 18,
                   "soft_bounces": 0,
-                  "subscribers": 17,
+                  "subscribers": 18,
                   "unsubs": 0
                 },
                 "NL - No contact possible Situatie uitvraag": {
@@ -309091,11 +311366,11 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 12,
+              "firstTouch": 13,
               "opens": 3,
-              "sent": 24,
+              "sent": 25,
               "soft_bounces": 0,
-              "subscribers": 24,
+              "subscribers": 25,
               "unsubs": 0
             },
             "Orderbevestiging ": {
@@ -309124,18 +311399,18 @@
             },
             "all": {
               "bounces": 1,
-              "clicks": 5,
-              "delivered": 153,
+              "clicks": 6,
+              "delivered": 160,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 17,
-                  "firstTouch": 12,
+                  "delivered": 18,
+                  "firstTouch": 13,
                   "opens": 3,
-                  "sent": 17,
+                  "sent": 18,
                   "soft_bounces": 0,
-                  "subscribers": 17,
+                  "subscribers": 18,
                   "unsubs": 0
                 },
                 "NL - 1 x Geen gehoor V2": {
@@ -309152,20 +311427,20 @@
                 "NL - Bamboo Aanvraag new": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 0,
-                  "clicks": 0,
+                  "clicks": 1,
                   "delivered": 7,
                   "firstTouch": 5,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -309317,12 +311592,12 @@
                 "NL - Trapliftlane-interieur-4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 9,
-                  "firstTouch": 9,
+                  "delivered": 10,
+                  "firstTouch": 10,
                   "opens": 5,
-                  "sent": 9,
+                  "sent": 10,
                   "soft_bounces": 0,
-                  "subscribers": 9,
+                  "subscribers": 10,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-showroom-7": {
@@ -309339,23 +311614,23 @@
                 "NL - Trapliftlane-thuisadvies-8": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
+                  "delivered": 5,
+                  "firstTouch": 5,
                   "opens": 1,
-                  "sent": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-trapcheck-5": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
+                  "delivered": 2,
+                  "firstTouch": 2,
                   "opens": 0,
-                  "sent": 1,
+                  "sent": 2,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 2,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-uitleg-2": {
@@ -309416,12 +311691,12 @@
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 3,
-                  "firstTouch": 3,
+                  "delivered": 5,
+                  "firstTouch": 5,
                   "opens": 0,
-                  "sent": 3,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 3,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
@@ -309436,11 +311711,11 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 38,
-              "opens": 44,
-              "sent": 154,
+              "firstTouch": 39,
+              "opens": 46,
+              "sent": 161,
               "soft_bounces": 0,
-              "subscribers": 138,
+              "subscribers": 145,
               "unsubs": 0
             }
           },
@@ -309543,12 +311818,12 @@
         },
         "NL - New Lead Journey V2": {
           "mailsPerPerson": 1.0,
-          "sent": 9571,
-          "subscribers": 9571
+          "sent": 9572,
+          "subscribers": 9572
         },
         "NL - Nurturelane Stairlift Q2 2026": {
           "mailsPerPerson": 10.2,
-          "sent": 33086,
+          "sent": 33091,
           "subscribers": 3245
         },
         "NL - Offerte journey": {
@@ -309613,8 +311888,8 @@
         },
         "NL-Nurture - no contact possible V3": {
           "mailsPerPerson": 3.5,
-          "sent": 6923,
-          "subscribers": 1996
+          "sent": 6924,
+          "subscribers": 1997
         },
         "NL-Nurture - no contact possible statische lijst": {
           "mailsPerPerson": 119.9,
@@ -309648,8 +311923,8 @@
         },
         "all": {
           "mailsPerPerson": 3.6,
-          "sent": 124137,
-          "subscribers": 34082
+          "sent": 124144,
+          "subscribers": 34083
         }
       },
       "kernKpis": {
@@ -309657,15 +311932,15 @@
           "consentTotal": 35393,
           "deltaPct": null,
           "funnel": {
-            "mailjourneyTotal": 42966,
+            "mailjourneyTotal": 42968,
             "noConsent": 25977,
-            "noContactException": 466,
+            "noContactException": 467,
             "noEmail": 5269
           },
           "measurable": true,
-          "reached": 4051,
+          "reached": 4053,
           "reason": null,
-          "shouldMail": 11720,
+          "shouldMail": 11722,
           "toActivate": 7669,
           "value": 34.6
         },
@@ -309674,17 +311949,17 @@
           "value": null
         },
         "databaseGrowth": {
-          "deltaAbs": 2414,
-          "deltaPct": 249.9,
-          "value": 3380
+          "deltaAbs": 2415,
+          "deltaPct": 250.0,
+          "value": 3381
         },
         "mqlToSql": {
           "deltaPct": -13.7,
           "value": 10.61
         },
         "reactivationRatio": {
-          "deltaPct": -17.4,
-          "value": 15.46
+          "deltaPct": -17.6,
+          "value": 15.43
         }
       },
       "marketLabel": "Nederland",
@@ -309747,34 +312022,567 @@
         "getekend:zorgpakket": 5,
         "splitStart": "2026-07-18"
       },
-      "orderRecords": [],
+      "orderRecords": [
+        {
+          "date": "2026-07-29",
+          "lead": "00QQD00000dpXwN2AU",
+          "opp": "006P500000mUOMEIA4",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-18",
+          "lead": "00QP500000qVMjAMAW",
+          "opp": "006P500000nACN6IAO",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QQD00000AQG7s2AH",
+          "opp": "006P500000nSNboIAG",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-08-17",
+          "lead": "00QP500000pigz8MAA",
+          "opp": "006P500000neaQLIAY",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-11",
+          "lead": "00QP500000qHIsEMAW",
+          "opp": "006P500000nfTRdIAM",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QQD00000aCvx32AC",
+          "opp": "006P500000nfsJZIAY",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-18",
+          "lead": "00QP500000rOiHaMAK",
+          "opp": "006P500000nvt0NIAQ",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-08-24",
+          "lead": "00QQD00000AQOrS2AX",
+          "opp": "006P500000oE5cZIAS",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000rRSrJMAW",
+          "opp": "006P500000oceUHIAY",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-20",
+          "lead": "00QP500000r1rF6MAI",
+          "opp": "006P500000ofavZIAQ",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-19",
+          "lead": "00QP500000rpL3tMAE",
+          "opp": "006P500000oucKLIAY",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-08-27",
+          "lead": "00QP500000rWfCsMAK",
+          "opp": "006P500000ouTTyIAM",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-08-25",
+          "lead": "00QQD00000Xke972AB",
+          "opp": "006P500000owAOpIAM",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-19",
+          "lead": "00QP500000rLnaHMAS",
+          "opp": "006P500000p5bhVIAQ",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-25",
+          "lead": "00QQD00000APyLC2A1",
+          "opp": "006P500000pVpaLIAS",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-28",
+          "lead": "00QP500000sMthvMAC",
+          "opp": "006P500000pjllOIAQ",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-04",
+          "lead": "00QP500000sXoesMAC",
+          "opp": "006P500000qb35pIAA",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QP500000ssSzVMAU",
+          "opp": "006P500000qcI7fIAE",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-08-25",
+          "lead": "00QP500000rvTJjMAM",
+          "opp": "006P500000qeYBVIA2",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-04",
+          "lead": "00QQD00000bXIdc2AG",
+          "opp": "006P500000qp1AbIAI",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-08-28",
+          "lead": "00QP500000svrrhMAA",
+          "opp": "006P500000qokL3IAI",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-02",
+          "lead": "00QP500000tHTqjMAG",
+          "opp": "006P500000rEKTNIA4",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-08",
+          "lead": "00QP500000rLwDmMAK",
+          "opp": "006P500000rzkIrIAI",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-03",
+          "lead": "00QP500000qLRSNMA4",
+          "opp": "006P500000sEs6KIAS",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QQD00000dOL6T2AW",
+          "opp": "006P500000sNrPVIA0",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QQD00000AQe862AD",
+          "opp": "006P500000smbxSIAQ",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-16",
+          "lead": "00QQD00000boAdC2AU",
+          "opp": "006P500000tHZrJIAW",
+          "reason": "Orientation for later moment",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000pe33XMAQ",
+          "opp": "006P500000tMllNIAS",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-09-24",
+          "lead": "00QP500000vQbBDMA0",
+          "opp": "006P500000tZqDlIAK",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-09-29",
+          "lead": "00QP500000sWb29MAC",
+          "opp": "006P500000ttuUvIAI",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000virkYMAQ",
+          "opp": "006P500000twVmvIAE",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000vLupdMAC",
+          "opp": "006P500000u6nkAIAQ",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000vEE7EMAW",
+          "opp": "006P500000u6t81IAA",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000v4qsAMAQ",
+          "opp": "006P500000uXLgYIAW",
+          "reason": "Wmo application is in progress",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000v4yMfMAI",
+          "opp": "006P500000uYGzlIAG",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000vEOT7MAO",
+          "opp": "006P500000ueAIAIA2",
+          "reason": "Orientation for later moment",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-09-30",
+          "lead": "00QP500000wgcp5MAA",
+          "opp": "006P500000unbixIAA",
+          "reason": "Wmo application is in progress",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-13",
+          "lead": "00QP500000x4lZSMAY",
+          "opp": "006P500000uvWHTIA2",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-10-08",
+          "lead": "00QQD00000ck8Ks2AI",
+          "opp": "006P500000v1zWsIAI",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-14",
+          "lead": "00QP500000wZUwIMAW",
+          "opp": "006P500000vCim1IAC",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-10-14",
+          "lead": "00QQD00000d7c5J2AQ",
+          "opp": "006P500000vEJZpIAO",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-16",
+          "lead": "00QP500000xixWcMAI",
+          "opp": "006P500000vVC4EIAW",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-10-21",
+          "lead": "00QP500000yRrgnMAC",
+          "opp": "006P500000w2OEYIA2",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QP500000sDsrYMAS",
+          "opp": "006P500000w2qXNIAY",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-23",
+          "lead": "00QP500000x9AasMAE",
+          "opp": "006P500000w6e1PIAQ",
+          "reason": "No Contact Possible - number correct",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-30",
+          "lead": "00QQD00000APzgu2AD",
+          "opp": "006P500000wJIFxIAO",
+          "reason": "Wmo application is in progress",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-10-19",
+          "lead": "00QP500000yivdzMAA",
+          "opp": "006P500000wNIcLIAW",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-10-23",
+          "lead": "00QP500000yH3QOMA0",
+          "opp": "006P500000wbvqnIAA",
+          "reason": "No Contact Possible - number correct",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-10-28",
+          "lead": "00QP500000zKWyHMAW",
+          "opp": "006P500000wqNbqIAE",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-11-03",
+          "lead": "00QP500000zhkakMAA",
+          "opp": "006P500000x7TeQIAU",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Re-entered - Phone Number Changed"
+        },
+        {
+          "date": "2026-11-03",
+          "lead": "00QP500000zGgeTMAS",
+          "opp": "006P500000xB5VRIA0",
+          "reason": "No Contact Possible - number incorrect",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-05-27",
+          "lead": "00QQD00000bDeQY2A0",
+          "opp": "006QD00000mTOcoYAG",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-05-19",
+          "lead": "00QQD00000bbQW52AM",
+          "opp": "006QD00000miW3lYAE",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-11",
+          "lead": "00QQD00000cDrDV2A0",
+          "opp": "006QD00000oDZpZYAW",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-04",
+          "lead": "00QQD00000bcFf32AE",
+          "opp": "006QD00000oE95QYAS",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000c4o5B2AQ",
+          "opp": "006QD00000oQHLkYAO",
+          "reason": "Orientation for later moment",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-08",
+          "lead": "00QQD00000c9SSE2A2",
+          "opp": "006QD00000onDyWYAU",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-10",
+          "lead": "00QQD00000cUAgn2AG",
+          "opp": "006QD00000ouyxaYAA",
+          "reason": "",
+          "route": ""
+        },
+        {
+          "date": "2026-06-12",
+          "lead": "00QQD00000c9QS12AM",
+          "opp": "006QD00000pW2EDYA0",
+          "reason": "WMO",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-09",
+          "lead": "00QQD00000bMzVm2AK",
+          "opp": "006QD00000pXjQnYAK",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000cSNob2AG",
+          "opp": "006QD00000pY5UXYA0",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-11",
+          "lead": "00QQD00000cRY362AG",
+          "opp": "006QD00000pjQfJYAU",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-17",
+          "lead": "00QQD00000cnqu62AA",
+          "opp": "006QD00000qFQiLYAW",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-24",
+          "lead": "00QQD00000d2FNv2AM",
+          "opp": "006QD00000qjZ0TYAU",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000cHdQU2A0",
+          "opp": "006QD00000r83eyYAA",
+          "reason": "Orientation for later moment",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-06-29",
+          "lead": "00QQD00000AQHOe2AP",
+          "opp": "006QD00000rOTK5YAO",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-06-30",
+          "lead": "00QQD00000dMu1v2AC",
+          "opp": "006QD00000rauQ9YAI",
+          "reason": "",
+          "route": ""
+        },
+        {
+          "date": "2026-07-08",
+          "lead": "00QQD00000cjzXh2AI",
+          "opp": "006QD00000reggMYAQ",
+          "reason": "",
+          "route": ""
+        },
+        {
+          "date": "2026-07-03",
+          "lead": "00QQD00000dTqO92AK",
+          "opp": "006QD00000reGBPYA2",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-07-03",
+          "lead": "00QQD00000dOBqI2AW",
+          "opp": "006QD00000reOBeYAM",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-10",
+          "lead": "00QQD00000dOipS2AS",
+          "opp": "006QD00000riemZYAQ",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-07-08",
+          "lead": "00QQD00000dDqSA2A0",
+          "opp": "006QD00000rjo8qYAA",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-07-13",
+          "lead": "00QQD00000dM4JR2A0",
+          "opp": "006QD00000ryy9GYAQ",
+          "reason": "Never had contact with the customer",
+          "route": "Appointment"
+        },
+        {
+          "date": "2026-07-16",
+          "lead": "00QQD00000cu8Q12AI",
+          "opp": "006QD00000sCE9mYAG",
+          "reason": "Never had contact with the customer",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-14",
+          "lead": "00QQD00000dr4wi2AA",
+          "opp": "006QD00000sKuThYAK",
+          "reason": "No contact possible",
+          "route": "Re-entered"
+        },
+        {
+          "date": "2026-07-30",
+          "lead": "00QQD00000dz6tF2AQ",
+          "opp": "006QD00000sWElXYAW",
+          "reason": "No contact possible",
+          "route": "Appointment"
+        }
+      ],
       "outcomeTotal": {
-        "appointmentRate": 21.9,
+        "appointmentRate": 22.0,
         "conversionRate": 21.9,
-        "converted": 1778,
-        "toAppointment": 1780,
+        "converted": 1780,
+        "toAppointment": 1783,
         "toSql": 777,
-        "touched": 8110,
+        "touched": 8111,
         "won": 580
       },
       "reach": {
         "30": {
           "contacts": 2207,
-          "leads": 3480,
+          "leads": 3481,
           "other": 1864,
-          "total": 7551
+          "total": 7552
         },
         "7": {
           "contacts": 506,
-          "leads": 1252,
+          "leads": 1259,
           "other": 0,
-          "total": 1758
+          "total": 1765
         },
         "90": {
           "contacts": 6374,
-          "leads": 8110,
+          "leads": 8111,
           "other": 7081,
-          "total": 21565
+          "total": 21566
         }
       },
       "reactivation": {
@@ -309793,20 +312601,20 @@
           "toFollowUp": 3
         },
         "leadIntake": {
-          "abs": 2450,
+          "abs": 2451,
           "share": 100.0
         },
         "mailjourney": {
-          "abs": 899,
-          "deltaPct": -12.3,
-          "ratio": 69.34,
-          "share": 36.69
+          "abs": 901,
+          "deltaPct": -12.0,
+          "ratio": 69.57,
+          "share": 36.76
         },
         "notContact": {
           "abs": 861,
           "deltaPct": 7.0,
-          "ratio": 35.14,
-          "share": 35.14
+          "ratio": 35.13,
+          "share": 35.13
         },
         "recovered": {
           "cac": null,
@@ -309815,8 +312623,8 @@
         },
         "sql": {
           "abs": 260,
-          "deltaPct": -17.4,
-          "ratio": 15.46,
+          "deltaPct": -17.6,
+          "ratio": 15.43,
           "share": 10.61
         }
       }
