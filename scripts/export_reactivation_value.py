@@ -1338,10 +1338,6 @@ def main():
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "lookback_days": LOOKBACK_DAYS,
-        # Het My Domain van de org, zodat het dashboard een Lead- of
-        # Opportunity-ID kan omzetten in een werkende link. Salesforce leidt
-        # https://<domein>/<recordId> door naar het juiste record.
-        "salesforceDomain": DOMAIN,
         "routeLabels": REENTRY_ROUTES,
         "attribution": (
             "Statuspad: instroom in Mailjourney, daarna een heractivatiesignaal "

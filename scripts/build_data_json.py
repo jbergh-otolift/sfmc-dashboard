@@ -701,8 +701,6 @@ def main():
         "reachPeriods": (tracking or {}).get("reachPeriods") or [],
         "retrieveDays": (tracking or {}).get("retrieveDays"),
         "routeLabels": (value or {}).get("routeLabels") or {},
-        # My Domain van de Salesforce-org, voor de links in de deep dive.
-        "salesforceDomain": (value or {}).get("salesforceDomain") or "",
         "valueAttribution": (value or {}).get("attribution"),
         "pathFunnelNote": (value or {}).get("pathFunnelNote"),
         "defaultPeriod": DEFAULT_PERIOD,

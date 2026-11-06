@@ -983,20 +983,18 @@ function renderDeepDive(id) {
       : nlNum(zichtbaar.length, 0) + " van " + nlNum(rijen.length, 0);
   }
 
-  const domein = (typeof DATA !== "undefined" && DATA && DATA.salesforceDomain) || "";
-  const link = (waarde) => {
-    if (!waarde) return "–";
-    if (!domein) return '<span class="dd-id">' + waarde + "</span>";
-    return '<a class="dd-id" target="_blank" rel="noopener" href="https://' +
-           domein + "/" + waarde + '">' + waarde + "</a>";
-  };
+  // Alleen het ID, geen link: dan hoeft het My Domain van de org niet mee
+  // in een bestand dat elke bezoeker van het dashboard inlaadt. Plak het ID
+  // in het zoekveld van Salesforce.
+  const kolom = (waarde) =>
+    waarde ? '<span class="dd-id">' + waarde + "</span>" : "–";
 
   body.innerHTML = zichtbaar.slice(0, DD_MAX).map((r) =>
     "<tr><td>" + datumNL(r.date) + "</td>" +
     "<td>" + ddLabel(r.reason) + "</td>" +
     "<td>" + ddLabel(r.route) + "</td>" +
-    "<td>" + link(r.lead) + "</td>" +
-    (cfg.deepOpp ? "<td>" + link(r.opp) + "</td>" : "") +
+    "<td>" + kolom(r.lead) + "</td>" +
+    (cfg.deepOpp ? "<td>" + kolom(r.opp) + "</td>" : "") +
     "</tr>").join("");
 
   const meer = host.querySelector("[data-dd-meer]");
