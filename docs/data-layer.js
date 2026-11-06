@@ -957,8 +957,12 @@ function ddRecords(id) {
 
 function ddLabel(waarde) {
   // Een lege reden of route betekent in de grafiek Overig; hier hetzelfde
-  // woord gebruiken, anders lijkt het een ander geval.
-  return waarde && waarde !== "(geen reden)" ? waarde : AC_REST;
+  // woord gebruiken, anders lijkt het een ander geval. En de routenamen uit
+  // de orderexport zijn nog ruw ("Appointment"), dus langs dezelfde
+  // vertaaltabel als de grafiek.
+  if (!waarde || waarde === "(geen reden)") return AC_REST;
+  const labels = (typeof DATA !== "undefined" && DATA && DATA.routeLabels) || {};
+  return labels[waarde] || waarde;
 }
 
 function renderDeepDive(id) {
