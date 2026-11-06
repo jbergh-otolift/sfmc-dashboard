@@ -679,6 +679,10 @@ def appointment_split(by_lead, active):
     reason_paths = defaultdict(
         lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     )
+    # Elke afspraak ook los, met het Lead-ID erbij. Daarmee kun je vanuit het
+    # dashboard doorklikken naar het record in Salesforce in plaats van op een
+    # aggregaat te moeten vertrouwen.
+    records = []
 
     for lead, rows in by_lead.items():
         rows.sort(key=lambda r: r.get("Edit Date") or "")
@@ -761,7 +765,17 @@ def appointment_split(by_lead, active):
         reason_totals[market][groep] += 1
         reason_paths[day][market][groep][staart] += 1
 
+        records.append({
+            "lead": lead,
+            "market": market,
+            "date": day,
+            "route": route,
+            "reason": groep,
+            "path": staart,
+        })
+
     return {
+        "records": records,
         "days": days,
         "totals": totals,
         "routes": routes,
@@ -1169,6 +1183,10 @@ def main():
     routes = defaultdict(lambda: defaultdict(lambda: {
         "reached": 0, "withAppointment": 0, "orders": 0, "revenue": 0.0,
     }))
+    # Elke toegerekende order ook los, met Lead- en Opportunity-ID. Zelfde
+    # gedachte als bij de afspraken: vanuit het dashboard terug te vinden in
+    # Salesforce. Bedragen blijven eruit, net als in de grafiek.
+    order_records = []
 
     # Hoeveel leads raakten elke route, los van of ze converteerden.
     for info in paths.values():
@@ -1239,12 +1257,25 @@ def main():
         # Het strenge cijfer is per definitie een deelverzameling van het
         # brede: eerst gemaild, en daarbovenop een aantoonbaar heractivatiepad.
         route = (info or {}).get("route")
-        if (
+        toegerekend = bool(
             in_scope
             and route
             and info.get("routeDate")
             and outcome >= info["routeDate"]
-        ):
+        )
+        # Elke order die in de noemer zit krijgt een regel. Route en reden
+        # alleen als hij ook echt is toegerekend — anders staat hij in de
+        # grafiek onder Overig en moet de regel dat ook zeggen.
+        if in_scope:
+            order_records.append({
+                "lead": lead,
+                "opp": conv.get("opportunityId"),
+                "market": market,
+                "date": conv["date"],
+                "route": route if toegerekend else "",
+                "reason": (info.get("reason") or "") if toegerekend else "",
+            })
+        if toegerekend:
             bucket["viaAutomationOrders"] += 1
             bucket["viaAutomationRevenue"] += conv["amount"]
             bucket["byRoute"][route]["orders"] += 1
@@ -1307,6 +1338,10 @@ def main():
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "lookback_days": LOOKBACK_DAYS,
+        # Het My Domain van de org, zodat het dashboard een Lead- of
+        # Opportunity-ID kan omzetten in een werkende link. Salesforce leidt
+        # https://<domein>/<recordId> door naar het juiste record.
+        "salesforceDomain": DOMAIN,
         "routeLabels": REENTRY_ROUTES,
         "attribution": (
             "Statuspad: instroom in Mailjourney, daarna een heractivatiesignaal "
@@ -1350,6 +1385,11 @@ def main():
         "appointmentSplitTotals": {
             market: dict(buckets) for market, buckets in split_totals.items()
         },
+        # Losse regels per afspraak en per order, met Lead- en Opportunity-ID.
+        # Voedt de deep dive in het dashboard: van een staaf naar het record
+        # in Salesforce. Geen bedragen, geen namen — alleen ID's.
+        "appointmentRecords": split.get("records") or [],
+        "orderRecords": order_records,
         # Dezelfde afspraken, nu langs de route waarlangs ze binnenkwamen en
         # langs het volledige statuspad. Voedt het uitklapblok onder de funnel.
         # De aftakking nummerverrijking, per dag en dus optelbaar.

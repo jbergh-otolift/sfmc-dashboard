@@ -585,6 +585,7 @@ const AC_CFG = {
   appt: {
     plot: "[data-appt-chart]", legenda: "[data-appt-legenda]",
     note: "[data-appt-note]", bar: "[data-ac-bar=appt]",
+    deep: "[data-appt-deep]", deepOpp: false, records: "apptRecords",
     velden: { route: "apptRoutes", reden: "apptReasons" },
     // De dagbucket houdt hier kale aantallen.
     lees: (bucket, veld) => bucket[veld] || {},
@@ -595,6 +596,7 @@ const AC_CFG = {
   order: {
     plot: "[data-order-chart]", legenda: "[data-order-legenda]",
     note: "[data-order-note]", bar: "[data-ac-bar=order]",
+    deep: "[data-order-deep]", deepOpp: true, records: "orderRecords",
     velden: { route: "byRoute", reden: "byReason" },
     // Orders zitten een niveau dieper, met omzet ernaast in dezelfde knoop.
     // Die omzet laten we bewust liggen: de gemiddelde orderwaarde varieert
@@ -934,6 +936,107 @@ function wireAcCharts() {
         wacht = requestAnimationFrame(() => renderAcChart(id));
       }).observe(plot);
     }
+  });
+}
+
+/* ---------- Deep dive: losse records met Salesforce-ID's ----------
+   De grafiek vertelt het patroon, maar bij een afwijking wil je weten wélke
+   leads het zijn. Deze lijst zet elke afspraak en elke order om in een regel
+   met het Lead-ID erbij, als link naar het record. Salesforce leidt
+   https://<mydomain>/<recordId> door naar de juiste pagina, dus één
+   linkvorm volstaat voor zowel Lead als Opportunity. */
+const DD_MAX = 500;
+
+function ddRecords(id) {
+  const bron = acBronnen[id];
+  if (!bron) return [];
+  return (bron.records || [])
+    .filter((r) => r.date >= bron.start && r.date <= bron.eind)
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+}
+
+function ddLabel(waarde) {
+  // Een lege reden of route betekent in de grafiek Overig; hier hetzelfde
+  // woord gebruiken, anders lijkt het een ander geval.
+  return waarde && waarde !== "(geen reden)" ? waarde : AC_REST;
+}
+
+function renderDeepDive(id) {
+  const cfg = AC_CFG[id];
+  const host = document.querySelector(cfg.deep);
+  if (!host) return;
+  const rijen = ddRecords(id);
+  const telling = host.querySelector("[data-dd-telling]");
+  const body = host.querySelector("[data-dd-body]");
+  const zoek = host.querySelector("[data-dd-zoek]");
+  if (!body) return;
+
+  const term = (zoek && zoek.value || "").trim().toLowerCase();
+  const zichtbaar = term
+    ? rijen.filter((r) => (r.lead + " " + (r.opp || "") + " " + ddLabel(r.reason) +
+                           " " + ddLabel(r.route)).toLowerCase().includes(term))
+    : rijen;
+
+  if (telling) {
+    telling.textContent = zichtbaar.length === rijen.length
+      ? nlNum(rijen.length, 0) + (rijen.length === 1 ? " record" : " records")
+      : nlNum(zichtbaar.length, 0) + " van " + nlNum(rijen.length, 0);
+  }
+
+  const domein = (typeof DATA !== "undefined" && DATA && DATA.salesforceDomain) || "";
+  const link = (waarde) => {
+    if (!waarde) return "–";
+    if (!domein) return '<span class="dd-id">' + waarde + "</span>";
+    return '<a class="dd-id" target="_blank" rel="noopener" href="https://' +
+           domein + "/" + waarde + '">' + waarde + "</a>";
+  };
+
+  body.innerHTML = zichtbaar.slice(0, DD_MAX).map((r) =>
+    "<tr><td>" + datumNL(r.date) + "</td>" +
+    "<td>" + ddLabel(r.reason) + "</td>" +
+    "<td>" + ddLabel(r.route) + "</td>" +
+    "<td>" + link(r.lead) + "</td>" +
+    (cfg.deepOpp ? "<td>" + link(r.opp) + "</td>" : "") +
+    "</tr>").join("");
+
+  const meer = host.querySelector("[data-dd-meer]");
+  if (meer) {
+    meer.hidden = zichtbaar.length <= DD_MAX;
+    meer.textContent = "Alleen de eerste " + DD_MAX + " regels staan hier; " +
+      "kopieer de lijst of kies een korter bereik voor de rest.";
+  }
+  host.hidden = !rijen.length;
+}
+
+function ddKopieer(id, soort, knop) {
+  const cfg = AC_CFG[id];
+  const rijen = ddRecords(id);
+  const tekst = soort === "ids"
+    ? rijen.map((r) => r.lead).join("\n")
+    : ["datum;reden;route;lead" + (cfg.deepOpp ? ";opportunity" : "")]
+        .concat(rijen.map((r) => [r.date, ddLabel(r.reason), ddLabel(r.route), r.lead]
+          .concat(cfg.deepOpp ? [r.opp || ""] : []).join(";")))
+        .join("\n");
+  const klaar = () => {
+    const oud = knop.textContent;
+    knop.textContent = "Gekopieerd";
+    setTimeout(() => { knop.textContent = oud; }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(tekst).then(klaar, () => {});
+  }
+}
+
+function wireDeepDive() {
+  Object.entries(AC_CFG).forEach(([id, cfg]) => {
+    const host = document.querySelector(cfg.deep);
+    if (!host) return;
+    const zoek = host.querySelector("[data-dd-zoek]");
+    if (zoek) zoek.addEventListener("input", () => renderDeepDive(id));
+    host.addEventListener("click", (e) => {
+      const knop = e.target.closest("[data-dd-kopieer]");
+      if (knop) ddKopieer(id, knop.dataset.ddKopieer, knop);
+    });
   });
 }
 
@@ -2609,11 +2712,12 @@ function applyMarket(marketKey) {
                   summed.apptRoutes);
   // De grafieken lezen dezelfde dagbuckets en volgen dus het gekozen bereik,
   // net als de totalen erboven.
-  const acBereik = { days: market.days || {}, start: range.start, eind: range.end };
-  acBronnen.appt = acBereik;
-  acBronnen.order = acBereik;
-  renderAcChart("appt");
-  renderAcChart("order");
+  ["appt", "order"].forEach((id) => {
+    acBronnen[id] = { days: market.days || {}, start: range.start, eind: range.end,
+                      records: market[AC_CFG[id].records] || [] };
+    renderAcChart(id);
+    renderDeepDive(id);
+  });
 
   renderVFunnel(view.reactivation);
   renderNurture(market);
@@ -2938,6 +3042,7 @@ function wireSectionNav() {
 
 wireSectionNav();
 wireAcCharts();
+wireDeepDive();
 
 
 // Blokken met meerdere uitklappers krijgen een knop om ze in een keer open of

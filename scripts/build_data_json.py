@@ -623,9 +623,22 @@ def main():
                 if key in per_market:
                     days.setdefault(day, {})[target] = per_market[key]
 
+        # Losse regels per afspraak en per order, met Lead- en Opportunity-ID.
+        # Platte lijst met een datum erin in plaats van per dagbucket: de
+        # deep dive filtert client-side op het gekozen bereik, en zo blijft
+        # het bestand compact.
+        def records_van(veld):
+            return [
+                {k: v for k, v in r.items() if k != "market"}
+                for r in ((value or {}).get(veld) or [])
+                if r.get("market") == key
+            ]
+
         markets[key] = {
             "marketLabel": label,
             "days": days,
+            "apptRecords": records_van("appointmentRecords"),
+            "orderRecords": records_van("orderRecords"),
             # Niet optelbaar over een bereik: dit is het hele meetvenster.
             # Staat er alleen om te kunnen tonen hoeveel mensen welk aanbod
             # kregen, want dat is geen dagcijfer.
@@ -688,6 +701,8 @@ def main():
         "reachPeriods": (tracking or {}).get("reachPeriods") or [],
         "retrieveDays": (tracking or {}).get("retrieveDays"),
         "routeLabels": (value or {}).get("routeLabels") or {},
+        # My Domain van de Salesforce-org, voor de links in de deep dive.
+        "salesforceDomain": (value or {}).get("salesforceDomain") or "",
         "valueAttribution": (value or {}).get("attribution"),
         "pathFunnelNote": (value or {}).get("pathFunnelNote"),
         "defaultPeriod": DEFAULT_PERIOD,
