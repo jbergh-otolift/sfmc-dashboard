@@ -1,7 +1,7 @@
 {
-  "endDate": "2026-11-07",
-  "firstDay": "2025-10-03",
-  "generated_at": "2026-11-06T14:57:43Z",
+  "endDate": "2026-11-08",
+  "firstDay": "2025-10-04",
+  "generated_at": "2026-11-07T13:32:54Z",
   "journeyStructures": {
     "be": {
       "BE - New Lead - VL - WA": {
@@ -781,7 +781,7 @@
             "next": [
               "WAITBYDURATION-5"
             ],
-            "tsdId": "b2b3587f-8aa0-f111-ba73-f40343e86f58",
+            "tsdId": "abc2abb7-f6d9-f111-ba73-f40343e86f58",
             "type": "EMAILV2",
             "waitDays": null
           },
@@ -811,22 +811,22 @@
           },
           {
             "depth": 4,
-            "key": "EMAILV2-5",
-            "name": "NL - Wmo check reminder - mail 1b",
-            "next": [
-              "WAITBYDURATION-20"
-            ],
-            "tsdId": "f2225185-8aa0-f111-ba73-f40343e86f58",
-            "type": "EMAILV2",
-            "waitDays": null
-          },
-          {
-            "depth": 4,
             "key": "SALESCLOUDACTIVITY-2",
             "name": "Lost - WMO approved",
             "next": [],
             "tsdId": null,
             "type": "OTHER",
+            "waitDays": null
+          },
+          {
+            "depth": 4,
+            "key": "EMAILV2-5",
+            "name": "NL - Wmo check reminder - mail 1b",
+            "next": [
+              "WAITBYDURATION-20"
+            ],
+            "tsdId": "14c3abb7-f6d9-f111-ba73-f40343e86f58",
+            "type": "EMAILV2",
             "waitDays": null
           },
           {
@@ -855,6 +855,17 @@
           },
           {
             "depth": 7,
+            "key": "WAITBYDURATION-11",
+            "name": "1 day",
+            "next": [
+              "SALESCLOUDACTIVITY-3"
+            ],
+            "tsdId": null,
+            "type": "WAIT",
+            "waitDays": 1
+          },
+          {
+            "depth": 7,
             "key": "WAITBYDURATION-13",
             "name": "1 day",
             "next": [
@@ -871,28 +882,8 @@
             "next": [
               "WAITBYDURATION-7"
             ],
-            "tsdId": "f6225185-8aa0-f111-ba73-f40343e86f58",
+            "tsdId": "cd35d8bd-f6d9-f111-ba73-f40343e86f58",
             "type": "EMAILV2",
-            "waitDays": null
-          },
-          {
-            "depth": 7,
-            "key": "WAITBYDURATION-11",
-            "name": "1 day",
-            "next": [
-              "SALESCLOUDACTIVITY-3"
-            ],
-            "tsdId": null,
-            "type": "WAIT",
-            "waitDays": 1
-          },
-          {
-            "depth": 8,
-            "key": "SALESCLOUDACTIVITY-4",
-            "name": "Lost - WMO - geen interesse",
-            "next": [],
-            "tsdId": null,
-            "type": "OTHER",
             "waitDays": null
           },
           {
@@ -916,13 +907,22 @@
             "waitDays": null
           },
           {
+            "depth": 8,
+            "key": "SALESCLOUDACTIVITY-4",
+            "name": "Lost - WMO - geen interesse",
+            "next": [],
+            "tsdId": null,
+            "type": "OTHER",
+            "waitDays": null
+          },
+          {
             "depth": 9,
             "key": "EMAILV2-11",
             "name": "NL - WMo check Otolift - mail 3",
             "next": [
               "WAITBYDURATION-2"
             ],
-            "tsdId": "cc235185-8aa0-f111-ba73-f40343e86f58",
+            "tsdId": "ce35d8bd-f6d9-f111-ba73-f40343e86f58",
             "type": "EMAILV2",
             "waitDays": null
           },
@@ -4077,7 +4077,7 @@
         "id": "8c78acc2-fe11-4dc8-95b0-dea2548054f6",
         "name": "NL - Mailjourney - WMO in progress",
         "status": "Published",
-        "version": 2
+        "version": 3
       },
       {
         "id": "99049058-4fd7-4cce-8e6f-c35bb5c53e8d",
@@ -45035,7 +45035,7 @@
                   "clicks": 1,
                   "delivered": 2,
                   "firstTouch": 2,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
@@ -45043,7 +45043,7 @@
                 }
               },
               "firstTouch": 3,
-              "opens": 2,
+              "opens": 3,
               "sent": 3,
               "soft_bounces": 0,
               "subscribers": 3,
@@ -45241,7 +45241,7 @@
                   "clicks": 1,
                   "delivered": 2,
                   "firstTouch": 2,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
@@ -45293,7 +45293,7 @@
                 }
               },
               "firstTouch": 24,
-              "opens": 31,
+              "opens": 32,
               "sent": 52,
               "soft_bounces": 2,
               "subscribers": 50,
@@ -45766,7 +45766,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 7,
+                  "opens": 8,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -45774,7 +45774,7 @@
                 }
               },
               "firstTouch": 26,
-              "opens": 16,
+              "opens": 17,
               "sent": 26,
               "soft_bounces": 1,
               "subscribers": 26,
@@ -46064,7 +46064,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 7,
+                  "opens": 8,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -46094,7 +46094,7 @@
                 }
               },
               "firstTouch": 39,
-              "opens": 52,
+              "opens": 53,
               "sent": 94,
               "soft_bounces": 1,
               "subscribers": 86,
@@ -46528,7 +46528,7 @@
                   "clicks": 0,
                   "delivered": 17,
                   "firstTouch": 17,
-                  "opens": 11,
+                  "opens": 12,
                   "sent": 17,
                   "soft_bounces": 0,
                   "subscribers": 17,
@@ -46536,7 +46536,7 @@
                 }
               },
               "firstTouch": 31,
-              "opens": 20,
+              "opens": 21,
               "sent": 31,
               "soft_bounces": 0,
               "subscribers": 31,
@@ -46692,7 +46692,7 @@
                   "clicks": 0,
                   "delivered": 7,
                   "firstTouch": 7,
-                  "opens": 6,
+                  "opens": 7,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -46711,7 +46711,7 @@
                 }
               },
               "firstTouch": 8,
-              "opens": 7,
+              "opens": 8,
               "sent": 8,
               "soft_bounces": 0,
               "subscribers": 8,
@@ -46760,7 +46760,7 @@
                   "clicks": 0,
                   "delivered": 7,
                   "firstTouch": 7,
-                  "opens": 6,
+                  "opens": 7,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -46826,7 +46826,7 @@
                   "clicks": 0,
                   "delivered": 17,
                   "firstTouch": 17,
-                  "opens": 11,
+                  "opens": 12,
                   "sent": 17,
                   "soft_bounces": 0,
                   "subscribers": 17,
@@ -46856,7 +46856,7 @@
                 }
               },
               "firstTouch": 40,
-              "opens": 46,
+              "opens": 48,
               "sent": 70,
               "soft_bounces": 0,
               "subscribers": 63,
@@ -46876,7 +46876,7 @@
                   "clicks": 0,
                   "delivered": 9,
                   "firstTouch": 9,
-                  "opens": 4,
+                  "opens": 5,
                   "sent": 9,
                   "soft_bounces": 0,
                   "subscribers": 9,
@@ -46895,7 +46895,7 @@
                 }
               },
               "firstTouch": 16,
-              "opens": 6,
+              "opens": 7,
               "sent": 16,
               "soft_bounces": 1,
               "subscribers": 16,
@@ -47051,7 +47051,7 @@
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 5,
-                  "opens": 3,
+                  "opens": 4,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -47070,7 +47070,7 @@
                 }
               },
               "firstTouch": 6,
-              "opens": 4,
+              "opens": 5,
               "sent": 6,
               "soft_bounces": 0,
               "subscribers": 6,
@@ -47119,7 +47119,7 @@
                   "clicks": 0,
                   "delivered": 9,
                   "firstTouch": 9,
-                  "opens": 4,
+                  "opens": 5,
                   "sent": 9,
                   "soft_bounces": 0,
                   "subscribers": 9,
@@ -47130,7 +47130,7 @@
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 5,
-                  "opens": 3,
+                  "opens": 4,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -47215,7 +47215,7 @@
                 }
               },
               "firstTouch": 25,
-              "opens": 21,
+              "opens": 23,
               "sent": 44,
               "soft_bounces": 1,
               "subscribers": 41,
@@ -47228,49 +47228,49 @@
             "BE - New Lead - VL - WA": {
               "bounces": 0,
               "clicks": 1,
-              "delivered": 12,
+              "delivered": 21,
               "emails": {
                 "BE - VL - New Lead": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 8,
-                  "firstTouch": 8,
-                  "opens": 4,
-                  "sent": 8,
+                  "delivered": 13,
+                  "firstTouch": 13,
+                  "opens": 8,
+                  "sent": 13,
                   "soft_bounces": 0,
-                  "subscribers": 8,
+                  "subscribers": 13,
                   "unsubs": 0
                 },
                 "BE - WA - New Lead": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 3,
+                  "sent": 8,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 8,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 12,
-              "opens": 6,
-              "sent": 12,
+              "firstTouch": 21,
+              "opens": 11,
+              "sent": 21,
               "soft_bounces": 0,
-              "subscribers": 12,
+              "subscribers": 21,
               "unsubs": 0
             },
             "BE - Reviews": {
               "bounces": 0,
-              "clicks": 1,
+              "clicks": 2,
               "delivered": 4,
               "emails": {
                 "BE - VL - review - Google": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
@@ -47289,7 +47289,7 @@
                 }
               },
               "firstTouch": 4,
-              "opens": 2,
+              "opens": 3,
               "sent": 4,
               "soft_bounces": 0,
               "subscribers": 4,
@@ -47327,7 +47327,7 @@
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 2,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -47338,7 +47338,7 @@
                   "clicks": 0,
                   "delivered": 6,
                   "firstTouch": 5,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 6,
                   "soft_bounces": 0,
                   "subscribers": 6,
@@ -47346,7 +47346,7 @@
                 }
               },
               "firstTouch": 7,
-              "opens": 5,
+              "opens": 7,
               "sent": 19,
               "soft_bounces": 0,
               "subscribers": 19,
@@ -47362,7 +47362,7 @@
                   "clicks": 0,
                   "delivered": 7,
                   "firstTouch": 7,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -47381,58 +47381,82 @@
                 }
               },
               "firstTouch": 11,
-              "opens": 4,
+              "opens": 5,
               "sent": 11,
               "soft_bounces": 0,
               "subscribers": 11,
               "unsubs": 0
             },
+            "BE - VL -WA - Reentered Lead": {
+              "bounces": 0,
+              "clicks": 0,
+              "delivered": 1,
+              "emails": {
+                "BE - VL - Re-entered lead": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 1,
+              "opens": 1,
+              "sent": 1,
+              "soft_bounces": 0,
+              "subscribers": 1,
+              "unsubs": 0
+            },
             "BE - VL WA - Orderbevestiging": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 7,
+              "delivered": 10,
               "emails": {
                 "BE - VL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
                   "unsubs": 0
                 },
                 "BE - WA - orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 3,
-                  "firstTouch": 3,
-                  "opens": 1,
-                  "sent": 3,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 3,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 3,
+                  "subscribers": 5,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 7,
-              "opens": 3,
-              "sent": 7,
+              "firstTouch": 10,
+              "opens": 7,
+              "sent": 10,
               "soft_bounces": 0,
-              "subscribers": 7,
+              "subscribers": 10,
               "unsubs": 0
             },
             "all": {
               "bounces": 0,
-              "clicks": 2,
-              "delivered": 53,
+              "clicks": 3,
+              "delivered": 66,
               "emails": {
                 "BE - VL - 1x geen gehoor": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 7,
                   "firstTouch": 7,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -47463,31 +47487,42 @@
                 "BE - VL - New Lead": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 8,
-                  "firstTouch": 8,
-                  "opens": 4,
-                  "sent": 8,
+                  "delivered": 13,
+                  "firstTouch": 13,
+                  "opens": 8,
+                  "sent": 13,
                   "soft_bounces": 0,
-                  "subscribers": 8,
+                  "subscribers": 13,
                   "unsubs": 0
                 },
                 "BE - VL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 4,
+                  "sent": 5,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 5,
+                  "unsubs": 0
+                },
+                "BE - VL - Re-entered lead": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
                   "unsubs": 0
                 },
                 "BE - VL - review - Google": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
@@ -47520,7 +47555,7 @@
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 2,
-                  "opens": 2,
+                  "opens": 3,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -47531,7 +47566,7 @@
                   "clicks": 0,
                   "delivered": 6,
                   "firstTouch": 5,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 6,
                   "soft_bounces": 0,
                   "subscribers": 6,
@@ -47540,41 +47575,251 @@
                 "BE - WA - New Lead": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 2,
-                  "sent": 4,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 3,
+                  "sent": 8,
                   "soft_bounces": 0,
-                  "subscribers": 4,
+                  "subscribers": 8,
                   "unsubs": 0
                 },
                 "BE - WA - orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 3,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 32,
+              "opens": 34,
+              "sent": 66,
+              "soft_bounces": 0,
+              "subscribers": 59,
+              "unsubs": 0
+            }
+          }
+        },
+        "2026-11-07": {
+          "flows": {
+            "BE - New Lead - VL - WA": {
+              "bounces": 2,
+              "clicks": 1,
+              "delivered": 14,
+              "emails": {
+                "BE - VL - New Lead": {
+                  "bounces": 1,
+                  "clicks": 1,
+                  "delivered": 10,
+                  "firstTouch": 11,
+                  "opens": 2,
+                  "sent": 11,
+                  "soft_bounces": 0,
+                  "subscribers": 11,
+                  "unsubs": 0
+                },
+                "BE - WA - New Lead": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 5,
+                  "opens": 1,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 16,
+              "opens": 3,
+              "sent": 16,
+              "soft_bounces": 0,
+              "subscribers": 16,
+              "unsubs": 0
+            },
+            "BE - VL - WA -  No contact possible": {
+              "bounces": 0,
+              "clicks": 1,
+              "delivered": 13,
+              "emails": {
+                "BE - VL - Geen contact mogelijk - 1": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 0,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "BE - VL - Geen contact mogelijk - situatieschets - 2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 0,
+                  "sent": 5,
+                  "soft_bounces": 1,
+                  "subscribers": 5,
+                  "unsubs": 0
+                },
+                "BE - WA - Geen contact mogelijk - 1": {
+                  "bounces": 0,
+                  "clicks": 0,
                   "delivered": 3,
-                  "firstTouch": 3,
+                  "firstTouch": 0,
                   "opens": 1,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
                   "unsubs": 0
+                },
+                "BE - WA - Geen contact mogelijk - situatieschets - 2": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 1,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
                 }
               },
-              "firstTouch": 19,
-              "opens": 20,
-              "sent": 53,
+              "firstTouch": 0,
+              "opens": 2,
+              "sent": 13,
+              "soft_bounces": 1,
+              "subscribers": 13,
+              "unsubs": 0
+            },
+            "BE - VL -WA - Reentered Lead": {
+              "bounces": 0,
+              "clicks": 0,
+              "delivered": 2,
+              "emails": {
+                "BE - VL - Re-entered lead": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 2,
+              "opens": 1,
+              "sent": 2,
               "soft_bounces": 0,
-              "subscribers": 46,
+              "subscribers": 2,
+              "unsubs": 0
+            },
+            "all": {
+              "bounces": 2,
+              "clicks": 2,
+              "delivered": 29,
+              "emails": {
+                "BE - VL - Geen contact mogelijk - 1": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 0,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "BE - VL - Geen contact mogelijk - situatieschets - 2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 0,
+                  "sent": 5,
+                  "soft_bounces": 1,
+                  "subscribers": 5,
+                  "unsubs": 0
+                },
+                "BE - VL - New Lead": {
+                  "bounces": 1,
+                  "clicks": 1,
+                  "delivered": 10,
+                  "firstTouch": 11,
+                  "opens": 2,
+                  "sent": 11,
+                  "soft_bounces": 0,
+                  "subscribers": 11,
+                  "unsubs": 0
+                },
+                "BE - VL - Re-entered lead": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "BE - WA - Geen contact mogelijk - 1": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 3,
+                  "firstTouch": 0,
+                  "opens": 1,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "BE - WA - Geen contact mogelijk - situatieschets - 2": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 1,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "BE - WA - New Lead": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 5,
+                  "opens": 1,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 18,
+              "opens": 6,
+              "sent": 31,
+              "soft_bounces": 1,
+              "subscribers": 31,
               "unsubs": 0
             }
           }
         }
       },
       "eventTotals": {
-        "BounceEvent": 264,
-        "ClickEvent": 1443,
-        "OpenEvent": 14390,
-        "SentEvent": 9443,
+        "BounceEvent": 267,
+        "ClickEvent": 1449,
+        "OpenEvent": 14476,
+        "SentEvent": 9487,
         "UnsubEvent": 17
       },
       "flowProfile": {
@@ -47585,8 +47830,8 @@
         },
         "BE - New Lead - VL - WA": {
           "mailsPerPerson": 1.0,
-          "sent": 3479,
-          "subscribers": 3479
+          "sent": 3504,
+          "subscribers": 3504
         },
         "BE - Reviews": {
           "mailsPerPerson": 1.0,
@@ -47595,7 +47840,7 @@
         },
         "BE - VL - WA -  No contact possible": {
           "mailsPerPerson": 2.5,
-          "sent": 1425,
+          "sent": 1438,
           "subscribers": 569
         },
         "BE - VL - WA - 1x Geen Gehoor": {
@@ -47605,13 +47850,13 @@
         },
         "BE - VL -WA - Reentered Lead": {
           "mailsPerPerson": 1.3,
-          "sent": 559,
-          "subscribers": 442
+          "sent": 562,
+          "subscribers": 445
         },
         "BE - VL WA - Orderbevestiging": {
           "mailsPerPerson": 1.0,
-          "sent": 479,
-          "subscribers": 477
+          "sent": 482,
+          "subscribers": 480
         },
         "BE - referentiemailing eenmalig": {
           "mailsPerPerson": 1.0,
@@ -47620,28 +47865,28 @@
         },
         "all": {
           "mailsPerPerson": 1.6,
-          "sent": 9443,
-          "subscribers": 6028
+          "sent": 9487,
+          "subscribers": 6059
         }
       },
       "reach": {
         "30": {
-          "contacts": 268,
-          "leads": 809,
+          "contacts": 261,
+          "leads": 811,
           "other": 0,
-          "total": 1077
+          "total": 1072
         },
         "7": {
-          "contacts": 51,
-          "leads": 216,
+          "contacts": 54,
+          "leads": 234,
           "other": 0,
-          "total": 267
+          "total": 288
         },
         "90": {
-          "contacts": 2140,
-          "leads": 2422,
+          "contacts": 2143,
+          "leads": 2435,
           "other": 0,
-          "total": 4562
+          "total": 4578
         }
       },
       "unattributed": {
@@ -47654,207 +47899,6 @@
     },
     "nl": {
       "days": {
-        "2025-10-03": {
-          "flows": {
-            "NL - New Lead Journey ": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 42,
-              "emails": {
-                "NL - New Lead Entry": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 42,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 42,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 0,
-              "opens": 0,
-              "sent": 42,
-              "soft_bounces": 0,
-              "subscribers": 0,
-              "unsubs": 0
-            },
-            "NL - Offerte journey": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 12,
-              "emails": {
-                "NL - Openstaande offerte - Herinnering": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 3,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 3,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Openstaande offerte - Korting": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Openstaande offerte - Korting herinnering": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 4,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 0,
-              "opens": 0,
-              "sent": 12,
-              "soft_bounces": 0,
-              "subscribers": 0,
-              "unsubs": 0
-            },
-            "NL - Reentered Lead": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 10,
-              "emails": {
-                "NL - Reentered Lead Entry": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 10,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 10,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 0,
-              "opens": 0,
-              "sent": 10,
-              "soft_bounces": 0,
-              "subscribers": 0,
-              "unsubs": 0
-            },
-            "TEST NL - 1x Geen gehoor  ": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 20,
-              "emails": {
-                "NL - 1 x Geen gehoor V2": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 20,
-                  "firstTouch": 1,
-                  "opens": 1,
-                  "sent": 20,
-                  "soft_bounces": 0,
-                  "subscribers": 1,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 1,
-              "opens": 1,
-              "sent": 20,
-              "soft_bounces": 0,
-              "subscribers": 1,
-              "unsubs": 0
-            },
-            "all": {
-              "bounces": 0,
-              "clicks": 0,
-              "delivered": 84,
-              "emails": {
-                "NL - 1 x Geen gehoor V2": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 20,
-                  "firstTouch": 1,
-                  "opens": 1,
-                  "sent": 20,
-                  "soft_bounces": 0,
-                  "subscribers": 1,
-                  "unsubs": 0
-                },
-                "NL - New Lead Entry": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 42,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 42,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Openstaande offerte - Herinnering": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 3,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 3,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Openstaande offerte - Korting": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Openstaande offerte - Korting herinnering": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 4,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                },
-                "NL - Reentered Lead Entry": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 10,
-                  "firstTouch": 0,
-                  "opens": 0,
-                  "sent": 10,
-                  "soft_bounces": 0,
-                  "subscribers": 0,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 1,
-              "opens": 1,
-              "sent": 84,
-              "soft_bounces": 0,
-              "subscribers": 1,
-              "unsubs": 0
-            }
-          }
-        },
         "2025-10-04": {
           "flows": {
             "NL - New Lead Journey ": {
@@ -141316,7 +141360,7 @@
                   "unsubs": 0
                 }
               },
-              "firstTouch": 116,
+              "firstTouch": 117,
               "opens": 160,
               "sent": 251,
               "soft_bounces": 2,
@@ -218686,7 +218730,7 @@
                   "clicks": 3,
                   "delivered": 16,
                   "firstTouch": 16,
-                  "opens": 15,
+                  "opens": 16,
                   "sent": 16,
                   "soft_bounces": 0,
                   "subscribers": 16,
@@ -218694,7 +218738,7 @@
                 }
               },
               "firstTouch": 16,
-              "opens": 15,
+              "opens": 16,
               "sent": 16,
               "soft_bounces": 0,
               "subscribers": 16,
@@ -219088,7 +219132,7 @@
                   "clicks": 3,
                   "delivered": 16,
                   "firstTouch": 16,
-                  "opens": 15,
+                  "opens": 16,
                   "sent": 16,
                   "soft_bounces": 0,
                   "subscribers": 16,
@@ -219140,7 +219184,7 @@
                 }
               },
               "firstTouch": 287,
-              "opens": 381,
+              "opens": 382,
               "sent": 566,
               "soft_bounces": 0,
               "subscribers": 539,
@@ -229491,7 +229535,7 @@
             },
             "NL - Nurturelane Stairlift Q2 2026": {
               "bounces": 0,
-              "clicks": 8,
+              "clicks": 9,
               "delivered": 217,
               "emails": {
                 "NL - Bevestigingsmail valpreventie": {
@@ -229617,7 +229661,7 @@
                 },
                 "NL - nurturemail 4": {
                   "bounces": 0,
-                  "clicks": 0,
+                  "clicks": 1,
                   "delivered": 11,
                   "firstTouch": 11,
                   "opens": 4,
@@ -229881,7 +229925,7 @@
             },
             "all": {
               "bounces": 11,
-              "clicks": 54,
+              "clicks": 55,
               "delivered": 943,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -230238,7 +230282,7 @@
                 },
                 "NL - nurturemail 4": {
                   "bounces": 0,
-                  "clicks": 0,
+                  "clicks": 1,
                   "delivered": 11,
                   "firstTouch": 11,
                   "opens": 4,
@@ -237227,7 +237271,7 @@
                   "clicks": 4,
                   "delivered": 26,
                   "firstTouch": 26,
-                  "opens": 16,
+                  "opens": 17,
                   "sent": 26,
                   "soft_bounces": 1,
                   "subscribers": 26,
@@ -237235,7 +237279,7 @@
                 }
               },
               "firstTouch": 41,
-              "opens": 22,
+              "opens": 23,
               "sent": 41,
               "soft_bounces": 1,
               "subscribers": 41,
@@ -237703,7 +237747,7 @@
                   "clicks": 4,
                   "delivered": 26,
                   "firstTouch": 26,
-                  "opens": 16,
+                  "opens": 17,
                   "sent": 26,
                   "soft_bounces": 1,
                   "subscribers": 26,
@@ -237975,7 +238019,7 @@
                 }
               },
               "firstTouch": 64,
-              "opens": 151,
+              "opens": 152,
               "sent": 310,
               "soft_bounces": 1,
               "subscribers": 290,
@@ -246407,12 +246451,12 @@
             },
             "NL - Reviews ": {
               "bounces": 0,
-              "clicks": 5,
+              "clicks": 6,
               "delivered": 8,
               "emails": {
                 "NL - Review - Google": {
                   "bounces": 0,
-                  "clicks": 5,
+                  "clicks": 6,
                   "delivered": 7,
                   "firstTouch": 7,
                   "opens": 6,
@@ -246466,7 +246510,7 @@
             },
             "NL-Nurture - no contact possible V3": {
               "bounces": 0,
-              "clicks": 4,
+              "clicks": 5,
               "delivered": 48,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -246482,7 +246526,7 @@
                 },
                 "NL - No contact possible Situatie uitvraag": {
                   "bounces": 0,
-                  "clicks": 3,
+                  "clicks": 4,
                   "delivered": 26,
                   "firstTouch": 26,
                   "opens": 9,
@@ -246525,7 +246569,7 @@
             },
             "all": {
               "bounces": 3,
-              "clicks": 31,
+              "clicks": 33,
               "delivered": 450,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -246651,7 +246695,7 @@
                 },
                 "NL - No contact possible Situatie uitvraag": {
                   "bounces": 0,
-                  "clicks": 3,
+                  "clicks": 4,
                   "delivered": 26,
                   "firstTouch": 26,
                   "opens": 9,
@@ -246761,7 +246805,7 @@
                 },
                 "NL - Review - Google": {
                   "bounces": 0,
-                  "clicks": 5,
+                  "clicks": 6,
                   "delivered": 7,
                   "firstTouch": 7,
                   "opens": 6,
@@ -247088,7 +247132,7 @@
                   "clicks": 3,
                   "delivered": 39,
                   "firstTouch": 40,
-                  "opens": 25,
+                  "opens": 26,
                   "sent": 40,
                   "soft_bounces": 2,
                   "subscribers": 40,
@@ -247096,7 +247140,7 @@
                 }
               },
               "firstTouch": 51,
-              "opens": 34,
+              "opens": 35,
               "sent": 51,
               "soft_bounces": 4,
               "subscribers": 51,
@@ -247544,7 +247588,7 @@
                   "clicks": 3,
                   "delivered": 39,
                   "firstTouch": 40,
-                  "opens": 25,
+                  "opens": 26,
                   "sent": 40,
                   "soft_bounces": 2,
                   "subscribers": 40,
@@ -247794,7 +247838,7 @@
                 }
               },
               "firstTouch": 143,
-              "opens": 218,
+              "opens": 219,
               "sent": 364,
               "soft_bounces": 4,
               "subscribers": 345,
@@ -248079,7 +248123,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -248142,7 +248186,7 @@
                 }
               },
               "firstTouch": 0,
-              "opens": 35,
+              "opens": 36,
               "sent": 84,
               "soft_bounces": 0,
               "subscribers": 84,
@@ -248654,7 +248698,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -248750,7 +248794,7 @@
                 }
               },
               "firstTouch": 134,
-              "opens": 183,
+              "opens": 184,
               "sent": 314,
               "soft_bounces": 2,
               "subscribers": 283,
@@ -248786,12 +248830,12 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 0,
-              "clicks": 4,
+              "clicks": 5,
               "delivered": 28,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 0,
-                  "clicks": 4,
+                  "clicks": 5,
                   "delivered": 28,
                   "firstTouch": 18,
                   "opens": 14,
@@ -249233,7 +249277,7 @@
             },
             "all": {
               "bounces": 2,
-              "clicks": 12,
+              "clicks": 13,
               "delivered": 265,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -249271,7 +249315,7 @@
                 },
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 0,
-                  "clicks": 4,
+                  "clicks": 5,
                   "delivered": 28,
                   "firstTouch": 18,
                   "opens": 14,
@@ -250981,12 +251025,12 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 1,
-              "clicks": 8,
+              "clicks": 9,
               "delivered": 54,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 1,
-                  "clicks": 8,
+                  "clicks": 9,
                   "delivered": 54,
                   "firstTouch": 46,
                   "opens": 32,
@@ -251382,12 +251426,12 @@
             },
             "NL-Nurture - no contact possible V3": {
               "bounces": 0,
-              "clicks": 2,
+              "clicks": 3,
               "delivered": 40,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 22,
                   "firstTouch": 16,
                   "opens": 11,
@@ -251425,7 +251469,7 @@
                   "clicks": 0,
                   "delivered": 22,
                   "firstTouch": 22,
-                  "opens": 17,
+                  "opens": 18,
                   "sent": 22,
                   "soft_bounces": 0,
                   "subscribers": 22,
@@ -251433,7 +251477,7 @@
                 }
               },
               "firstTouch": 22,
-              "opens": 17,
+              "opens": 18,
               "sent": 22,
               "soft_bounces": 0,
               "subscribers": 22,
@@ -251441,12 +251485,12 @@
             },
             "all": {
               "bounces": 4,
-              "clicks": 29,
+              "clicks": 31,
               "delivered": 372,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 22,
                   "firstTouch": 16,
                   "opens": 11,
@@ -251490,7 +251534,7 @@
                 },
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 1,
-                  "clicks": 8,
+                  "clicks": 9,
                   "delivered": 54,
                   "firstTouch": 46,
                   "opens": 32,
@@ -251614,7 +251658,7 @@
                   "clicks": 0,
                   "delivered": 22,
                   "firstTouch": 22,
-                  "opens": 17,
+                  "opens": 18,
                   "sent": 22,
                   "soft_bounces": 0,
                   "subscribers": 22,
@@ -251798,7 +251842,7 @@
                 }
               },
               "firstTouch": 146,
-              "opens": 227,
+              "opens": 228,
               "sent": 376,
               "soft_bounces": 1,
               "subscribers": 359,
@@ -251866,7 +251910,7 @@
                   "clicks": 15,
                   "delivered": 50,
                   "firstTouch": 44,
-                  "opens": 29,
+                  "opens": 30,
                   "sent": 52,
                   "soft_bounces": 0,
                   "subscribers": 50,
@@ -251874,7 +251918,7 @@
                 }
               },
               "firstTouch": 44,
-              "opens": 29,
+              "opens": 30,
               "sent": 52,
               "soft_bounces": 0,
               "subscribers": 50,
@@ -252258,7 +252302,7 @@
                   "clicks": 1,
                   "delivered": 21,
                   "firstTouch": 21,
-                  "opens": 16,
+                  "opens": 17,
                   "sent": 21,
                   "soft_bounces": 0,
                   "subscribers": 21,
@@ -252266,7 +252310,7 @@
                 }
               },
               "firstTouch": 21,
-              "opens": 16,
+              "opens": 17,
               "sent": 21,
               "soft_bounces": 0,
               "subscribers": 21,
@@ -252326,7 +252370,7 @@
                   "clicks": 15,
                   "delivered": 50,
                   "firstTouch": 44,
-                  "opens": 29,
+                  "opens": 30,
                   "sent": 52,
                   "soft_bounces": 0,
                   "subscribers": 50,
@@ -252425,7 +252469,7 @@
                   "clicks": 1,
                   "delivered": 21,
                   "firstTouch": 21,
-                  "opens": 16,
+                  "opens": 17,
                   "sent": 21,
                   "soft_bounces": 0,
                   "subscribers": 21,
@@ -252587,7 +252631,7 @@
                 }
               },
               "firstTouch": 164,
-              "opens": 229,
+              "opens": 231,
               "sent": 404,
               "soft_bounces": 0,
               "subscribers": 372,
@@ -252607,7 +252651,7 @@
                   "clicks": 1,
                   "delivered": 31,
                   "firstTouch": 31,
-                  "opens": 13,
+                  "opens": 14,
                   "sent": 31,
                   "soft_bounces": 0,
                   "subscribers": 31,
@@ -252615,7 +252659,7 @@
                 }
               },
               "firstTouch": 31,
-              "opens": 13,
+              "opens": 14,
               "sent": 31,
               "soft_bounces": 0,
               "subscribers": 31,
@@ -252714,7 +252758,7 @@
                   "clicks": 0,
                   "delivered": 11,
                   "firstTouch": 11,
-                  "opens": 6,
+                  "opens": 7,
                   "sent": 11,
                   "soft_bounces": 0,
                   "subscribers": 11,
@@ -252744,7 +252788,7 @@
                 }
               },
               "firstTouch": 52,
-              "opens": 34,
+              "opens": 35,
               "sent": 52,
               "soft_bounces": 0,
               "subscribers": 52,
@@ -253115,7 +253159,7 @@
                   "clicks": 1,
                   "delivered": 31,
                   "firstTouch": 31,
-                  "opens": 13,
+                  "opens": 14,
                   "sent": 31,
                   "soft_bounces": 0,
                   "subscribers": 31,
@@ -253159,7 +253203,7 @@
                   "clicks": 0,
                   "delivered": 11,
                   "firstTouch": 11,
-                  "opens": 6,
+                  "opens": 7,
                   "sent": 11,
                   "soft_bounces": 0,
                   "subscribers": 11,
@@ -253442,7 +253486,7 @@
                 }
               },
               "firstTouch": 131,
-              "opens": 192,
+              "opens": 194,
               "sent": 334,
               "soft_bounces": 0,
               "subscribers": 315,
@@ -253462,7 +253506,7 @@
                   "clicks": 4,
                   "delivered": 28,
                   "firstTouch": 28,
-                  "opens": 16,
+                  "opens": 18,
                   "sent": 28,
                   "soft_bounces": 0,
                   "subscribers": 28,
@@ -253470,7 +253514,7 @@
                 }
               },
               "firstTouch": 28,
-              "opens": 16,
+              "opens": 18,
               "sent": 28,
               "soft_bounces": 0,
               "subscribers": 28,
@@ -253502,15 +253546,15 @@
             },
             "NL - Confirmation Service Appointment": {
               "bounces": 3,
-              "clicks": 4,
+              "clicks": 5,
               "delivered": 56,
               "emails": {
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 3,
-                  "clicks": 4,
+                  "clicks": 5,
                   "delivered": 56,
                   "firstTouch": 40,
-                  "opens": 26,
+                  "opens": 28,
                   "sent": 59,
                   "soft_bounces": 1,
                   "subscribers": 59,
@@ -253518,7 +253562,7 @@
                 }
               },
               "firstTouch": 40,
-              "opens": 26,
+              "opens": 28,
               "sent": 59,
               "soft_bounces": 1,
               "subscribers": 59,
@@ -253593,7 +253637,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 13,
-                  "opens": 5,
+                  "opens": 6,
                   "sent": 13,
                   "soft_bounces": 0,
                   "subscribers": 13,
@@ -253637,7 +253681,7 @@
                   "clicks": 1,
                   "delivered": 36,
                   "firstTouch": 36,
-                  "opens": 23,
+                  "opens": 24,
                   "sent": 36,
                   "soft_bounces": 0,
                   "subscribers": 36,
@@ -253645,7 +253689,7 @@
                 }
               },
               "firstTouch": 64,
-              "opens": 40,
+              "opens": 42,
               "sent": 64,
               "soft_bounces": 0,
               "subscribers": 64,
@@ -253672,7 +253716,7 @@
                   "clicks": 0,
                   "delivered": 14,
                   "firstTouch": 14,
-                  "opens": 4,
+                  "opens": 5,
                   "sent": 14,
                   "soft_bounces": 0,
                   "subscribers": 14,
@@ -253749,7 +253793,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -253760,7 +253804,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 8,
+                  "opens": 10,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -253768,7 +253812,7 @@
                 }
               },
               "firstTouch": 0,
-              "opens": 31,
+              "opens": 35,
               "sent": 85,
               "soft_bounces": 0,
               "subscribers": 85,
@@ -253868,7 +253912,7 @@
             },
             "NL - Reviews ": {
               "bounces": 0,
-              "clicks": 1,
+              "clicks": 2,
               "delivered": 13,
               "emails": {
                 "NL - Review - Google": {
@@ -253884,7 +253928,7 @@
                 },
                 "NL - Review - Trustpilot": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 7,
                   "firstTouch": 7,
                   "opens": 5,
@@ -253970,7 +254014,7 @@
                   "clicks": 1,
                   "delivered": 22,
                   "firstTouch": 22,
-                  "opens": 18,
+                  "opens": 19,
                   "sent": 22,
                   "soft_bounces": 0,
                   "subscribers": 22,
@@ -253978,7 +254022,7 @@
                 }
               },
               "firstTouch": 22,
-              "opens": 18,
+              "opens": 19,
               "sent": 22,
               "soft_bounces": 0,
               "subscribers": 22,
@@ -253986,7 +254030,7 @@
             },
             "all": {
               "bounces": 5,
-              "clicks": 24,
+              "clicks": 26,
               "delivered": 334,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
@@ -254005,7 +254049,7 @@
                   "clicks": 4,
                   "delivered": 28,
                   "firstTouch": 28,
-                  "opens": 16,
+                  "opens": 18,
                   "sent": 28,
                   "soft_bounces": 0,
                   "subscribers": 28,
@@ -254024,10 +254068,10 @@
                 },
                 "NL - Bevestiging service afspraak - Instant": {
                   "bounces": 3,
-                  "clicks": 4,
+                  "clicks": 5,
                   "delivered": 56,
                   "firstTouch": 40,
-                  "opens": 26,
+                  "opens": 28,
                   "sent": 59,
                   "soft_bounces": 1,
                   "subscribers": 59,
@@ -254049,7 +254093,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 13,
-                  "opens": 5,
+                  "opens": 6,
                   "sent": 13,
                   "soft_bounces": 0,
                   "subscribers": 13,
@@ -254093,7 +254137,7 @@
                   "clicks": 1,
                   "delivered": 36,
                   "firstTouch": 36,
-                  "opens": 23,
+                  "opens": 24,
                   "sent": 36,
                   "soft_bounces": 0,
                   "subscribers": 36,
@@ -254159,7 +254203,7 @@
                   "clicks": 1,
                   "delivered": 22,
                   "firstTouch": 22,
-                  "opens": 18,
+                  "opens": 19,
                   "sent": 22,
                   "soft_bounces": 0,
                   "subscribers": 22,
@@ -254211,7 +254255,7 @@
                 },
                 "NL - Review - Trustpilot": {
                   "bounces": 0,
-                  "clicks": 1,
+                  "clicks": 2,
                   "delivered": 7,
                   "firstTouch": 7,
                   "opens": 5,
@@ -254225,7 +254269,7 @@
                   "clicks": 0,
                   "delivered": 14,
                   "firstTouch": 14,
-                  "opens": 4,
+                  "opens": 5,
                   "sent": 14,
                   "soft_bounces": 0,
                   "subscribers": 14,
@@ -254335,7 +254379,7 @@
                   "clicks": 0,
                   "delivered": 4,
                   "firstTouch": 4,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 4,
                   "soft_bounces": 0,
                   "subscribers": 4,
@@ -254346,7 +254390,7 @@
                   "clicks": 0,
                   "delivered": 12,
                   "firstTouch": 12,
-                  "opens": 8,
+                  "opens": 10,
                   "sent": 12,
                   "soft_bounces": 0,
                   "subscribers": 12,
@@ -254354,7 +254398,7 @@
                 }
               },
               "firstTouch": 146,
-              "opens": 185,
+              "opens": 196,
               "sent": 339,
               "soft_bounces": 1,
               "subscribers": 314,
@@ -254374,7 +254418,7 @@
                   "clicks": 2,
                   "delivered": 25,
                   "firstTouch": 25,
-                  "opens": 10,
+                  "opens": 17,
                   "sent": 25,
                   "soft_bounces": 0,
                   "subscribers": 25,
@@ -254382,7 +254426,7 @@
                 }
               },
               "firstTouch": 25,
-              "opens": 10,
+              "opens": 17,
               "sent": 25,
               "soft_bounces": 0,
               "subscribers": 25,
@@ -254398,7 +254442,7 @@
                   "clicks": 1,
                   "delivered": 7,
                   "firstTouch": 5,
-                  "opens": 3,
+                  "opens": 5,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -254406,7 +254450,7 @@
                 }
               },
               "firstTouch": 5,
-              "opens": 3,
+              "opens": 5,
               "sent": 7,
               "soft_bounces": 0,
               "subscribers": 7,
@@ -254448,16 +254492,16 @@
               "unsubs": 0
             },
             "NL - New Lead Journey V2": {
-              "bounces": 0,
-              "clicks": 1,
-              "delivered": 25,
+              "bounces": 1,
+              "clicks": 5,
+              "delivered": 48,
               "emails": {
                 "NL - Bamboo Aanvraag new": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
                   "firstTouch": 2,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
@@ -254465,27 +254509,62 @@
                 },
                 "NL - New Lead Brochure,infopakket": {
                   "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 6,
+                  "sent": 8,
+                  "soft_bounces": 0,
+                  "subscribers": 8,
+                  "unsubs": 0
+                },
+                "NL - New Lead Entry": {
+                  "bounces": 1,
+                  "clicks": 1,
+                  "delivered": 3,
+                  "firstTouch": 4,
+                  "opens": 3,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - New lead Gemeente": {
+                  "bounces": 0,
                   "clicks": 0,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 1,
+                  "opens": 3,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
                   "unsubs": 0
                 },
-                "NL - New Lead Entry": {
+                "NL - New lead Prijs": {
                   "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "clicks": 3,
+                  "delivered": 32,
+                  "firstTouch": 32,
+                  "opens": 20,
+                  "sent": 32,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 32,
                   "unsubs": 0
-                },
-                "NL - New lead Gemeente": {
+                }
+              },
+              "firstTouch": 49,
+              "opens": 34,
+              "sent": 49,
+              "soft_bounces": 0,
+              "subscribers": 49,
+              "unsubs": 0
+            },
+            "NL - Nurturelane Stairlift Q2 2026": {
+              "bounces": 0,
+              "clicks": 2,
+              "delivered": 87,
+              "emails": {
+                "NL - Nurturemail 3 test": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
@@ -254496,36 +254575,12 @@
                   "subscribers": 2,
                   "unsubs": 0
                 },
-                "NL - New lead Prijs": {
-                  "bounces": 0,
-                  "clicks": 1,
-                  "delivered": 17,
-                  "firstTouch": 17,
-                  "opens": 6,
-                  "sent": 17,
-                  "soft_bounces": 0,
-                  "subscribers": 17,
-                  "unsubs": 0
-                }
-              },
-              "firstTouch": 25,
-              "opens": 9,
-              "sent": 25,
-              "soft_bounces": 0,
-              "subscribers": 25,
-              "unsubs": 0
-            },
-            "NL - Nurturelane Stairlift Q2 2026": {
-              "bounces": 0,
-              "clicks": 2,
-              "delivered": 47,
-              "emails": {
                 "NL - Nurturemail 5": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 5,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -254534,61 +254589,17 @@
                 "NL - Trapliftlane-interieur-4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 10,
-                  "firstTouch": 10,
-                  "opens": 5,
-                  "sent": 10,
+                  "delivered": 14,
+                  "firstTouch": 14,
+                  "opens": 8,
+                  "sent": 14,
                   "soft_bounces": 0,
-                  "subscribers": 10,
+                  "subscribers": 14,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-showroom-7": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 0,
-                  "sent": 4,
-                  "soft_bounces": 0,
-                  "subscribers": 4,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-thuisadvies-8": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
-                  "opens": 1,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 5,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-trapcheck-5": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 2,
-                  "firstTouch": 2,
-                  "opens": 0,
-                  "sent": 2,
-                  "soft_bounces": 0,
-                  "subscribers": 2,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-uitleg-2": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
-                  "opens": 1,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 5,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-verbouwenverhuizen-3": {
-                  "bounces": 0,
-                  "clicks": 1,
                   "delivered": 6,
                   "firstTouch": 6,
                   "opens": 2,
@@ -254597,34 +254608,89 @@
                   "subscribers": 6,
                   "unsubs": 0
                 },
+                "NL - Trapliftlane-thuisadvies-8": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 10,
+                  "firstTouch": 10,
+                  "opens": 1,
+                  "sent": 10,
+                  "soft_bounces": 0,
+                  "subscribers": 10,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-trapcheck-5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 6,
+                  "opens": 0,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-uitleg-2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 10,
+                  "firstTouch": 10,
+                  "opens": 4,
+                  "sent": 10,
+                  "soft_bounces": 0,
+                  "subscribers": 10,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-verbouwenverhuizen-3": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 12,
+                  "firstTouch": 12,
+                  "opens": 6,
+                  "sent": 12,
+                  "soft_bounces": 0,
+                  "subscribers": 12,
+                  "unsubs": 0
+                },
+                "NL - nurturemail 4": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
+                  "delivered": 12,
+                  "firstTouch": 12,
                   "opens": 0,
-                  "sent": 5,
+                  "sent": 12,
                   "soft_bounces": 0,
-                  "subscribers": 5,
+                  "subscribers": 12,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
                   "bounces": 0,
                   "clicks": 1,
-                  "delivered": 5,
-                  "firstTouch": 5,
-                  "opens": 2,
-                  "sent": 5,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 4,
+                  "sent": 8,
                   "soft_bounces": 0,
-                  "subscribers": 5,
+                  "subscribers": 8,
                   "unsubs": 0
                 }
               },
               "firstTouch": 0,
-              "opens": 11,
-              "sent": 47,
+              "opens": 28,
+              "sent": 87,
               "soft_bounces": 0,
-              "subscribers": 47,
+              "subscribers": 87,
               "unsubs": 0
             },
             "NL - Offerte journey": {
@@ -254648,7 +254714,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 0,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -254667,7 +254733,7 @@
                 }
               },
               "firstTouch": 2,
-              "opens": 2,
+              "opens": 3,
               "sent": 4,
               "soft_bounces": 0,
               "subscribers": 4,
@@ -254676,25 +254742,47 @@
             "NL - Reentered Lead": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 2,
+              "delivered": 6,
               "emails": {
                 "NL - Reentered Lead algemeen": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
                   "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Brochure,infopakket": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 1,
                   "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 2,
-              "opens": 0,
-              "sent": 2,
+              "firstTouch": 5,
+              "opens": 2,
+              "sent": 6,
               "soft_bounces": 0,
-              "subscribers": 2,
+              "subscribers": 6,
               "unsubs": 0
             },
             "NL - Reviews ": {
@@ -254758,77 +254846,77 @@
             },
             "NL-Nurture - no contact possible V3": {
               "bounces": 1,
-              "clicks": 0,
-              "delivered": 24,
+              "clicks": 1,
+              "delivered": 35,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 18,
-                  "firstTouch": 13,
-                  "opens": 3,
-                  "sent": 18,
+                  "delivered": 22,
+                  "firstTouch": 14,
+                  "opens": 8,
+                  "sent": 22,
                   "soft_bounces": 0,
-                  "subscribers": 18,
+                  "subscribers": 22,
                   "unsubs": 0
                 },
                 "NL - No contact possible Situatie uitvraag": {
                   "bounces": 1,
-                  "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 7,
-                  "opens": 0,
-                  "sent": 7,
+                  "clicks": 1,
+                  "delivered": 13,
+                  "firstTouch": 14,
+                  "opens": 2,
+                  "sent": 14,
                   "soft_bounces": 0,
-                  "subscribers": 7,
+                  "subscribers": 14,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 13,
-              "opens": 3,
-              "sent": 25,
+              "firstTouch": 14,
+              "opens": 10,
+              "sent": 36,
               "soft_bounces": 0,
-              "subscribers": 25,
+              "subscribers": 36,
               "unsubs": 0
             },
             "Orderbevestiging ": {
               "bounces": 0,
               "clicks": 0,
-              "delivered": 15,
+              "delivered": 16,
               "emails": {
                 "NL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 15,
-                  "firstTouch": 15,
-                  "opens": 3,
-                  "sent": 15,
+                  "delivered": 16,
+                  "firstTouch": 16,
+                  "opens": 12,
+                  "sent": 16,
                   "soft_bounces": 0,
-                  "subscribers": 15,
+                  "subscribers": 16,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 15,
-              "opens": 3,
-              "sent": 15,
+              "firstTouch": 16,
+              "opens": 12,
+              "sent": 16,
               "soft_bounces": 0,
-              "subscribers": 15,
+              "subscribers": 16,
               "unsubs": 0
             },
             "all": {
-              "bounces": 1,
-              "clicks": 6,
-              "delivered": 160,
+              "bounces": 2,
+              "clicks": 11,
+              "delivered": 239,
               "emails": {
                 "NL -  No contact possible - Contactvraag": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 18,
-                  "firstTouch": 13,
-                  "opens": 3,
-                  "sent": 18,
+                  "delivered": 22,
+                  "firstTouch": 14,
+                  "opens": 8,
+                  "sent": 22,
                   "soft_bounces": 0,
-                  "subscribers": 18,
+                  "subscribers": 22,
                   "unsubs": 0
                 },
                 "NL - 1 x Geen gehoor V2": {
@@ -254836,7 +254924,7 @@
                   "clicks": 2,
                   "delivered": 25,
                   "firstTouch": 25,
-                  "opens": 10,
+                  "opens": 17,
                   "sent": 25,
                   "soft_bounces": 0,
                   "subscribers": 25,
@@ -254847,7 +254935,7 @@
                   "clicks": 0,
                   "delivered": 2,
                   "firstTouch": 2,
-                  "opens": 1,
+                  "opens": 2,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
@@ -254858,7 +254946,7 @@
                   "clicks": 1,
                   "delivered": 7,
                   "firstTouch": 5,
-                  "opens": 3,
+                  "opens": 5,
                   "sent": 7,
                   "soft_bounces": 0,
                   "subscribers": 7,
@@ -254866,27 +254954,60 @@
                 },
                 "NL - New Lead Brochure,infopakket": {
                   "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 6,
+                  "sent": 8,
+                  "soft_bounces": 0,
+                  "subscribers": 8,
+                  "unsubs": 0
+                },
+                "NL - New Lead Entry": {
+                  "bounces": 1,
+                  "clicks": 1,
+                  "delivered": 3,
+                  "firstTouch": 4,
+                  "opens": 3,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - New lead Gemeente": {
+                  "bounces": 0,
                   "clicks": 0,
                   "delivered": 3,
                   "firstTouch": 3,
-                  "opens": 1,
+                  "opens": 3,
                   "sent": 3,
                   "soft_bounces": 0,
                   "subscribers": 3,
                   "unsubs": 0
                 },
-                "NL - New Lead Entry": {
+                "NL - New lead Prijs": {
                   "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 1,
-                  "firstTouch": 1,
-                  "opens": 0,
-                  "sent": 1,
+                  "clicks": 3,
+                  "delivered": 32,
+                  "firstTouch": 32,
+                  "opens": 20,
+                  "sent": 32,
                   "soft_bounces": 0,
-                  "subscribers": 1,
+                  "subscribers": 32,
                   "unsubs": 0
                 },
-                "NL - New lead Gemeente": {
+                "NL - No contact possible Situatie uitvraag": {
+                  "bounces": 1,
+                  "clicks": 1,
+                  "delivered": 13,
+                  "firstTouch": 14,
+                  "opens": 2,
+                  "sent": 14,
+                  "soft_bounces": 0,
+                  "subscribers": 14,
+                  "unsubs": 0
+                },
+                "NL - Nurturemail 3 test": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 2,
@@ -254897,34 +255018,12 @@
                   "subscribers": 2,
                   "unsubs": 0
                 },
-                "NL - New lead Prijs": {
-                  "bounces": 0,
-                  "clicks": 1,
-                  "delivered": 17,
-                  "firstTouch": 17,
-                  "opens": 6,
-                  "sent": 17,
-                  "soft_bounces": 0,
-                  "subscribers": 17,
-                  "unsubs": 0
-                },
-                "NL - No contact possible Situatie uitvraag": {
-                  "bounces": 1,
-                  "clicks": 0,
-                  "delivered": 6,
-                  "firstTouch": 7,
-                  "opens": 0,
-                  "sent": 7,
-                  "soft_bounces": 0,
-                  "subscribers": 7,
-                  "unsubs": 0
-                },
                 "NL - Nurturemail 5": {
                   "bounces": 0,
                   "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 5,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
@@ -254946,7 +255045,7 @@
                   "clicks": 0,
                   "delivered": 1,
                   "firstTouch": 0,
-                  "opens": 0,
+                  "opens": 1,
                   "sent": 1,
                   "soft_bounces": 0,
                   "subscribers": 1,
@@ -254966,12 +255065,12 @@
                 "NL - Orderbevestiging": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 15,
-                  "firstTouch": 15,
-                  "opens": 3,
-                  "sent": 15,
+                  "delivered": 16,
+                  "firstTouch": 16,
+                  "opens": 12,
+                  "sent": 16,
                   "soft_bounces": 0,
-                  "subscribers": 15,
+                  "subscribers": 16,
                   "unsubs": 0
                 },
                 "NL - Reentered Lead algemeen": {
@@ -254979,7 +255078,29 @@
                   "clicks": 0,
                   "delivered": 2,
                   "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Brochure,infopakket": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 1,
                   "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
                   "sent": 2,
                   "soft_bounces": 0,
                   "subscribers": 2,
@@ -255010,67 +255131,67 @@
                 "NL - Trapliftlane-interieur-4": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 10,
-                  "firstTouch": 10,
-                  "opens": 5,
-                  "sent": 10,
+                  "delivered": 14,
+                  "firstTouch": 14,
+                  "opens": 8,
+                  "sent": 14,
                   "soft_bounces": 0,
-                  "subscribers": 10,
+                  "subscribers": 14,
                   "unsubs": 0
                 },
                 "NL - Trapliftlane-showroom-7": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 4,
-                  "firstTouch": 4,
-                  "opens": 0,
-                  "sent": 4,
-                  "soft_bounces": 0,
-                  "subscribers": 4,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-thuisadvies-8": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
-                  "opens": 1,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 5,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-trapcheck-5": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 2,
-                  "firstTouch": 2,
-                  "opens": 0,
-                  "sent": 2,
-                  "soft_bounces": 0,
-                  "subscribers": 2,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-uitleg-2": {
-                  "bounces": 0,
-                  "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
-                  "opens": 1,
-                  "sent": 5,
-                  "soft_bounces": 0,
-                  "subscribers": 5,
-                  "unsubs": 0
-                },
-                "NL - Trapliftlane-verbouwenverhuizen-3": {
-                  "bounces": 0,
-                  "clicks": 1,
                   "delivered": 6,
                   "firstTouch": 6,
                   "opens": 2,
                   "sent": 6,
                   "soft_bounces": 0,
                   "subscribers": 6,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-thuisadvies-8": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 10,
+                  "firstTouch": 10,
+                  "opens": 1,
+                  "sent": 10,
+                  "soft_bounces": 0,
+                  "subscribers": 10,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-trapcheck-5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 6,
+                  "opens": 0,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-uitleg-2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 10,
+                  "firstTouch": 10,
+                  "opens": 4,
+                  "sent": 10,
+                  "soft_bounces": 0,
+                  "subscribers": 10,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-verbouwenverhuizen-3": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 12,
+                  "firstTouch": 12,
+                  "opens": 6,
+                  "sent": 12,
+                  "soft_bounces": 0,
+                  "subscribers": 12,
                   "unsubs": 0
                 },
                 "NL - Wijziging service afspraak - Instant": {
@@ -255106,45 +255227,613 @@
                   "subscribers": 2,
                   "unsubs": 0
                 },
+                "NL - nurturemail 4": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
                 "NL- Trapliftlane-klantverhaal-6": {
                   "bounces": 0,
                   "clicks": 0,
-                  "delivered": 5,
-                  "firstTouch": 5,
+                  "delivered": 12,
+                  "firstTouch": 12,
                   "opens": 0,
-                  "sent": 5,
+                  "sent": 12,
                   "soft_bounces": 0,
-                  "subscribers": 5,
+                  "subscribers": 12,
                   "unsubs": 0
                 },
                 "Nl - Trapliftlane klantverhaal 1": {
                   "bounces": 0,
                   "clicks": 1,
+                  "delivered": 8,
+                  "firstTouch": 8,
+                  "opens": 4,
+                  "sent": 8,
+                  "soft_bounces": 0,
+                  "subscribers": 8,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 65,
+              "opens": 116,
+              "sent": 241,
+              "soft_bounces": 0,
+              "subscribers": 225,
+              "unsubs": 0
+            }
+          }
+        },
+        "2026-11-07": {
+          "flows": {
+            "NL - Mailjourney - WMO in progress": {
+              "bounces": 0,
+              "clicks": 0,
+              "delivered": 1,
+              "emails": {
+                "NL - Wmo check reminder - mail 1b": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 0,
+              "opens": 0,
+              "sent": 1,
+              "soft_bounces": 0,
+              "subscribers": 1,
+              "unsubs": 0
+            },
+            "NL - New Lead Journey V2": {
+              "bounces": 1,
+              "clicks": 0,
+              "delivered": 25,
+              "emails": {
+                "NL - Bamboo Aanvraag new": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - New Lead Brochure,infopakket": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - New Lead Entry": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 7,
+                  "firstTouch": 7,
+                  "opens": 2,
+                  "sent": 7,
+                  "soft_bounces": 0,
+                  "subscribers": 7,
+                  "unsubs": 0
+                },
+                "NL - New lead Prijs": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 15,
+                  "firstTouch": 16,
+                  "opens": 9,
+                  "sent": 16,
+                  "soft_bounces": 0,
+                  "subscribers": 16,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 26,
+              "opens": 13,
+              "sent": 26,
+              "soft_bounces": 0,
+              "subscribers": 26,
+              "unsubs": 0
+            },
+            "NL - Nurturelane Stairlift Q2 2026": {
+              "bounces": 0,
+              "clicks": 0,
+              "delivered": 40,
+              "emails": {
+                "NL - Nurturemail 5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 2,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-interieur-4": {
+                  "bounces": 0,
+                  "clicks": 0,
                   "delivered": 5,
                   "firstTouch": 5,
+                  "opens": 1,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-showroom-7": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 3,
+                  "firstTouch": 3,
+                  "opens": 1,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-thuisadvies-8": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-trapcheck-5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 3,
+                  "firstTouch": 3,
                   "opens": 2,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-uitleg-2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 6,
+                  "opens": 3,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
+                  "unsubs": 1
+                },
+                "NL - Trapliftlane-verbouwenverhuizen-3": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 0,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - nurturemail 4": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL- Trapliftlane-klantverhaal-6": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 7,
+                  "firstTouch": 7,
+                  "opens": 4,
+                  "sent": 7,
+                  "soft_bounces": 0,
+                  "subscribers": 7,
+                  "unsubs": 0
+                },
+                "Nl - Trapliftlane klantverhaal 1": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 1,
                   "sent": 5,
                   "soft_bounces": 0,
                   "subscribers": 5,
                   "unsubs": 0
                 }
               },
-              "firstTouch": 39,
-              "opens": 46,
-              "sent": 161,
+              "firstTouch": 0,
+              "opens": 14,
+              "sent": 40,
               "soft_bounces": 0,
-              "subscribers": 145,
+              "subscribers": 40,
+              "unsubs": 1
+            },
+            "NL - Offerte journey": {
+              "bounces": 1,
+              "clicks": 0,
+              "delivered": 3,
+              "emails": {
+                "NL - Offerteflow - mail 1 reminder": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 3,
+                  "opens": 0,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Offerteflow - mail 3 - zorgpakket reminder": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 3,
+              "opens": 0,
+              "sent": 4,
+              "soft_bounces": 0,
+              "subscribers": 4,
               "unsubs": 0
+            },
+            "NL - Reentered Lead": {
+              "bounces": 0,
+              "clicks": 1,
+              "delivered": 3,
+              "emails": {
+                "NL - Reentered Lead Offerte": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 2,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 2,
+              "opens": 1,
+              "sent": 3,
+              "soft_bounces": 0,
+              "subscribers": 3,
+              "unsubs": 0
+            },
+            "NL-Nurture - no contact possible V3": {
+              "bounces": 1,
+              "clicks": 0,
+              "delivered": 12,
+              "emails": {
+                "NL -  No contact possible - Contactvraag": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 8,
+                  "firstTouch": 0,
+                  "opens": 0,
+                  "sent": 9,
+                  "soft_bounces": 0,
+                  "subscribers": 9,
+                  "unsubs": 0
+                },
+                "NL - No contact possible Situatie uitvraag": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 0,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 0,
+              "opens": 0,
+              "sent": 13,
+              "soft_bounces": 0,
+              "subscribers": 13,
+              "unsubs": 0
+            },
+            "all": {
+              "bounces": 3,
+              "clicks": 1,
+              "delivered": 84,
+              "emails": {
+                "NL -  No contact possible - Contactvraag": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 8,
+                  "firstTouch": 0,
+                  "opens": 0,
+                  "sent": 9,
+                  "soft_bounces": 0,
+                  "subscribers": 9,
+                  "unsubs": 0
+                },
+                "NL - Bamboo Aanvraag new": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - New Lead Brochure,infopakket": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - New Lead Entry": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 7,
+                  "firstTouch": 7,
+                  "opens": 2,
+                  "sent": 7,
+                  "soft_bounces": 0,
+                  "subscribers": 7,
+                  "unsubs": 0
+                },
+                "NL - New lead Prijs": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 15,
+                  "firstTouch": 16,
+                  "opens": 9,
+                  "sent": 16,
+                  "soft_bounces": 0,
+                  "subscribers": 16,
+                  "unsubs": 0
+                },
+                "NL - No contact possible Situatie uitvraag": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 0,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - Nurturemail 5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 2,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - Offerteflow - mail 1 reminder": {
+                  "bounces": 1,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 3,
+                  "opens": 0,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Offerteflow - mail 3 - zorgpakket reminder": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - Reentered Lead Offerte": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - Reentered lead Prijs": {
+                  "bounces": 0,
+                  "clicks": 1,
+                  "delivered": 2,
+                  "firstTouch": 1,
+                  "opens": 1,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-interieur-4": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 1,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-showroom-7": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 3,
+                  "firstTouch": 3,
+                  "opens": 1,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-thuisadvies-8": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 2,
+                  "firstTouch": 2,
+                  "opens": 0,
+                  "sent": 2,
+                  "soft_bounces": 0,
+                  "subscribers": 2,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-trapcheck-5": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 3,
+                  "firstTouch": 3,
+                  "opens": 2,
+                  "sent": 3,
+                  "soft_bounces": 0,
+                  "subscribers": 3,
+                  "unsubs": 0
+                },
+                "NL - Trapliftlane-uitleg-2": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 6,
+                  "firstTouch": 6,
+                  "opens": 3,
+                  "sent": 6,
+                  "soft_bounces": 0,
+                  "subscribers": 6,
+                  "unsubs": 1
+                },
+                "NL - Trapliftlane-verbouwenverhuizen-3": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 4,
+                  "firstTouch": 4,
+                  "opens": 0,
+                  "sent": 4,
+                  "soft_bounces": 0,
+                  "subscribers": 4,
+                  "unsubs": 0
+                },
+                "NL - Wmo check reminder - mail 1b": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL - nurturemail 4": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 1,
+                  "firstTouch": 1,
+                  "opens": 0,
+                  "sent": 1,
+                  "soft_bounces": 0,
+                  "subscribers": 1,
+                  "unsubs": 0
+                },
+                "NL- Trapliftlane-klantverhaal-6": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 7,
+                  "firstTouch": 7,
+                  "opens": 4,
+                  "sent": 7,
+                  "soft_bounces": 0,
+                  "subscribers": 7,
+                  "unsubs": 0
+                },
+                "Nl - Trapliftlane klantverhaal 1": {
+                  "bounces": 0,
+                  "clicks": 0,
+                  "delivered": 5,
+                  "firstTouch": 5,
+                  "opens": 1,
+                  "sent": 5,
+                  "soft_bounces": 0,
+                  "subscribers": 5,
+                  "unsubs": 0
+                }
+              },
+              "firstTouch": 28,
+              "opens": 28,
+              "sent": 87,
+              "soft_bounces": 0,
+              "subscribers": 87,
+              "unsubs": 1
             }
           }
         }
       },
       "eventTotals": {
-        "BounceEvent": 3154,
-        "ClickEvent": 16157,
-        "OpenEvent": 144451,
-        "SentEvent": 124144,
-        "UnsubEvent": 433
+        "BounceEvent": 3158,
+        "ClickEvent": 16181,
+        "OpenEvent": 144842,
+        "SentEvent": 124227,
+        "UnsubEvent": 434
       },
       "flowProfile": {
         "(niet toegewezen)": {
@@ -255188,29 +255877,29 @@
           "subscribers": 12
         },
         "NL - Mailjourney - WMO in progress": {
-          "mailsPerPerson": 1.7,
-          "sent": 52,
+          "mailsPerPerson": 1.8,
+          "sent": 53,
           "subscribers": 30
         },
         "NL - New Lead Journey ": {
           "mailsPerPerson": 9.4,
-          "sent": 10300,
+          "sent": 10258,
           "subscribers": 1096
         },
         "NL - New Lead Journey V2": {
           "mailsPerPerson": 1.0,
-          "sent": 9572,
-          "subscribers": 9572
+          "sent": 9622,
+          "subscribers": 9622
         },
         "NL - Nurturelane Stairlift Q2 2026": {
           "mailsPerPerson": 10.2,
-          "sent": 33091,
+          "sent": 33171,
           "subscribers": 3245
         },
         "NL - Offerte journey": {
-          "mailsPerPerson": 4.8,
-          "sent": 2245,
-          "subscribers": 470
+          "mailsPerPerson": 4.7,
+          "sent": 2237,
+          "subscribers": 473
         },
         "NL - Orientation for a later moment ": {
           "mailsPerPerson": 1.0,
@@ -255219,8 +255908,8 @@
         },
         "NL - Reentered Lead": {
           "mailsPerPerson": 2.1,
-          "sent": 3263,
-          "subscribers": 1584
+          "sent": 3260,
+          "subscribers": 1589
         },
         "NL - Reviews ": {
           "mailsPerPerson": 1.5,
@@ -255269,8 +255958,8 @@
         },
         "NL-Nurture - no contact possible V3": {
           "mailsPerPerson": 3.5,
-          "sent": 6924,
-          "subscribers": 1997
+          "sent": 6948,
+          "subscribers": 1998
         },
         "NL-Nurture - no contact possible statische lijst": {
           "mailsPerPerson": 119.9,
@@ -255284,8 +255973,8 @@
         },
         "Orderbevestiging ": {
           "mailsPerPerson": 1.0,
-          "sent": 1215,
-          "subscribers": 1215
+          "sent": 1216,
+          "subscribers": 1216
         },
         "Partnermail otolift heavy duty ": {
           "mailsPerPerson": 1.0,
@@ -255294,8 +255983,8 @@
         },
         "TEST NL - 1x Geen gehoor  ": {
           "mailsPerPerson": 4.1,
-          "sent": 4972,
-          "subscribers": 1207
+          "sent": 4952,
+          "subscribers": 1206
         },
         "TestLead": {
           "mailsPerPerson": 2.0,
@@ -255304,34 +255993,34 @@
         },
         "all": {
           "mailsPerPerson": 3.6,
-          "sent": 124144,
-          "subscribers": 34083
+          "sent": 124227,
+          "subscribers": 34137
         }
       },
       "reach": {
         "30": {
-          "contacts": 2207,
-          "leads": 3481,
+          "contacts": 2111,
+          "leads": 3445,
           "other": 1864,
-          "total": 7552
+          "total": 7420
         },
         "7": {
-          "contacts": 506,
-          "leads": 1259,
+          "contacts": 501,
+          "leads": 1265,
           "other": 0,
-          "total": 1765
+          "total": 1766
         },
         "90": {
-          "contacts": 6374,
-          "leads": 8111,
+          "contacts": 6368,
+          "leads": 8122,
           "other": 7081,
-          "total": 21566
+          "total": 21571
         }
       },
       "unattributed": {
         "BounceEvent": 0,
         "ClickEvent": 5,
-        "OpenEvent": 79,
+        "OpenEvent": 78,
         "SentEvent": 0,
         "UnsubEvent": 0
       }
@@ -255344,8 +256033,8 @@
   ],
   "retrieveDays": 400,
   "warnings": [
-    "NL: attributie van 124144 sends - tier1 123912 (99.8%), tier2 0 (0.0%), (niet toegewezen) 232 (0.2%)",
-    "BE: attributie van 9443 sends - tier1 9425 (99.8%), tier2 0 (0.0%), (niet toegewezen) 18 (0.2%)",
+    "NL: attributie van 124227 sends - tier1 123995 (99.8%), tier2 0 (0.0%), (niet toegewezen) 232 (0.2%)",
+    "BE: attributie van 9487 sends - tier1 9469 (99.8%), tier2 0 (0.0%), (niet toegewezen) 18 (0.2%)",
     "BU FR overgeslagen: SFMC_MID_FR niet gezet",
     "BU IT overgeslagen: SFMC_MID_IT niet gezet"
   ]
