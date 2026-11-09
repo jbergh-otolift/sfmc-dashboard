@@ -28,7 +28,7 @@
     },
     "2026-05-05": {
       "nl": {
-        "Mailjourney (Never had contact with the customer) → Follow-up → Re-entered → Appointment": 1
+        "Mailjourney (Never had contact with the customer) → Re-entered → Appointment": 1
       }
     },
     "2026-05-06": {
@@ -878,6 +878,15 @@
       "nl": {
         "Mailjourney (No Contact Possible - number incorrect) → Follow-up → Appointment": 1
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": 1,
+        "Mailjourney (No Contact Possible - number correct) → Re-entered → Not reached → Appointment": 1,
+        "Mailjourney (No Contact Possible - number incorrect) → Follow-up → Not reached → Follow-up → Appointment": 1,
+        "Mailjourney (Wmo application is in progress) → Re-entered → Appointment": 1,
+        "Mailjourney → Re-entered - Phone Number Changed → Appointment": 1
+      }
     }
   },
   "appointmentReasonPaths": {
@@ -922,7 +931,7 @@
     "2026-05-05": {
       "nl": {
         "Never had contact with the customer": {
-          "→ Follow-up → Re-entered → Appointment": 1
+          "→ Re-entered → Appointment": 1
         }
       }
     },
@@ -2233,6 +2242,23 @@
           "→ Follow-up → Appointment": 1
         }
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "No Contact Possible - number correct": {
+          "→ Follow-up → Appointment": 1,
+          "→ Re-entered → Not reached → Appointment": 1
+        },
+        "No Contact Possible - number incorrect": {
+          "→ Follow-up → Not reached → Follow-up → Appointment": 1
+        },
+        "Not reached · zonder reden": {
+          "→ Re-entered - Phone Number Changed → Appointment": 1
+        },
+        "Wmo application is in progress": {
+          "→ Re-entered → Appointment": 1
+        }
+      }
     }
   },
   "appointmentReasons": {
@@ -3066,9 +3092,57 @@
       "nl": {
         "No Contact Possible - number incorrect": 1
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "No Contact Possible - number correct": 2,
+        "No Contact Possible - number incorrect": 1,
+        "Not reached · zonder reden": 1,
+        "Wmo application is in progress": 1
+      }
     }
   },
   "appointmentRecords": [
+    {
+      "date": "2026-11-09",
+      "lead": "00QP5000010goO6MAI",
+      "market": "nl",
+      "path": "→ Follow-up → Not reached → Follow-up → Appointment",
+      "reason": "No Contact Possible - number incorrect",
+      "route": "Overig"
+    },
+    {
+      "date": "2026-11-09",
+      "lead": "00QP5000010KteBMAS",
+      "market": "nl",
+      "path": "→ Follow-up → Appointment",
+      "reason": "No Contact Possible - number correct",
+      "route": "Direct afspraak"
+    },
+    {
+      "date": "2026-11-09",
+      "lead": "00QP5000010PJweMAG",
+      "market": "nl",
+      "path": "→ Re-entered → Not reached → Appointment",
+      "reason": "No Contact Possible - number correct",
+      "route": "Direct afspraak"
+    },
+    {
+      "date": "2026-11-09",
+      "lead": "00QP5000010xNBPMA2",
+      "market": "nl",
+      "path": "→ Re-entered - Phone Number Changed → Appointment",
+      "reason": "Not reached · zonder reden",
+      "route": "Nummer gewijzigd"
+    },
+    {
+      "date": "2026-11-09",
+      "lead": "00QP500000u3nNKMAY",
+      "market": "nl",
+      "path": "→ Re-entered → Appointment",
+      "reason": "Wmo application is in progress",
+      "route": "Re-entered"
+    },
     {
       "date": "2026-11-06",
       "lead": "00QP5000010gtFhMAI",
@@ -5409,7 +5483,7 @@
       "date": "2026-05-05",
       "lead": "00QQD00000b5iG12AI",
       "market": "nl",
-      "path": "→ Follow-up → Re-entered → Appointment",
+      "path": "→ Re-entered → Appointment",
       "reason": "Never had contact with the customer",
       "route": "Re-entered"
     },
@@ -6793,6 +6867,22 @@
           "No Contact Possible - number incorrect": 1
         }
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "Direct afspraak": {
+          "No Contact Possible - number correct": 2
+        },
+        "Nummer gewijzigd": {
+          "(geen reden)": 1
+        },
+        "Overig": {
+          "No Contact Possible - number incorrect": 1
+        },
+        "Re-entered": {
+          "Wmo application is in progress": 1
+        }
+      }
     }
   },
   "appointmentRoutes": {
@@ -7627,20 +7717,17 @@
       "nl": {
         "Overig": 1
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "Direct afspraak": 2,
+        "Nummer gewijzigd": 1,
+        "Overig": 1,
+        "Re-entered": 1
+      }
     }
   },
   "appointmentSplit": {
-    "2026-04-22": {
-      "be": {
-        "entry": 12
-      },
-      "fr": {
-        "entry": 82
-      },
-      "nl": {
-        "entry": 27
-      }
-    },
     "2026-04-23": {
       "be": {
         "direct": 1,
@@ -7743,7 +7830,7 @@
       },
       "nl": {
         "entry": 41,
-        "notReached": 1
+        "other": 1
       }
     },
     "2026-05-06": {
@@ -8436,7 +8523,7 @@
     },
     "2026-07-23": {
       "be": {
-        "entry": 10
+        "entry": 9
       },
       "nl": {
         "direct": 1,
@@ -8456,7 +8543,7 @@
     },
     "2026-07-27": {
       "be": {
-        "entry": 20,
+        "entry": 19,
         "other": 1
       },
       "nl": {
@@ -8744,7 +8831,7 @@
         "mailjourney": 1
       },
       "nl": {
-        "entry": 61,
+        "entry": 60,
         "notReached": 1,
         "other": 1
       }
@@ -8781,7 +8868,7 @@
         "other": 1
       },
       "nl": {
-        "entry": 32,
+        "entry": 31,
         "mailjourney": 1,
         "other": 1
       }
@@ -9042,7 +9129,7 @@
       "nl": {
         "direct": 1,
         "directNotReached": 1,
-        "entry": 69,
+        "entry": 70,
         "mailjourney": 2
       }
     },
@@ -9201,7 +9288,7 @@
         "other": 1
       },
       "nl": {
-        "entry": 30,
+        "entry": 31,
         "mailjourney": 1,
         "other": 1
       }
@@ -9211,7 +9298,7 @@
         "entry": 22
       },
       "nl": {
-        "entry": 58
+        "entry": 60
       }
     },
     "2026-10-27": {
@@ -9264,12 +9351,12 @@
       "be": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 21
+        "entry": 22
       },
       "nl": {
         "direct": 1,
         "directNotReached": 1,
-        "entry": 41
+        "entry": 44
       }
     },
     "2026-11-03": {
@@ -9284,7 +9371,7 @@
       "nl": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 53
+        "entry": 56
       }
     },
     "2026-11-04": {
@@ -9299,31 +9386,43 @@
       "nl": {
         "direct": 1,
         "directMailjourney": 1,
-        "entry": 44,
+        "entry": 46,
         "mailjourney": 1
       }
     },
     "2026-11-05": {
       "be": {
-        "entry": 8,
+        "entry": 10,
         "notReached": 1
       },
       "fr": {
         "entry": 1
       },
       "nl": {
-        "entry": 32,
+        "entry": 35,
         "notReached": 2,
         "other": 1
       }
     },
     "2026-11-06": {
       "be": {
-        "entry": 16
+        "entry": 18
       },
       "nl": {
-        "entry": 24,
+        "entry": 31,
         "other": 1
+      }
+    },
+    "2026-11-09": {
+      "be": {
+        "entry": 22
+      },
+      "nl": {
+        "direct": 1,
+        "directMailjourney": 1,
+        "entry": 53,
+        "notReached": 1,
+        "other": 3
       }
     }
   },
@@ -9332,26 +9431,26 @@
       "direct": 41,
       "directMailjourney": 39,
       "directNotReached": 2,
-      "entry": 2194,
+      "entry": 2207,
       "mailjourney": 13,
       "notReached": 16,
       "other": 17
     },
     "fr": {
       "direct": 0,
-      "entry": 2257,
+      "entry": 2175,
       "mailjourney": 0,
       "notReached": 0,
       "other": 0
     },
     "nl": {
-      "direct": 103,
-      "directMailjourney": 85,
+      "direct": 104,
+      "directMailjourney": 86,
       "directNotReached": 18,
-      "entry": 5149,
+      "entry": 5195,
       "mailjourney": 34,
       "notReached": 37,
-      "other": 38
+      "other": 42
     }
   },
   "attribution": "Statuspad: instroom in Mailjourney, daarna een heractivatiesignaal (Re-entered, Nummer gewijzigd of direct Appointment), en de conversie ná dat signaal. Toegerekend aan de conversiedatum.",
@@ -15969,8 +16068,8 @@
         },
         "mailedOrders": 9,
         "mailedRevenue": 62325.18,
-        "orders": 146,
-        "revenue": 975291.46,
+        "orders": 147,
+        "revenue": 978617.17,
         "viaAutomationOrders": 9,
         "viaAutomationRevenue": 62325.18
       }
@@ -16964,7 +17063,7 @@
         "mailedOrders": 0,
         "mailedRevenue": 0.0,
         "orders": 17,
-        "revenue": 116418.46,
+        "revenue": 115858.06,
         "viaAutomationOrders": 0,
         "viaAutomationRevenue": 0.0
       }
@@ -17016,6 +17115,54 @@
         "viaAutomationOrders": 0,
         "viaAutomationRevenue": 0.0
       }
+    },
+    "2026-11-09": {
+      "be": {
+        "byPath": {
+          "Mailjourney (No Contact Possible - number correct) → Appointment": {
+            "orders": 1,
+            "revenue": 9599.97
+          }
+        },
+        "byReason": {
+          "No Contact Possible - number correct": {
+            "orders": 1,
+            "revenue": 9599.97
+          }
+        },
+        "byRoute": {
+          "Appointment": {
+            "orders": 1,
+            "revenue": 9599.97
+          }
+        },
+        "byRouteReason": {
+          "Appointment": {
+            "No Contact Possible - number correct": {
+              "orders": 1,
+              "revenue": 9599.97
+            }
+          }
+        },
+        "mailedOrders": 1,
+        "mailedRevenue": 9599.97,
+        "orders": 14,
+        "revenue": 139586.91,
+        "viaAutomationOrders": 1,
+        "viaAutomationRevenue": 9599.97
+      },
+      "nl": {
+        "byPath": {},
+        "byReason": {},
+        "byRoute": {},
+        "byRouteReason": {},
+        "mailedOrders": 0,
+        "mailedRevenue": 0.0,
+        "orders": 11,
+        "revenue": 84729.09,
+        "viaAutomationOrders": 0,
+        "viaAutomationRevenue": 0.0
+      }
     }
   },
   "doorlooptijd": {
@@ -17047,7 +17194,7 @@
     },
     "2026-05-05": {
       "nl": [
-        13
+        5
       ]
     },
     "2026-05-06": {
@@ -17874,6 +18021,14 @@
       "nl": [
         1
       ]
+    },
+    "2026-11-09": {
+      "nl": [
+        4,
+        7,
+        6,
+        61
+      ]
     }
   },
   "enrichment": {
@@ -18431,6 +18586,13 @@
       "nl": {
         "enriched": 3
       }
+    },
+    "2026-11-09": {
+      "nl": {
+        "appointment": 1,
+        "direct": 1,
+        "enriched": 2
+      }
     }
   },
   "enrichmentTotals": {
@@ -18440,12 +18602,12 @@
       "enriched": 23
     },
     "nl": {
-      "appointment": 66,
-      "direct": 37,
-      "enriched": 130
+      "appointment": 67,
+      "direct": 38,
+      "enriched": 132
     }
   },
-  "generated_at": "2026-11-08T13:49:43+00:00",
+  "generated_at": "2026-11-09T16:50:43+00:00",
   "lookback_days": 400,
   "nurtureResultaat": {
     "nl": {
@@ -18481,7 +18643,7 @@
           "NL - Trapliftlane-thuisadvies-8": 1
         }
       },
-      "leadsInLane": 3081,
+      "leadsInLane": 3083,
       "leadsMetStatuswijziging": 55,
       "totals": {
         "NL - Bevestigingsmail valpreventie": 2,
@@ -18761,7 +18923,7 @@
         "NL - Offerteflow - mail 3 - zorgpakket reminder": {
           "aanbod": "zorgpakket",
           "inSplit": true,
-          "ontvangers": 27
+          "ontvangers": 29
         },
         "NL - Openstaande offerte - Herinnering": {
           "aanbod": "herinnering",
@@ -19331,6 +19493,14 @@
       "route": "Re-entered - Phone Number Changed"
     },
     {
+      "date": "2026-11-09",
+      "lead": "00QP500000yWSkzMAG",
+      "market": "be",
+      "opp": "006P500000wUWCLIA4",
+      "reason": "No Contact Possible - number correct",
+      "route": "Appointment"
+    },
+    {
       "date": "2026-10-23",
       "lead": "00QP500000yH3QOMA0",
       "market": "nl",
@@ -19625,20 +19795,20 @@
       "mailjourney": {
         "appointment": 13,
         "appointmentEnriched": 2,
-        "new": 216,
+        "new": 215,
         "order": 8,
         "reentered": 22,
         "reenteredEnriched": 4,
-        "stage2": 216
+        "stage2": 215
       },
       "notReached": {
         "appointment": 16,
         "appointmentEnriched": 0,
-        "new": 714,
+        "new": 726,
         "order": 10,
-        "reentered": 41,
+        "reentered": 40,
         "reenteredEnriched": 5,
-        "stage2": 714
+        "stage2": 726
       }
     },
     "fr": {
@@ -19654,97 +19824,35 @@
       "notReached": {
         "appointment": 0,
         "appointmentEnriched": 0,
-        "new": 561,
+        "new": 553,
         "order": 0,
         "reentered": 15,
         "reenteredEnriched": 0,
-        "stage2": 561
+        "stage2": 553
       }
     },
     "nl": {
       "mailjourney": {
         "appointment": 34,
         "appointmentEnriched": 16,
-        "new": 827,
+        "new": 850,
         "order": 16,
-        "reentered": 77,
+        "reentered": 79,
         "reenteredEnriched": 24,
-        "stage2": 827
+        "stage2": 850
       },
       "notReached": {
         "appointment": 37,
         "appointmentEnriched": 15,
-        "new": 1591,
+        "new": 1598,
         "order": 16,
-        "reentered": 132,
+        "reentered": 128,
         "reenteredEnriched": 32,
-        "stage2": 1591
+        "stage2": 1598
       }
     }
   },
   "pathFunnels": {
-    "2026-04-22": {
-      "be": {
-        "mailjourney": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 1,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 1
-        },
-        "notReached": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 3,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 3
-        }
-      },
-      "fr": {
-        "mailjourney": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 0,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 0
-        },
-        "notReached": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 8,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 8
-        }
-      },
-      "nl": {
-        "mailjourney": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 2,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 2
-        },
-        "notReached": {
-          "appointment": 0,
-          "appointmentEnriched": 0,
-          "new": 10,
-          "order": 0,
-          "reentered": 0,
-          "reenteredEnriched": 0,
-          "stage2": 10
-        }
-      }
-    },
     "2026-04-23": {
       "be": {
         "mailjourney": {
@@ -20029,7 +20137,7 @@
           "appointmentEnriched": 0,
           "new": 8,
           "order": 0,
-          "reentered": 1,
+          "reentered": 0,
           "reenteredEnriched": 0,
           "stage2": 8
         }
@@ -20257,11 +20365,11 @@
           "stage2": 7
         },
         "notReached": {
-          "appointment": 1,
+          "appointment": 0,
           "appointmentEnriched": 0,
           "new": 11,
           "order": 0,
-          "reentered": 1,
+          "reentered": 0,
           "reenteredEnriched": 0,
           "stage2": 11
         }
@@ -20927,7 +21035,7 @@
           "appointmentEnriched": 0,
           "new": 8,
           "order": 0,
-          "reentered": 1,
+          "reentered": 0,
           "reenteredEnriched": 0,
           "stage2": 8
         }
@@ -22901,7 +23009,7 @@
           "appointmentEnriched": 0,
           "new": 30,
           "order": 0,
-          "reentered": 1,
+          "reentered": 0,
           "reenteredEnriched": 0,
           "stage2": 30
         }
@@ -23737,11 +23845,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 5,
+          "new": 4,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 5
+          "stage2": 4
         }
       },
       "nl": {
@@ -25127,11 +25235,11 @@
         "notReached": {
           "appointment": 1,
           "appointmentEnriched": 0,
-          "new": 30,
+          "new": 29,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 30
+          "stage2": 29
         }
       }
     },
@@ -26950,11 +27058,11 @@
         "mailjourney": {
           "appointment": 1,
           "appointmentEnriched": 0,
-          "new": 3,
+          "new": 4,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 3
+          "stage2": 4
         },
         "notReached": {
           "appointment": 0,
@@ -26974,7 +27082,7 @@
           "appointmentEnriched": 0,
           "new": 0,
           "order": 0,
-          "reentered": 0,
+          "reentered": 1,
           "reenteredEnriched": 0,
           "stage2": 0
         },
@@ -27056,11 +27164,11 @@
         "mailjourney": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 16,
+          "new": 17,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 16
+          "stage2": 17
         },
         "notReached": {
           "appointment": 0,
@@ -27299,11 +27407,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 10,
+          "new": 11,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 10
+          "stage2": 11
         }
       },
       "nl": {
@@ -27312,18 +27420,18 @@
           "appointmentEnriched": 0,
           "new": 12,
           "order": 0,
-          "reentered": 1,
+          "reentered": 2,
           "reenteredEnriched": 1,
           "stage2": 12
         },
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 9,
+          "new": 12,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 9
+          "stage2": 12
         }
       }
     },
@@ -27361,11 +27469,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 7,
+          "new": 9,
           "order": 0,
           "reentered": 1,
           "reenteredEnriched": 0,
-          "stage2": 7
+          "stage2": 9
         }
       }
     },
@@ -27403,11 +27511,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 6,
+          "new": 8,
           "order": 0,
           "reentered": 2,
           "reenteredEnriched": 0,
-          "stage2": 6
+          "stage2": 8
         }
       }
     },
@@ -27425,11 +27533,11 @@
         "notReached": {
           "appointment": 1,
           "appointmentEnriched": 0,
-          "new": 3,
+          "new": 5,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 3
+          "stage2": 5
         }
       },
       "nl": {
@@ -27445,11 +27553,11 @@
         "notReached": {
           "appointment": 2,
           "appointmentEnriched": 1,
-          "new": 6,
+          "new": 8,
           "order": 0,
           "reentered": 3,
           "reenteredEnriched": 1,
-          "stage2": 6
+          "stage2": 8
         }
       }
     },
@@ -27467,11 +27575,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 1,
+          "new": 2,
           "order": 1,
-          "reentered": 1,
+          "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 1
+          "stage2": 2
         }
       },
       "nl": {
@@ -27487,11 +27595,11 @@
         "notReached": {
           "appointment": 0,
           "appointmentEnriched": 0,
-          "new": 2,
+          "new": 8,
           "order": 0,
           "reentered": 0,
           "reenteredEnriched": 0,
-          "stage2": 2
+          "stage2": 8
         }
       }
     },
@@ -27538,6 +27646,48 @@
           "stage2": 0
         }
       }
+    },
+    "2026-11-09": {
+      "be": {
+        "mailjourney": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 0,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 0
+        },
+        "notReached": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 12,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 12
+        }
+      },
+      "nl": {
+        "mailjourney": {
+          "appointment": 0,
+          "appointmentEnriched": 0,
+          "new": 23,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 23
+        },
+        "notReached": {
+          "appointment": 1,
+          "appointmentEnriched": 0,
+          "new": 3,
+          "order": 0,
+          "reentered": 0,
+          "reenteredEnriched": 0,
+          "stage2": 3
+        }
+      }
     }
   },
   "paths": {
@@ -27553,9 +27703,9 @@
         "revenue": 30220.21
       },
       "Mailjourney (No Contact Possible - number correct) → Appointment": {
-        "leads": 3,
-        "orders": 3,
-        "revenue": 21104.88
+        "leads": 4,
+        "orders": 4,
+        "revenue": 30704.85
       },
       "Mailjourney (No Contact Possible - number correct) → Follow-up → Appointment": {
         "leads": 1,
@@ -27744,16 +27894,16 @@
   "routes": {
     "be": {
       "Appointment": {
-        "orders": 10,
-        "reached": 115,
-        "revenue": 90980.49,
-        "withAppointment": 115
+        "orders": 11,
+        "reached": 116,
+        "revenue": 100580.46,
+        "withAppointment": 116
       },
       "Re-entered": {
         "orders": 13,
-        "reached": 128,
+        "reached": 130,
         "revenue": 114891.22,
-        "withAppointment": 45
+        "withAppointment": 46
       },
       "Re-entered - Phone Number Changed": {
         "orders": 2,
@@ -27771,7 +27921,7 @@
       },
       "Re-entered": {
         "orders": 0,
-        "reached": 71,
+        "reached": 68,
         "revenue": 0.0,
         "withAppointment": 0
       }
@@ -27779,7 +27929,7 @@
     "it": {
       "Re-entered": {
         "orders": 0,
-        "reached": 13,
+        "reached": 12,
         "revenue": 0.0,
         "withAppointment": 0
       }
@@ -27787,15 +27937,15 @@
     "nl": {
       "Appointment": {
         "orders": 37,
-        "reached": 211,
+        "reached": 214,
         "revenue": 239127.74,
-        "withAppointment": 211
+        "withAppointment": 214
       },
       "Re-entered": {
         "orders": 17,
         "reached": 287,
         "revenue": 110544.87,
-        "withAppointment": 91
+        "withAppointment": 93
       },
       "Re-entered - Phone Number Changed": {
         "orders": 19,
