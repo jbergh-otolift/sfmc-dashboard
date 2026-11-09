@@ -191,13 +191,47 @@
   .ac-tip-tot{display:flex;justify-content:space-between;gap:12px;margin-top:7px;padding-top:6px;
               border-top:1px solid var(--line);color:var(--ink);font-weight:700}
 
-  .ac-tabel{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
-  .ac-tabel > summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--oto-red);list-style:none}
-  .ac-tabel > summary::-webkit-details-marker{display:none}
-  .ac-tabel > summary::before{content:"\25B8";display:inline-block;margin-right:6px;transition:transform .15s}
-  .ac-tabel[open] > summary::before{transform:rotate(90deg)}
-  .ac-tabel .vb-routes{margin-top:4px}
-  .ac-tabel-kop{display:flex;justify-content:flex-end;min-height:0;margin-top:8px}
+  /* De detaildata onder de grafiek: één kaart met tabbladen in plaats van
+     losse uitklappers onder elkaar. Eigen vlak met rand, zodat het leest als
+     onderdeel van de grafiek en niet als een restje eronder. */
+  .dp-kaart{margin-top:18px;background:#F7F9FC;border:1px solid var(--line);
+            border-radius:12px;padding:12px 14px 14px}
+  .dp-kop{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+  .dp-tabs{flex:0 0 auto}
+  .dp-tabs button{background:transparent}
+  .dp-tabs button:hover{background:#EEF2F8}
+  .dp-tabs button.aan,.dp-tabs button.aan:hover{background:var(--oto-red);color:#fff}
+  .dp-chip-rij{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .dp-chip{display:inline-flex;align-items:center;gap:7px;background:#fff;
+           border:1px solid var(--oto-red-soft);color:var(--oto-red);
+           border-radius:20px;padding:5px 7px 5px 12px;font-size:12px;font-weight:700}
+  .dp-chip button{border:0;background:#FDECEE;color:var(--oto-red);cursor:pointer;
+                  width:18px;height:18px;border-radius:50%;line-height:1;font-size:13px;
+                  font-family:inherit;padding:0}
+  .dp-chip button:hover{background:var(--oto-red);color:#fff}
+  .dp-chip-uitleg{font-size:11.5px;color:var(--ink-soft)}
+  .dp-paneel[hidden]{display:none}
+  .dp-paneel > .vb-routes{margin-top:0}
+  .dp-leeg,.dd-leeg{font-size:12.5px;color:var(--ink-soft);font-style:italic;
+                    margin:4px 0;text-align:left}
+  .dd-leeg{padding:14px 10px}
+  .ac-tabel-kop{display:flex;justify-content:flex-end;min-height:0;margin:0 0 8px}
+  .dp-kaart .expand-all{flex-basis:auto;align-self:center;text-align:right;
+                        font-size:11.5px;padding:0}
+  /* Binnen de kaart staan de regels op wit, anders vallen ze weg tegen het
+     grijze vlak eromheen. */
+  .dp-kaart .vb-route{background:#fff;border:1px solid var(--line);border-radius:9px;
+                      margin-bottom:6px}
+  .dp-kaart .vb-r-head{padding:9px 12px}
+  .dp-kaart .vb-list,.dp-kaart .dd-scroll{background:#fff}
+  .vb-r-dot{width:9px;height:9px;border-radius:3px;display:inline-block;
+            margin-right:8px;flex:0 0 auto;vertical-align:baseline}
+  /* Wat je aanklikt licht op, de rest dimt: zonder dat zie je niet dat de
+     kaart eronder op die ene week is gaan staan. */
+  .ac-keuze .ac-staaf{opacity:.34;transition:opacity .15s}
+  .ac-keuze .ac-staaf.aan{opacity:1}
+  .ac-hit{cursor:pointer}
+  .ac-hit.aan{fill:rgba(202,6,26,.06)}
 
   /* Deep dive: van een staaf naar het record in Salesforce. */
   .dd-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 8px}
@@ -1043,30 +1077,36 @@
           <div class="ac-legenda" data-appt-legenda></div>
           <p class="ac-note" data-appt-note></p>
 
-          <details class="ac-tabel">
-            <summary>Alle afspraken per instroomreden</summary>
-            <div class="ac-tabel-kop"></div>
-            <div class="vb-routes" data-appt-routes></div>
-          </details>
-
-          <details class="ac-tabel ac-deep" data-appt-deep hidden>
-            <summary>Deep dive · losse records met Lead-ID's</summary>
-            <div class="dd-bar">
-              <input type="search" class="dd-zoek" data-dd-zoek
-                     placeholder="Zoek op ID, reden of route" aria-label="Zoek in de records">
-              <span class="dd-tel" data-dd-telling>–</span>
-              <button type="button" class="dd-knop" data-dd-kopieer="ids">Kopieer Lead-ID's</button>
-              <button type="button" class="dd-knop" data-dd-kopieer="csv">Kopieer als CSV</button>
+          <div class="dp-kaart" data-appt-kaart>
+            <div class="dp-kop">
+              <div class="ac-seg dp-tabs" role="tablist">
+                <button type="button" data-dp-tab="lijst" class="aan">Per reden</button>
+                <button type="button" data-dp-tab="records">Records</button>
+              </div>
+              <div class="dp-chip-rij" data-dp-chip hidden></div>
             </div>
-            <div class="dd-scroll">
-              <table class="dd-tabel">
-                <thead><tr><th>Datum</th><th>Instroomreden</th><th>Route</th>
-                           <th>Lead</th></tr></thead>
-                <tbody data-dd-body></tbody>
-              </table>
+            <div class="dp-paneel" data-dp-paneel="lijst">
+              <div class="ac-tabel-kop"></div>
+              <div class="vb-routes" data-appt-routes></div>
             </div>
-            <p class="dd-meer" data-dd-meer hidden></p>
-          </details>
+            <div class="dp-paneel" data-dp-paneel="records" data-appt-deep hidden>
+              <div class="dd-bar">
+                <input type="search" class="dd-zoek" data-dd-zoek
+                       placeholder="Zoek op ID, reden of route" aria-label="Zoek in de records">
+                <span class="dd-tel" data-dd-telling>–</span>
+                <button type="button" class="dd-knop" data-dd-kopieer="ids">Kopieer Lead-ID's</button>
+                <button type="button" class="dd-knop" data-dd-kopieer="csv">Kopieer als CSV</button>
+              </div>
+              <div class="dd-scroll">
+                <table class="dd-tabel">
+                  <thead><tr><th>Datum</th><th>Instroomreden</th><th>Route</th>
+                             <th>Lead</th></tr></thead>
+                  <tbody data-dd-body></tbody>
+                </table>
+              </div>
+              <p class="dd-meer" data-dd-meer hidden></p>
+            </div>
+          </div>
         </div>
 
         <div class="value-block" data-value-block hidden>
@@ -1116,42 +1156,46 @@
 
           <div class="vb-routes" data-offerte-box></div>
 
-          <details class="ac-tabel">
-            <summary>Alle orders per route</summary>
-            <div class="ac-tabel-kop"></div>
-            <div class="vb-routes" data-value-routes></div>
-          </details>
-
-          <details class="ac-tabel ac-deep" data-order-deep hidden>
-            <summary>Deep dive · losse records met Lead-ID's</summary>
-            <div class="dd-bar">
-              <input type="search" class="dd-zoek" data-dd-zoek
-                     placeholder="Zoek op ID, reden of route" aria-label="Zoek in de records">
-              <span class="dd-tel" data-dd-telling>–</span>
-              <button type="button" class="dd-knop" data-dd-kopieer="ids">Kopieer Lead-ID's</button>
-              <button type="button" class="dd-knop" data-dd-kopieer="csv">Kopieer als CSV</button>
+          <div class="dp-kaart" data-order-kaart>
+            <div class="dp-kop">
+              <div class="ac-seg dp-tabs" role="tablist">
+                <button type="button" data-dp-tab="lijst" class="aan">Per route</button>
+                <button type="button" data-dp-tab="records">Records</button>
+                <button type="button" data-dp-tab="paden">Statuspaden</button>
+                <button type="button" data-dp-tab="flow">Per flow</button>
+              </div>
+              <div class="dp-chip-rij" data-dp-chip hidden></div>
             </div>
-            <div class="dd-scroll">
-              <table class="dd-tabel">
-                <thead><tr><th>Datum</th><th>Instroomreden</th><th>Route</th>
-                           <th>Lead</th><th>Opportunity</th></tr></thead>
-                <tbody data-dd-body></tbody>
-              </table>
+            <div class="dp-paneel" data-dp-paneel="lijst">
+              <div class="ac-tabel-kop"></div>
+              <div class="vb-routes" data-value-routes></div>
             </div>
-            <p class="dd-meer" data-dd-meer hidden></p>
-          </details>
-
-          <details class="vb-details">
-            <summary>Welke statussen deze leads doorliepen</summary>
-            <div class="vb-list" data-value-paths></div>
-          </details>
-
-          <details class="vb-details">
-            <summary>Per flow</summary>
-            <p class="vb-warn">Een lead kan door meerdere flows zijn geraakt en telt dan bij
-               elke flow mee. Deze bedragen mag je dus niet optellen tot een totaal.</p>
-            <div class="vb-list" data-value-flows></div>
-          </details>
+            <div class="dp-paneel" data-dp-paneel="records" data-order-deep hidden>
+              <div class="dd-bar">
+                <input type="search" class="dd-zoek" data-dd-zoek
+                       placeholder="Zoek op ID, reden of route" aria-label="Zoek in de records">
+                <span class="dd-tel" data-dd-telling>–</span>
+                <button type="button" class="dd-knop" data-dd-kopieer="ids">Kopieer Lead-ID's</button>
+                <button type="button" class="dd-knop" data-dd-kopieer="csv">Kopieer als CSV</button>
+              </div>
+              <div class="dd-scroll">
+                <table class="dd-tabel">
+                  <thead><tr><th>Datum</th><th>Instroomreden</th><th>Route</th>
+                             <th>Lead</th><th>Opportunity</th></tr></thead>
+                  <tbody data-dd-body></tbody>
+                </table>
+              </div>
+              <p class="dd-meer" data-dd-meer hidden></p>
+            </div>
+            <div class="dp-paneel" data-dp-paneel="paden" hidden>
+              <div class="vb-list" data-value-paths></div>
+            </div>
+            <div class="dp-paneel" data-dp-paneel="flow" hidden>
+              <p class="vb-warn">Een lead kan door meerdere flows zijn geraakt en telt dan bij
+                 elke flow mee. Deze bedragen mag je dus niet optellen tot een totaal.</p>
+              <div class="vb-list" data-value-flows></div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1459,7 +1503,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261106145909"></script>
+<script src="data-layer.js?v=20261109104341"></script>
 
 </body>
 </html>

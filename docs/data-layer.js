@@ -510,10 +510,21 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
       " via een heractivatiestatus";
   }
 
-  const box = block.querySelector("[data-appt-routes]");
+  apptRedenLijst(block.querySelector("[data-appt-routes]"), reasons, reasonPaths, total);
+}
+
+// De lijst per instroomreden, los van de kop erboven. De detailkaart tekent
+// hem opnieuw voor één aangeklikte week of maand, en dan moet het totaal
+// bovenin juist níet meeveranderen.
+function apptRedenLijst(box, reasons, reasonPaths, total) {
+  if (!box) return;
   box.innerHTML = "";
   const rijen = Object.entries(reasons || {}).sort((a, b) => b[1] - a[1]);
   const top = rijen.length ? rijen[0][1] : 0;
+  if (!rijen.length) {
+    box.innerHTML = '<p class="dp-leeg">Geen afspraken in deze periode.</p>';
+    return;
+  }
 
   rijen.forEach(([reason, n]) => {
     const paden = Object.entries((reasonPaths || {})[reason] || {}).sort(
@@ -523,7 +534,8 @@ function renderApptBlock(split, reasons, reasonPaths, routes) {
     regel.className = "vb-route";
 
     const kop = vbRegel({ naam: reason, waarde: n, totaal: total, top,
-                          eenheid: n === 1 ? "afspraak" : "afspraken" });
+                          eenheid: n === 1 ? "afspraak" : "afspraken",
+                          kleur: acKleurVan(reason) });
     if (paden.length) {
       const sum = document.createElement("summary");
       sum.className = "vb-r-head";
@@ -586,6 +598,7 @@ const AC_CFG = {
     plot: "[data-appt-chart]", legenda: "[data-appt-legenda]",
     note: "[data-appt-note]", bar: "[data-ac-bar=appt]",
     deep: "[data-appt-deep]", deepOpp: false, records: "apptRecords",
+    kaart: "[data-appt-kaart]",
     velden: { route: "apptRoutes", reden: "apptReasons" },
     // De dagbucket houdt hier kale aantallen.
     lees: (bucket, veld) => bucket[veld] || {},
@@ -597,6 +610,7 @@ const AC_CFG = {
     plot: "[data-order-chart]", legenda: "[data-order-legenda]",
     note: "[data-order-note]", bar: "[data-ac-bar=order]",
     deep: "[data-order-deep]", deepOpp: true, records: "orderRecords",
+    kaart: "[data-order-kaart]",
     velden: { route: "byRoute", reden: "byReason" },
     // Orders zitten een niveau dieper, met omzet ernaast in dezelfde knoop.
     // Die omzet laten we bewust liggen: de gemiddelde orderwaarde varieert
@@ -616,8 +630,10 @@ const AC_CFG = {
 };
 
 const acStanden = {
-  appt: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true },
-  order: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true },
+  appt: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true,
+          tab: "lijst", sel: null },
+  order: { schaal: "week", groep: "reden", vorm: "staven", autoSchaal: true,
+           tab: "lijst", sel: null },
 };
 const acBronnen = {};
 
@@ -690,11 +706,17 @@ function acBouwBakken(cfg, days, start, eind, stand) {
   const labels = (typeof DATA !== "undefined" && DATA && DATA.routeLabels) || {};
   const bakken = new Map();
   Object.keys(days || {}).sort().forEach((dag) => {
-    if (dag < start || dag > eind) return;
+    // eind is exclusief: het datumvak zet "t/m 1 nov" om naar 2 nov. Met
+    // dag <= eind telde de grafiek die dag erbij op en stond er 38 in de
+    // legenda tegen 37 in de kop erboven.
+    if (dag < start || dag >= eind) return;
     const b = acBak(dag, stand.schaal);
     let vak = bakken.get(b.sleutel);
-    if (!vak) bakken.set(b.sleutel, (vak = { label: b.label, lengte: b.lengte,
+    if (!vak) bakken.set(b.sleutel, (vak = { sleutel: b.sleutel, label: b.label,
+                                             lengte: b.lengte, van: dag, tot: dag,
                                              dagen: 0, waarden: {}, totaal: 0 }));
+    if (dag < vak.van) vak.van = dag;
+    if (dag > vak.tot) vak.tot = dag;
     vak.dagen += 1;
     let gevonden = 0;
     Object.entries(cfg.lees(days[dag], veld)).forEach(([k, v]) => {
@@ -791,6 +813,7 @@ function renderAcChart(id) {
 
   const ns = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(ns, "svg");
+  if (stand.sel) svg.classList.add("ac-keuze");
   svg.setAttribute("viewBox", "0 0 " + breedte + " " + (T + H + B));
   svg.setAttribute("width", breedte);
   svg.setAttribute("height", T + H + B);
@@ -826,6 +849,7 @@ function renderAcChart(id) {
   bakken.forEach((bak, i) => {
     const mid = L + slot * (i + 0.5);
 
+    const isSel = !stand.sel || stand.sel.sleutel === bak.sleutel;
     if (!lijn) {
       let onder = 0;
       const stapel = reeksen.map((r) => ({ r, n: acReeksWaarde(bak, r) })).filter((o) => o.n);
@@ -835,14 +859,16 @@ function renderAcChart(id) {
         const bovenste = j === stapel.length - 1;
         const rond = bovenste && h >= 5 && staafB >= 7 ? Math.min(4, staafB / 2) : 0;
         if (rond) {
-          maak("path", { fill: AC_HEX[o.r.slot], d:
+          maak("path", { fill: AC_HEX[o.r.slot],
+            class: isSel ? "ac-staaf aan" : "ac-staaf", d:
             "M" + (mid - staafB / 2) + " " + (y0 + h) +
             "V" + (y0 + rond) + "a" + rond + " " + rond + " 0 0 1 " + rond + " " + -rond +
             "h" + (staafB - rond * 2) + "a" + rond + " " + rond + " 0 0 1 " + rond + " " + rond +
             "V" + (y0 + h) + "Z" });
         } else {
           maak("rect", { fill: AC_HEX[o.r.slot], x: mid - staafB / 2, y: y0,
-                         width: staafB, height: h });
+                         width: staafB, height: h,
+                         class: isSel ? "ac-staaf aan" : "ac-staaf" });
         }
         onder += o.n;
       });
@@ -855,12 +881,23 @@ function renderAcChart(id) {
     }
 
     // Trefvlak over de hele kolom, dus je hoeft de staaf niet te raken.
-    const hit = maak("rect", { class: "ac-hit", x: L + slot * i, y: T,
-                               width: slot, height: H });
+    const gekozen = stand.sel && stand.sel.sleutel === bak.sleutel;
+    const hit = maak("rect", {
+      class: "ac-hit" + (gekozen ? " aan" : ""),
+      x: L + slot * i, y: T, width: slot, height: H,
+    });
     const aan = () => acToonTip(cfg, stand, plot, bak, reeksen, mid, breedte);
     hit.addEventListener("mouseenter", aan);
     hit.addEventListener("mousemove", aan);
     hit.addEventListener("mouseleave", () => { tip.hidden = true; });
+    // Nog eens op dezelfde kolom klikken heft de keuze op; zonder dat zit je
+    // vast in een periode en moet je het kruisje zoeken.
+    hit.addEventListener("click", () => {
+      stand.sel = gekozen ? null
+        : { sleutel: bak.sleutel, label: bak.label, van: bak.van, tot: bak.tot };
+      renderAcChart(id);
+      renderDetailKaart(id);
+    });
   });
 
   if (lijn) {
@@ -909,6 +946,103 @@ function renderAcChart(id) {
   }
 }
 
+/* ---------- Detailkaart onder de grafiek ----------
+   Eerst stonden hier twee tot vier uitklappers onder elkaar; dat las als een
+   restje onder de grafiek in plaats van als onderdeel ervan. Nu één kaart met
+   tabbladen in dezelfde segmentstijl als de schakelaars erboven. Klik je een
+   staaf aan, dan filtert de hele kaart op die periode — alle bronnen zijn per
+   dag opgeslagen, dus dat is gewoon opnieuw optellen over een korter bereik. */
+// Het bereik waar de kaart op staat: de aangeklikte bak, of anders gewoon de
+// gekozen periode. sumRange rekent met een exclusief einde; een bak kent zijn
+// laatste dag, dus daar komt een dag bij.
+function dpBereik(id) {
+  const stand = acStanden[id], bron = acBronnen[id];
+  if (!bron) return null;
+  return stand.sel
+    ? { start: stand.sel.van, eind: addDays(stand.sel.tot, 1) }
+    : { start: bron.start, eind: bron.eind };
+}
+
+function dpSom(id) {
+  const bron = acBronnen[id], bereik = dpBereik(id);
+  if (!bron || !bereik) return null;
+  return sumRange(bron.days, bereik.start, bereik.eind);
+}
+
+function renderDetailKaart(id) {
+  const cfg = AC_CFG[id];
+  const kaart = document.querySelector(cfg.kaart);
+  if (!kaart) return;
+  const stand = acStanden[id];
+  const smal = dpSom(id);
+
+  // Chip met de gekozen periode. Zonder die chip zie je na het scrollen niet
+  // meer waarom de kaart andere getallen toont dan de kop.
+  const chipHost = kaart.querySelector("[data-dp-chip]");
+  if (chipHost) {
+    chipHost.innerHTML = stand.sel
+      ? '<span class="dp-chip">' + stand.sel.label +
+        '<button type="button" data-dp-wis aria-label="Selectie wissen">×</button></span>' +
+        '<span class="dp-chip-uitleg">alleen deze ' +
+        (stand.schaal === "maand" ? "maand" : stand.schaal === "week" ? "week" : "dag") +
+        "</span>"
+      : "";
+    chipHost.hidden = !stand.sel;
+  }
+
+  // De eerste tab volgt de groepering van de grafiek. Deed hij dat niet, dan
+  // stond er een lijst op route onder een grafiek op reden — en betekent
+  // hetzelfde rood twee verschillende dingen op één scherm.
+  const opReden = stand.groep === "reden";
+  const tabKnop = kaart.querySelector('[data-dp-tab="lijst"]');
+  if (tabKnop) tabKnop.textContent = opReden ? "Per reden" : "Per route";
+
+  if (smal) {
+    if (id === "appt") {
+      const bron = opReden ? smal.apptReasons : smal.apptRoutes;
+      apptRedenLijst(kaart.querySelector("[data-appt-routes]"), bron,
+                     opReden ? smal.apptReasonPaths : null,
+                     Object.values(bron || {}).reduce((a, b) => a + b, 0),
+                     opReden ? "afspraak" : "afspraak");
+    } else {
+      orderRouteLijst(kaart.querySelector("[data-value-routes]"), smal.value, opReden);
+      renderDetailList("[data-value-paths]", smal.value.byPath,
+                       "Geen paden in deze periode.");
+      renderDetailList("[data-value-flows]", smal.value.byFlow,
+                       "Geen orders toe te rekenen aan een losse flow in deze periode.");
+    }
+  }
+  renderDeepDive(id);
+}
+
+function dpToonTab(id, naam) {
+  const cfg = AC_CFG[id];
+  const kaart = document.querySelector(cfg.kaart);
+  if (!kaart) return;
+  acStanden[id].tab = naam;
+  kaart.querySelectorAll("[data-dp-tab]").forEach(
+    (b) => b.classList.toggle("aan", b.dataset.dpTab === naam));
+  kaart.querySelectorAll("[data-dp-paneel]").forEach(
+    (v) => { v.hidden = v.dataset.dpPaneel !== naam; });
+}
+
+function wireDetailKaart() {
+  Object.entries(AC_CFG).forEach(([id, cfg]) => {
+    const kaart = document.querySelector(cfg.kaart);
+    if (!kaart) return;
+    kaart.addEventListener("click", (e) => {
+      const tab = e.target.closest("[data-dp-tab]");
+      if (tab) { dpToonTab(id, tab.dataset.dpTab); return; }
+      if (e.target.closest("[data-dp-wis]")) {
+        acStanden[id].sel = null;
+        renderAcChart(id);
+        renderDetailKaart(id);
+      }
+    });
+    dpToonTab(id, acStanden[id].tab);
+  });
+}
+
 function wireAcCharts() {
   Object.entries(AC_CFG).forEach(([id, cfg]) => {
     const bar = document.querySelector(cfg.bar);
@@ -921,8 +1055,11 @@ function wireAcCharts() {
         const veld = d.acSchaal ? "schaal" : d.acGroep ? "groep" : "vorm";
         acStanden[id][veld] = d.acSchaal || d.acGroep || d.acVorm;
         if (veld === "schaal") acStanden[id].autoSchaal = false;
+        // Een andere schaal betekent andere bakken, dus de keuze vervalt.
+        if (veld === "schaal") acStanden[id].sel = null;
         [...btn.parentElement.children].forEach((b) => b.classList.toggle("aan", b === btn));
         renderAcChart(id);
+        renderDetailKaart(id);
       });
     }
     // Breedte bepaalt de staafdikte en hoeveel labels passen, dus hertekenen.
@@ -949,9 +1086,12 @@ const DD_MAX = 500;
 
 function ddRecords(id) {
   const bron = acBronnen[id];
-  if (!bron) return [];
+  // Hetzelfde bereik als de rest van de kaart: klik je een week aan, dan
+  // horen hier alleen de records van die week te staan.
+  const bereik = (typeof dpBereik === "function" && dpBereik(id)) || bron;
+  if (!bron || !bereik) return [];
   return (bron.records || [])
-    .filter((r) => r.date >= bron.start && r.date <= bron.eind)
+    .filter((r) => r.date >= bereik.start && r.date < bereik.eind)
     .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
 
@@ -993,7 +1133,12 @@ function renderDeepDive(id) {
   const kolom = (waarde) =>
     waarde ? '<span class="dd-id">' + waarde + "</span>" : "–";
 
-  body.innerHTML = zichtbaar.slice(0, DD_MAX).map((r) =>
+  if (!zichtbaar.length) {
+    const kolommen = cfg.deepOpp ? 5 : 4;
+    body.innerHTML = '<tr><td class="dd-leeg" colspan="' + kolommen + '">' +
+      (rijen.length ? "Niets gevonden voor deze zoekterm."
+                    : "Geen records in deze periode.") + "</td></tr>";
+  } else body.innerHTML = zichtbaar.slice(0, DD_MAX).map((r) =>
     "<tr><td>" + datumNL(r.date) + "</td>" +
     "<td>" + ddLabel(r.reason) + "</td>" +
     "<td>" + ddLabel(r.route) + "</td>" +
@@ -1007,7 +1152,9 @@ function renderDeepDive(id) {
     meer.textContent = "Alleen de eerste " + DD_MAX + " regels staan hier; " +
       "kopieer de lijst of kies een korter bereik voor de rest.";
   }
-  host.hidden = !rijen.length;
+  // Niet het paneel verbergen: dat is nu een tabblad en de tabbladlogica
+  // bepaalt wat zichtbaar is. Leeg is een boodschap in de tabel, geen
+  // verdwenen tabblad.
 }
 
 function ddKopieer(id, soort, knop) {
@@ -1045,18 +1192,36 @@ function wireDeepDive() {
 // Eén regel in een balkenlijst: naam, balk op schaal, aantal en aandeel.
 // De balk schaalt op de grootste regel en niet op het totaal, anders is bij
 // een gelijkmatige verdeling elke balk een streepje.
-function vbRegel({ naam, waarde, totaal, top, eenheid, extra, soort }) {
+// De kleur die deze naam in de grafiek heeft. Zonder dat staan de staven
+// boven en de lijst eronder los van elkaar en moet je per regel opnieuw
+// zoeken welke reeks je voor je hebt.
+function acKleurVan(naam) {
+  const i = AC_REDENEN.indexOf(naam);
+  if (i >= 0) return AC_HEX[AC_SLOTS[i]];
+  const r = AC_ROUTES.indexOf(naam);
+  if (r >= 0) return AC_HEX[AC_SLOTS[r]];
+  return AC_HEX["ac-rest"];
+}
+
+function vbRegel({ naam, waarde, totaal, top, eenheid, extra, soort, kleur }) {
   const kop = document.createElement("div");
   kop.className = "vb-r-head";
 
   const naamEl = document.createElement("div");
   naamEl.className = "vb-r-name";
-  naamEl.textContent = naam;
+  if (kleur) {
+    const stip = document.createElement("i");
+    stip.className = "vb-r-dot";
+    stip.style.background = kleur;
+    naamEl.appendChild(stip);
+  }
+  naamEl.appendChild(document.createTextNode(naam));
 
   const baan = document.createElement("div");
   baan.className = "vb-r-track";
   const vul = document.createElement("i");
   vul.style.width = top ? Math.max((waarde / top) * 100, 2) + "%" : "0%";
+  if (kleur) vul.style.background = kleur;
   baan.appendChild(vul);
 
   const getal = document.createElement("div");
@@ -1607,26 +1772,58 @@ function renderValueBlock(value, offerteTotals, offertePerDag) {
       " met een aantoonbaar heractivatiepad";
   }
 
-  const box = block.querySelector("[data-value-routes]");
+  // De offerteflow staat bewust buiten de routelijst: het is een eigen
+  // verhaal, geen detail van die lijst, en hij hoort niet mee te filteren
+  // als je in de grafiek een week aanklikt.
+  const offBox = block.querySelector("[data-offerte-box]");
+  if (offBox) {
+    offBox.innerHTML = "";
+    offerteRegels(offBox, offerteTotals, offertePerDag);
+  }
+  orderRouteLijst(block.querySelector("[data-value-routes]"), value,
+                  acStanden.order.groep === "reden");
+  renderDetailList("[data-value-paths]", value.byPath,
+                   "Geen paden in dit bereik.");
+  renderDetailList("[data-value-flows]", value.byFlow,
+                   "Geen orders toe te rekenen aan een losse flow in dit bereik.");
+}
+
+// De routelijst los van de kop, om dezelfde reden als bij de afspraken: de
+// detailkaart tekent hem opnieuw voor één aangeklikte periode.
+function orderRouteLijst(box, value, opReden) {
+  if (!box) return;
   box.innerHTML = "";
   const labels = (DATA && DATA.routeLabels) || {};
-  const routes = Object.entries(value.byRoute || {}).sort(
-    (a, b) => b[1].orders - a[1].orders
-  );
+  const routes = Object.entries(
+    (opReden ? (value || {}).byReason : (value || {}).byRoute) || {}
+  ).sort((a, b) => b[1].orders - a[1].orders);
+  // Orders van gemailde leads zonder aantoonbaar pad hebben geen route en
+  // geen reden. In de grafiek staan ze onder Overig; zonder deze regel telt
+  // de lijst eronder lager op dan de staven erboven.
+  const zonderPad = Math.max(((value || {}).mailedOrders || 0) -
+    Object.values((value || {}).byRoute || {}).reduce((n, v) => n + v.orders, 0), 0);
+  if (zonderPad) routes.push([AC_REST, { orders: zonderPad, revenue: 0 }]);
+  routes.sort((a, b) => b[1].orders - a[1].orders);
+
   const totaalOrders = routes.reduce((n, [, v]) => n + v.orders, 0);
   const topOrders = routes.length ? routes[0][1].orders : 0;
+  if (!routes.length) {
+    box.innerHTML = '<p class="dp-leeg">Geen toegerekende orders in deze periode.</p>';
+    return;
+  }
 
   routes.forEach(([route, stats]) => {
-    const reasons = Object.entries((value.byRouteReason || {})[route] || {}).sort(
-      (a, b) => b[1].orders - a[1].orders
-    );
+    const reasons = opReden ? [] : Object.entries(
+      (value.byRouteReason || {})[route] || {}
+    ).sort((a, b) => b[1].orders - a[1].orders);
     const regel = document.createElement(reasons.length ? "details" : "div");
     regel.className = "vb-route";
 
     const kop = vbRegel({ naam: labels[route] || route, waarde: stats.orders,
                           totaal: totaalOrders, top: topOrders,
                           eenheid: stats.orders === 1 ? "order" : "orders",
-                          soort: reasons.length ? "" : "plat" });
+                          soort: reasons.length ? "" : "plat",
+                          kleur: acKleurVan(labels[route] || route) });
     if (reasons.length) {
       const sum = document.createElement("summary");
       sum.className = "vb-r-head";
@@ -1653,23 +1850,6 @@ function renderValueBlock(value, offerteTotals, offertePerDag) {
     }
     box.appendChild(regel);
   });
-
-  // De offerteflow erbij, als twee extra kaarten. Die staan bewust buiten de
-  // ingeklapte routetabel: het is een eigen verhaal, geen detail van de lijst.
-  const offBox = block.querySelector("[data-offerte-box]") || box;
-  if (offBox !== box) offBox.innerHTML = "";
-  offerteRegels(offBox, offerteTotals, offertePerDag);
-
-  renderDetailList(
-    "[data-value-paths]",
-    value.byPath,
-    "Geen paden in dit bereik."
-  );
-  renderDetailList(
-    "[data-value-flows]",
-    value.byFlow,
-    "Geen orders toe te rekenen aan een losse flow in dit bereik."
-  );
 }
 
 // Lijstje van pad of flow met omzet, gesorteerd op opbrengst.
@@ -2264,7 +2444,7 @@ function sumRange(days, start, end) {
     mailedOrders: 0, mailedRevenue: 0,
     // Streng: daarbovenop een aantoonbaar heractivatiepad.
     viaOrders: 0, viaRevenue: 0,
-    byRoute: {}, byPath: {}, byRouteReason: {}, byFlow: {}, hasData: false,
+    byRoute: {}, byReason: {}, byPath: {}, byRouteReason: {}, byFlow: {}, hasData: false,
   };
 
   Object.keys(days || {}).forEach((day) => {
@@ -2347,6 +2527,10 @@ function sumRange(days, start, end) {
         });
       };
       addInto(value.byRoute, bucket.value.byRoute);
+      // byReason ontbrak hier: de orderlijst gegroepeerd op instroomreden
+      // bleef daardoor leeg, terwijl de grafiek erboven hem wel kon tekenen
+      // (die leest de dagbuckets rechtstreeks).
+      addInto(value.byReason, bucket.value.byReason);
       addInto(value.byPath, bucket.value.byPath);
       addInto(value.byFlow, bucket.value.byFlow);
       Object.entries(bucket.value.byRouteReason || {}).forEach(([route, reasons]) => {
@@ -2717,8 +2901,11 @@ function applyMarket(marketKey) {
   ["appt", "order"].forEach((id) => {
     acBronnen[id] = { days: market.days || {}, start: range.start, eind: range.end,
                       records: market[AC_CFG[id].records] || [] };
+    // Een gekozen week hoort bij het oude bereik; na een periodewissel bestaat
+    // die bak niet meer, dus de keuze vervalt.
+    acStanden[id].sel = null;
     renderAcChart(id);
-    renderDeepDive(id);
+    renderDetailKaart(id);
   });
 
   renderVFunnel(view.reactivation);
@@ -3045,6 +3232,7 @@ function wireSectionNav() {
 wireSectionNav();
 wireAcCharts();
 wireDeepDive();
+wireDetailKaart();
 
 
 // Blokken met meerdere uitklappers krijgen een knop om ze in een keer open of
