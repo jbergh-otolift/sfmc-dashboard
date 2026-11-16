@@ -208,7 +208,12 @@
   .ac-hit:hover{fill:rgba(21,46,85,.045)}
   .ac-punt{stroke:#fff;stroke-width:2}
 
-  .ac-legenda{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px}
+  /* Kolommen in plaats van vrij afbreken: met zes reeksen van ongelijke
+     naamlengte liep de legenda rafelig over twee regels, terwijl een vast
+     raster ze netjes onder elkaar zet en de getallen laat uitlijnen. */
+  .ac-legenda{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+              gap:6px 18px;margin-top:12px}
+  @media(max-width:620px){.ac-legenda{grid-template-columns:1fr}}
   .ac-lg{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
   .ac-lg i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:0 0 auto}
   .ac-lg b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
@@ -290,7 +295,9 @@
          color:var(--ink);user-select:all}
   .dd-meer{font-size:11.5px;color:var(--ink-soft);margin:8px 0 0;font-style:italic}
 
-  .kpi-grid{grid-template-columns:repeat(4,1fr)}
+  /* align-items:start zodat een opengeklapt advies alleen zijn eigen kaart
+     langer maakt, in plaats van de hele rij mee te rekken. */
+  .kpi-grid{grid-template-columns:repeat(4,1fr);align-items:start}
   @media(max-width:1000px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:520px){.kpi-grid{grid-template-columns:1fr}}
   .kpi{position:relative;overflow:hidden}
@@ -301,6 +308,23 @@
   .kpi-val small{font-size:16px;font-weight:600;color:var(--ink-soft)}
   .kpi-sub{font-size:12px;color:var(--ink-soft);margin-top:7px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .kpi-lead-tag{position:absolute;top:0;right:0;background:var(--oto-green);color:#fff;font-size:9px;font-weight:700;letter-spacing:.4px;padding:3px 9px;border-bottom-left-radius:9px}
+  /* Per KPI: wat het getal meet en wat de eerstvolgende handeling is. Het
+     dashboard zei wel dát iets tegenviel, niet wat je er dan mee moet. */
+  .kpi-help{margin-top:12px;border-top:1px solid var(--line);padding-top:9px}
+  .kpi-help summary{list-style:none;cursor:pointer;font-size:11.5px;font-weight:600;
+                    color:var(--ink-soft);display:flex;align-items:center;gap:6px;
+                    user-select:none}
+  .kpi-help summary::-webkit-details-marker{display:none}
+  .kpi-help summary::before{content:"\203a";display:inline-block;font-weight:700;
+                            color:var(--oto-red);transition:transform .15s}
+  .kpi-help[open] summary::before{transform:rotate(90deg)}
+  .kpi-help summary:hover{color:var(--oto-red)}
+  .kpih-body{margin-top:9px;font-size:11.5px;line-height:1.65;color:var(--ink-soft)}
+  .kpih-wat{color:var(--ink);margin-bottom:8px}
+  .kpih-body ul{margin:0;padding-left:15px}
+  .kpih-body li{margin-bottom:5px}
+  .kpih-body li:last-child{margin-bottom:0}
+  .kpih-body b{color:var(--ink);font-weight:700}
   .bench{font-weight:600}
   .bench.ok{color:var(--oto-green)}
   .bench.warn{color:var(--oto-amber)}
@@ -397,22 +421,25 @@
   .kpihero-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   @media(max-width:820px){.kpihero-row{grid-template-columns:1fr}}
   .kpihero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 20px;position:relative;overflow:hidden}
-  .kpihero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--oto-red)}
-  .kpihero.good::before{background:var(--oto-green)}
+  /* De accentrand was rood of groen zonder dat de data dat bepaalde: een
+     vaste klasse in de markup. Daarmee stond er een oordeel op een kaart dat
+     nergens vandaan kwam. Nu overal dezelfde neutrale rand. */
+  .kpihero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#D7DEE7}
   .kpihero .kh-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .kpihero .kh-name{font-size:12.5px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.3px}
   .kpihero .kh-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
   .kpihero .kh-bench{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
   .kpihero .kh-valrow{display:flex;align-items:flex-end;gap:12px}
-  .kpihero .kh-val{font-size:40px;font-weight:800;color:var(--oto-red);line-height:.95}
+  /* Het grote getal is de waarde, niet het oordeel. Kleur zit op de delta,
+     want die zegt wel iets over goed of slecht. */
+  .kpihero .kh-val{font-size:40px;font-weight:800;color:var(--ink);line-height:.95}
   .kpihero .kh-val small{font-size:20px;font-weight:700}
-  .kpihero.good .kh-val{color:var(--oto-green)}
   .kpihero .kh-delta{padding-bottom:6px}
   .kpihero .kh-target{font-size:11.5px;color:var(--ink-soft);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
   .kpihero .kh-target b{color:var(--ink)}
   .kpihero .kh-foot{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .kpihero .kh-foot .kf-item{display:flex;flex-direction:column;line-height:1.2}
-  .kpihero .kh-foot .kf-num{font-size:15px;font-weight:800;color:var(--oto-green)}
+  .kpihero .kh-foot .kf-num{font-size:15px;font-weight:800;color:var(--ink)}
   .kpihero .kh-foot .kf-num.ink{color:var(--ink)}
   .kpihero .kh-foot .kf-lbl{font-size:10px;color:var(--ink-soft);margin-top:1px}
   .kpihero .kh-foot .kf-sep{width:1px;align-self:stretch;background:var(--line)}
@@ -425,29 +452,34 @@
   .delta.lg .d-arw{font-size:12px}
 
   /* Kern KPI combined layout: coverage hero (left) + two stacked ratios (right) */
-  .kpi-combined{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:stretch}
+  .kpi-combined{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
   @media(max-width:900px){.kpi-combined{grid-template-columns:1fr}}
-  .kpi-stack{display:grid;grid-template-rows:repeat(3,1fr);gap:14px}
+  /* Geen 1fr-rijen meer: die rekten de drie kaarten op tot de hoogte van
+     de coveragekaart, met een halve kaart lucht onder elke tekst. */
+  .kpi-stack{display:grid;grid-template-rows:auto auto auto;align-content:start;gap:14px}
 
   /* Coverage hero tile */
   .cov-hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;position:relative;overflow:hidden;display:flex;flex-direction:column}
-  .cov-hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--oto-red)}
+  .cov-hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#D7DEE7}
   .cov-hero .ch-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
   .cov-hero .ch-name{font-size:12.5px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.3px}
   .cov-hero .ch-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
   .cov-hero .ch-bench{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;background:#FBE8E1;color:var(--oto-red)}
-  .cov-hero .ch-body{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:8px;flex:1;padding:18px 0 4px}
+  /* Eerder space-between met flex:1. De kaart werd zo hoog als de kolom
+     ernaast en duwde 168px lucht tussen de meter, de uitleg en de groei.
+     Nu op inhoud, met vaste afstanden. */
+  .cov-hero .ch-body{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px 0 4px}
   .cov-hero .ch-gauge{position:relative;width:360px;max-width:100%;aspect-ratio:380/188;flex-shrink:0}
   .cov-hero .ch-gauge svg{width:100%;height:100%;display:block}
   .cov-hero .ch-gauge .g-val{position:absolute;bottom:6px;left:0;right:0;text-align:center}
-  .cov-hero .ch-gauge .g-num{font-size:58px;font-weight:800;color:var(--oto-red);line-height:1}
+  .cov-hero .ch-gauge .g-num{font-size:58px;font-weight:800;color:var(--ink);line-height:1}
   .cov-hero .ch-gauge .g-lbl{font-size:12px;color:var(--ink-soft);margin-top:3px}
   .cov-hero .ch-goalline{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:2px}
   .cov-hero .ch-goalline b{color:var(--oto-red)}
   .cov-hero .ch-growth{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:16px 18px;width:100%;margin-top:14px}
   .cov-hero .ch-growth .cg-lbl{font-size:10.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
   .cov-hero .ch-growth .cg-valrow{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-  .cov-hero .ch-growth .cg-num{font-size:30px;font-weight:800;color:var(--oto-green);line-height:1}
+  .cov-hero .ch-growth .cg-num{font-size:30px;font-weight:800;color:var(--ink);line-height:1}
   .cov-hero .ch-growth .cg-sub{font-size:11px;color:var(--ink-soft);margin-top:7px}
 
   /* mini funnel (ratio-led) */
@@ -465,15 +497,37 @@
   .mf-stage.end .mf-abs{color:var(--oto-green)}
   /* Trendkaart: weken naast elkaar. Verder op het dashboard staan alleen
      momentopnames, waardoor een uitschieter in het periodegemiddelde verdwijnt. */
-  .tr-weken{display:flex;align-items:flex-end;gap:5px;height:104px;margin:14px 0 6px}
+  .tr-weken{position:relative;display:flex;align-items:flex-end;gap:5px;height:100px;
+            margin:16px 0 0}
   .trw{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;
-       min-width:0;position:relative}
-  .trw-staaf{border-radius:4px 4px 0 0;background:#DCE3EC;min-height:3px}
+       min-width:0;position:relative;z-index:1}
+  .trw-staaf{border-radius:4px 4px 0 0;background:#B9C4D2;min-height:2px}
   .trw.alarm .trw-staaf{background:var(--oto-red)}
   .trw.let-op .trw-staaf{background:var(--oto-amber,#E0A800)}
-  .trw-lbl{font-size:9px;color:var(--ink-soft);text-align:center;white-space:nowrap}
+  /* Loopt een week van de schaal af, dan zegt een gekartelde bovenkant dat de
+     staaf is afgekapt; het echte percentage staat erboven. */
+  .trw.boven .trw-staaf{border-radius:0;
+    -webkit-mask-image:linear-gradient(#000,#000),
+      repeating-linear-gradient(135deg,#000 0 4px,transparent 4px 8px);
+    -webkit-mask-size:100% calc(100% - 6px),100% 6px;
+    -webkit-mask-position:bottom,top;-webkit-mask-repeat:no-repeat;
+    mask-image:linear-gradient(#000,#000),
+      repeating-linear-gradient(135deg,#000 0 4px,transparent 4px 8px);
+    mask-size:100% calc(100% - 6px),100% 6px;
+    mask-position:bottom,top;mask-repeat:no-repeat}
   .trw-pct{font-size:9.5px;font-weight:700;text-align:center;color:var(--ink-soft)}
   .trw.alarm .trw-pct,.trw.let-op .trw-pct{color:var(--oto-red)}
+  /* De 2%-norm loopt door de hele grafiek; zonder die lijn is een percentage
+     op een staaf alleen een getal. */
+  .tr-norm{position:absolute;left:0;right:0;border-top:1px dashed #B9C4D2;z-index:0}
+  .tr-norm span{position:absolute;left:0;top:-13px;font-size:9px;color:#9AA4B2;
+                background:#fff;padding:0 4px}
+  /* Het volume staat apart, want het antwoordt op een andere vraag dan de
+     bounce erboven. */
+  .tr-volume{display:flex;align-items:flex-end;gap:5px;margin:5px 0 8px}
+  .trv{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .trv i{display:block;width:100%;background:#E4E9F0;border-radius:2px}
+  .trv span{font-size:9px;color:var(--ink-soft);white-space:nowrap}
   .tr-voet{font-size:11px;color:var(--ink-soft);line-height:1.6}
   .tr-voet b{color:var(--ink)}
   .tr-scheiding{margin:22px 0 16px;border-top:1px solid var(--line)}
@@ -570,10 +624,14 @@
   .vf-step{padding:6px 0}
   .vf-pct{grid-column:2;display:flex;align-items:center;justify-content:center;gap:8px;
           font-size:11.5px;color:var(--ink-soft)}
-  .vf-pct b{font-size:15px;font-weight:800;color:var(--oto-red)}
+  .vf-pct b{font-size:15px;font-weight:800;color:var(--ink)}
+  .vf-pct.slechter b{color:var(--oto-red)}
+  .vf-pct.beter b{color:var(--oto-green)}
   .vf-drop{grid-column:3;font-size:10.5px;color:#9AA4B2;line-height:1.4}
   .vf-drop b{color:var(--ink);font-weight:700}
-  .vf-arrow{color:var(--oto-red-soft)}
+  .vf-arrow{color:#9AA4B2}
+  .vf-pct.slechter .vf-arrow{color:var(--oto-red-soft)}
+  .vf-pct.beter .vf-arrow{color:var(--oto-green-soft)}
   .mf-arrow{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 7px;gap:3px;min-width:84px}
   .mf-arrow .mfa-lbl{font-size:9px;color:var(--ink-soft);white-space:nowrap;text-transform:uppercase;letter-spacing:.3px;font-weight:600}
   .mf-arrow .mfa-ratio{font-size:16px;font-weight:800;color:var(--oto-red);line-height:1}
@@ -1260,7 +1318,12 @@
               <path d="M30 166 A120 120 0 0 1 270 166" fill="none" stroke="#E4E9F0" stroke-width="24" stroke-linecap="round"/>
               <path id="covArc" d="M30 166 A120 120 0 0 1 270 166" fill="none" stroke="#CA061A" stroke-width="24" stroke-linecap="round"
                     stroke-dasharray="377.0" stroke-dashoffset="377.0" data-bind-arc="kernKpis.coverage.value" data-arc-len="377.0"/>
-              <line data-goal-mark stroke="#5E9A5D" stroke-width="4" stroke-linecap="round"/>
+              <!-- De doelmarkering snijdt dwars door de boog. Stond hij ernaast,
+                   dan zweefde er bij een hoge dekking een los streepje naast een
+                   dichte boog en zag je niet meer waar het doel lag. Het witte
+                   casing-lijntje houdt het groen leesbaar op het rode vlak. -->
+              <line data-goal-casing stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+              <line data-goal-mark stroke="#4C8A4B" stroke-width="4" stroke-linecap="round"/>
               <text data-goal-label font-size="13" font-weight="700" fill="#5E9A5D">–</text>
             </svg>
             <div class="g-val">
@@ -1359,6 +1422,18 @@
           <div class="kpi-top"><div class="kpi-name">Delivery rate</div></div>
           <div class="kpi-val" data-k="delivery">98,4<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="delivery"></span> · <span class="bench ok" data-b="delivery">Gezond</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Afgeleverd gedeeld door verzonden — of je mail de server van de ontvanger überhaupt haalt.</p>
+              <ul>
+              <li>Zakt hij, kijk eerst <b>welke flow</b> het veroorzaakt: het is bijna altijd één lijst, niet je hele verzending.</li>
+              <li>Hard bounces tellen hier in mee. Ruim ze op aan de bron en onderdruk leads met een bounce-status in Salesforce.</li>
+              <li>Controleer SPF, DKIM en DMARC op het verzenddomein als het over alle flows tegelijk gaat.</li>
+              <li>Bouw bij een nieuwe business unit het volume geleidelijk op; een koude BU die ineens duizenden mails stuurt wordt afgeknepen.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1368,6 +1443,18 @@
           <div class="kpi-top"><div class="kpi-name">Click-to-open (CTOR)</div></div>
           <div class="kpi-val" data-k="ctor">14,2<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="ctor"></span> · <span class="bench ok" data-b="ctor">Sterk</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Kliks gedeeld door opens — van de mensen die de mail openden, hoeveel klikten er. Dit is de zuiverste maat voor je inhoud, want de onderwerpregel heeft zijn werk al gedaan.</p>
+              <ul>
+              <li>Eén duidelijke actie per mail. Concurreren drie links om dezelfde klik, dan verlies je ze alle drie.</li>
+              <li>Zet de knop boven de vouw en herhaal hem onderaan; maak ook de tekst eronder klikbaar.</li>
+              <li>Maak het aanbod concreet: “Plan uw gratis thuisadvies” werkt beter dan “Meer informatie”.</li>
+              <li>Test één ding tegelijk. Twee onderwerpregels veranderen de open rate, twee knoppen de CTOR — door elkaar meten levert niets op.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1376,6 +1463,17 @@
           <div class="kpi-top"><div class="kpi-name">Click-through (CTR)</div></div>
           <div class="kpi-val" data-k="ctr">3,1<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="ctr"></span> · <span class="bench ok" data-b="ctr">Goed</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Kliks gedeeld door afgeleverd — de open rate en de CTOR in één getal.</p>
+              <ul>
+              <li>Daalt de CTR terwijl de CTOR gelijk blijft, dan ligt het aan de onderwerpregel of de afzendernaam, niet aan de inhoud.</li>
+              <li>Dalen ze allebei, begin bij de inhoud: zie de adviezen bij CTOR.</li>
+              <li>Vergelijk de mails binnen de flow (klik de flow aan): meestal trekt één zwakke mail het gemiddelde omlaag.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1387,6 +1485,17 @@
           </div>
           <div class="kpi-val" data-k="open">41,7<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="open"></span> · <span class="info-note">MPP-vertekend</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Opens gedeeld door afgeleverd. Sinds Apple Mail Privacy Protection registreert Apple opens automatisch, ook als niemand kijkt.</p>
+              <ul>
+              <li>Stuur hier niet op. Het getal is opgeblazen en de vertekening verschilt per doelgroep.</li>
+              <li>Bruikbaar binnen één verzending: twee varianten naar dezelfde lijst hebben dezelfde vertekening, dus het verschil is wel echt.</li>
+              <li>Wil je weten of je onderwerpregel werkt, kijk dan naar de CTR en niet naar de open rate.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1395,6 +1504,18 @@
           <div class="kpi-top"><div class="kpi-name">Unsubscribe rate</div></div>
           <div class="kpi-val" data-k="unsub">0,28<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="unsub"></span> · <span class="bench ok" data-b="unsub">Gezond</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Uitschrijvingen gedeeld door afgeleverd. Een stijging betekent bijna altijd te veel mail of de verkeerde doelgroep.</p>
+              <ul>
+              <li>Kijk bij <b>Mails per persoon</b> in de Kern KPI’s of de frequentie is opgelopen.</li>
+              <li>Klik de flow aan en zoek de mail waar de piek zit; vaak is het één mail die te ver gaat.</li>
+              <li>Bied afmelden voor één actie aan in plaats van voor alles — dan houd je de lead voor de rest van je communicatie.</li>
+              <li>Vernauw de instroomvoorwaarde van de journey als blijkt dat mensen binnenkomen die er niet in horen.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1403,6 +1524,18 @@
           <div class="kpi-top"><div class="kpi-name">Hard bounce rate</div></div>
           <div class="kpi-val" data-k="bounce">0,9<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="bounce"></span> · <span class="bench ok" data-b="bounce">Gezond</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Onbezorgbare adressen gedeeld door verzonden. Boven 2% rekenen providers het je aan, en dat raakt de bezorging van álle flows — ook de flows die niets fout deden.</p>
+              <ul>
+              <li>Valideer het adres bij het formulier, niet achteraf.</li>
+              <li>Laat adressen niet handmatig overtypen; typefouten zijn hier de grootste bron.</li>
+              <li>Onderdruk in Salesforce de leads die al eerder bouncten, zodat ze niet opnieuw in een journey komen.</li>
+              <li>Zie je één week uitschieten, kijk dan bij <b>Lijstgezondheid per week</b> onder Signalen welke verzending dat was.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1411,6 +1544,18 @@
           <div class="kpi-top"><div class="kpi-name">Spam complaint rate</div></div>
           <div class="kpi-val" data-k="spam">0,04<small>%</small></div>
           <div class="kpi-sub"><span class="delta" data-d="spam"></span> · <span class="bench ok" data-b="spam">Gezond</span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Spamklachten gedeeld door afgeleverd. Boven 0,1% is ingrijpen nodig; providers wegen dit zwaarder dan welke andere metric ook.</p>
+              <ul>
+              <li>Zorg dat men de afzender herkent: Otolift in de van-naam en een onderwerpregel die bij de aanvraag past.</li>
+              <li>Maak de afmeldlink goed zichtbaar. Verstopte afmeldlinks verhogen klachten, want dan gebruikt men de spamknop.</li>
+              <li>Mail niet naar lijsten die lang hebben stilgelegen zonder ze eerst op te warmen.</li>
+              <li>Let op: Marketing Cloud krijgt alleen klachten terug van providers met een feedbackloop, dus dit getal is een ondergrens.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1419,6 +1564,17 @@
           <div class="kpi-top"><div class="kpi-name">Verzonden · periode</div></div>
           <div class="kpi-val" data-k="sent">18.640</div>
           <div class="kpi-sub"><span class="delta" data-d="sent"></span></div>
+          <details class="kpi-help">
+            <summary>Wat kan ik hieraan doen?</summary>
+            <div class="kpih-body">
+              <p class="kpih-wat">Het aantal verzonden e-mails in de gekozen periode. Geen kwaliteitsgetal, wel de noemer onder alle andere.</p>
+              <ul>
+              <li>Een daling is pas een probleem als de instroom gelijk bleef. Vergelijk met <b>Lead instroom</b> in Her-activatie.</li>
+              <li>Blijft de instroom op peil terwijl het volume zakt, dan haalt een journey mensen niet meer binnen: controleer de instroomvoorwaarde.</li>
+              <li>Een piek zonder extra instroom betekent meestal een eenmalige campagne — die vertekent de percentages hierboven.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
     </div>
@@ -1493,10 +1649,11 @@
       <div class="card">
         <div class="card-pad">
           <div class="card-title" style="margin-bottom:4px">Lijstgezondheid per week</div>
-          <p class="nl-intro">Volume met het aandeel onbezorgbare adressen ernaast. Een
-             piek in bounces schaadt je afzenderreputatie en daarmee de bezorging van
-             álle flows, ook de flows die niets fout deden.</p>
+          <p class="nl-intro">Het aandeel onbezorgbare adressen per week, met het
+             verzonden volume eronder. Een piek in bounces schaadt je afzenderreputatie
+             en daarmee de bezorging van álle flows, ook de flows die niets fout deden.</p>
           <div class="tr-weken" data-health-weken></div>
+          <div class="tr-volume" data-health-volume></div>
           <div class="tr-voet" data-health-voet></div>
 
           <div class="tr-scheiding"></div>
@@ -1539,7 +1696,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261116120516"></script>
+<script src="data-layer.js?v=20261116125647"></script>
 
 </body>
 </html>

@@ -128,13 +128,20 @@ function drawGoalMark() {
   const nx = dy / len;
   const ny = -dx / len;
 
-  mark.setAttribute("x1", (at.x + nx * 14).toFixed(1));
-  mark.setAttribute("y1", (at.y + ny * 14).toFixed(1));
-  mark.setAttribute("x2", (at.x + nx * 30).toFixed(1));
-  mark.setAttribute("y2", (at.y + ny * 30).toFixed(1));
+  // Dwars door de band in plaats van ernaast. De boog is 24 breed, dus van
+  // -16 tot +16 steekt de markering er aan beide kanten net uit en blijft hij
+  // zichtbaar of de boog nu tot voorbij het doel loopt of niet.
+  const casing = document.querySelector("[data-goal-casing]");
+  [[casing, 17], [mark, 16]].forEach(([el, reik]) => {
+    if (!el) return;
+    el.setAttribute("x1", (at.x - nx * reik).toFixed(1));
+    el.setAttribute("y1", (at.y - ny * reik).toFixed(1));
+    el.setAttribute("x2", (at.x + nx * reik).toFixed(1));
+    el.setAttribute("y2", (at.y + ny * reik).toFixed(1));
+  });
 
-  label.setAttribute("x", (at.x + nx * 38).toFixed(1));
-  label.setAttribute("y", (at.y + ny * 38 + 4).toFixed(1));
+  label.setAttribute("x", (at.x + nx * 30).toFixed(1));
+  label.setAttribute("y", (at.y + ny * 30 + 4).toFixed(1));
   label.setAttribute("text-anchor", at.x > 150 ? "start" : "end");
   label.textContent = COVERAGE_TARGET + "%";
 }
@@ -934,7 +941,11 @@ function renderAcChart(id) {
   }
 
   const slot = plotB / bakken.length;
-  const staafB = Math.max(1.5, Math.min(34, slot * 0.64));
+  // De bovengrens schuift mee met de ruimte per bak. Vast op 34px bleef een
+  // grafiek met vijf weken over 1.100px een rij smalle staafjes met gaten
+  // ertussen, terwijl er 220px per bak beschikbaar was.
+  const maxStaaf = slot >= 140 ? 64 : slot >= 90 ? 52 : slot >= 60 ? 42 : 34;
+  const staafB = Math.max(1.5, Math.min(maxStaaf, slot * 0.64));
   const gat = staafB >= 7 ? 2 : 0;
   // Labels dunnen zodra ze elkaar zouden raken. Het laatste label is handig,
   // maar alleen als er nog ruimte tussen zit — anders schrijft het over zijn
@@ -1317,7 +1328,10 @@ function vbRegel({ naam, waarde, totaal, top, eenheid, extra, soort, kleur }) {
   const baan = document.createElement("div");
   baan.className = "vb-r-track";
   const vul = document.createElement("i");
-  vul.style.width = top ? Math.max((waarde / top) * 100, 2) + "%" : "0%";
+  // Bij nul ook echt niets tekenen. De ondergrens van 2% is er om een klein
+  // aantal zichtbaar te houden, maar bij 0 getekende offertes zette hij een
+  // stompje neer dat op een renderfout lijkt.
+  vul.style.width = top && waarde ? Math.max((waarde / top) * 100, 2) + "%" : "0%";
   if (kleur) vul.style.background = kleur;
   baan.appendChild(vul);
 
@@ -1402,12 +1416,26 @@ function vfRij(stap, top) {
   return rij;
 }
 
-function vfStap(vorige, nu, label, afval) {
+// Uitval hoort bij een trechter: elke stap verliest mensen, altijd. Een rode
+// pijl bij elke stap zegt daarom niets, behalve dat je aan het kijken bent
+// naar een funnel. Het percentage wordt gemeten tegen diezelfde stap over de
+// hele meetperiode; pas als hij daar merkbaar onder zakt krijgt hij kleur.
+function vfStap(vorige, nu, label, afval, normDeel) {
   const el = document.createElement("div");
   el.className = "vf-step";
   const pct = document.createElement("div");
-  pct.className = "vf-pct";
-  const deel = vorige ? Math.round((nu / vorige) * 1000) / 10 : null;
+  const fractie = vorige ? nu / vorige : null;
+  let oordeel = "";
+  if (fractie !== null && normDeel) {
+    if (fractie <= normDeel * 0.75) oordeel = " slechter";
+    else if (fractie >= normDeel * 1.25) oordeel = " beter";
+  }
+  pct.className = "vf-pct" + oordeel;
+  const deel = fractie === null ? null : Math.round(fractie * 1000) / 10;
+  if (normDeel) {
+    pct.title = "gemiddeld " + nlNum(normDeel * 100, 1) +
+      "% over de hele meetperiode";
+  }
   pct.innerHTML =
     '<span class="vf-arrow">\u2193</span><b>' +
     (deel === null ? NODATA : nlNum(deel, 1) + "%") + "</b> " + label;
@@ -1418,9 +1446,21 @@ function vfStap(vorige, nu, label, afval) {
   return el;
 }
 
-function renderVFunnel(r) {
+// De stappen van de funnel in volgorde, als kale getallen. Zo kan dezelfde
+// reeks zowel het gekozen bereik als de norm over de hele periode beschrijven.
+function vfWaarden(r) {
+  return [
+    (r.leadIntake && r.leadIntake.abs) || 0,
+    (r.mailjourney && r.mailjourney.abs) || 0,
+    (r.sql && r.sql.abs) || 0,
+    (r.appointment && r.appointment.abs) || 0,
+  ];
+}
+
+function renderVFunnel(r, norm) {
   const host = document.querySelector("[data-vfunnel]");
   if (!host || !r) return;
+  const normW = norm ? vfWaarden(norm) : null;
   host.innerHTML = "";
 
   const instroom = r.leadIntake.abs || 0;
@@ -1482,7 +1522,9 @@ function renderVFunnel(r) {
       // van de afspraken liep maar een deel via Re-entered, de rest kwam er
       // rechtstreeks. Dat staat ernaast, zodat het percentage leesbaar blijft
       // zonder de nuance te verliezen.
-      host.appendChild(vfStap(stappen[i - 1].waarde, stap.waarde, t.label, t.afval));
+      const normDeel = normW && normW[i - 1] ? normW[i] / normW[i - 1] : null;
+      host.appendChild(
+        vfStap(stappen[i - 1].waarde, stap.waarde, t.label, t.afval, normDeel));
     }
     host.appendChild(vfRij(stap, top));
   });
@@ -1507,6 +1549,8 @@ function isoWeek(iso) {
 const BOUNCE_LETOP = 2;
 const BOUNCE_ALARM = 5;
 const TREND_WEKEN = 10;
+// Hoogte van het staafvlak in de weekgrafiek; de 2%-lijn rekent ermee.
+const VLAK_HOOG = 84;
 
 // Tot wanneer de mailtracking loopt. Die export hangt aan Marketing Cloud en
 // kan achterlopen op de rest; dan hoort dat bij de cijfers te staan en niet
@@ -1537,6 +1581,7 @@ function renderMailTot(markt, eindBereik) {
 
 function renderLijstgezondheid(markt) {
   const host = document.querySelector("[data-health-weken]");
+  const volumeHost = document.querySelector("[data-health-volume]");
   const voet = document.querySelector("[data-health-voet]");
   if (!host) return;
 
@@ -1560,38 +1605,83 @@ function renderLijstgezondheid(markt) {
   const getoond = lijst.slice(-TREND_WEKEN - 1, -1).slice(-TREND_WEKEN);
   if (!getoond.length) {
     host.innerHTML = "";
+    if (volumeHost) volumeHost.innerHTML = "";
     if (voet) voet.textContent = "";
     return;
   }
-  const top = Math.max(...getoond.map((w) => w.sent));
+
+  // De staaf is het bouncepercentage, niet het volume. Dat was het eerder wel,
+  // en dan codeert één staaf twee dingen: de hoogte zei volume, de kleur zei
+  // bezorging. Week 40 las daardoor als "hier ging iets mis" terwijl de staaf
+  // alleen zei "hier is veel verstuurd" — en alle andere weken werden even
+  // laag en dus onleesbaar. De kaart heet lijstgezondheid, dus dat hoort de
+  // hoogte te zijn. Het volume staat als grijs balkje eronder.
+  const bounceVan = (w) => (w.sent ? (w.bounces / w.sent) * 100 : 0);
+  const hoogsteBounce = Math.max(...getoond.map(bounceVan));
+  // Minimaal tot net boven de 2%-lijn schalen, anders staat de norm bij een
+  // gezonde lijst tegen het plafond en lijkt elke week er vlak onder te zitten.
+  // En nooit hóóger dan de alarmgrens: één week van 6,9% drukte alle andere
+  // weken tot streepjes van negen pixels, en juist die weken moet je kunnen
+  // vergelijken. Wat boven de 5% uitkomt loopt van de schaal af — dat is ook
+  // precies de boodschap, want daarboven heeft het verschil geen graad meer.
+  const topBounce = Math.min(
+    Math.max(hoogsteBounce * 1.15, BOUNCE_LETOP * 1.35), BOUNCE_ALARM);
+  const hoogsteVolume = Math.max(...getoond.map((w) => w.sent), 1);
 
   host.innerHTML = "";
+  if (volumeHost) volumeHost.innerHTML = "";
+
+  // De 2%-lijn: de grens waarboven providers je reputatie aanrekenen. Zonder
+  // die lijn is een percentage op een staaf alleen een getal.
+  const norm = document.createElement("div");
+  norm.className = "tr-norm";
+  norm.style.bottom = (VLAK_HOOG * (BOUNCE_LETOP / topBounce)) + "px";
+  const normLbl = document.createElement("span");
+  normLbl.textContent = "2% · norm";
+  norm.appendChild(normLbl);
+  host.appendChild(norm);
+
   getoond.forEach((w) => {
-    const bounce = w.sent ? (w.bounces / w.sent) * 100 : 0;
+    const bounce = bounceVan(w);
+    const tip = nlNum(w.sent, 0) + " verzonden · " + nlNum(w.bounces, 0) +
+      " onbezorgbaar (" + nlNum(bounce, 1) + "%) · " +
+      nlNum(w.unsubs, 0) + " uitgeschreven";
+
     const kolom = document.createElement("div");
+    const boven = bounce > topBounce;
     kolom.className = "trw" +
-      (bounce >= BOUNCE_ALARM ? " alarm" : bounce >= BOUNCE_LETOP ? " let-op" : "");
+      (bounce >= BOUNCE_ALARM ? " alarm" : bounce >= BOUNCE_LETOP ? " let-op" : "") +
+      (boven ? " boven" : "");
     kolom.innerHTML =
       '<div class="trw-pct">' + nlNum(bounce, 1) + "%</div>" +
       '<div class="trw-staaf" style="height:' +
-        Math.max((w.sent / top) * 74, 3) + 'px"></div>' +
-      '<div class="trw-lbl">wk ' + w.nr + "</div>";
-    kolom.title = nlNum(w.sent, 0) + " verzonden · " + nlNum(w.bounces, 0) +
-      " onbezorgbaar · " + nlNum(w.unsubs, 0) + " uitgeschreven";
+        Math.max((Math.min(bounce, topBounce) / topBounce) * VLAK_HOOG, 2) + 'px"></div>';
+    kolom.title = tip;
     host.appendChild(kolom);
+
+    if (volumeHost) {
+      const vk = document.createElement("div");
+      vk.className = "trv";
+      vk.innerHTML =
+        '<i style="height:' + Math.max((w.sent / hoogsteVolume) * 18, 2) + 'px"></i>' +
+        "<span>wk " + w.nr + "</span>";
+      vk.title = tip;
+      volumeHost.appendChild(vk);
+    }
   });
 
   if (voet) {
-    const erg = getoond.filter((w) => w.sent && (w.bounces / w.sent) * 100 >= BOUNCE_LETOP);
-    const staafhoogte = "De staaf is het verzonden volume, het percentage erboven " +
-      "is het aandeel onbezorgbaar. ";
+    const erg = getoond.filter((w) => w.sent && bounceVan(w) >= BOUNCE_LETOP);
+    const uitleg = "De staaf is het aandeel onbezorgbaar, de stippellijn de 2% " +
+      "die providers nog als normaal zien. Het grijze balkje eronder is het " +
+      "verzonden volume van die week. ";
     voet.innerHTML = erg.length
-      ? staafhoogte + "<b>Week " + erg.map((w) => w.nr).join(", ") +
-        "</b> ligt boven de 2% die providers nog als normaal zien" +
-        (erg.some((w) => (w.bounces / w.sent) * 100 >= BOUNCE_ALARM)
+      ? uitleg + "<b>Week " + erg.map((w) => w.nr).join(", ") +
+        "</b> ligt boven de norm" +
+        (erg.some((w) => bounceVan(w) >= BOUNCE_ALARM)
           ? ", en daar zit een week bij boven de 5% — dat raakt de bezorging van je andere flows."
           : ".")
-      : staafhoogte + "Alle weken blijven onder de 2%, de grens die providers nog als normaal zien.";
+      : uitleg + "Alle weken blijven onder de norm.";
   }
 }
 
@@ -2956,6 +3046,14 @@ function applyMarket(marketKey) {
   const derived = crmFromSums(summed.crm, prevSummed.crm, summed.value, summed.apptSplit,
                               summed.enrich);
 
+  // Dezelfde funnel over de hele meetperiode. Dat is de norm waartegen de
+  // doorstroom per stap wordt gelegd: een trechter die 25% verliest is geen
+  // nieuws, een trechter die ineens 50% verliest wel.
+  const alleDagen = sumRange(market.days, firstDayWithData(market),
+                             addDays(DATA.endDate, 1));
+  const funnelNorm = crmFromSums(alleDagen.crm, null, alleDagen.value,
+                                 alleDagen.apptSplit, alleDagen.enrich).reactivation;
+
   // Instroom over het bereik: optelbaar, dus werkt bij elke keuze.
   // 'all' uit de export bevat ook test- en niet-toegewezen sends; daarom
   // hier opnieuw optellen over de flows die het dashboard wél toont.
@@ -3007,7 +3105,7 @@ function applyMarket(marketKey) {
     renderDetailKaart(id);
   });
 
-  renderVFunnel(view.reactivation);
+  renderVFunnel(view.reactivation, funnelNorm);
   renderNurture(market);
   renderLijstgezondheid(market);
   renderDoorlooptijd(market, range.start, range.end);
