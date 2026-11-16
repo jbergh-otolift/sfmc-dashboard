@@ -324,44 +324,139 @@ function applyFlow(emailHealth, flowKey) {
   });
 }
 
-/* De chipstrook schuift zijwaarts. Alleen als er echt meer chips zijn dan
-   er passen tonen we de vervaging rechts, anders lijkt de laatste chip
-   afgekapt terwijl er niets meer komt. */
-function markeerSchuifbaar() {
-  const bar = document.querySelector("[data-flow-chips]");
-  if (!bar) return;
-  bar.classList.toggle("is-scroll", bar.scrollWidth > bar.clientWidth + 2);
+/* De flowkiezer toont alle flows tegelijk. De oude strook schoof zijwaarts:
+   van veertien journeys stonden er vier in beeld, en welke er nog meer waren
+   moest je al scrollend ontdekken. Nu is de kiezer meteen een overzicht —
+   elke flow met zijn volume ernaast, gesorteerd op volume in plaats van op
+   naam, want alfabetisch zette een losse testjourney bovenaan. */
+
+const FLOW_MARKT_PREFIX = /^(NL|BE|FR|IT)\s*-\s*/i;
+
+// De marktprefix staat al in de vlaggenkeuze bovenaan; in de tegel kost hij
+// alleen ruimte. De volledige naam blijft in de title staan.
+function flowNaamKort(label) {
+  const kort = (label || "").replace(FLOW_MARKT_PREFIX, "").trim();
+  return kort || label || "";
 }
-window.addEventListener("resize", markeerSchuifbaar);
+
+// Groen tenzij er iets opvalt. Bounce en uitschrijvingen zijn de twee die de
+// bezorging van álle flows raken, dus die bepalen de stip.
+//
+// Gemeten tegen het huisgemiddelde, net als de oordelen onder de KPI-kaarten.
+// Op vaste drempels kleurde meer dan de helft van de flows rood, en een lijst
+// die overal alarm slaat wijst nergens meer naar. Tegen je eigen gemiddelde
+// zie je welke flow er uit springt, en de lat schuift mee als het beter gaat.
+// Onder dit volume zegt een percentage niets: één bounce op 200 sends is al
+// 0,5% en dat is ruim boven de norm, terwijl er niets aan de hand is.
+const STIP_MIN_SENDS = 250;
+
+function flowStip(flow) {
+  if (!flow.sent || flow.sent < STIP_MIN_SENDS) return "stil";
+  const gem = huisgemiddelde(currentMarket);
+  let zwaarste = "";
+  ["bounce", "unsub"].forEach((k) => {
+    const waarde = flow[k];
+    const norm = gem[k];
+    if (waarde === null || waarde === undefined || !norm) return;
+    const verschil = waarde - norm;            // hoger is hier slechter
+    if (verschil >= norm * 0.5) zwaarste = "alarm";
+    else if (verschil >= norm * 0.1 && zwaarste !== "alarm") zwaarste = "let-op";
+  });
+  return zwaarste;
+}
+
+function zetActieveFlowRegel(flow, key) {
+  const regel = document.querySelector("[data-fp-actief]");
+  if (!regel) return;
+  regel.innerHTML = "";
+  const naam = document.createElement("b");
+  naam.textContent = (flow && flow.label) || (key === "all" ? "Alle flows" : key);
+  regel.append("Je kijkt naar: ", naam);
+  if (typeof flow.sent === "number") {
+    regel.append(" \u00b7 " + nlNum(flow.sent, 0) + " verzonden in deze periode");
+  }
+}
 
 function buildFlowChips(emailHealth) {
   const bar = document.querySelector("[data-flow-chips]");
   if (!bar) return;
   bar.innerHTML = "";
 
-  // "all" altijd eerst, daarna de journeys op naam gesorteerd.
+  // "all" altijd eerst, daarna op volume aflopend.
   const keys = Object.keys(emailHealth).sort((a, b) => {
     if (a === "all") return -1;
     if (b === "all") return 1;
+    const va = emailHealth[a].sent || 0;
+    const vb = emailHealth[b].sent || 0;
+    if (vb !== va) return vb - va;
     return (emailHealth[a].label || a).localeCompare(emailHealth[b].label || b, "nl");
   });
 
+  // Het spoortje onder de naam is het aandeel ten opzichte van de grootste
+  // flow, niet van het totaal: anders is elke staaf op één na onzichtbaar.
+  const grootste = keys.reduce(
+    (max, k) => (k === "all" ? max : Math.max(max, emailHealth[k].sent || 0)), 0);
+
   keys.forEach((key, i) => {
+    const flow = emailHealth[key];
+    const sent = typeof flow.sent === "number" ? flow.sent : null;
+    const mails = (flow.emailBreakdown || []).length;
+
     const btn = document.createElement("button");
-    btn.className = "flowchip" + (i === 0 ? " active" : "");
+    btn.type = "button";
+    btn.className = "fp-item" + (key === "all" ? " fp-alles" : "") + (i === 0 ? " active" : "");
     btn.dataset.flow = key;
-    btn.textContent = emailHealth[key].label || key;
-    const sent = emailHealth[key].sent;
-    if (typeof sent === "number") btn.title = nlNum(sent, 0) + " verzonden in deze periode";
-    if (key !== "all" && (emailHealth[key].emailBreakdown || []).length) {
-      btn.classList.add("has-detail");
-      btn.title = (btn.title ? btn.title + " · " : "") + "klik voor de mails in deze flow";
+
+    const naam = document.createElement("span");
+    naam.className = "fp-naam";
+    if (key !== "all") {
+      const stip = document.createElement("span");
+      const niveau = flowStip(flow);
+      stip.className = "fp-stip" + (niveau ? " " + niveau : "");
+      stip.title = niveau === "stil"
+        ? "te weinig volume voor een oordeel"
+        : niveau === "alarm"
+        ? "bounce of uitschrijvingen ruim boven je huisgemiddelde"
+        : niveau === "let-op"
+        ? "bounce of uitschrijvingen boven je huisgemiddelde"
+        : "bounce en uitschrijvingen op of onder je huisgemiddelde";
+      naam.appendChild(stip);
     }
+    const tekst = document.createElement("span");
+    tekst.className = "fp-tekst";
+    tekst.textContent =
+      key === "all" ? (flow.label || "Alle flows") : flowNaamKort(flow.label || key);
+    naam.appendChild(tekst);
+
+    const meta = document.createElement("span");
+    meta.className = "fp-meta";
+    const links = document.createElement("span");
+    links.textContent = sent === null ? NODATA : nlNum(sent, 0) + " verzonden";
+    const rechts = document.createElement("span");
+    rechts.textContent = key === "all" ? "totaal" : mails + (mails === 1 ? " mail" : " mails");
+    meta.append(links, rechts);
+
+    btn.append(naam, meta);
+
+    if (key !== "all" && sent !== null && grootste) {
+      const spoor = document.createElement("span");
+      spoor.className = "fp-spoor";
+      const vulling = document.createElement("i");
+      // Minimaal 2%, anders verdwijnt een kleine flow helemaal.
+      vulling.style.width = Math.max((sent / grootste) * 100, 2) + "%";
+      spoor.appendChild(vulling);
+      btn.appendChild(spoor);
+    }
+
+    btn.title = (flow.label || key) +
+      (sent === null ? "" : " \u00b7 " + nlNum(sent, 0) + " verzonden in deze periode") +
+      (key !== "all" && mails ? " \u00b7 klik voor de mails in deze flow" : "");
+
     btn.addEventListener("click", () => {
-      bar.querySelectorAll(".flowchip").forEach((c) => c.classList.remove("active"));
+      bar.querySelectorAll(".fp-item").forEach((c) => c.classList.remove("active"));
       btn.classList.add("active");
-      btn.scrollIntoView({ block: "nearest", inline: "nearest" });
       applyFlow(emailHealth, key);
+      zetActieveFlowRegel(flow, key);
       // "Alle flows" heeft geen mailopbouw; de losse journeys wel.
       if (key === "all") closeFlowDetail();
       else renderFlowDetail(emailHealth[key]);
@@ -369,9 +464,11 @@ function buildFlowChips(emailHealth) {
     bar.appendChild(btn);
   });
 
-  if (keys.length) applyFlow(emailHealth, keys[0]);
+  if (keys.length) {
+    applyFlow(emailHealth, keys[0]);
+    zetActieveFlowRegel(emailHealth[keys[0]], keys[0]);
+  }
   closeFlowDetail();
-  markeerSchuifbaar();
 }
 
 /* ---------- coverage: meetbaar of niet ---------- */
@@ -2835,6 +2932,8 @@ function applyMarket(marketKey) {
     // bij een markt die nog niet bestaat.
     const bar = document.querySelector("[data-flow-chips]");
     if (bar) bar.innerHTML = "";
+    const regel = document.querySelector("[data-fp-actief]");
+    if (regel) regel.textContent = "";
     applyFlow({ all: {} }, "all");
     applySourceBadges({});
     return;

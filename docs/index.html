@@ -127,28 +127,63 @@
   .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
 
   /* Email health */
-  /* De filterbalk plakt mee zolang je in Email Health scrollt. Zonder dat
-     verdween hij zodra je de cijfers eronder bekeek, en wist je niet meer
-     welke flow je voor je had. Sticky binnen de kaart, dus hij verdwijnt
-     vanzelf als de sectie voorbij is. De hoogte van de vaste kop wordt
-     gemeten, want die verschilt per schermbreedte. */
-  .filterbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;
-             position:sticky;top:var(--vast,0px);z-index:24;background:#fff;
-             padding:10px 0 8px;margin-top:-10px;
+  /* Flowkiezer. Hiervoor was dit een strook die zijwaarts schoof; met
+     veertien journeys stonden er vier in beeld en moest je blind doorscrollen
+     om te zien welke er nog meer waren. Nu staat elke flow tegelijk op het
+     scherm, met zijn volume erbij, zodat de kiezer meteen een overzicht is.
+     Gesorteerd op volume: dat is de volgorde waarin je ernaar kijkt. */
+  .fp-kop{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .fp-kop .f-lbl{font-size:13px;font-weight:600;color:var(--ink-soft)}
+  .fp-kop .fp-uitleg{font-size:12px;color:var(--ink-soft);opacity:.85}
+  .flowpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));
+            gap:8px;margin-bottom:14px}
+  .fp-item{display:flex;flex-direction:column;width:100%;min-height:78px;
+           text-align:left;font-family:inherit;
+           border:1px solid var(--line);background:#fff;border-radius:11px;
+           padding:9px 11px 9px;cursor:pointer;
+           transition:border-color .13s,box-shadow .13s,background .13s}
+  .fp-item:hover{border-color:var(--oto-red-soft)}
+  .fp-item.active{border-color:var(--oto-red);box-shadow:inset 0 0 0 1px var(--oto-red);
+                  background:#FFF6F7}
+  /* Twee regels in plaats van afkappen: journeynamen als "Service Appointment -
+     Self Service Confirmation" verschillen pas achteraan van elkaar, dus een
+     afgekapte naam is geen naam meer. */
+  .fp-naam{display:flex;align-items:flex-start;gap:6px;font-size:12.5px;font-weight:600;
+           color:var(--ink);line-height:1.32}
+  .fp-tekst{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+            overflow:hidden}
+  .fp-item.active .fp-naam{color:var(--oto-red-deep)}
+  /* Eén stip per flow: zodra bounce of uitschrijvingen boven de norm komen
+     zie je dat in de kiezer, zonder elke flow los aan te klikken. */
+  .fp-stip{flex:0 0 auto;width:7px;height:7px;margin-top:5px;border-radius:50%;background:var(--oto-green-soft)}
+  .fp-stip.let-op{background:var(--oto-amber)}
+  .fp-stip.stil{background:#fff;box-shadow:inset 0 0 0 1.5px #C9D2DD}
+  .fp-stip.alarm{background:var(--oto-red)}
+  .fp-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;
+           margin-top:auto;padding-top:5px;font-size:11px;color:var(--ink-soft);
+           font-variant-numeric:tabular-nums}
+  .fp-spoor{display:block;height:3px;border-radius:2px;background:var(--line);
+            margin-top:7px;overflow:hidden}
+  .fp-spoor i{display:block;height:100%;border-radius:2px;background:#94A3B3}
+  .fp-item.active .fp-spoor i{background:var(--oto-red-soft)}
+  /* "Alle flows" is geen journey maar het totaal; die staat over de volle breedte. */
+  .fp-item.fp-alles{grid-column:1/-1;min-height:0;background:#F7F9FC}
+  .fp-item.fp-alles.active{background:#FFF6F7}
+  /* Welke flow je voor je hebt, blijft staan terwijl je langs de cijfers
+     scrollt. Dat deed de oude balk ook; die is nu te hoog om mee te plakken,
+     dus plakt alleen deze regel van één hoog. */
+  .fp-actief{position:sticky;top:var(--vast,0px);z-index:24;background:#fff;
+             padding:9px 0 8px;margin:0 0 12px;font-size:12.5px;color:var(--ink-soft);
              box-shadow:0 8px 8px -8px rgba(21,46,85,.10)}
-  .filterbar .f-lbl{font-size:13px;font-weight:600;color:var(--ink-soft);flex:0 0 auto}
-  /* Eén rij die zijwaarts schuift. Wikkelden de chips, dan werd de balk op
-     desktop 184px en op mobiel 672px hoog: te hoog om mee te plakken. */
-  .f-track{display:flex;gap:8px;flex:1 1 auto;min-width:0;overflow-x:auto;
-           padding:2px 0;margin:-2px 0;scrollbar-width:none;-ms-overflow-style:none;
-           scroll-behavior:smooth}
-  .f-track::-webkit-scrollbar{display:none}
-  .f-track.is-scroll{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
-                             mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);
-                     padding-right:20px}
-  .flowchip{border:1px solid var(--line);background:#fff;color:var(--ink-soft);border-radius:20px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;flex:0 0 auto;white-space:nowrap}
-  .flowchip:hover{border-color:var(--oto-red-soft);color:var(--oto-red)}
-  .flowchip.active{background:var(--oto-red);border-color:var(--oto-red);color:#fff}
+  .fp-actief b{color:var(--ink)}
+  @media(max-width:620px){
+    .flowpick{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+    .fp-item{padding:8px 9px}
+    .fp-naam{font-size:12px}
+    /* Twee kolommen zijn smal; daar past een lange journeynaam pas op drie regels. */
+    .fp-tekst{-webkit-line-clamp:3}
+    .fp-item{min-height:88px}
+  }
 
   /* ---- Afspraken over tijd: gestapelde staven met een tijdschaal ----
      De categoriekleuren zijn gevalideerd op lichtheid, chroma, kleurenblind-
@@ -661,7 +696,6 @@
   .fd-tip .t-row{display:flex;justify-content:space-between;gap:18px;margin-top:4px}
   .fd-tip .t-row span:first-child{color:#B9C4D2}
   .fd-tip .t-row span:last-child{font-weight:700}
-  .flowchip.has-detail::after{content:"›";margin-left:7px;font-weight:700;opacity:.6}
   /* ---- Visuele journeykaart ---- */
   .fd-map{margin:6px 0 26px}
   .fd-lvl{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
@@ -1307,15 +1341,17 @@
   <section id="health">
     <div class="sec-head">
       <h2>Email Health</h2>
-            <span class="desc">Gemeten op de tracking events per journey. Filter voor een specifieke flow.</span>
+            <span class="desc">Gemeten op de tracking events per journey. Kies een flow voor de cijfers en de mails erin.</span>
             <span class="srcbadge" data-source-for="emailHealth">–</span>
             <span class="tot-wanneer" data-mail-tot hidden></span>
     </div>
 
-    <div class="filterbar">
-      <span class="f-lbl">Flow:</span>
-      <div class="f-track" data-flow-chips></div>
+    <div class="fp-kop">
+      <span class="f-lbl">Flow</span>
+      <span class="fp-uitleg">klik een flow voor de cijfers en de mails erin · de stip is bounce en uitschrijvingen tegen de norm</span>
     </div>
+    <div class="flowpick" data-flow-chips></div>
+    <div class="fp-actief" data-fp-actief></div>
 
     <div class="grid kpi-grid">
       <div class="card kpi">
@@ -1503,7 +1539,7 @@
 
 </div>
 
-<script src="data-layer.js?v=20261109104341"></script>
+<script src="data-layer.js?v=20261116120516"></script>
 
 </body>
 </html>
